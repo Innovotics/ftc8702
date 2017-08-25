@@ -3,8 +3,6 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.ftcTeam.configurations.Team8702Auto;
-import org.ftcTeam.opmodes.utils.AutoStepEncoder;
 import org.ftcTeam.opmodes.utils.BeaconHitter;
 import org.ftcTeam.opmodes.utils.ColorValue;
 import org.ftcTeam.opmodes.utils.RobotAutonomousUtils;

@@ -2,7 +2,6 @@ package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftcTeam.configurations.FTCTeamRobot;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 

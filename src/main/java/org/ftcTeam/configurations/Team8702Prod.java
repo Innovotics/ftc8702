@@ -22,10 +22,8 @@ public class Team8702Prod extends RobotConfiguration {
     //motors
     public DcMotor motorR;
     public DcMotor motorL;
-    public DcMotor liftMotor;
 //    public ColorSensor mrColor1;
-    public Servo rightServo;
-    public Servo leftServo;
+
 
 
     /**
@@ -57,9 +55,6 @@ public class Team8702Prod extends RobotConfiguration {
           motorR = (DcMotor) getHardwareOn("motorR", hardwareMap.dcMotor);
           motorL = (DcMotor) getHardwareOn("motorL", hardwareMap.dcMotor);
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightServo = (Servo) getHardwareOn("servoR", hardwareMap.servo);
-        leftServo = (Servo) getHardwareOn("servoL", hardwareMap.servo);
-        liftMotor = (DcMotor) getHardwareOn("liftStick1", hardwareMap.dcMotor);
 //       mrColor1 = (ColorSensor) getHardwareOn("mrColor1", hardwareMap.colorSensor);
 
     }

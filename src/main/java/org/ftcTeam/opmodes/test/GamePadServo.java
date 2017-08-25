@@ -2,7 +2,6 @@ package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.ftcTeam.configurations.Team8702ServoRobot;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 

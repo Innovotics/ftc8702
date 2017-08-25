@@ -1,15 +1,10 @@
 package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.ftcTeam.configurations.Team8702Demo;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
-import org.ftcbootstrap.components.operations.servos.GamePadServo;
-import org.ftcbootstrap.components.utils.MotorDirection;
 
 
 /**

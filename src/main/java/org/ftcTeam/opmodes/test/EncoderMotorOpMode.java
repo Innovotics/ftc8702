@@ -70,16 +70,15 @@ public class EncoderMotorOpMode extends ActiveOpMode {
         switch (step) {
             case 1:
                 //full power , forward for 1000, 3ft in length
-               motorToEncoderR.runToTarget(0.25, 1000,
-                        MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-                targetReached = motorToEncoderL.runToTarget(0.25, 1000,
-                        MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-                getTelemetryUtil().addData("R Current Position: ", motorToEncoderR.motorCurrentPosition());
-                getTelemetryUtil().addData("L Current Position: ", motorToEncoderL.motorCurrentPosition());
-                getTelemetryUtil().addData("Target Reached: ", targetReached);
-                if (targetReached) {
-                    step = 99;
-                }
+//               motorToEncoderR.runToTarget(0.25, 1000, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+//                getTelemetryUtil().addData("R Current Position: ", motorToEncoderR.motorCurrentPosition());
+//                getTelemetryUtil().addData("L Current Position: ", motorToEncoderL.motorCurrentPosition());
+//                getTelemetryUtil().addData("Target Reached: ", targetReached);
+//                if (targetReached) {
+//                    step = 99;
+            //    }
+
+
                 break;
 
             case 99:
