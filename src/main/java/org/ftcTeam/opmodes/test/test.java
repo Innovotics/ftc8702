@@ -13,11 +13,7 @@ public class test extends BootstrapRegistrar {
 
   protected Class[] getOpmodeClasses() {
     Class[] classes = {
-            AutoRedLauren.class,
-            GamePadDriveOpMode.class,
-            EncoderMotorOpMode.class,
-            AutoODEncoder.class,
-            GamePadDriveOpModeTeletest.class
+
     };
 
     return classes;
