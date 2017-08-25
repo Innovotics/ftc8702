@@ -3,6 +3,7 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.ftcTeam.configurations.Team8702Prod;
 import org.ftcTeam.opmodes.utils.BeaconHitter;
 import org.ftcTeam.opmodes.utils.ColorValue;
 import org.ftcTeam.opmodes.utils.RobotAutonomousUtils;
@@ -11,22 +12,11 @@ import org.ftcbootstrap.components.operations.motors.TankDriveToEncoder;
 import org.ftcbootstrap.components.operations.motors.TankDriveToODS;
 import org.ftcbootstrap.components.utils.DriveDirection;
 
-/**
- * Note: This Exercise assumes that you have used your Robot Controller App to "scan" your hardware and
- * saved the configuration named: "DemoBot" and creating a class by the same name: {@link Team8702Auto}.
- * <p/>
- * Note:  It is assumed that the proper registry is used for this set of demos. To confirm please
- * search for "Enter your custom registry here"  in  {@link org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;}
- * <p/>
- * Summary:
- * <p/>
- * Opmode demonstrates running a motor from and encoder
- */
 
 @Autonomous
 public class AutoODEncoder extends ActiveOpMode {
 
-    private Team8702Auto robot;
+    private Team8702Prod robot;
     private TankDriveToODS tankDriveToODS;
     private TankDriveToEncoder tankDriveToEncoder;
     private int majorStep;
@@ -43,11 +33,11 @@ public class AutoODEncoder extends ActiveOpMode {
     protected void onInit() {
 
         //specify configuration name save from scan operation
-        robot = Team8702Auto.newConfig(hardwareMap, getTelemetryUtil());
+        robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
         tankDriveToEncoder = new TankDriveToEncoder(this, robot.motorL, robot.motorR);
-        tankDriveToODS = new TankDriveToODS( this, robot.ods, robot.motorL, robot.motorR );
+      //  tankDriveToODS = new TankDriveToODS( this, robot.ods, robot.motorL, robot.motorR );
         getTelemetryUtil().sendTelemetry();
         //firstBeacon = new BeaconHitter(getTelemetryUtil(), rainbowValue);
         //secondBeacon = new BeaconHitter(getTelemetryUtil(), rainbowValue);
