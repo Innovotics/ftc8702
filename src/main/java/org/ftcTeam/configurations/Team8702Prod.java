@@ -22,6 +22,8 @@ public class Team8702Prod extends RobotConfiguration {
     //motors
     public DcMotor motorR;
     public DcMotor motorL;
+    public DcMotor motorR1;
+    public DcMotor motorL1;
 //    public ColorSensor mrColor1;
 
 
@@ -52,9 +54,12 @@ public class Team8702Prod extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-          motorR = (DcMotor) getHardwareOn("motorR", hardwareMap.dcMotor);
-          motorL = (DcMotor) getHardwareOn("motorL", hardwareMap.dcMotor);
+          motorR = (DcMotor) getHardwareOn("motorRF", hardwareMap.dcMotor);
+          motorL = (DcMotor) getHardwareOn("motorLF", hardwareMap.dcMotor);
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorR1 = (DcMotor) getHardwareOn("motorRB", hardwareMap.dcMotor);
+        motorL1 = (DcMotor) getHardwareOn("motorLB", hardwareMap.dcMotor);
+        motorL1.setDirection(DcMotorSimple.Direction.REVERSE);
 //       mrColor1 = (ColorSensor) getHardwareOn("mrColor1", hardwareMap.colorSensor);
 
     }
