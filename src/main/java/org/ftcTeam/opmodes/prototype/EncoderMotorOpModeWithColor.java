@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.ftcTeam.configurations.Team8702Prod;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcTeam.opmodes.utils.ColorValue;
+import org.ftcTeam.utils.ColorValue;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 import org.ftcbootstrap.components.ColorSensorComponent;
 
