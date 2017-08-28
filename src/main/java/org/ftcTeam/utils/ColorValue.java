@@ -1,4 +1,4 @@
-package org.ftcTeam.opmodes.utils;
+package org.ftcTeam.utils;
 
 /**
  * Created by tylerkim on 11/13/16.
