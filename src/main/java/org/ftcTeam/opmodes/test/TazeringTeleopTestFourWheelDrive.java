@@ -2,16 +2,16 @@ package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftcTeam.configurations.Team8702Prod;
+import org.ftcTeam.configurations.Team8702ProdTest;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadFourWheelDrive;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 
 @TeleOp
-public class TazeringTeleopTest extends ActiveOpMode {
+public class TazeringTeleopTestFourWheelDrive extends ActiveOpMode {
 
-    private Team8702Prod robot;
-     private GamePadTankDrive gamePadTankDrive;
+    private Team8702ProdTest robot;
+     private GamePadFourWheelDrive gamePadFourWheelDrive;
    // private GamePadFourWheelDrive gamePadFourWheelDrive;
 
     /**
@@ -20,7 +20,7 @@ public class TazeringTeleopTest extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
+        robot = Team8702ProdTest.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -35,7 +35,7 @@ public class TazeringTeleopTest extends ActiveOpMode {
 
         //create the operation  to perform a tank drive using the gamepad joysticks.
       //  gamePadFourWheelDrive = new GamePadFourWheelDrive(this, gamepad1, robot.motorR, robot.motorL, robot.motorBL, robot.motorBR);
-        gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
+        gamePadFourWheelDrive = new GamePadFourWheelDrive(this, gamepad1, robot.motorR, robot.motorL, robot.motorBL, robot.motorBR);
     }
 
     /**
@@ -48,7 +48,7 @@ public class TazeringTeleopTest extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
 
         //update the motors with the gamepad joystick values
-        gamePadTankDrive.update();
+        gamePadFourWheelDrive.update();
 
         //send any telemetry that may have been added in the above operations
         getTelemetryUtil().sendTelemetry();

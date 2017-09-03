@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
+import org.ftcTeam.configurations.Team8702Prod;
+
 
 /**
  * Note:  It is assumed that the proper registry is used for this set of demos. To confirm please
@@ -17,8 +19,7 @@ import org.ftcbootstrap.components.operations.servos.GamePadServo;
 @Autonomous
 public class GamePadServoTest extends ActiveOpMode {
 
-    private Team8702ServoRobot robot;
-    private GamePadServo servo1;
+    private Team8702Prod robot;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -28,13 +29,12 @@ public class GamePadServoTest extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
         double initialPosition = 0.0;
-        servo1 = new GamePadServo(this, gamepad1, robot.servo1, GamePadServo.Control.Y_A, initialPosition);
     }
 
     @Override
     protected void onInit() {
 
-        robot = Team8702ServoRobot.newConfig(hardwareMap, getTelemetryUtil());
+        robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -47,7 +47,6 @@ public class GamePadServoTest extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
 
         //update the motors with the gamepad joystick values
-        servo1.update();
         //send any telemetry that may have been added in the above operations
         getTelemetryUtil().sendTelemetry();
 

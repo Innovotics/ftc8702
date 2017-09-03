@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
+import org.ftcTeam.configurations.Team8702Prod;
+
 
 
 /**
@@ -18,10 +20,9 @@ import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 @TeleOp
 public class GamePadDriveOpMode extends ActiveOpMode {
 
-    private Team8702Demo robot;
+    private Team8702Prod robot;
     private GamePadTankDrive gamePadTankDrive;
-    private GamePadMotor liftGamePad;
-    private GamePadTankDrive clawGamePad;
+
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -29,7 +30,7 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = Team8702Demo.newConfig(hardwareMap, getTelemetryUtil());
+        robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -44,7 +45,6 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
                       //create the operation  to perform a tank drive using the gamepad joysticks.
         gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
-        liftGamePad = new GamePadMotor(this, gamepad2, robot.liftMotor, GamePadMotor.Control.UP_DOWN_BUTTONS);
     }
 
     /**
@@ -58,8 +58,6 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         //update the motors with the gamepad joystick values
        gamePadTankDrive.update();
-        liftGamePad.update();
-        clawGamePad.update();
         getTelemetryUtil().sendTelemetry();
 
     }

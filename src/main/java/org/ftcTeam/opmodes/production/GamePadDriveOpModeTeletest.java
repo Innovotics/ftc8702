@@ -22,10 +22,6 @@ public class GamePadDriveOpModeTeletest extends ActiveOpMode {
 
     private Team8702Prod robot;
     private GamePadTankDrive gamePadTankDrive;
-    private GamePadMotor liftGamePad;
-    private GamePadServo servoRGamePad;
-    private GamePadServo servoLGamePad;
-
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
      */
@@ -45,11 +41,8 @@ public class GamePadDriveOpModeTeletest extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
 
-                      //create the operation  to perform a tank drive using the gamepad joysticks.
+        //create the operation  to perform a tank drive using the gamepad joysticks.
         gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
-        liftGamePad = new GamePadMotor(this, gamepad2, robot.liftMotor, GamePadMotor.Control.LEFT_STICK_Y);
-        servoLGamePad = new GamePadServo(this, gamepad2, robot.leftServo, GamePadServo.Control.Y_A, 0.0);
-        servoRGamePad = new GamePadServo(this, gamepad2, robot.rightServo, GamePadServo.Control.X_B, 0.0);
 
     }
 
@@ -64,9 +57,6 @@ public class GamePadDriveOpModeTeletest extends ActiveOpMode {
 
         //update the motors with the gamepad joystick values
        gamePadTankDrive.update();
-        liftGamePad.update();
-        servoRGamePad.update();
-        servoLGamePad.update();
         getTelemetryUtil().sendTelemetry();
 
     }
