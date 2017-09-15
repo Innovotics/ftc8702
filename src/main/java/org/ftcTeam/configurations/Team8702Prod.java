@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -52,9 +54,14 @@ public class Team8702Prod extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-          motorR = (DcMotor) getHardwareOn("motorRF", hardwareMap.dcMotor);
-          motorL = (DcMotor) getHardwareOn("motorLF", hardwareMap.dcMotor);
+          motorR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
+          motorL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+       // motorR1 = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
+       // motorL1 = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
+       // motorL1.setDirection(DcMotorSimple.Direction.REVERSE);
+
 //       mrColor1 = (ColorSensor) getHardwareOn("mrColor1", hardwareMap.colorSensor);
 
     }
