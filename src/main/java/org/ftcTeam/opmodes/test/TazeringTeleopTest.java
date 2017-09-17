@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702Prod;
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadFourWheelDrive;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 
 @TeleOp

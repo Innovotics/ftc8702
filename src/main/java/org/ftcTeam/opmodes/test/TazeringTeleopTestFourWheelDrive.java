@@ -4,8 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702ProdTest;
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadFourWheelDrive;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
+import org.ftcTeam.utils.GamePadFourWheelDrive;
 
 @TeleOp
 public class TazeringTeleopTestFourWheelDrive extends ActiveOpMode {
