@@ -48,6 +48,14 @@ public class TazeringAutonomousTest extends ActiveOpMode {
         switch(step) {
             case 1:
                 targetReached = motorToEncoder.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+                targetReached = motorToEncoder.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+                if(targetReached) {
+                    step ++;
+                }
+                break;
+            case 2:
+                stop();
+
         }
     }
 }
