@@ -26,6 +26,8 @@ public class TazeringAutonomousTest extends ActiveOpMode {
 
     //Declare sensors
     public ColorSensorComponent colorSensorComponent;
+
+        //colors
         String blue = "blue";
         String red = "red";
         String green = "green";
@@ -53,6 +55,7 @@ public class TazeringAutonomousTest extends ActiveOpMode {
 
         //Color Sensor
         colorSensorComponent.enableLed(false);
+        colorSensorComponent = new ColorSensorComponent(this, robot.ColorSensor1, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -103,4 +106,28 @@ public class TazeringAutonomousTest extends ActiveOpMode {
                 setOperationsCompleted();
         }
     }
+
+    // Color Values
+    public ColorValue getColor() {
+        int Red = colorSensorComponent.getR();
+        int Blue = colorSensorComponent.getB();
+        int Green = colorSensorComponent.getG();
+
+        boolean redBoolean = colorSensorComponent.isRed( Red, Blue, Green );
+
+        // test if color is red
+        if(redBoolean) {
+            return ColorValue.RED;
+        }
+        boolean blueBoolean = colorSensorComponent.isBlue( Red, Blue, Green );
+
+        //test if color is blue
+        if(blueBoolean) {
+            return ColorValue.BLUE;
+        }
+        //zilch color
+        return ColorValue.ZILCH;
+
+    }
+
 }
