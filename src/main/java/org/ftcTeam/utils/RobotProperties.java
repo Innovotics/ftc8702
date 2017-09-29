@@ -6,10 +6,15 @@ package org.ftcTeam.utils;
 
 public class RobotProperties {
 
+    //Motor
     public static final String MOTOR_RIGHT_FRONT = "motorRF";
     public static final String MOTOR_RIGHT_BACK = "motorRB";
     public static final String MOTOR_LEFT_FRONT = "motorLF";
     public static final String MOTOR_LEFT_BACK = "motorLB";
+
+    //Servos
+    public static final String SERVO_RIGHT = "servo1";
+    public static final String SERVO_LEFT = "servo2";
 
 
 }

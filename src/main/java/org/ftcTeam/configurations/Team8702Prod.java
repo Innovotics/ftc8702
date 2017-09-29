@@ -30,6 +30,10 @@ public class Team8702Prod extends RobotConfiguration {
     //Color Sensor
     public ColorSensor ColorSensor1;
 
+    //Servo
+    public Servo servo1;
+    public Servo servo2;
+
 
 
     /**
@@ -70,6 +74,10 @@ public class Team8702Prod extends RobotConfiguration {
 
         //Color Sensor
         ColorSensor1 = (ColorSensor) getHardwareOn("ColorSensor1", hardwareMap.colorSensor);
+
+        //Servos
+        servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
+        servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
 
     }
 
