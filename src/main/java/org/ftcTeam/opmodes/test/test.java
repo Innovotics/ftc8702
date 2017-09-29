@@ -13,7 +13,7 @@ public class test extends BootstrapRegistrar {
 
   protected Class[] getOpmodeClasses() {
     Class[] classes = {
-  TazeringTeleopTest.class,
+  TanyaTeleopTest.class,
             TazeringTeleopTestFourWheelDrive.class
     };
 
