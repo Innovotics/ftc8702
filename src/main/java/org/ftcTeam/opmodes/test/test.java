@@ -13,8 +13,9 @@ public class test extends BootstrapRegistrar {
 
   protected Class[] getOpmodeClasses() {
     Class[] classes = {
-  TazeringTeleopTest.class,
-            TazeringTeleopTestFourWheelDrive.class
+            TazeringTeleopTest.class,
+            TazeringTeleopTestFourWheelDrive.class,
+            TazeringAutonomousTest.class
     };
 
     return classes;
