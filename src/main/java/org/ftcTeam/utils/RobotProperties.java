@@ -15,6 +15,9 @@ public class RobotProperties {
     //Servos
     public static final String SERVO_RIGHT = "servo1";
     public static final String SERVO_LEFT = "servo2";
+    public static final String SERVO_ELMO = "servoElmo";
+
+
 
 
 }
