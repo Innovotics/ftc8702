@@ -22,17 +22,19 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
 public class Team8702Prod extends RobotConfiguration {
     //51.4 = 1 inch
     //motors
-    public DcMotor motorR;
-    public DcMotor motorL;
+    public DcMotor motorFR;
+    public DcMotor motorFL;
     public DcMotor motorBR;
     public DcMotor motorBL;
 
     //Color Sensor
     public ColorSensor ColorSensor1;
 
+
+
     //Servo
-    public Servo servo1;
-    public Servo servo2;
+//    public Servo servo1;
+//    public Servo servo2;
 
 
 
@@ -63,21 +65,21 @@ public class Team8702Prod extends RobotConfiguration {
         setTelemetry(telemetryUtil);
 
         // Front Motors
-          motorR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-          motorL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
-        motorL.setDirection(DcMotorSimple.Direction.REVERSE);
+          motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
+          motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
+        //motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Back Motors
         motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
         motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
-        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+        //motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Color Sensor
         ColorSensor1 = (ColorSensor) getHardwareOn("ColorSensor1", hardwareMap.colorSensor);
 
         //Servos
-        servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-        servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
+//        servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
+//        servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
 
     }
 

@@ -41,14 +41,14 @@ public class TazeringAutonomousTest extends ActiveOpMode {
         robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
         // Right Motors
-        motorToEncoderFR = new MotorToEncoder( this, robot.motorR);
+        motorToEncoderFR = new MotorToEncoder( this, robot.motorFR);
         motorToEncoderFR.setName("motorRF");
 
         motorToEncoderBR = new MotorToEncoder( this, robot.motorBR);
         motorToEncoderBR.setName("motorRB");
 
         //Left Motors
-        motorToEncoderFL = new MotorToEncoder( this, robot.motorL);
+        motorToEncoderFL = new MotorToEncoder( this, robot.motorFL);
         motorToEncoderFL.setName("motorLF");
 
         motorToEncoderBL = new MotorToEncoder( this, robot.motorBL);
