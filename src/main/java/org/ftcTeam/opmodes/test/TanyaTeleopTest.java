@@ -3,14 +3,17 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702Prod;
+import org.ftcTeam.configurations.Team8702Servo;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
+import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
 @TeleOp
 public class TanyaTeleopTest extends ActiveOpMode {
 
-    private Team8702Prod robot;
-     private GamePadTankDrive gamePadTankDrive;
+    //private Team8702Prod robot;
+    private Team8702Servo robot;
+    private GamePadServo gamePadServo;
    // private GamePadFourWheelDrive gamePadFourWheelDrive;
 
     /**
@@ -19,7 +22,7 @@ public class TanyaTeleopTest extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
+        robot = Team8702Servo.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -32,9 +35,7 @@ public class TanyaTeleopTest extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
 
-        //create the operation  to perform a tank drive using the gamepad joysticks.
-      //  gamePadFourWheelDrive = new GamePadFourWheelDrive(this, gamepad1, robot.motorR, robot.motorL, robot.motorBL, robot.motorBR);
-        gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorR);
+        gamePadServo = new GamePadServo(this, gamepad1, robot.servo1, GamePadServo.Control.X_B, 1.0);
     }
 
     /**
@@ -47,7 +48,7 @@ public class TanyaTeleopTest extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
 
         //update the motors with the gamepad joystick values
-        gamePadTankDrive.update();
+        gamePadServo.update();
 
         //send any telemetry that may have been added in the above operations
         getTelemetryUtil().sendTelemetry();
