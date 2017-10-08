@@ -27,6 +27,7 @@ public class TazeringAutonomousTest extends ActiveOpMode {
     //Declare sensors
     public ColorSensorComponent colorSensorComponent;
 
+
         //colors
         String blue = "blue";
         String red = "red";
@@ -40,18 +41,18 @@ public class TazeringAutonomousTest extends ActiveOpMode {
         robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
         // Right Motors
-        motorToEncoderFR = new MotorToEncoder( this, robot.motorR);
-        motorToEncoderFR.setName("motorFR");
+        motorToEncoderFR = new MotorToEncoder( this, robot.motorFR);
+        motorToEncoderFR.setName("motorRF");
 
         motorToEncoderBR = new MotorToEncoder( this, robot.motorBR);
-        motorToEncoderBR.setName("motorBR");
+        motorToEncoderBR.setName("motorRB");
 
         //Left Motors
-        motorToEncoderFL = new MotorToEncoder( this, robot.motorL);
-        motorToEncoderFL.setName("motorFL");
+        motorToEncoderFL = new MotorToEncoder( this, robot.motorFL);
+        motorToEncoderFL.setName("motorLF");
 
         motorToEncoderBL = new MotorToEncoder( this, robot.motorBL);
-        motorToEncoderBL.setName("motorBL");
+        motorToEncoderBL.setName("motorLB");
 
         //Color Sensor
         colorSensorComponent.enableLed(false);
@@ -78,32 +79,18 @@ public class TazeringAutonomousTest extends ActiveOpMode {
         switch(step) {
 
             case 1: // Go straight for one rotation all four wheels
-                targetReached = motorToEncoderBL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER)
-                && motorToEncoderFL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-                        motorToEncoderFR.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-                        motorToEncoderBR.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+                targetReached = motorToEncoderBL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+
 
                 if(targetReached) {
                     step ++;
                 }
                 break;
 
-            case 2: // 90 degree turn to
-
-                targetReached = false;
-
-                targetReached = motorToEncoderFR.runToTarget(1.0, 620, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-                        motorToEncoderBR.runToTarget(1.0, 620, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-                        motorToEncoderFL.runToTarget(1.0, 620, MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-                        motorToEncoderBL.runToTarget(1.0, 620, MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-
-                if(targetReached) {
-                    step ++;
-                }
-                break;
-            case 3: // end autonomous
+            case 2:
 
                 setOperationsCompleted();
+                break;
         }
     }
 

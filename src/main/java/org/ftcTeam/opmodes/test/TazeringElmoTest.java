@@ -3,14 +3,11 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702Elmo;
-import org.ftcTeam.configurations.Team8702Prod;
-import org.ftcTeam.configurations.Team8702Servo;
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
 @TeleOp
-public class TazeringTeleopTest extends ActiveOpMode {
+public class TazeringElmoTest extends ActiveOpMode {
 
     private Team8702Elmo robot;
    //  private GamePadTankDrive gamePadTankDrive;

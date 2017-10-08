@@ -1,10 +1,12 @@
 package org.ftcTeam.configurations;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -17,16 +19,11 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702ProdTest extends RobotConfiguration {
-    //51.4 = 1 inch
-    //motors
-    public DcMotor motorR;
-    public DcMotor motorL;
-    public DcMotor motorBR;
-    public DcMotor motorBL;
+public class Team8702Servo extends RobotConfiguration {
+
+    //Servo
     public Servo servo1;
     public Servo servo2;
-//    public ColorSensor mrColor1;
 
 
 
@@ -37,9 +34,9 @@ public class Team8702ProdTest extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static Team8702ProdTest newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static Team8702Servo newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        Team8702ProdTest config = new Team8702ProdTest();
+        Team8702Servo config = new Team8702Servo();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
@@ -56,20 +53,9 @@ public class Team8702ProdTest extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-        //motors
-          motorR = (DcMotor) getHardwareOn("motorRF", hardwareMap.dcMotor);
-          motorL = (DcMotor) getHardwareOn("motorLF", hardwareMap.dcMotor);
-        motorL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBL = (DcMotor) getHardwareOn("motorBL", hardwareMap.dcMotor);
-        motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorBR = (DcMotor) getHardwareOn("motorBR", hardwareMap.dcMotor);
-
-       //servos
-        servo1 = (Servo) getHardwareOn("servo1", hardwareMap.servo);
-        servo2 = (Servo) getHardwareOn("servo2", hardwareMap.servo);
-
-        //sensors
-//       mrColor1 = (ColorSensor) getHardwareOn("mrColor1", hardwareMap.colorSensor);
+        //Servos
+        servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
+        servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
 
     }
 
