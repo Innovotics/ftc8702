@@ -28,7 +28,7 @@ public class Team8702Prod extends RobotConfiguration {
     public DcMotor motorBL;
 
     //Color Sensor
-    public ColorSensor ColorSensor1;
+  //  public ColorSensor ColorSensor1;
 
 
 
@@ -75,7 +75,7 @@ public class Team8702Prod extends RobotConfiguration {
         //motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Color Sensor
-        ColorSensor1 = (ColorSensor) getHardwareOn("ColorSensor1", hardwareMap.colorSensor);
+       // ColorSensor1 = (ColorSensor) getHardwareOn("ColorSensor1", hardwareMap.colorSensor);
 
         //Servos
 //        servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);

@@ -4,7 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702Elmo;
 import org.ftcTeam.configurations.Team8702Prod;
-import org.ftcTeam.configurations.Team8702Servo;
+import org.ftcTeam.utils.GamePadOmniWheelDrive;
+import org.ftcTeam.utils.GamePadOmniWheelMotor;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
@@ -12,10 +13,9 @@ import org.ftcbootstrap.components.operations.servos.GamePadServo;
 @TeleOp
 public class TazeringTeleopTest extends ActiveOpMode {
 
-    private Team8702Elmo robot;
+    private Team8702Prod robot;
    //  private GamePadTankDrive gamePadTankDrive;
-    private GamePadServo gamePadServo;
-   // private GamePadFourWheelDrive gamePadFourWheelDrive;
+   private GamePadOmniWheelDrive gamePadOmniWheelDrive;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -23,7 +23,7 @@ public class TazeringTeleopTest extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = Team8702Elmo.newConfig(hardwareMap, getTelemetryUtil());
+        robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -39,8 +39,7 @@ public class TazeringTeleopTest extends ActiveOpMode {
         //create the operation  to perform a tank drive using the gamepad joysticks.
       //  gamePadFourWheelDrive = new GamePadFourWheelDrive(this, gamepad1, robot.motorR, robot.motorL, robot.motorBL, robot.motorBR);
       //  gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
-        gamePadServo = new GamePadServo(this, gamepad1, robot.elmo, GamePadServo.Control.X_B, 1.0);
-
+    gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
 
     }
     /**
@@ -53,8 +52,8 @@ public class TazeringTeleopTest extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
 
         //update the motors with the gamepad joystick values
-      //  gamePadTankDrive.update();
-        gamePadServo.update();
+      //  gamePadTankDrive.update();]
+        gamePadOmniWheelDrive.update();
 
         //send any telemetry that may have been added in the above operations
         getTelemetryUtil().sendTelemetry();

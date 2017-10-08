@@ -44,7 +44,7 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         super.onStart();
 
                       //create the operation  to perform a tank drive using the gamepad joysticks.
-        gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
+        gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorFR, robot.motorFL);
     }
 
     /**

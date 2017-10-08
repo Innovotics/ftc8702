@@ -1,11 +1,13 @@
 package org.ftcTeam.utils;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.OpModeComponent;
+import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 
 
 /**
@@ -54,6 +56,7 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         this(opMode,  gamepad , motor, control, defaultButtonPower);
         isReverse = reverse;
 
+
     }
 
     /**
@@ -94,11 +97,15 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
                 power = scaleMotorPower(gamepad.right_stick_x);
                 break;
             default:
+                power = motorPowerFromButtons();
                 break;
         }
 
         addTelemetry("setting power: " + control.toString(), power);
 
+        if (isReverse){
+            power = power * (-1);
+        }
         motor.setPower(power);
 
     }
@@ -108,7 +115,41 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         getOpMode().waitOneFullHardwareCycle();
 
     }
+    private float motorPowerFromButtons() {
 
+        float powerToReturn = 0f;
+        boolean lb = gamepad.left_bumper;
+        boolean rb = gamepad.right_bumper;
+
+        if (((control == GamePadOmniWheelMotor.Control.UP_DOWN_BUTTONS)) ||
+                ((control == GamePadOmniWheelMotor.Control.LEFT_RIGHT_BUTTONS))) {
+            powerToReturn = -buttonPower;
+        }
+        if ((control == GamePadOmniWheelMotor.Control.LB_RB_BUTTONS) && lb) {
+            powerToReturn = -buttonPower;
+        }
+        else {
+            switch (control) {
+
+                case LB_RB_BUTTONS:
+                    if ( rb) powerToReturn = buttonPower;
+                    break;
+                case LEFT_BUMPER:
+                    if ( lb) powerToReturn = buttonPower;
+                    break;
+                case RIGHT_BUMPER:
+                    if ( rb) powerToReturn = buttonPower;
+                    break;
+                default:
+                    powerToReturn = 0f;
+                    break;
+            }
+        }
+
+        return powerToReturn;
+
+
+    }
 
 
 
@@ -154,3 +195,5 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
 
 
 }
+
+

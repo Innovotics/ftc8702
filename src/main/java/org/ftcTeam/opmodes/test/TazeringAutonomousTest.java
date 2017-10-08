@@ -55,8 +55,8 @@ public class TazeringAutonomousTest extends ActiveOpMode {
         motorToEncoderBL.setName("motorLB");
 
         //Color Sensor
-        colorSensorComponent.enableLed(false);
-        colorSensorComponent = new ColorSensorComponent(this, robot.ColorSensor1, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
+       // colorSensorComponent.enableLed(false);
+      //  colorSensorComponent = new ColorSensorComponent(this, robot.ColorSensor1, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
