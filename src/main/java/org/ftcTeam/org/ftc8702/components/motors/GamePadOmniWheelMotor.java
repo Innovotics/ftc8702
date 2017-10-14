@@ -1,13 +1,11 @@
-package org.ftcTeam.utils;
+package org.ftcTeam.org.ftc8702.components.motors;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.OpModeComponent;
-import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 
 
 /**
