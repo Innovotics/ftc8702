@@ -15,7 +15,6 @@ public class test extends BootstrapRegistrar {
     Class[] classes = {
 
             TanyaTeleopTest.class,
-            TazeringTeleopTestFourWheelDrive.class,
             TazeringTeleopTest.class,
             TazeringAutonomousTest.class
 
