@@ -1,5 +1,6 @@
 package org.ftcTeam.configurations;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -18,11 +19,7 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  */
 public class Team8702AdafruitSensor extends RobotConfiguration {
 
-    //Servo
-    public Servo servo1;
-    public Servo servo2;
-
-
+    public ColorSensor elmoSensor;
 
     /**
      * Factory method for this class
@@ -50,9 +47,7 @@ public class Team8702AdafruitSensor extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-        //Servos
-        servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-        servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
+         elmoSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
 
     }
 
