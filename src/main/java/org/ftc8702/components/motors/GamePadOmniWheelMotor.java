@@ -1,4 +1,4 @@
-package org.ftcTeam.org.ftc8702.components.motors;
+package org.ftc8702.components.motors;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;

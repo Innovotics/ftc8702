@@ -1,9 +1,9 @@
-package org.ftcTeam.org.ftc8702.opmodes;
+package org.ftc8702.opmodes;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.ftcTeam.org.ftc8702.components.motors.GamePadOmniWheelMotor;
+import org.ftc8702.components.motors.GamePadOmniWheelMotor;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.OpModeComponent;
 
