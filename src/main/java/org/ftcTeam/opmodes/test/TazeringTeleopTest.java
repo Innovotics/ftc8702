@@ -3,7 +3,7 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702Prod;
-import org.ftcTeam.org.ftc8702.opmodes.GamePadOmniWheelDrive;
+import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcbootstrap.ActiveOpMode;
 
 @TeleOp
