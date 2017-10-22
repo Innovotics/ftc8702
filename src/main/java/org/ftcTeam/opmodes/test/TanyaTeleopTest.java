@@ -2,10 +2,9 @@ package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftcTeam.configurations.Team8702Prod;
 import org.ftcTeam.configurations.Team8702Servo;
+import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
 @TeleOp
@@ -13,7 +12,7 @@ public class TanyaTeleopTest extends ActiveOpMode {
 
     //private Team8702Prod robot;
     private Team8702Servo robot;
-    private GamePadServo gamePadServo;
+    private GamePadDuelServo gamePadServo;
    // private GamePadFourWheelDrive gamePadFourWheelDrive;
 
     /**
@@ -35,7 +34,7 @@ public class TanyaTeleopTest extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
 
-        gamePadServo = new GamePadServo(this, gamepad1, robot.servo1, GamePadServo.Control.X_B, 1.0);
+        gamePadServo = new GamePadDuelServo(this, gamepad1, robot.servo1, robot.servo2, GamePadDuelServo.Control.X_B, 1.0);
     }
 
     /**
