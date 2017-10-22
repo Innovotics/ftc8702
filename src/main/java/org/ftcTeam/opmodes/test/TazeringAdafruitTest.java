@@ -1,15 +1,12 @@
 package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.LED;
 
 import org.ftcTeam.configurations.Team8702AdafruitSensor;
-import org.ftcTeam.configurations.Team8702Prod;
 import org.ftcTeam.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.utils.MotorDirection;
 
 
 /**
@@ -17,7 +14,7 @@ import org.ftcbootstrap.components.utils.MotorDirection;
  */
 
 
-@Autonomous(name = "Test: Adafruit", group = "Test")
+@Autonomous(name = "Test: Adafruit", group = "Autonomous")
 public class TazeringAdafruitTest extends ActiveOpMode {
 
     //Declare the MotorToEncoder
@@ -39,9 +36,10 @@ public class TazeringAdafruitTest extends ActiveOpMode {
         robot = Team8702AdafruitSensor.newConfig(hardwareMap, getTelemetryUtil());
 
         //Color Sensor
-       // colorSensorComponent.enableLed(false);
-      //  colorSensorComponent = new ColorSensorComponent(this, robot.ColorSensor1, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
+        colorSensorComponent = new ColorSensorComponent(this, robot.elmoSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
+        colorSensorComponent.enableLed(false);
 
+        //Telemetry
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
     }
