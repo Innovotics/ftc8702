@@ -1,6 +1,7 @@
 package org.ftcTeam.opmodes.prototype;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.ftcTeam.configurations.Team8702Prod;
 import org.ftcbootstrap.ActiveOpMode;
@@ -24,6 +25,7 @@ import org.ftcbootstrap.components.ColorSensorComponent;
 
 
 @Autonomous
+@Disabled
 public class EncoderMotorOpModeWithColor extends ActiveOpMode {
 
     private Team8702Prod robot;
@@ -47,7 +49,9 @@ public class EncoderMotorOpModeWithColor extends ActiveOpMode {
         robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
-        //colorSensorComponent = new ColorSensorComponent(this, robot.mrColor1, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
+        //
+        //
+        // colorSensorComponent = new ColorSensorComponent(this, robot.mrColor1, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
         colorSensorComponent.enableLed(false);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");

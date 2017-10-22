@@ -39,6 +39,7 @@ public class TazeringAdafruitTest extends ActiveOpMode {
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
         colorSensorComponent.enableLed(false);
 
+
         //Telemetry
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -53,10 +54,12 @@ public class TazeringAdafruitTest extends ActiveOpMode {
     @Override
     protected void activeLoop() throws InterruptedException {
 
-    //getTelemetryUtil().addData("step: " + step, " Current");
-        getTelemetryUtil().addData("Color: " , getColor().name());
+        //getTelemetryUtil().addData("step: " + step, " Current");
+        getTelemetryUtil().addData("Color: ", getColor().name());
         getTelemetryUtil().sendTelemetry();
-
+        getTelemetryUtil().addData("red", Integer.toString(robot.elmoSensor.red()));
+        getTelemetryUtil().addData("blue", Integer.toString(robot.elmoSensor.blue()));
+        getTelemetryUtil().addData("green", Integer.toString(robot.elmoSensor.green()));
     }
 
     // Color Values
@@ -65,14 +68,26 @@ public class TazeringAdafruitTest extends ActiveOpMode {
         int Blue = colorSensorComponent.getB();
         int Green = colorSensorComponent.getG();
 
+        //Boolean Values
         boolean redBoolean = colorSensorComponent.isRed( Red, Blue, Green );
+        boolean blueBoolean = colorSensorComponent.isBlue( Red, Blue, Green);
+
+        //Determine which is color to call
+        if(robot.elmoSensor.red() > robot.elmoSensor.blue() && robot.elmoSensor.red() > robot.elmoSensor.green())
+        {
+             redBoolean = true;
+        }
+
+        if(robot.elmoSensor.blue() > robot.elmoSensor.red() && robot.elmoSensor.green() > robot.elmoSensor.red())
+        {
+            blueBoolean = true;
+        }
+
 
         // test if color is red
         if(redBoolean) {
             return ColorValue.RED;
         }
-        boolean blueBoolean = colorSensorComponent.isBlue( Red, Blue, Green );
-
         //test if color is blue
         if(blueBoolean) {
             return ColorValue.BLUE;

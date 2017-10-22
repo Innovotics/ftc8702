@@ -2,8 +2,6 @@ package org.ftcTeam.configurations;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
@@ -48,6 +46,10 @@ public class Team8702AdafruitSensor extends RobotConfiguration {
         setTelemetry(telemetryUtil);
 
          elmoSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
+        getTelemetryUtil().addData("Color component: ", elmoSensor.toString());
+
+
+        getTelemetryUtil().sendTelemetry();
 
     }
 
