@@ -24,7 +24,7 @@ import org.ftcbootstrap.components.ColorSensorComponent;
  */
 
 
-@Autonomous
+@Autonomous(name="EncoderModtorOpModeWithColor", group="prototype")
 @Disabled
 public class EncoderMotorOpModeWithColor extends ActiveOpMode {
 

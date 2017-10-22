@@ -1,6 +1,7 @@
 package org.ftcTeam.opmodes.prototype;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
@@ -15,8 +16,8 @@ import org.ftcTeam.configurations.Team8702Prod;
  * Summary:  Use an Operation class to perform a tank drive using the gamepad joysticks.
  * See: {@link GamePadTankDrive}
  */
-
-@Autonomous
+@Autonomous(name="GamePadServoTest", group="prototype")
+@Disabled
 public class GamePadServoTest extends ActiveOpMode {
 
     private Team8702Prod robot;

@@ -1,16 +1,17 @@
 package org.ftcTeam.opmodes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702Prod;
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcbootstrap.ActiveOpMode;
 
-@TeleOp
+@TeleOp(name="TazeringTeleopTest", group="test")
+@Disabled
 public class TazeringTeleopTest extends ActiveOpMode {
 
     private Team8702Prod robot;
-   //  private GamePadTankDrive gamePadTankDrive;
    private GamePadOmniWheelDrive gamePadOmniWheelDrive;
 
     /**
@@ -32,9 +33,6 @@ public class TazeringTeleopTest extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
 
-        //create the operation  to perform a tank drive using the gamepad joysticks.
-      //  gamePadFourWheelDrive = new GamePadFourWheelDrive(this, gamepad1, robot.motorR, robot.motorL, robot.motorBL, robot.motorBR);
-      //  gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
     gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
 
     }
@@ -48,14 +46,9 @@ public class TazeringTeleopTest extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
 
         //update the motors with the gamepad joystick values
-      //  gamePadTankDrive.update();]
         gamePadOmniWheelDrive.update();
-
         //send any telemetry that may have been added in the above operations
         getTelemetryUtil().sendTelemetry();
-
-
-
     }
 
 }

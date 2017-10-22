@@ -1,5 +1,7 @@
 package org.ftcTeam.opmodes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftcTeam.configurations.Team8702Prod;
@@ -10,10 +12,8 @@ import org.ftcbootstrap.components.ColorSensorComponent;
 import org.ftcTeam.utils.ColorValue;
 
 
-/**
- * Created by tylerkim on 8/25/17.
- */
-
+@TeleOp(name="TazeringAutonomousTest", group="test")
+@Disabled
 public class TazeringAutonomousTest extends ActiveOpMode {
 
     //Declare the MotorToEncoder

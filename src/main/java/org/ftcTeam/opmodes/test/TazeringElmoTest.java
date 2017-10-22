@@ -1,18 +1,18 @@
 package org.ftcTeam.opmodes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702Elmo;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
-@TeleOp
+@TeleOp(name="TazeringElmoTest", group="test")
+@Disabled
 public class TazeringElmoTest extends ActiveOpMode {
 
     private Team8702Elmo robot;
-   //  private GamePadTankDrive gamePadTankDrive;
     private GamePadServo gamePadServo;
-   // private GamePadFourWheelDrive gamePadFourWheelDrive;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
