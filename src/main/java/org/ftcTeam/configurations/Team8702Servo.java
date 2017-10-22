@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
+import org.ftcbootstrap.components.operations.servos.GamePadServo;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
@@ -56,8 +57,11 @@ public class Team8702Servo extends RobotConfiguration {
         //Servos
         servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
         servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
-
-    }
+        servo1.setPosition(-0.5);
+        servo2.setPosition(0.5);
+        servo1.setPosition(0.5);
+        servo2.setPosition(-0.5);
+}
 
 
 }
