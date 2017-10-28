@@ -1,7 +1,7 @@
 package org.ftcTeam;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
-
+import org.ftcTeam.opmodes.test.test;
 
 
 import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
@@ -17,8 +17,8 @@ public class FTCTeamControllerActivity extends FtcRobotControllerActivity {
      // return new test();
     // return new Production();
     // return new Prototype();
-    // return new test();
-   return null;
+     return new test();
+   //return null;
 
   }
 

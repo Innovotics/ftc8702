@@ -14,7 +14,7 @@ import org.ftcbootstrap.components.ColorSensorComponent;
  */
 
 
-@Autonomous(name = "Test: Adafruit", group = "Autonomous")
+@Autonomous(name = "Test: Adafruit", group = "Test")
 public class TazeringAdafruitTest extends ActiveOpMode {
 
     //Declare the MotorToEncoder
