@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftcTeam.configurations.Team8702Prod;
+import org.ftcTeam.utils.EncoderBasedOmniWheelController;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcbootstrap.components.utils.MotorDirection;
@@ -31,11 +32,13 @@ public class AutoMode extends ActiveOpMode {
     private MotorToEncoder motorToEncoderBR;
     private MotorToEncoder motorToEncoderBL;
 
+    EncoderBasedOmniWheelController wheelController;
     boolean targetReached = false;
 
     @Override
     protected void onInit() {
         currentState = State.INIT;
+        wheelController = new EncoderBasedOmniWheelController(robot);
 
 //        motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
 //        motorToEncoderFR = new MotorToEncoder(this, robot.motorFR);
