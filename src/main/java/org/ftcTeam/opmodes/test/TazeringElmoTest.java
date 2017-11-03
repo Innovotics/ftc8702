@@ -3,7 +3,7 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftcTeam.configurations.Team8702Elmo;
+import org.ftcTeam.configurations.Team8702Prod;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
@@ -11,7 +11,7 @@ import org.ftcbootstrap.components.operations.servos.GamePadServo;
 @Disabled
 public class TazeringElmoTest extends ActiveOpMode {
 
-    private Team8702Elmo robot;
+    private Team8702Prod robot;
     private GamePadServo gamePadServo;
 
     /**
@@ -20,7 +20,7 @@ public class TazeringElmoTest extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = Team8702Elmo.newConfig(hardwareMap, getTelemetryUtil());
+        robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -36,7 +36,7 @@ public class TazeringElmoTest extends ActiveOpMode {
         //create the operation  to perform a tank drive using the gamepad joysticks.
       //  gamePadFourWheelDrive = new GamePadFourWheelDrive(this, gamepad1, robot.motorR, robot.motorL, robot.motorBL, robot.motorBR);
       //  gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
-        gamePadServo = new GamePadServo(this, gamepad1, robot.elmo, GamePadServo.Control.X_B, 1.0);
+        gamePadServo = new GamePadServo(this, gamepad1, robot.elmoReach, GamePadServo.Control.X_B, 1.0);
 
 
     }

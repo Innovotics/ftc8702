@@ -15,7 +15,8 @@ public class RobotProperties {
     //Servos
     public static final String SERVO_RIGHT = "servo1";
     public static final String SERVO_LEFT = "servo2";
-    public static final String SERVO_ELMO = "servoElmo";
+    public static final String SERVO_ELMO_REACH = "elmoReach";
+    public static final String SERVO_ELMO_SPIN = "elmoSpin";
 
     // Color Sensor
     public static final String COLOR_ELMO = "colorElmo";
