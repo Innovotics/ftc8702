@@ -9,11 +9,13 @@ import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 public class EncoderBasedOmniWheelController {
 
+    //motors
     private MotorToEncoder motorToEncoderFR;
     private MotorToEncoder motorToEncoderFL;
     private MotorToEncoder motorToEncoderBR;
     private MotorToEncoder motorToEncoderBL;
 
+    //configuration
     private Team8702Prod robot;
 
     public EncoderBasedOmniWheelController(Team8702Prod robot) {
@@ -21,6 +23,7 @@ public class EncoderBasedOmniWheelController {
     }
 
     public void forward( int encoderValue) {
+
 
     }
     public void backward( int encoderValue) {

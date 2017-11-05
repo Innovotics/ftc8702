@@ -27,16 +27,12 @@ public class Team8702Prod extends RobotConfiguration {
     public DcMotor motorBR;
     public DcMotor motorBL;
 
-    //Color Sensor
-  //  public ColorSensor ColorSensor1;
-
-
-
     //Servo
-//    public Servo servo1;
-//    public Servo servo2;
+    public Servo elmoSpin;
+    public Servo elmoReach;
 
-
+    //Color Sensor
+    //  public ColorSensor ColorSensor1;
 
     /**
      * Factory method for this class
@@ -67,19 +63,19 @@ public class Team8702Prod extends RobotConfiguration {
         // Front Motors
           motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
           motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
-        //motorFL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // Back Motors
         motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
         motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
-        //motorBL.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        // Elmo Servos
+       elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
+       elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
 
         //Color Sensor
        // ColorSensor1 = (ColorSensor) getHardwareOn("ColorSensor1", hardwareMap.colorSensor);
 
-        //Servos
-//        servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-//        servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
+
 
     }
 

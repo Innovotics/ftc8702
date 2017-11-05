@@ -40,7 +40,7 @@ public class AutoMode extends ActiveOpMode {
         currentState = State.INIT;
         wheelController = new EncoderBasedOmniWheelController(robot);
 
-//        motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
+        motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
 //        motorToEncoderFR = new MotorToEncoder(this, robot.motorFR);
 //        motorToEncoderBR = new MotorToEncoder(this, robot.motorBR);
 //        motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
@@ -125,17 +125,12 @@ public class AutoMode extends ActiveOpMode {
                 targetReached = false;
 
                 //Show Telemetry
-                getTelemetryUtil().addData("Stage", currentState.toString());
+                getTelemetryUtil().addData("Stage: ", currentState.toString());
                 getTelemetryUtil().sendTelemetry();
 
-                //Move forward 1 rotation
-//                targetReached = motorToEncoderBL.runToTarget(1.0, 1440, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-//                        motorToEncoderBR.runToTarget(1.0, 1440, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-//                        motorToEncoderFL.runToTarget(1.0, 1440, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-//                        motorToEncoderFR.runToTarget(1.0, 1440, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-//
+                //move one wheel forward
+                targetReached = motorToEncoderFL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
 
-                startTheRebot();
                 //If task is complete move to next state
                 if (targetReached) {
                     currentState = State.ELMO_UP;

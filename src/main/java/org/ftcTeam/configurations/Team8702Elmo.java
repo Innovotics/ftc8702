@@ -19,10 +19,8 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
 public class Team8702Elmo extends RobotConfiguration {
 
     //Servo
-    public Servo elmo;
-
-
-
+    public Servo elmoSpin;
+    public Servo elmoReach;
 
     /**
      * Factory method for this class
@@ -51,7 +49,8 @@ public class Team8702Elmo extends RobotConfiguration {
         setTelemetry(telemetryUtil);
 
         //Servos
-        elmo = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
+        elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
+        elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
 
     }
 
