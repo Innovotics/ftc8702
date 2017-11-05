@@ -39,7 +39,6 @@ public class TazeringAdafruitTest extends ActiveOpMode {
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
         colorSensorComponent.enableLed(false);
 
-
         //Telemetry
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();

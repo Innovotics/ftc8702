@@ -6,8 +6,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.ftcTeam.opmodes.production.JewelColorSensorComponent;
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
+import org.ftcbootstrap.components.ColorSensorComponent;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
@@ -32,7 +34,7 @@ public class Team8702Prod extends RobotConfiguration {
     public Servo elmoReach;
 
     //Color Sensor
-    //  public ColorSensor ColorSensor1;
+    public ColorSensor elmoColorSensor;
 
     /**
      * Factory method for this class
@@ -73,7 +75,13 @@ public class Team8702Prod extends RobotConfiguration {
        elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
 
         //Color Sensor
-       // ColorSensor1 = (ColorSensor) getHardwareOn("ColorSensor1", hardwareMap.colorSensor);
+        elmoColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
+        getTelemetryUtil().addData("Color component: ", elmoColorSensor.toString());
+
+
+        getTelemetryUtil().sendTelemetry();
+
+
 
 
 
