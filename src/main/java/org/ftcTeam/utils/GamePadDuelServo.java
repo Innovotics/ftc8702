@@ -57,7 +57,7 @@ public class GamePadDuelServo extends OpModeComponent {
 
         super(opMode);
         this.servoComponent1 = new ServoComponent(opMode,  servo1,   initialPosition , reverseOrientation);
-        this.servoComponent2 = new ServoComponent(opMode,  servo1,   initialPosition , reverseOrientation);
+        this.servoComponent2 = new ServoComponent(opMode,  servo2,   initialPosition , reverseOrientation);
         this.gamepad = gamepad;
         this.currentControl = control;
 

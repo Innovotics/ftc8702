@@ -20,7 +20,7 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702Servo extends RobotConfiguration {
+public class Team8702Clapper extends RobotConfiguration {
 
     //Servo
     public Servo servo1;
@@ -35,9 +35,9 @@ public class Team8702Servo extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static Team8702Servo newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static Team8702Clapper newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        Team8702Servo config = new Team8702Servo();
+        Team8702Clapper config = new Team8702Clapper();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
@@ -57,11 +57,10 @@ public class Team8702Servo extends RobotConfiguration {
         //Servos
         servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
         servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
-        servo1.setPosition(-0.5);
-        servo2.setPosition(0.5);
         servo1.setPosition(0.5);
-        servo2.setPosition(-0.5);
+        servo2.setPosition(0.5);
+       // servo1.setPosition(-0.5);
+        // servo2.setPosition(0.5);
 }
-
 
 }

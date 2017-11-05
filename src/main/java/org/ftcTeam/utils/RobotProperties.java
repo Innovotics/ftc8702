@@ -13,6 +13,7 @@ public class RobotProperties {
     public static final String MOTOR_LEFT_BACK = "motorLB";
 
     //Servos
+    public static final String SERVOS_CLAPPERS = "clapperServos";
     public static final String SERVO_RIGHT = "servo1";
     public static final String SERVO_LEFT = "servo2";
     public static final String SERVO_ELMO = "servoElmo";
@@ -21,6 +22,7 @@ public class RobotProperties {
     public static final String COLOR_ELMO = "colorElmo";
     public static final String COLOR_RIGHT = "colorRight";
     public static final String COLOR_LEFT = "colorLeft";
+    public static final String COLOR_START = "colorStart";
 
 
 

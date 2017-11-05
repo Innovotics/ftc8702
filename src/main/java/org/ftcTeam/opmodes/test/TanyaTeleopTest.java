@@ -3,17 +3,16 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftcTeam.configurations.Team8702Servo;
+import org.ftcTeam.configurations.Team8702Clapper;
 import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
 @TeleOp(name="TanyaTeleopTest", group="test")
-@Disabled
 public class TanyaTeleopTest extends ActiveOpMode {
 
     //private Team8702Prod robot;
-    private Team8702Servo robot;
+    private Team8702Clapper robot;
     private GamePadDuelServo gamePadServo;
    // private GamePadFourWheelDrive gamePadFourWheelDrive;
 
@@ -23,7 +22,7 @@ public class TanyaTeleopTest extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = Team8702Servo.newConfig(hardwareMap, getTelemetryUtil());
+        robot = Team8702Clapper.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
