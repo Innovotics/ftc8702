@@ -19,15 +19,40 @@ public class JewelColorSensorComponent {
     //Declare Color Sensor
     public ColorSensorComponent colorSensorComponent;
 
-    //Colors
-    String blue = "blue";
-    String red = "red";
-    String green = "green";
-
-
     public JewelColorSensorComponent(ActiveOpMode opmode, Team8702Prod robot) {
         this.robot = robot;
         colorSensorComponent = new ColorSensorComponent(opmode, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
+
+    }
+
+    // Color Values
+    // Refactor this
+    public ColorValue getColor() {
+        int Red = colorSensorComponent.getR();
+        int Blue = colorSensorComponent.getB();
+        int Green = colorSensorComponent.getG();
+
+        //Boolean Values
+        boolean redBoolean = colorSensorComponent.isRed(Red, Blue, Green);
+        boolean blueBoolean = colorSensorComponent.isBlue(Red, Blue, Green);
+
+        //Determine which is color to call
+        if (robot.elmoColorSensor.red() > robot.elmoColorSensor.blue()
+                && robot.elmoColorSensor.red() > robot.elmoColorSensor.green()) {
+            redBoolean = true;
+        }
+
+        if (robot.elmoColorSensor.blue() > robot.elmoColorSensor.red()
+                && robot.elmoColorSensor.green() > robot.elmoColorSensor.red()) {
+            blueBoolean = true;
+        }
+
+        if (redBoolean) {
+            return ColorValue.RED;
+        } else if (blueBoolean) {
+            return ColorValue.BLUE;
+        }
+        return ColorValue.ZILCH;
 
     }
 }

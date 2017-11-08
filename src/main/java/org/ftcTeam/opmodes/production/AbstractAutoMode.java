@@ -21,6 +21,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         ELMO_UP,
         DONE
     }
+    //Setting Target Reached to false
+    boolean targetReached = false;
 
     //States
     private State currentState;
@@ -35,10 +37,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     //Wheel Controller
     EncoderBasedOmniWheelController wheelController;
 
-    //Setting Target Reached to false
-    boolean targetReached = false;
-
     JewelColorSensorComponent jewelColorSensorComponent;
+    ColorValue jewelColorValue = ColorValue.ZILCH;
 
     @Override
     protected void onInit() {
@@ -54,8 +54,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         //Color Sensor
         jewelColorSensorComponent = new JewelColorSensorComponent(this, robot);
-
-        ColorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -109,18 +107,17 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
 
             case READ_JEWEL_COLOR: //Read jewel color
-                //Set delay for 1 second
                 sleep(1000);
-
-                //Set targetReached to false
                 targetReached = false;
+                jewelColorValue = jewelColorSensorComponent.getColor();
 
+                if (jewelColorValue != ColorValue.ZILCH) {
+                    getTelemetryUtil().addData("Jewel Color:", jewelColorValue.toString());
+                    targetReached = true;
+                }
                 //Show Telemetry
                 getTelemetryUtil().addData("Stage", currentState.toString());
                 getTelemetryUtil().sendTelemetry();
-
-                //Set targetReached to true
-                startTheRobot();
 
                 if(targetReached) {
                     currentState = State.KNOCK_OFF_JEWEL;

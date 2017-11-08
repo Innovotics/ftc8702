@@ -24,10 +24,10 @@ public class TazeringAdafruitTest extends ActiveOpMode {
     public ColorSensorComponent colorSensorComponent;
 
 
-        //colors
-        String blue = "blue";
-        String red = "red";
-        String green = "green";
+    //colors
+    String blue = "blue";
+    String red = "red";
+    String green = "green";
 
 
     @Override
@@ -62,36 +62,30 @@ public class TazeringAdafruitTest extends ActiveOpMode {
     }
 
     // Color Values
+    // TODO - Refactor this
     public ColorValue getColor() {
         int Red = colorSensorComponent.getR();
         int Blue = colorSensorComponent.getB();
         int Green = colorSensorComponent.getG();
 
         //Boolean Values
-        boolean redBoolean = colorSensorComponent.isRed( Red, Blue, Green );
-        boolean blueBoolean = colorSensorComponent.isBlue( Red, Blue, Green);
+        boolean redBoolean = colorSensorComponent.isRed(Red, Blue, Green);
+        boolean blueBoolean = colorSensorComponent.isBlue(Red, Blue, Green);
 
         //Determine which is color to call
-        if(robot.elmoSensor.red() > robot.elmoSensor.blue() && robot.elmoSensor.red() > robot.elmoSensor.green())
-        {
-             redBoolean = true;
+        if (robot.elmoSensor.red() > robot.elmoSensor.blue() && robot.elmoSensor.red() > robot.elmoSensor.green()) {
+            redBoolean = true;
         }
 
-        if(robot.elmoSensor.blue() > robot.elmoSensor.red() && robot.elmoSensor.green() > robot.elmoSensor.red())
-        {
+        if (robot.elmoSensor.blue() > robot.elmoSensor.red() && robot.elmoSensor.green() > robot.elmoSensor.red()) {
             blueBoolean = true;
         }
 
-
-        // test if color is red
-        if(redBoolean) {
+        if (redBoolean) {
             return ColorValue.RED;
-        }
-        //test if color is blue
-        if(blueBoolean) {
+        } else if (blueBoolean) {
             return ColorValue.BLUE;
         }
-        //zilch color
         return ColorValue.ZILCH;
 
     }
