@@ -2,7 +2,6 @@ package org.ftcTeam.configurations;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
@@ -17,7 +16,7 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702Prod extends RobotConfiguration {
+public class Team8702ProdAuto extends RobotConfiguration {
     //51.4 = 1 inch
     //motors
     public DcMotor motorFR;
@@ -25,10 +24,12 @@ public class Team8702Prod extends RobotConfiguration {
     public DcMotor motorBR;
     public DcMotor motorBL;
 
-    //Servo
-    public Servo clapperLeft;
-    public Servo clapperRight;
-    public DcMotor clapperMotor;
+//    //Servo
+//    public Servo elmoSpin;
+//    public Servo elmoReach;
+
+    //Color Sensor
+  //  public ColorSensor elmoColorSensor;
 
     /**
      * Factory method for this class
@@ -37,15 +38,16 @@ public class Team8702Prod extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static Team8702Prod newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static Team8702ProdAuto newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        Team8702Prod config = new Team8702Prod();
+        Team8702ProdAuto config = new Team8702ProdAuto();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
 
     /**
      * Assign your class instance variables to the saved device names in the hardware map
+     *
      *
      * @param hardwareMap
      * @param telemetryUtil
@@ -56,21 +58,26 @@ public class Team8702Prod extends RobotConfiguration {
         setTelemetry(telemetryUtil);
 
         // Front Motors
-        motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-        motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
+          motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
+          motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
 
         // Back Motors
         motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
         motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
 
-//        clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
-//        //Servos
-//        clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-//        clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
-//        clapperLeft.setPosition(0.5);
-//        clapperRight.setPosition(0.5);
+        // Elmo Servos
+//       elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
+//       elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
+//
+//        //Color Sensor
+//        elmoColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
+//        getTelemetryUtil().addData("Color component: ", elmoColorSensor.toString());
+
 
         getTelemetryUtil().sendTelemetry();
+
+
+
 
 
     }
