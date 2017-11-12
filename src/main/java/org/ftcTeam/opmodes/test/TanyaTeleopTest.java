@@ -1,12 +1,11 @@
 package org.ftcTeam.opmodes.test;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.Team8702Clapper;
 import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.servos.GamePadServo;
+import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 
 @TeleOp(name="TanyaTeleopTest", group="test")
 public class TanyaTeleopTest extends ActiveOpMode {
@@ -14,6 +13,7 @@ public class TanyaTeleopTest extends ActiveOpMode {
     //private Team8702Prod robot;
     private Team8702Clapper robot;
     private GamePadDuelServo gamePadServo;
+    private GamePadMotor motorControl;
    // private GamePadFourWheelDrive gamePadFourWheelDrive;
 
     /**
@@ -35,7 +35,9 @@ public class TanyaTeleopTest extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
 
-        gamePadServo = new GamePadDuelServo(this, gamepad1, robot.servo1, robot.servo2, GamePadDuelServo.Control.X_B, 1.0);
+        gamePadServo = new GamePadDuelServo(this, gamepad1, robot.clapperLeft, robot.clapperRight, GamePadDuelServo.Control.X_B, 1.0);
+        motorControl = new GamePadMotor(this, gamepad1, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 1);
+
     }
 
     /**
@@ -49,6 +51,7 @@ public class TanyaTeleopTest extends ActiveOpMode {
 
         //update the motors with the gamepad joystick values
         gamePadServo.update();
+        motorControl.update();
 
         //send any telemetry that may have been added in the above operations
         getTelemetryUtil().sendTelemetry();

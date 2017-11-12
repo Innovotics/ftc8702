@@ -1,14 +1,11 @@
 package org.ftcTeam.configurations;
 
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.operations.servos.GamePadServo;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
@@ -23,10 +20,9 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
 public class Team8702Clapper extends RobotConfiguration {
 
     //Servo
-    public Servo servo1;
-    public Servo servo2;
-
-
+    public Servo clapperLeft;
+    public Servo clapperRight;
+    public DcMotor clapperMotor;
 
     /**
      * Factory method for this class
@@ -45,7 +41,6 @@ public class Team8702Clapper extends RobotConfiguration {
     /**
      * Assign your class instance variables to the saved device names in the hardware map
      *
-     *
      * @param hardwareMap
      * @param telemetryUtil
      */
@@ -53,14 +48,12 @@ public class Team8702Clapper extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
         setTelemetry(telemetryUtil);
-
+        clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
         //Servos
-        servo1 = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-        servo2 = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
-        servo1.setPosition(0.5);
-        servo2.setPosition(0.5);
-       // servo1.setPosition(-0.5);
-        // servo2.setPosition(0.5);
-}
+        clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
+        clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
+        clapperLeft.setPosition(0.5);
+        clapperRight.setPosition(0.5);
+    }
 
 }
