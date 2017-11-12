@@ -8,8 +8,6 @@ import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcbootstrap.components.utils.MotorDirection;
 import org.ftcTeam.utils.ColorValue;
-import org.ftcbootstrap.components.ColorSensorComponent;
-import org.ftcTeam.opmodes.production.JewelColorSensorComponent;
 
 abstract class AbstractAutoMode extends ActiveOpMode {
 
@@ -39,7 +37,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private MotorToEncoder motorToEncoderBR;
     private MotorToEncoder motorToEncoderBL;
 
-    JewelColorSensorComponent jewelColorSensorComponent;
+    AdaFruitColorSensor jewelColorSensor;
     ColorValue jewelColorValue = ColorValue.ZILCH;
 
     ColorValue panelColor = ColorValue.ZILCH;
@@ -57,7 +55,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
 
         //Color Sensor
-        jewelColorSensorComponent = new JewelColorSensorComponent(this, robot);
+        jewelColorSensor = new AdaFruitColorSensor(this, robot);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -102,7 +100,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
 
             case READ_JEWEL_COLOR: //Read jewel color
-                jewelColorValue = jewelColorSensorComponent.getColor();
+                jewelColorValue = jewelColorSensor.getColor();
 
                 getTelemetryUtil().addData("Jewel Color:", jewelColorValue.toString());
                 getTelemetryUtil().sendTelemetry();

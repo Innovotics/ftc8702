@@ -14,8 +14,6 @@ import org.ftcbootstrap.components.utils.MotorDirection;
 @Autonomous(name = "AutoModeRed", group = "Ops")
 public class AutoModeRed extends AbstractAutoMode {
 
-
-
     @Override
     protected void onInit() {
     super.onInit();
@@ -29,12 +27,6 @@ public class AutoModeRed extends AbstractAutoMode {
     @Override
     protected void activeLoop() throws InterruptedException {
         super.activeLoop();
-    }
-
-    private void startTheRobot() {
-
-        // TODO logic later
-        targetReached = true;
     }
 
     protected ColorValue getPanelColor() {

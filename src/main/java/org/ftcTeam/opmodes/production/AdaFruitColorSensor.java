@@ -11,7 +11,7 @@ import org.ftcTeam.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 
 
-public class JewelColorSensorComponent {
+public class AdaFruitColorSensor {
 
     //Declare Robot
     private Team8702Prod robot;
@@ -19,40 +19,23 @@ public class JewelColorSensorComponent {
     //Declare Color Sensor
     public ColorSensorComponent colorSensorComponent;
 
-    public JewelColorSensorComponent(ActiveOpMode opmode, Team8702Prod robot) {
+    public AdaFruitColorSensor(ActiveOpMode opmode, Team8702Prod robot) {
         this.robot = robot;
         colorSensorComponent = new ColorSensorComponent(opmode, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
-
     }
 
-    // Color Values
-    // Refactor this
     public ColorValue getColor() {
-        int Red = colorSensorComponent.getR();
-        int Blue = colorSensorComponent.getB();
-        int Green = colorSensorComponent.getG();
-
-        //Boolean Values
-        boolean redBoolean = colorSensorComponent.isRed(Red, Blue, Green);
-        boolean blueBoolean = colorSensorComponent.isBlue(Red, Blue, Green);
+        ColorValue resultColor = ColorValue.ZILCH;
 
         //Determine which is color to call
         if (robot.elmoColorSensor.red() > robot.elmoColorSensor.blue()
                 && robot.elmoColorSensor.red() > robot.elmoColorSensor.green()) {
-            redBoolean = true;
+            resultColor = ColorValue.RED;
         }
-
-        if (robot.elmoColorSensor.blue() > robot.elmoColorSensor.red()
+        else if (robot.elmoColorSensor.blue() > robot.elmoColorSensor.red()
                 && robot.elmoColorSensor.green() > robot.elmoColorSensor.red()) {
-            blueBoolean = true;
+            resultColor = ColorValue.BLUE;
         }
-
-        if (redBoolean) {
-            return ColorValue.RED;
-        } else if (blueBoolean) {
-            return ColorValue.BLUE;
-        }
-        return ColorValue.ZILCH;
-
+        return resultColor;
     }
 }

@@ -2,14 +2,11 @@ package org.ftcTeam.configurations;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.ftcTeam.opmodes.production.JewelColorSensorComponent;
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.ColorSensorComponent;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
