@@ -1,14 +1,10 @@
 package org.ftcTeam.configurations;
 
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.operations.servos.GamePadServo;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
