@@ -15,7 +15,9 @@ public class RobotProperties {
 
     //Servos
     public static final String SERVOS_CLAPPERS = "clapperServos";
+    // Servo 1 port
     public static final String SERVO_RIGHT = "clapperR";
+    // Servo 0 port
     public static final String SERVO_LEFT = "clapperL";
     public static final String SERVO_ELMO_REACH = "elmoReach";
     public static final String SERVO_ELMO_SPIN = "elmoSpin";
