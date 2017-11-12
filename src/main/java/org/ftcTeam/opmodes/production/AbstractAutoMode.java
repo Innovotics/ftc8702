@@ -74,10 +74,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         switch (currentState) {
             case INIT: //Set everything
                 logStage();
-                //Set targetReached to true
                 startTheRobot();
-
-                //Condition if targetReached is true
                 if (targetReached) {
                     currentState = State.ELMO_DOWN;
                     targetReached = false;
@@ -85,12 +82,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
 
             case ELMO_DOWN: //Bring elmo down
-                //Set 1 second delay
                 logStage();
-                //targetReached is true
                 startTheRobot();
 
-                //If task is complete move to next state
                 if(targetReached) {
                     currentState = State.READ_JEWEL_COLOR;
                     targetReached = false;
@@ -117,11 +111,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
             case KNOCK_OFF_JEWEL: //Move robot to appropriate direction for color
                 logStage();
-
                 //move one wheel forward
                 targetReached = motorToEncoderFL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
 
-                //If task is complete move to next state
                 if (targetReached) {
                     currentState = State.ELMO_UP;
                     targetReached = false;
@@ -132,10 +124,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
             case ELMO_UP: //Bring elmo up
                 logStage();
-                //Set targetReached to true
                 startTheRobot();
 
-                //If task is complete move to next stage
                 if (targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
@@ -145,11 +135,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
 
             case DONE: //Complete autonomous
-                //Set 1 second delay
                 logStage();
-
-                //Set targetReached to false
-                targetReached = false;
+                targetReached = true;
                 setOperationsCompleted();
                 break;
         }
