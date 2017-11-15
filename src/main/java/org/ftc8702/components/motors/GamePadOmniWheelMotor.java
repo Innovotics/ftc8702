@@ -37,7 +37,7 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
     private Control control;
     private DcMotor motor;
     private Gamepad gamepad;
-    private static final float defaultButtonPower = 0.3f;
+    private static final float defaultButtonPower = 1.0f;
     private float buttonPower ;
     private boolean isReverse;
 
