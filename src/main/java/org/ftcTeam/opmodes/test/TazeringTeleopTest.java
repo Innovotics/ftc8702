@@ -14,7 +14,7 @@ import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 public class TazeringTeleopTest extends ActiveOpMode {
     private Team8702Prod robot;
    private GamePadOmniWheelDrive gamePadOmniWheelDrive;
-   private GamePadDuelServo gamePadDuelServo;
+   private GamePadDuelServo gamePadServo;
    private GamePadMotor motorControl;
 
     /**
@@ -37,7 +37,7 @@ public class TazeringTeleopTest extends ActiveOpMode {
         super.onStart();
 
     gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
-    gamePadDuelServo = new GamePadDuelServo(this, gamepad1, robot.clapperLeft, robot.clapperRight, GamePadDuelServo.Control.X_B, 1);
+    gamePadServo = new GamePadDuelServo(this, gamepad1, robot.clapperLeft, robot.clapperRight, GamePadDuelServo.Control.X_B, 1);
     motorControl = new GamePadMotor(this, gamepad1, robot.clapperMotor, GamePadMotor.Control.RIGHT_STICK_Y);
 
     }
@@ -52,7 +52,7 @@ public class TazeringTeleopTest extends ActiveOpMode {
 
         //update the motors with the gamepad joystick values
         gamePadOmniWheelDrive.update();
-        gamePadDuelServo.update();
+        gamePadServo.update();
         motorControl.update();
         //send any telemetry that may have been added in the above operations
         getTelemetryUtil().sendTelemetry();
