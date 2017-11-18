@@ -88,11 +88,11 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         //note that if y equal -1 then joystick is pushed all of the way forward.
         switch (control) {
 
-            case RIGHT_STICK_Y:
-                power = scaleMotorPower(-gamepad.right_stick_y);
+            case LEFT_STICK_Y:
+                power = scaleMotorPower(-gamepad.left_stick_y);
                 break;
-            case RIGHT_STICK_X:
-                power = scaleMotorPower(gamepad.right_stick_x);
+            case LEFT_STICK_X:
+                power = scaleMotorPower(gamepad.left_stick_x);
                 break;
             default:
                 power = motorPowerFromButtons();
