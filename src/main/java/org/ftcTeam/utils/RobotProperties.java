@@ -24,9 +24,10 @@ public class RobotProperties {
 
     // Color Sensor
     public static final String COLOR_ELMO = "colorElmo";
-    public static final String COLOR_RIGHT = "colorRight";
-    public static final String COLOR_LEFT = "colorLeft";
-    public static final String COLOR_START = "colorStart";
+
+    // Floor Reader
+    public static final String FLOOR_RIGHT = "floorRight";
+    public static final String FLOOR_LEFT = "floorLeft";
 
 
 
