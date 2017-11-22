@@ -1,6 +1,7 @@
 package org.ftcTeam.configurations;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -29,6 +30,7 @@ public class Team8702Prod extends RobotConfiguration {
     public Servo clapperLeft;
     public Servo clapperRight;
     public DcMotor clapperMotor;
+    public DigitalChannel digitalTouch;
 
     /**
      * Factory method for this class
@@ -69,7 +71,8 @@ public class Team8702Prod extends RobotConfiguration {
         clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
         clapperLeft.setPosition(0.5);
         clapperRight.setPosition(0.5);
-
+        digitalTouch = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_MOTOR_GUARD);
+        //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         getTelemetryUtil().sendTelemetry();
 
 

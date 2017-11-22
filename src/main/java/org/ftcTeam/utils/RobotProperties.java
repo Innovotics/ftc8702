@@ -12,6 +12,7 @@ public class RobotProperties {
     public static final String MOTOR_LEFT_FRONT = "motorLF";
     public static final String MOTOR_LEFT_BACK = "motorLB";
     public static final String CLAPPER_MOTOR = "clapperMotor";
+    public static final String CLAPPER_MOTOR_GUARD = "clapperTouchSensor";
 
     //Servos
     public static final String SERVOS_CLAPPERS = "clapperServos";
