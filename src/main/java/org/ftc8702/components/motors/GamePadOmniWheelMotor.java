@@ -10,13 +10,10 @@ import org.ftcbootstrap.components.OpModeComponent;
 
 /**
  * Operation to assist with Gamepad actions on DCMotors
- *
+ * <p>
  * This class is modification of GamePadMotor
  */
 public class GamePadOmniWheelMotor extends OpModeComponent {
-
-
-    // amount to change the servo position by
 
     public enum Control {
         LEFT_STICK_X,
@@ -38,7 +35,7 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
     private DcMotor motor;
     private Gamepad gamepad;
     private static final float defaultButtonPower = 1.0f;
-    private float buttonPower ;
+    private float buttonPower;
     private boolean isReverse;
 
     /**
@@ -50,32 +47,26 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
      * @param control {@link GamePadOmniWheelMotor.Control}
      */
     public GamePadOmniWheelMotor(ActiveOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, boolean reverse) {
-
-        this(opMode,  gamepad , motor, control, defaultButtonPower);
+        this(opMode, gamepad, motor, control, defaultButtonPower);
         isReverse = reverse;
-
-
     }
 
     /**
      * Constructor for operation.  Telemetry enabled by default.
      *
      * @param opMode
-     * @param gamepad Gamepad
-     * @param motor   DcMotor to operate on
-     * @param control {@link GamePadOmniWheelMotor.Control}
+     * @param gamepad     Gamepad
+     * @param motor       DcMotor to operate on
+     * @param control     {@link GamePadOmniWheelMotor.Control}
      * @param buttonPower power to apply when using gamepad buttons
      */
     public GamePadOmniWheelMotor(ActiveOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, float buttonPower) {
-
         super(opMode);
         this.gamepad = gamepad;
         this.motor = motor;
         this.control = control;
         this.buttonPower = buttonPower;
-
     }
-
 
 
     /**
@@ -87,7 +78,6 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
 
         //note that if y equal -1 then joystick is pushed all of the way forward.
         switch (control) {
-
             case LEFT_STICK_Y:
                 power = scaleMotorPower(-gamepad.left_stick_y);
                 break;
@@ -101,20 +91,18 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
 
         addTelemetry("setting power: " + control.toString(), power);
 
-        if (isReverse){
+        if (isReverse) {
             power = power * (-1);
         }
         motor.setPower(power);
-
     }
 
     public void startRunMode(DcMotor.RunMode runMode) throws InterruptedException {
         motor.setMode(runMode);
         getOpMode().waitOneFullHardwareCycle();
-
     }
-    private float motorPowerFromButtons() {
 
+    private float motorPowerFromButtons() {
         float powerToReturn = 0f;
         boolean lb = gamepad.left_bumper;
         boolean rb = gamepad.right_bumper;
@@ -125,18 +113,17 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         }
         if ((control == GamePadOmniWheelMotor.Control.LB_RB_BUTTONS) && lb) {
             powerToReturn = -buttonPower;
-        }
-        else {
+        } else {
             switch (control) {
 
                 case LB_RB_BUTTONS:
-                    if ( rb) powerToReturn = buttonPower;
+                    if (rb) powerToReturn = buttonPower;
                     break;
                 case LEFT_BUMPER:
-                    if ( lb) powerToReturn = buttonPower;
+                    if (lb) powerToReturn = buttonPower;
                     break;
                 case RIGHT_BUMPER:
-                    if ( rb) powerToReturn = buttonPower;
+                    if (rb) powerToReturn = buttonPower;
                     break;
                 default:
                     powerToReturn = 0f;
@@ -145,10 +132,7 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         }
 
         return powerToReturn;
-
-
     }
-
 
 
     /**
@@ -190,8 +174,6 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         return l_scale;
 
     }
-
-
 }
 
 

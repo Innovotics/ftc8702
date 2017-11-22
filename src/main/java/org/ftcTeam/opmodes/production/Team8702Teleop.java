@@ -5,13 +5,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcTeam.configurations.Team8702Prod;
+import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
+import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 
 @TeleOp(name = "Team8702Teleop", group = "production")
 public class Team8702Teleop extends ActiveOpMode {
 
     private Team8702Prod robot;
     private GamePadOmniWheelDrive gamePadOmniWheelDrive;
+    private GamePadDuelServo gamePadServo;
+    private GamePadMotor motorControl;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -34,6 +38,8 @@ public class Team8702Teleop extends ActiveOpMode {
 
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
         gamePadOmniWheelDrive.startRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        gamePadServo = new GamePadDuelServo(this, gamepad1, robot.clapperLeft, robot.clapperRight, GamePadDuelServo.Control.X_B, 1.0);
+        motorControl = new GamePadMotor(this, gamepad1, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.1f);
     }
 
     /**
@@ -45,7 +51,9 @@ public class Team8702Teleop extends ActiveOpMode {
     @Override
     protected void activeLoop() throws InterruptedException {
         gamePadOmniWheelDrive.update();
-        getTelemetryUtil().sendTelemetry();
+        gamePadServo.update();
+        motorControl.update();
+        //getTelemetryUtil().sendTelemetry();
     }
 
 }
