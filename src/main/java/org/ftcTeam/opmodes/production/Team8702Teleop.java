@@ -15,8 +15,8 @@ public class Team8702Teleop extends ActiveOpMode {
 
     private Team8702Prod robot;
     private GamePadOmniWheelDrive gamePadOmniWheelDrive;
-    private GamePadDuelServo gamePadServo;
-    private GamePadMotor motorControl;
+    private GamePadDuelServo clapperGamePadServo;
+    private GamePadMotor clapperGamePadMotor;
 
 
     /**
@@ -40,8 +40,8 @@ public class Team8702Teleop extends ActiveOpMode {
 
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
         gamePadOmniWheelDrive.startRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        gamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperLeft, robot.clapperRight, GamePadDuelServo.Control.X_B, 1.0);
-        motorControl = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.1f);
+        clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B, 0.35);
+        clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.1f);
 
     }
 
@@ -54,8 +54,8 @@ public class Team8702Teleop extends ActiveOpMode {
     @Override
     protected void activeLoop() throws InterruptedException {
         gamePadOmniWheelDrive.update();
-        gamePadServo.update();
-        motorControl.update();
+        clapperGamePadServo.update();
+        clapperGamePadMotor.update();
         //getTelemetryUtil().sendTelemetry();
     }
 

@@ -23,7 +23,7 @@ public class GamePadDuelServo extends OpModeComponent {
     private Control currentControl;
 
     // amount to change the servo position by
-    private double servoDelta = 0.01;
+    private double servoDelta = 0.05;
     private ServoComponent servoComponent1;
     private ServoComponent servoComponent2;
     private Gamepad gamepad;
