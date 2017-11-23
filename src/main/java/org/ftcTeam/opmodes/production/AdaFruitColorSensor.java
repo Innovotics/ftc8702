@@ -9,12 +9,11 @@
 //import org.ftcbootstrap.components.ColorSensorComponent;
 //import org.ftcTeam.utils.ColorValue;
 //import org.ftcbootstrap.ActiveOpMode;
-//@Disabled
 //
 //public class AdaFruitColorSensor {
 //
 //    //Declare Robot
-//    private Team8702Prod robot;
+//    private Team8702ProdAuto robot;
 //
 //    //Declare Color Sensor
 //    public ColorSensorComponent colorSensorComponent;
