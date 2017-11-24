@@ -35,7 +35,7 @@ public class TanyaColorSensor extends RobotConfiguration{
 
         setTelemetry(telemetryUtil);
 
-          mColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_START, hardwareMap.colorSensor);
+          mColorSensor = (ColorSensor) getHardwareOn(RobotProperties.FLOOR_RIGHT, hardwareMap.colorSensor);
           getTelemetryUtil().addData("Color component: ", mColorSensor.toString());
 
 

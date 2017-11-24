@@ -12,6 +12,7 @@ public class RobotProperties {
     public static final String MOTOR_LEFT_FRONT = "motorLF";
     public static final String MOTOR_LEFT_BACK = "motorLB";
     public static final String CLAPPER_MOTOR = "clapperMotor";
+    public static final String CLAPPER_MOTOR_GUARD = "clapperTouchSensor";
 
     //Servos
     public static final String SERVOS_CLAPPERS = "clapperServos";
@@ -24,9 +25,10 @@ public class RobotProperties {
 
     // Color Sensor
     public static final String COLOR_ELMO = "colorElmo";
-    public static final String COLOR_RIGHT = "colorRight";
-    public static final String COLOR_LEFT = "colorLeft";
-    public static final String COLOR_START = "colorStart";
+
+    // Floor Reader
+    public static final String FLOOR_RIGHT = "floorRight";
+    public static final String FLOOR_LEFT = "floorLeft";
 
 
 

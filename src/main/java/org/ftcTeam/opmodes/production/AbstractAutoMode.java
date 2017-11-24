@@ -3,8 +3,10 @@ package org.ftcTeam.opmodes.production;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftcTeam.configurations.Team8702Prod;
+import org.ftcTeam.configurations.Team8702ProdAuto;
 import org.ftcTeam.utils.EncoderBasedOmniWheelController;
 import org.ftcbootstrap.ActiveOpMode;
+import org.ftcbootstrap.components.ColorSensorComponent;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcbootstrap.components.utils.MotorDirection;
 import org.ftcTeam.utils.ColorValue;
@@ -29,7 +31,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private State currentState;
 
     //Declare the MotorToEncoder
-    private Team8702Prod robot;
+    private Team8702ProdAuto robot;
     //Wheel Controller
     EncoderBasedOmniWheelController wheelController;
     private MotorToEncoder motorToEncoderFR;
@@ -37,16 +39,16 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private MotorToEncoder motorToEncoderBR;
     private MotorToEncoder motorToEncoderBL;
 
-    AdaFruitColorSensor jewelColorSensor;
     ColorValue jewelColorValue = ColorValue.ZILCH;
-
     ColorValue panelColor = ColorValue.ZILCH;
+    public ColorSensorComponent colorSensorComponent;
+
+    abstract ColorValue getPanelColor();
 
     @Override
     protected void onInit() {
         //Set state to Init
         currentState = State.INIT;
-        wheelController = new EncoderBasedOmniWheelController(robot);
 
         //Declare the Motors
         motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
@@ -55,7 +57,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
 
         //Color Sensor
-        jewelColorSensor = new AdaFruitColorSensor(this, robot);
+        colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -94,7 +96,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
 
             case READ_JEWEL_COLOR: //Read jewel color
-                jewelColorValue = jewelColorSensor.getColor();
+                jewelColorValue = getColor();
 
                 getTelemetryUtil().addData("Jewel Color:", jewelColorValue.toString());
                 getTelemetryUtil().sendTelemetry();
@@ -148,9 +150,24 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         targetReached = true;
     }
 
+    public ColorValue getColor() {
+        ColorValue resultColor = ColorValue.ZILCH;
+
+        //Determine which is color to call
+        if (robot.elmoColorSensor.red() > robot.elmoColorSensor.blue()
+                && robot.elmoColorSensor.red() > robot.elmoColorSensor.green()) {
+            resultColor = ColorValue.RED;
+        }
+        else if (robot.elmoColorSensor.blue() > robot.elmoColorSensor.red()
+                && robot.elmoColorSensor.green() > robot.elmoColorSensor.red()) {
+            resultColor = ColorValue.BLUE;
+        }
+        return resultColor;
+    }
+
     private void logStage() {
         getTelemetryUtil().addData("Stage", currentState.toString());
         getTelemetryUtil().sendTelemetry();
     }
-    abstract ColorValue getPanelColor();
+
 }
