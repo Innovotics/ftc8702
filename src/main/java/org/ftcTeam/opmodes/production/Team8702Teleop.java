@@ -21,7 +21,6 @@ public class Team8702Teleop extends ActiveOpMode {
     private DigitalChannel topTouchClapperSensor;
     private DigitalChannel bottomTouchClapperSensor;
 
-
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
      */
@@ -44,7 +43,7 @@ public class Team8702Teleop extends ActiveOpMode {
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
         gamePadOmniWheelDrive.startRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B, 0.35);
-        clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.1f);
+        clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
     }
 
     /**
@@ -61,39 +60,34 @@ public class Team8702Teleop extends ActiveOpMode {
         //getTelemetryUtil().sendTelemetry();
         isClapperTouchSensorOn();
     }
+
     private boolean isClapperTouchSensorOn()
     {
         while (opModeIsActive()) {
-
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
             if (topTouchClapperSensor.getState() == true) {
                 telemetry.addData("Top Touch Clapper Sensor", "Is Pressed");
-                if (gamepad2.y)
-                {
-                    clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0);
+                if (gamepad2.y) {
+                    robot.clapperMotor.setPower(0);
                 }
                 else
                 {
-                    clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.1f);
+                    robot.clapperMotor.setPower(0.5);
                 }
             }
             else if (bottomTouchClapperSensor.getState() == true){
                 telemetry.addData("Bottom Touch Clapper Sensor", "Is Pressed");
-                if (gamepad2.a)
-                {
-                    clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0);
+                if (gamepad2.a) {
+                    robot.clapperMotor.setPower(0);
                 }
                 else
                 {
-                    clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.1f);
+                    robot.clapperMotor.setPower(0.5);
                 }
             }
-
             telemetry.update();
         }
         return true;
     }
-
-
 }
