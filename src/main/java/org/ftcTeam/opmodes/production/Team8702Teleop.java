@@ -58,12 +58,11 @@ public class Team8702Teleop extends ActiveOpMode {
         clapperGamePadServo.update();
         clapperGamePadMotor.update();
         //getTelemetryUtil().sendTelemetry();
-        isClapperTouchSensorOn();
+        checkClapperTouchSensor();
     }
 
-    private boolean isClapperTouchSensorOn()
+    private void checkClapperTouchSensor()
     {
-        while (opModeIsActive()) {
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
             if (topTouchClapperSensor.getState() == true) {
@@ -87,7 +86,5 @@ public class Team8702Teleop extends ActiveOpMode {
                 }
             }
             telemetry.update();
-        }
-        return true;
     }
 }
