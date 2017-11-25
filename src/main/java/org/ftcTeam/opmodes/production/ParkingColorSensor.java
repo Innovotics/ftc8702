@@ -21,7 +21,6 @@ public class ParkingColorSensor {
         this.parkingColorSensor = colorSensor;
     }
 
-
     public boolean parkingOn(ColorValue baseColor) {
 
         ColorValue detectingColor = ColorValue.ZILCH;
@@ -29,10 +28,6 @@ public class ParkingColorSensor {
         int Red = parkingColorSensor.red();
         int Blue = parkingColorSensor.blue();
         int Green = parkingColorSensor.green();
-
-        //Boolean Values
-        boolean redBoolean = colorSensorComponent.isRed(Red, Blue, Green);
-        boolean blueBoolean = colorSensorComponent.isBlue(Red, Blue, Green);
 
         //Determine which is color to call
         if (parkingColorSensor.red() > parkingColorSensor.blue() && parkingColorSensor.red() > parkingColorSensor.green()) {
