@@ -17,6 +17,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         READ_JEWEL_COLOR,
         KNOCK_OFF_JEWEL,
         ELMO_UP,
+        PARKING,
         DONE
     }
 
@@ -120,10 +121,25 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 targetReached = elmoOperation.elmoUp();
 
                 if (targetReached) {
+                    currentState = State.PARKING;
+                    targetReached = false;
+                    sleep(1000);
+                }
+                break;
+
+            case PARKING: //Bring elmo up
+                logStage();
+
+                targetReached = true;
+                if (targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
                     sleep(1000);
                 }
+                break;
+            case DONE:
+                setOperationsCompleted();
+                break;
         }
 
     }
