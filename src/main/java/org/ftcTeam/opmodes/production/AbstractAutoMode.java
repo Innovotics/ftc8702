@@ -1,14 +1,12 @@
 package org.ftcTeam.opmodes.production;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
-import org.ftcTeam.configurations.Team8702Prod;
 import org.ftcTeam.configurations.Team8702ProdAuto;
 import org.ftcTeam.utils.EncoderBasedOmniWheelController;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.utils.MotorDirection;
 import org.ftcTeam.utils.ColorValue;
 
 abstract class AbstractAutoMode extends ActiveOpMode {
@@ -20,6 +18,45 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         KNOCK_OFF_JEWEL,
         ELMO_UP,
         DONE
+    }
+
+    private enum ElmoState {
+        START_POSITION (0.0)
+        , SPIN_FIRST(0.5)
+        , REACH_MOVING_FORWARD(1.0)
+        , SPIN_TO_HIT_BALL(0.7)
+        , SPIN_RECOIL(0.5)
+        , REACH_MOVING_BACKWARD(0.0)
+        , SPIN_RESET(0.0)
+        , END_POSITION(0.0);
+
+        private final double position;
+
+        private ElmoState(double position) {
+            this.position = position;
+        }
+        public double position(){
+            return this.position;
+        }
+    };
+
+    private static ElmoState currentElmoState = ElmoState.START_POSITION;
+    private static final double REACH_DELTA = 0.005, SPIN_DELTA = 0.005, HIT_BALL_DELTA = 0.01;
+
+
+    private enum SPIN_DIRECTION {
+        POSITIVE(1.0)
+        , NEGATIVE(-1.0);
+
+        private final double direction;
+
+        private SPIN_DIRECTION(double direction){
+            this.direction = direction;
+        }
+
+        public double getDirection() {
+            return direction;
+        }
     }
     //Setting Target Reached value.
     //If it is set to true then State moves to next step
@@ -39,6 +76,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private MotorToEncoder motorToEncoderBR;
     private MotorToEncoder motorToEncoderBL;
 
+
     ColorValue jewelColorValue = ColorValue.ZILCH;
     ColorValue panelColor = ColorValue.ZILCH;
     public ColorSensorComponent colorSensorComponent;
@@ -55,6 +93,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         motorToEncoderFR = new MotorToEncoder(this, robot.motorFR);
         motorToEncoderBR = new MotorToEncoder(this, robot.motorBR);
         motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
+
+
+        robot.elmoReach.setPosition(0.0);
+        robot.elmoSpin.setPosition(0.0);
+        currentElmoState = ElmoState.START_POSITION;
 
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
@@ -85,7 +128,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
             case ELMO_DOWN: //Bring elmo down
                 logStage();
-                startTheRobot();
+                targetReached = elmoDown();
 
                 if(targetReached) {
                     currentState = State.READ_JEWEL_COLOR;
@@ -113,8 +156,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
             case KNOCK_OFF_JEWEL: //Move robot to appropriate direction for color
                 logStage();
-                //move one wheel forward
-                targetReached = motorToEncoderFL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+
+                targetReached = knockOffJewel();
+
+//                //move one wheel forward
+//                targetReached = motorToEncoderFL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
 
                 if (targetReached) {
                     currentState = State.ELMO_UP;
@@ -126,7 +172,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
             case ELMO_UP: //Bring elmo up
                 logStage();
-                startTheRobot();
+                targetReached = elmoUp();
 
                 if (targetReached) {
                     currentState = State.DONE;
@@ -150,6 +196,116 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         targetReached = true;
     }
 
+    private boolean elmoDown() throws InterruptedException {
+
+        // elmoDown called in incorrect elmo state
+        // Just return true so that operation is not stuck.
+        if (currentElmoState != ElmoState.START_POSITION){
+            return true;
+        }
+
+        boolean done = false;
+
+        do {
+            getTelemetryUtil().addData("elmoDown() Beginning of do-while loop: ", currentState.name());
+            getTelemetryUtil().sendTelemetry();
+            switch (currentElmoState) {
+                case START_POSITION:
+                    currentElmoState = ElmoState.SPIN_FIRST;
+                    break;
+                case SPIN_FIRST:
+                    rotateServo(robot.elmoSpin, ElmoState.SPIN_FIRST.position(), SPIN_DELTA);
+                    Thread.sleep(500);
+                    currentElmoState = ElmoState.REACH_MOVING_FORWARD;
+                    break;
+
+                case REACH_MOVING_FORWARD:
+                    rotateServo(robot.elmoReach, ElmoState.REACH_MOVING_FORWARD.position(), REACH_DELTA);
+                    Thread.sleep(500);
+                    currentElmoState = ElmoState.SPIN_TO_HIT_BALL;
+                    done = true;
+                    break;
+            }
+        }while(done == false);
+
+        return done;
+    }
+
+    private boolean elmoUp() throws InterruptedException {
+
+        // elmoUp called in incorrect elmo state
+        // Just return true so that operation is not stuck.
+        if (currentElmoState != ElmoState.REACH_MOVING_BACKWARD){
+            return true;
+        }
+
+        boolean done = false;
+
+        do {
+            getTelemetryUtil().addData("elmoUp() Beginning of do-while loop: ", currentState.name());
+            getTelemetryUtil().sendTelemetry();
+            switch (currentElmoState) {
+
+                case REACH_MOVING_BACKWARD:
+                    rotateServo(robot.elmoReach, ElmoState.REACH_MOVING_BACKWARD.position(), REACH_DELTA);
+                    Thread.sleep(500);
+                    currentElmoState = ElmoState.SPIN_RESET;
+                    break;
+                case SPIN_RESET:
+                    rotateServo(robot.elmoSpin, ElmoState.SPIN_RESET.position(), SPIN_DELTA);
+                    currentElmoState = ElmoState.END_POSITION;
+                    done = true;
+                    break;
+            }
+        } while(done == false);
+
+        return done;
+    }
+
+    private boolean knockOffJewel() throws InterruptedException {
+
+        // knockOffJewel called in incorrect elmo state.
+        // Just return true so that operation is not stuck.
+        if (currentElmoState != ElmoState.SPIN_TO_HIT_BALL){
+            return true;
+        }
+
+        boolean done = false;
+
+        do {
+            getTelemetryUtil().addData("knockOffJewel() Beginning of do-while loop: ", currentState.name());
+            getTelemetryUtil().sendTelemetry();
+
+            double position = ElmoState.SPIN_TO_HIT_BALL.position();
+
+            SPIN_DIRECTION spinDirection = getSpinDirection();
+
+            // For example, if currentPosition = 0.5 and final spin position is 0.7
+            // and spin direction is negative, then final spin position should be 0.3
+            if (spinDirection == SPIN_DIRECTION.NEGATIVE) {
+                position = robot.elmoReach.getPosition() - (ElmoState.SPIN_TO_HIT_BALL.position() - robot.elmoReach.getPosition());
+            }
+
+            switch (currentElmoState) {
+
+                case SPIN_TO_HIT_BALL:
+                    rotateServo(robot.elmoSpin, position, HIT_BALL_DELTA);
+                    Thread.sleep(500);
+                    currentElmoState = ElmoState.SPIN_RECOIL;
+                    break;
+
+                case SPIN_RECOIL:
+                    rotateServo(robot.elmoSpin, ElmoState.SPIN_RECOIL.position(), SPIN_DELTA);
+                    Thread.sleep(500);
+                    currentElmoState = ElmoState.REACH_MOVING_BACKWARD;
+                    done = true;
+                    break;
+            }
+        } while(done == false);
+
+        return done;
+    }
+
     public ColorValue getColor() {
         ColorValue resultColor = ColorValue.ZILCH;
 
@@ -170,4 +326,62 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         getTelemetryUtil().sendTelemetry();
     }
 
+        /**
+         * Move a {@link Servo} a given {@code #finalPosition} at the speed decided by {@code #delta}
+         *
+         * The {@code servoDelta} shall be adjusted based on the required speed at which the arm needs to move.
+         * @param servo
+         * @param finalPosition
+         * @param delta
+         */
+        private double rotateServo(Servo servo, double finalPosition, double delta) throws InterruptedException{
+
+            double servoPosition = servo.getPosition(), startPosition = servo.getPosition(), prevPosition = servo.getPosition();
+
+            Servo.Direction direction = (finalPosition > servoPosition)? Servo.Direction.FORWARD: Servo.Direction.REVERSE;
+
+            String msg = String.format("[start:%.3f][final:%.3f]", servoPosition, finalPosition);
+
+            getTelemetryUtil().addData("rotateServo : ", msg);
+
+            getTelemetryUtil().sendTelemetry();
+
+            // while comparing floating point numbers, never use "equals" due to problems with precision
+            while (Math.abs(finalPosition - servoPosition) > 0.001 ) {
+
+                prevPosition = servoPosition;
+
+                if (direction == Servo.Direction.FORWARD) {
+
+                    servoPosition += delta;
+
+                } else {
+
+                    servoPosition -= delta;
+                }
+
+                servo.setPosition(servoPosition);
+
+                msg = String.format("[old:%.3f][new:%.3f]", prevPosition, servoPosition);
+
+                getTelemetryUtil().addData("rotateServo : ", msg);
+
+                getTelemetryUtil().sendTelemetry();
+
+                //Thread.sleep(2000);
+            }
+
+            return servoPosition;
+        }
+
+        private SPIN_DIRECTION getSpinDirection(){
+
+            SPIN_DIRECTION direction = SPIN_DIRECTION.POSITIVE;
+
+            if (this.getPanelColor() != this.jewelColorValue){
+                direction = SPIN_DIRECTION.NEGATIVE;
+            }
+
+            return direction;
+        }
 }
