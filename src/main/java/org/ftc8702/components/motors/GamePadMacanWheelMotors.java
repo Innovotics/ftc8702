@@ -13,7 +13,7 @@ import org.ftcbootstrap.components.OpModeComponent;
  * <p>
  * This class is modification of GamePadMotor
  */
-public class GamePadOmniWheelMotor extends OpModeComponent {
+public class GamePadMacanWheelMotors extends OpModeComponent {
 
     public enum Control {
         LEFT_STICK_X,
@@ -46,7 +46,7 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
      * @param motor   DcMotor to operate on
      * @param control {@link GamePadOmniWheelMotor.Control}
      */
-    public GamePadOmniWheelMotor(ActiveOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, boolean reverse) {
+    public GamePadMacanWheelMotors(ActiveOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, boolean reverse) {
         this(opMode, gamepad, motor, control, defaultButtonPower);
         isReverse = reverse;
     }
@@ -60,7 +60,7 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
      * @param control     {@link GamePadOmniWheelMotor.Control}
      * @param buttonPower power to apply when using gamepad buttons
      */
-    public GamePadOmniWheelMotor(ActiveOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, float buttonPower) {
+    public GamePadMacanWheelMotors(ActiveOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, float buttonPower) {
         super(opMode);
         this.gamepad = gamepad;
         this.motor = motor;
@@ -107,11 +107,11 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         boolean lb = gamepad.left_bumper;
         boolean rb = gamepad.right_bumper;
 
-        if (((control == GamePadOmniWheelMotor.Control.UP_DOWN_BUTTONS)) ||
-                ((control == GamePadOmniWheelMotor.Control.LEFT_RIGHT_BUTTONS))) {
+        if (((control == GamePadMacanWheelMotors.Control.UP_DOWN_BUTTONS)) ||
+                ((control == GamePadMacanWheelMotors.Control.LEFT_RIGHT_BUTTONS))) {
             powerToReturn = -buttonPower;
         }
-        if ((control == GamePadOmniWheelMotor.Control.LB_RB_BUTTONS) && lb) {
+        if ((control == GamePadMacanWheelMotors.Control.LB_RB_BUTTONS) && lb) {
             powerToReturn = -buttonPower;
         } else {
             switch (control) {

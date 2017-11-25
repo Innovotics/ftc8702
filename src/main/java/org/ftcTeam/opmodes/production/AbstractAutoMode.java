@@ -66,6 +66,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     //States
     private State currentState;
+    private int testStep;
 
     //Declare the MotorToEncoder
     private Team8702ProdAuto robot;
@@ -87,6 +88,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     protected void onInit() {
         //Set state to Init
         currentState = State.INIT;
+        testStep = 1;
 
         //Declare the Motors
         motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
@@ -131,22 +133,20 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 targetReached = elmoDown();
 
                 if(targetReached) {
-                    currentState = State.READ_JEWEL_COLOR;
-                    targetReached = false;
-                    sleep(1000);
+                    testStep = 2;
+                    break;
                 }
+            case 2: // Reset Encoders
+                //sleep for 2 seconds
+                sleep(2000);
 
-                break;
+                //Reset Encoder on all Wheels
+                targetReached = motorToEncoderFR.runToTarget(0, 0, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER) &&
+                        motorToEncoderFL.runToTarget(0, 0, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER) &&
+                        motorToEncoderBR.runToTarget(0, 0, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER) &&
+                        motorToEncoderBL.runToTarget( 0, 0, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            case READ_JEWEL_COLOR: //Read jewel color
-                jewelColorValue = getColor();
-
-                getTelemetryUtil().addData("Jewel Color:", jewelColorValue.toString());
-                getTelemetryUtil().sendTelemetry();
-                if (jewelColorValue == ColorValue.RED || jewelColorValue == ColorValue.BLUE) {
-                    targetReached = true;
-                }
-
+                //Test if targetReached is true
                 if(targetReached) {
                     currentState = State.KNOCK_OFF_JEWEL;
                     targetReached = false;
@@ -167,8 +167,15 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = false;
                     sleep(1000);
                 }
+            case 3:
+                //sleep for 2 seconds
+                sleep(2000);
 
-                break;
+                //Move all wheels to make robot move left
+                targetReached = motorToEncoderFR.runToTarget(0.5, 1140, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_TO_POSITION) &&
+                        motorToEncoderFL.runToTarget(0.5, 1140, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_TO_POSITION) &&
+                        motorToEncoderBL.runToTarget(0.5, 1140, MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_TO_POSITION) &&
+                        motorToEncoderBR.runToTarget(0.5, 1140, MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_TO_POSITION);
 
             case ELMO_UP: //Bring elmo up
                 logStage();
@@ -179,15 +186,80 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = false;
                     sleep(1000);
                 }
-
-                break;
-
-            case DONE: //Complete autonomous
-                logStage();
-                targetReached = true;
+            case 4:
                 setOperationsCompleted();
-                break;
+
         }
+
+//        switch (currentState) {
+//            case INIT: //Set everything
+//                logStage();
+//                startTheRobot();
+//                if (targetReached) {
+//                    currentState = State.ELMO_DOWN;
+//                    targetReached = false;
+//                }
+//                break;
+//
+//            case ELMO_DOWN: //Bring elmo down
+//                logStage();
+//                startTheRobot();
+//
+//                if(targetReached) {
+//                    currentState = State.READ_JEWEL_COLOR;
+//                    targetReached = false;
+//                    sleep(1000);
+//                }
+//
+//                break;
+//
+//            case READ_JEWEL_COLOR: //Read jewel color
+//                jewelColorValue = getColor();
+//
+//                getTelemetryUtil().addData("Jewel Color:", jewelColorValue.toString());
+//                getTelemetryUtil().sendTelemetry();
+//                if (jewelColorValue == ColorValue.RED || jewelColorValue == ColorValue.BLUE) {
+//                    targetReached = true;
+//                }
+//
+//                if(targetReached) {
+//                    currentState = State.KNOCK_OFF_JEWEL;
+//                    targetReached = false;
+//                    sleep(1000);
+//                }
+//
+//                break;
+//            case KNOCK_OFF_JEWEL: //Move robot to appropriate direction for color
+//                logStage();
+//                //move one wheel forward
+//                targetReached = motorToEncoderFL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//                if (targetReached) {
+//                    currentState = State.ELMO_UP;
+//                    targetReached = false;
+//                    sleep(1000);
+//                }
+//
+//                break;
+//
+//            case ELMO_UP: //Bring elmo up
+//                logStage();
+//                startTheRobot();
+//
+//                if (targetReached) {
+//                    currentState = State.DONE;
+//                    targetReached = false;
+//                    sleep(1000);
+//                }
+//
+//                break;
+//
+//            case DONE: //Complete autonomous
+//                logStage();
+//                targetReached = true;
+//                setOperationsCompleted();
+//                break;
+//        }
 
     }
 
