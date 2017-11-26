@@ -2,10 +2,8 @@ package org.ftcTeam.opmodes.production;
 
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
-import org.ftcTeam.utils.EncoderBasedOmniWheelController;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcTeam.utils.ColorValue;
 
 abstract class AbstractAutoMode extends ActiveOpMode {
@@ -33,10 +31,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private Team8702ProdAuto robot;
     //Wheel Controller
     EncoderBasedOmniWheelController wheelController;
-    private MotorToEncoder motorToEncoderFR;
-    private MotorToEncoder motorToEncoderFL;
-    private MotorToEncoder motorToEncoderBR;
-    private MotorToEncoder motorToEncoderBL;
+
 
 
     ColorValue jewelColorValue = ColorValue.ZILCH;
@@ -52,11 +47,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         //Set state to Init
         currentState = State.INIT;
 
-        //Declare the Motors
-        motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
-        motorToEncoderFR = new MotorToEncoder(this, robot.motorFR);
-        motorToEncoderBR = new MotorToEncoder(this, robot.motorBR);
-        motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
 
         this.elmoOperation = new ElmoOperation(this);
 

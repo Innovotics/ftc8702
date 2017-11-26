@@ -1,6 +1,9 @@
-package org.ftcTeam.utils;
+package org.ftcTeam.opmodes.production;
+
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftcTeam.configurations.production.Team8702Prod;
+import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 /**
@@ -15,13 +18,15 @@ public class EncoderBasedOmniWheelController {
     private MotorToEncoder motorToEncoderBR;
     private MotorToEncoder motorToEncoderBL;
 
-    //configuration
-    private Team8702Prod robot;
+    public void init(ActiveOpMode opMode, DcMotor motorFR, DcMotor motorFL, DcMotor motorBR, DcMotor motorBL )
+    {
 
-    public EncoderBasedOmniWheelController(Team8702Prod robot) {
-        this.robot = robot;
+        //Declare the Motors
+        motorToEncoderFL = new MotorToEncoder(opMode, motorFL);
+        motorToEncoderFR = new MotorToEncoder(opMode, motorFR);
+        motorToEncoderBR = new MotorToEncoder(opMode, motorBR);
+        motorToEncoderBL = new MotorToEncoder(opMode, motorBL);
     }
-
     public void forward( int encoderValue) {
 
 
