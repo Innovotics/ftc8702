@@ -16,8 +16,6 @@ public class Team8702Teleop extends ActiveOpMode {
     private GamePadOmniWheelDrive gamePadOmniWheelDrive;
     private GamePadDuelServo clapperGamePadServo;
     private GamePadMotor clapperGamePadMotor;
-    private DigitalChannel topTouchClapperSensor;
-    private DigitalChannel bottomTouchClapperSensor;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -63,7 +61,7 @@ public class Team8702Teleop extends ActiveOpMode {
     {
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
-            if (topTouchClapperSensor.getState() == true) {
+            if (robot.clapperTouchTop.getState() == true) {
                 telemetry.addData("Top Touch Clapper Sensor", "Is Pressed");
                 if (gamepad2.y) {
                     robot.clapperMotor.setPower(0);
@@ -73,7 +71,7 @@ public class Team8702Teleop extends ActiveOpMode {
                     robot.clapperMotor.setPower(0.5);
                 }
             }
-            else if (bottomTouchClapperSensor.getState() == true){
+            else if (robot.clapperTouchBottom.getState() == true){
                 telemetry.addData("Bottom Touch Clapper Sensor", "Is Pressed");
                 if (gamepad2.a) {
                     robot.clapperMotor.setPower(0);

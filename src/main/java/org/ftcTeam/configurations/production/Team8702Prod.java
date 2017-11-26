@@ -30,7 +30,8 @@ public class Team8702Prod extends RobotConfiguration {
     public Servo clapperLeft;
     public Servo clapperRight;
     public DcMotor clapperMotor;
-    public DigitalChannel digitalTouch;
+    public DigitalChannel clapperTouchTop;
+    public DigitalChannel clapperTouchBottom;
 
     /**
      * Factory method for this class
@@ -74,7 +75,8 @@ public class Team8702Prod extends RobotConfiguration {
             clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
             clapperLeft.setPosition(0.3);
             clapperRight.setPosition(0.3);
-            digitalTouch = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_MOTOR_GUARD);
+            clapperTouchTop = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_TOUCH_BOTTOM);
+            clapperTouchBottom = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_TOUCH_UP);
             //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         }
         getTelemetryUtil().sendTelemetry();
