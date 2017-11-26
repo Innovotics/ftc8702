@@ -67,7 +67,7 @@ public class Team8702Teleop extends ActiveOpMode {
         if (Team8702RobotConfig.CLAPPER_ON) {
             clapperGamePadServo.update();
             clapperGamePadMotor.update();
-            // checkClapperTouchSensor();
+            checkClapperTouchSensor();
         }
         //getTelemetryUtil().sendTelemetry();
     }
@@ -81,20 +81,20 @@ public class Team8702Teleop extends ActiveOpMode {
                 if (gamepad2.y) {
                     robot.clapperMotor.setPower(0);
                 }
-                else
-                {
-                    robot.clapperMotor.setPower(0.5);
-                }
+                //else
+                //{
+                  //  robot.clapperMotor.setPower(0.5);
+               // }
             }
             else if (robot.clapperTouchBottom.getState() == true){
                 telemetry.addData("Bottom Touch Clapper Sensor", "Is Pressed");
                 if (gamepad2.a) {
                     robot.clapperMotor.setPower(0);
                 }
-                else
-                {
-                    robot.clapperMotor.setPower(0.5);
-                }
+                //else
+                //{
+                  //  robot.clapperMotor.setPower(0.5);
+                //}
             }
             telemetry.update();
     }
