@@ -1,5 +1,6 @@
 package org.ftcTeam.configurations.production;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -33,6 +34,9 @@ public class Team8702Prod extends RobotConfiguration {
     public DigitalChannel clapperTouchTop;
     public DigitalChannel clapperTouchBottom;
 
+    //Servo
+    public Servo elmoSpin;
+    public Servo elmoReach;
     /**
      * Factory method for this class
      *
@@ -78,6 +82,12 @@ public class Team8702Prod extends RobotConfiguration {
             clapperTouchTop = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_TOUCH_BOTTOM);
             clapperTouchBottom = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_TOUCH_UP);
             //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        }
+
+        if (Team8702RobotConfig.ELMO_ON) {
+            // Elmo Servos
+            elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
+            elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
         }
         getTelemetryUtil().sendTelemetry();
     }
