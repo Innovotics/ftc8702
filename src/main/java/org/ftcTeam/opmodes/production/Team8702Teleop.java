@@ -5,9 +5,11 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcTeam.configurations.production.Team8702Prod;
+import org.ftcTeam.configurations.production.Team8702RobotConfig;
 import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadMotor;
+import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
 @TeleOp(name = "Team8702Teleop", group = "production")
 public class Team8702Teleop extends ActiveOpMode {
@@ -16,6 +18,9 @@ public class Team8702Teleop extends ActiveOpMode {
     private GamePadOmniWheelDrive gamePadOmniWheelDrive;
     private GamePadDuelServo clapperGamePadServo;
     private GamePadMotor clapperGamePadMotor;
+
+    private GamePadServo elmoSpinReset;
+    private GamePadServo elmoReachReset;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -38,8 +43,14 @@ public class Team8702Teleop extends ActiveOpMode {
 
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
         //gamePadOmniWheelDrive.startRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B, 0.35);
-        clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
+        if (Team8702RobotConfig.CLAPPER_ON) {
+            clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B, 0.35);
+            clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
+        }
+        if (Team8702RobotConfig.ELMO_ON) {
+            elmoSpinReset = new GamePadServo(this,gamepad1,robot.elmoSpin, GamePadServo.Control.X_B,robot.elmoSpin.getPosition(),false);
+            elmoReachReset = new GamePadServo(this,gamepad1,robot.elmoReach,GamePadServo.Control.Y_A,robot.elmoReach.getPosition(),false);
+        }
     }
 
     /**
@@ -50,11 +61,15 @@ public class Team8702Teleop extends ActiveOpMode {
      */
     @Override
     protected void activeLoop() throws InterruptedException {
-        gamePadOmniWheelDrive.update();
-        clapperGamePadServo.update();
-        clapperGamePadMotor.update();
+        if (Team8702RobotConfig.MOTOR_ON) {
+            gamePadOmniWheelDrive.update();
+        }
+        if (Team8702RobotConfig.CLAPPER_ON) {
+            clapperGamePadServo.update();
+            clapperGamePadMotor.update();
+            // checkClapperTouchSensor();
+        }
         //getTelemetryUtil().sendTelemetry();
-        checkClapperTouchSensor();
     }
 
     private void checkClapperTouchSensor()
