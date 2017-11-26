@@ -1,7 +1,7 @@
-package org.ftcTeam.configurations;
+package org.ftcTeam.configurations.test;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
@@ -16,11 +16,9 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702Elmo extends RobotConfiguration {
+public class Team8702ParkingSensor extends RobotConfiguration {
 
-    //Servo
-    public Servo elmoSpin;
-    public Servo elmoReach;
+    public ColorSensor parkingColorSensor;
 
     /**
      * Factory method for this class
@@ -29,9 +27,9 @@ public class Team8702Elmo extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static Team8702Elmo newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static Team8702ParkingSensor newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        Team8702Elmo config = new Team8702Elmo();
+        Team8702ParkingSensor config = new Team8702ParkingSensor();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
@@ -48,9 +46,11 @@ public class Team8702Elmo extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-        //Servos
-        elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
-        elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
+         parkingColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_PARKING, hardwareMap.colorSensor);
+        getTelemetryUtil().addData("Color component: ", parkingColorSensor.toString());
+
+
+        getTelemetryUtil().sendTelemetry();
 
     }
 

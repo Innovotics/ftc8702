@@ -3,7 +3,7 @@ package org.ftcTeam.opmodes.prototype;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.ftcTeam.configurations.Team8702Prod;
+import org.ftcTeam.configurations.production.Team8702Prod;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcTeam.utils.ColorValue;

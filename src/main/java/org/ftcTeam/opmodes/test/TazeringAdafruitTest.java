@@ -1,9 +1,8 @@
 package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.LED;
 
-import org.ftcTeam.configurations.Team8702AdafruitSensor;
+import org.ftcTeam.configurations.test.Team8702AdafruitSensor;
 import org.ftcTeam.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;

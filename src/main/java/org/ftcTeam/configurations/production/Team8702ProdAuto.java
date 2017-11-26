@@ -1,4 +1,4 @@
-package org.ftcTeam.configurations;
+package org.ftcTeam.configurations.production;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -30,7 +30,6 @@ public class Team8702ProdAuto extends RobotConfiguration {
     //Servo
     public Servo elmoSpin;
     public Servo elmoReach;
-
     //Color Sensor
     public ColorSensor elmoColorSensor;
 
@@ -56,23 +55,25 @@ public class Team8702ProdAuto extends RobotConfiguration {
      */
     @Override
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
-
         setTelemetry(telemetryUtil);
 
-        // Front Motors
-        motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-        motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
+        if (Team8702RobotConfig.MOTOR_ON) {
+            // Front Motors
+            motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
+            motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
+            // Back Motors
+            motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
+            motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
+        }
 
-        // Back Motors
-        motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
-        motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
-
-        // Elmo Servos
-        elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
-        elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
-        //Color Sensor
-        elmoColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
-        getTelemetryUtil().addData("Color component: ", elmoColorSensor.toString());
+        if (Team8702RobotConfig.ELMO_ON) {
+            // Elmo Servos
+            elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
+            elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
+            //Color Sensor
+            elmoColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
+            getTelemetryUtil().addData("Color component: ", elmoColorSensor.toString());
+        }
         getTelemetryUtil().sendTelemetry();
     }
 

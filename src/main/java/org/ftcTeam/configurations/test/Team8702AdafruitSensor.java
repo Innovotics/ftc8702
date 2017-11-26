@@ -1,4 +1,4 @@
-package org.ftcTeam.configurations;
+package org.ftcTeam.configurations.test;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;

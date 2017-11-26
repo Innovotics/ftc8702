@@ -1,7 +1,8 @@
-package org.ftcTeam.configurations;
+package org.ftcTeam.configurations.test;
 
-import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
@@ -16,9 +17,12 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702ParkingSensor extends RobotConfiguration {
+public class Team8702Clapper extends RobotConfiguration {
 
-    public ColorSensor parkingColorSensor;
+    //Servo
+    public Servo clapperLeft;
+    public Servo clapperRight;
+    public DcMotor clapperMotor;
 
     /**
      * Factory method for this class
@@ -27,16 +31,15 @@ public class Team8702ParkingSensor extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static Team8702ParkingSensor newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static Team8702Clapper newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        Team8702ParkingSensor config = new Team8702ParkingSensor();
+        Team8702Clapper config = new Team8702Clapper();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
 
     /**
      * Assign your class instance variables to the saved device names in the hardware map
-     *
      *
      * @param hardwareMap
      * @param telemetryUtil
@@ -45,14 +48,12 @@ public class Team8702ParkingSensor extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
         setTelemetry(telemetryUtil);
-
-         parkingColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_PARKING, hardwareMap.colorSensor);
-        getTelemetryUtil().addData("Color component: ", parkingColorSensor.toString());
-
-
-        getTelemetryUtil().sendTelemetry();
-
+        clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
+        //Servos
+        clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
+        clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
+        clapperLeft.setPosition(0.5);
+        clapperRight.setPosition(0.5);
     }
-
 
 }

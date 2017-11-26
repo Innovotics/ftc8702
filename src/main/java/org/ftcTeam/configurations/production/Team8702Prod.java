@@ -1,4 +1,4 @@
-package org.ftcTeam.configurations;
+package org.ftcTeam.configurations.production;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -57,26 +57,26 @@ public class Team8702Prod extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-        // Front Motors
-        motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-        motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
+        if (Team8702RobotConfig.MOTOR_ON) {
+            // Front Motors
+            motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
+            motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
 
-        // Back Motors
-        motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
-        motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
+            // Back Motors
+            motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
+            motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
+        }
 
-        //Clapper Parts
-        clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
-        clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-        clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
-        clapperLeft.setPosition(0.3);
-        clapperRight.setPosition(0.3);
-        digitalTouch = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_MOTOR_GUARD);
-        //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        if (Team8702RobotConfig.CLAPPER_ON) {
+            //Clapper Parts
+            clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
+            clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
+            clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
+            clapperLeft.setPosition(0.3);
+            clapperRight.setPosition(0.3);
+            digitalTouch = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_MOTOR_GUARD);
+            //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        }
         getTelemetryUtil().sendTelemetry();
-
-
     }
-
-
 }

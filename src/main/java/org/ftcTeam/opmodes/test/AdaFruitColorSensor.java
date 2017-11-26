@@ -3,12 +3,10 @@ package org.ftcTeam.opmodes.test;
 /**
  * Created by tylerkim on 11/5/17.
  */
-import android.graphics.Color;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.ftcTeam.configurations.Team8702Prod;
-import org.ftcTeam.configurations.Team8702ProdAuto;
+import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcbootstrap.components.ColorSensorComponent;
 import org.ftcTeam.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;

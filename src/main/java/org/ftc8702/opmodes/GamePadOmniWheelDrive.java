@@ -32,6 +32,8 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
     private GamePadOmniWheelMotor spinr_leftMotorStickBack;
     private GamePadOmniWheelMotor spinr_rightMotorStickBack;
 
+    Gamepad gamePad;
+
     /**
      * Constructor for operation
      * Telemetry enabled by default.
@@ -42,6 +44,8 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
     public GamePadOmniWheelDrive(ActiveOpMode opMode, Gamepad gamepad, DcMotor leftMotor, DcMotor rightMotor, DcMotor backRightMotor, DcMotor backLeftMotor) {
 
         super(opMode);
+        this.gamePad = gamepad;
+
         yleftMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, leftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_Y, false);
         yrightMotorStick = new GamePadOmniWheelMotor(opMode,gamepad, rightMotor,  GamePadOmniWheelMotor.Control.LEFT_STICK_Y, true);
         yrightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_Y, true);
@@ -67,25 +71,31 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
      * Update motors with current gamepad state
      */
     public void update() {
-        yleftMotorStick.update();
-        yrightMotorStick.update();
-        yleftMotorStickBack.update();
-        yrightMotorStickBack.update();
 
-        xleftMotorStick.update();
-        xrightMotorStick.update();
-        xleftMotorStickBack.update();
-        xrightMotorStickBack.update();
+        if (gamePad.left_bumper) {
+            spin_rightMotorStickBack.update();
+            spin_rightMotorStick.update();
+            spin_leftMotorStickBack.update();
+            spin_leftMotorStick.update();
+        }
+        else if (gamePad.right_bumper) {
 
-        spin_rightMotorStickBack.update();
-        spin_rightMotorStick.update();
-        spin_leftMotorStickBack.update();
-        spin_leftMotorStick.update();
+            spinr_rightMotorStickBack.update();
+            spinr_rightMotorStick.update();
+            spinr_leftMotorStickBack.update();
+            spinr_leftMotorStick.update();
+        }
+        else {
+            yleftMotorStick.update();
+            yrightMotorStick.update();
+            yleftMotorStickBack.update();
+            yrightMotorStickBack.update();
 
-        spinr_rightMotorStickBack.update();
-        spinr_rightMotorStick.update();
-        spinr_leftMotorStickBack.update();
-        spinr_leftMotorStick.update();
+            xleftMotorStick.update();
+            xrightMotorStick.update();
+            xleftMotorStickBack.update();
+            xrightMotorStickBack.update();
+        }
     }
 
 

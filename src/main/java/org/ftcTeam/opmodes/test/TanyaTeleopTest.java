@@ -2,7 +2,7 @@ package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftcTeam.configurations.Team8702Clapper;
+import org.ftcTeam.configurations.test.Team8702Clapper;
 import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadMotor;

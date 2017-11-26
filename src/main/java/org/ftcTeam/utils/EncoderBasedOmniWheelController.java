@@ -1,6 +1,6 @@
 package org.ftcTeam.utils;
 
-import org.ftcTeam.configurations.Team8702Prod;
+import org.ftcTeam.configurations.production.Team8702Prod;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 /**

@@ -1,9 +1,8 @@
 package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.robot.Robot;
 
-import org.ftcTeam.configurations.Team8702ProdAuto;
+import org.ftcTeam.configurations.production.Team8702ProdAuto;
 
 /**
  * Created by Madhav on 11/24/17.

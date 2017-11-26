@@ -13,7 +13,6 @@ public class ParkingColorSensor {
 
     //Declare Color Sensor
     private ColorSensor parkingColorSensor;
-    private ColorSensorComponent colorSensorComponent;
 
     //Set color Vluae
     public ParkingColorSensor(ColorSensor colorSensor) {

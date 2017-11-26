@@ -1,8 +1,7 @@
 package org.ftcTeam.opmodes.production;
 
-import com.qualcomm.robotcore.hardware.Servo;
-
-import org.ftcTeam.configurations.Team8702ProdAuto;
+import org.ftcTeam.configurations.production.Team8702ProdAuto;
+import org.ftcTeam.configurations.production.Team8702RobotConfig;
 import org.ftcTeam.utils.EncoderBasedOmniWheelController;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
@@ -29,7 +28,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     //States
     private State currentState;
-    private int testStep;
 
     //Declare the MotorToEncoder
     private Team8702ProdAuto robot;
@@ -53,14 +51,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     protected void onInit() {
         //Set state to Init
         currentState = State.INIT;
-        testStep = 1;
 
         //Declare the Motors
         motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
         motorToEncoderFR = new MotorToEncoder(this, robot.motorFR);
         motorToEncoderBR = new MotorToEncoder(this, robot.motorBR);
         motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
-
 
         this.elmoOperation = new ElmoOperation(this);
 
@@ -127,10 +123,15 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 }
                 break;
 
-            case PARKING: //Bring elmo up
+            case PARKING:
                 logStage();
-
-                targetReached = true;
+                if(!Team8702RobotConfig.AUTO_PARKING_ON) {
+                    // Skip this
+                    targetReached = true;
+                } else {
+                    // Put logic here
+                    targetReached = false;
+                }
                 if (targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
@@ -157,7 +158,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         return currentState;
     }
 
-    public ColorValue getColor() {
+    public ColorValue getElmoColor() {
         ColorValue resultColor = ColorValue.ZILCH;
 
         //Determine which is color to call

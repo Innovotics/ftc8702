@@ -1,6 +1,5 @@
-package org.ftcTeam.configurations;
+package org.ftcTeam.configurations.test;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -17,12 +16,11 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702Clapper extends RobotConfiguration {
+public class Team8702Elmo extends RobotConfiguration {
 
     //Servo
-    public Servo clapperLeft;
-    public Servo clapperRight;
-    public DcMotor clapperMotor;
+    public Servo elmoSpin;
+    public Servo elmoReach;
 
     /**
      * Factory method for this class
@@ -31,15 +29,16 @@ public class Team8702Clapper extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static Team8702Clapper newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static Team8702Elmo newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        Team8702Clapper config = new Team8702Clapper();
+        Team8702Elmo config = new Team8702Elmo();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
 
     /**
      * Assign your class instance variables to the saved device names in the hardware map
+     *
      *
      * @param hardwareMap
      * @param telemetryUtil
@@ -48,12 +47,12 @@ public class Team8702Clapper extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
         setTelemetry(telemetryUtil);
-        clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
+
         //Servos
-        clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-        clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
-        clapperLeft.setPosition(0.5);
-        clapperRight.setPosition(0.5);
+        elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
+        elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
+
     }
+
 
 }

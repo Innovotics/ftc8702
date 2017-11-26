@@ -1,9 +1,8 @@
 package org.ftcTeam.opmodes.test;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftcTeam.configurations.Team8702Prod;
+import org.ftcTeam.configurations.production.Team8702Prod;
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
