@@ -13,10 +13,10 @@ public class ElmoOperation {
     private enum ElmoState {
         START_POSITION(0.0),
         SPIN_FIRST(0.5),
-        REACH_MOVING_FORWARD(1.0),
-        SPIN_TO_HIT_BALL(0.7),
+        REACH_MOVING_FORWARD(0.3),
+        SPIN_TO_HIT_BALL(0.6),
         SPIN_RECOIL(0.5),
-        REACH_MOVING_BACKWARD(0.0),
+        REACH_MOVING_BACKWARD(0.95),
         SPIN_RESET(0.0),
         END_POSITION(0.0);
 
@@ -31,8 +31,8 @@ public class ElmoOperation {
         }
     }
 
-    private static ElmoState currentElmoState = ElmoState.START_POSITION;
-    private static final double REACH_DELTA = 0.005, SPIN_DELTA = 0.005, HIT_BALL_DELTA = 0.01;
+    private static ElmoState elmoState = ElmoState.START_POSITION;
+    private static final double REACH_DELTA = 0.005, SPIN_DELTA = 0.005, HIT_BALL_DELTA = 0.02;
 
 
     private enum SPIN_DIRECTION {
@@ -60,18 +60,25 @@ public class ElmoOperation {
         this.abstractAutoMode = abstractAutoMode;
         this.robot = this.abstractAutoMode.getRobot();
 
-        robot.elmoReach.setPosition(0.0);
-        robot.elmoSpin.setPosition(0.0);
+        resetServoPositions();
 
-        currentElmoState = ElmoState.START_POSITION;
+        elmoState = ElmoState.START_POSITION;
 
+    }
+
+    private void resetServoPositions() {
+        try {
+            robot.elmoReach.setPosition(0.95);
+            Thread.sleep(500);
+            robot.elmoSpin.setPosition(0.0);
+        } catch(InterruptedException ignored) {}
     }
 
     public boolean elmoDown() throws InterruptedException {
 
         // elmoDown called in incorrect elmo state
         // Just return true so that operation is not stuck.
-        if (currentElmoState != ElmoState.START_POSITION) {
+        if (elmoState != ElmoState.START_POSITION) {
             return true;
         }
 
@@ -80,20 +87,20 @@ public class ElmoOperation {
         do {
             this.abstractAutoMode.getTelemetryUtil().addData("elmoDown() Beginning of do-while loop: ", this.abstractAutoMode.getCurrentState().name());
             this.abstractAutoMode.getTelemetryUtil().sendTelemetry();
-            switch (currentElmoState) {
+            switch (elmoState) {
                 case START_POSITION:
-                    currentElmoState = ElmoState.SPIN_FIRST;
+                    elmoState = ElmoState.SPIN_FIRST;
                     break;
                 case SPIN_FIRST:
                     rotateServo(robot.elmoSpin, ElmoState.SPIN_FIRST.position(), SPIN_DELTA);
                     Thread.sleep(500);
-                    currentElmoState = ElmoState.REACH_MOVING_FORWARD;
+                    elmoState = ElmoState.REACH_MOVING_FORWARD;
                     break;
 
                 case REACH_MOVING_FORWARD:
                     rotateServo(robot.elmoReach, ElmoState.REACH_MOVING_FORWARD.position(), REACH_DELTA);
                     Thread.sleep(500);
-                    currentElmoState = ElmoState.SPIN_TO_HIT_BALL;
+                    elmoState = ElmoState.SPIN_TO_HIT_BALL;
                     done = true;
                     break;
             }
@@ -106,7 +113,7 @@ public class ElmoOperation {
 
         // elmoUp called in incorrect elmo state
         // Just return true so that operation is not stuck.
-        if (currentElmoState != ElmoState.REACH_MOVING_BACKWARD) {
+        if (elmoState != ElmoState.REACH_MOVING_BACKWARD) {
             return true;
         }
 
@@ -115,16 +122,17 @@ public class ElmoOperation {
         do {
             this.abstractAutoMode.getTelemetryUtil().addData("elmoUp() Beginning of do-while loop: ", this.abstractAutoMode.getCurrentState().name());
             this.abstractAutoMode.getTelemetryUtil().sendTelemetry();
-            switch (currentElmoState) {
+            switch (elmoState) {
 
                 case REACH_MOVING_BACKWARD:
                     rotateServo(robot.elmoReach, ElmoState.REACH_MOVING_BACKWARD.position(), REACH_DELTA);
                     Thread.sleep(500);
-                    currentElmoState = ElmoState.SPIN_RESET;
+                    elmoState = ElmoState.SPIN_RESET;
                     break;
                 case SPIN_RESET:
                     rotateServo(robot.elmoSpin, ElmoState.SPIN_RESET.position(), SPIN_DELTA);
-                    currentElmoState = ElmoState.END_POSITION;
+                    Thread.sleep(500);
+                    elmoState = ElmoState.END_POSITION;
                     done = true;
                     break;
             }
@@ -137,38 +145,46 @@ public class ElmoOperation {
 
         // knockOffJewel called in incorrect elmo state.
         // Just return true so that operation is not stuck.
-        if (currentElmoState != ElmoState.SPIN_TO_HIT_BALL) {
+        if (elmoState != ElmoState.SPIN_TO_HIT_BALL) {
             return true;
         }
 
+        final double beginHitPosition = this.robot.elmoSpin.getPosition();
         boolean done = false;
 
         do {
             this.abstractAutoMode.getTelemetryUtil().addData("knockOffJewel() Beginning of do-while loop: ", this.abstractAutoMode.getCurrentState().name());
             this.abstractAutoMode.getTelemetryUtil().sendTelemetry();
 
-            double position = ElmoState.SPIN_TO_HIT_BALL.position();
-
-            SPIN_DIRECTION spinDirection = getSpinDirection();
-
-            // For example, if currentPosition = 0.5 and final spin position is 0.7
-            // and spin direction is negative, then final spin position should be 0.3
-            if (spinDirection == SPIN_DIRECTION.NEGATIVE) {
-                position = robot.elmoReach.getPosition() - (ElmoState.SPIN_TO_HIT_BALL.position() - robot.elmoReach.getPosition());
-            }
-
-            switch (currentElmoState) {
+            switch (elmoState) {
 
                 case SPIN_TO_HIT_BALL:
-                    rotateServo(robot.elmoSpin, position, HIT_BALL_DELTA);
+
+                    double endHitposition = ElmoState.SPIN_TO_HIT_BALL.position();
+                    SPIN_DIRECTION spinDirection = getSpinDirection();
+
+                    // For example, if currentPosition = 0.5 and final spin position is 0.7
+                    // and spin direction is negative, then final spin position should be 0.3
+                    if (spinDirection == SPIN_DIRECTION.NEGATIVE) {
+                        endHitposition = beginHitPosition - (ElmoState.SPIN_TO_HIT_BALL.position() - beginHitPosition);
+                    }
+
+                    this.abstractAutoMode.getTelemetryUtil().addData("knockOffJewel() Moving Spin position to: ", new String("" + endHitposition));
+                    this.abstractAutoMode.getTelemetryUtil().sendTelemetry();
+
+                    rotateServo(robot.elmoSpin, endHitposition, HIT_BALL_DELTA);
+                    printPositions();
                     Thread.sleep(500);
-                    currentElmoState = ElmoState.SPIN_RECOIL;
+                    elmoState = ElmoState.SPIN_RECOIL;
                     break;
 
                 case SPIN_RECOIL:
-                    rotateServo(robot.elmoSpin, ElmoState.SPIN_RECOIL.position(), SPIN_DELTA);
+                    this.abstractAutoMode.getTelemetryUtil().addData("knockOffJewel() Moving Spin position to: ", new String(""+ beginHitPosition));
+                    this.abstractAutoMode.getTelemetryUtil().sendTelemetry();
+
+                    rotateServo(robot.elmoSpin, beginHitPosition, HIT_BALL_DELTA);
                     Thread.sleep(500);
-                    currentElmoState = ElmoState.REACH_MOVING_BACKWARD;
+                    elmoState = ElmoState.REACH_MOVING_BACKWARD;
                     done = true;
                     break;
             }
@@ -230,10 +246,29 @@ public class ElmoOperation {
 
         SPIN_DIRECTION direction = SPIN_DIRECTION.POSITIVE;
 
-        if (this.abstractAutoMode.getPanelColor() != this.abstractAutoMode.jewelColorValue) {
+        printColors();
+
+        if (this.abstractAutoMode.getPanelColor() != this.abstractAutoMode.getElmoColor()) {
             direction = SPIN_DIRECTION.NEGATIVE;
         }
 
+        this.abstractAutoMode.getTelemetryUtil().addData("knockOffJewel() Sping direction: ", direction.name());
+        this.abstractAutoMode.getTelemetryUtil().sendTelemetry();
+
         return direction;
     }
+
+    private void printPositions() {
+        this.abstractAutoMode.getTelemetryUtil().addData("Current State: ", this.abstractAutoMode.getCurrentState().name());
+        String msg = String.format("[Spin=%f][Reach=%f]", this.robot.elmoSpin.getPosition(), this.robot.elmoReach.getPosition());
+        this.abstractAutoMode.getTelemetryUtil().addData("Current Positions: ", msg);
+        this.abstractAutoMode.getTelemetryUtil().sendTelemetry();
+    }
+
+    private void printColors() {
+        this.abstractAutoMode.getTelemetryUtil().addData("Panel Color: ", this.abstractAutoMode.getPanelColor().name());
+        this.abstractAutoMode.getTelemetryUtil().addData("Sensor Color: ", this.abstractAutoMode.getElmoColor().name());
+        this.abstractAutoMode.getTelemetryUtil().sendTelemetry();
+    }
+
 }
