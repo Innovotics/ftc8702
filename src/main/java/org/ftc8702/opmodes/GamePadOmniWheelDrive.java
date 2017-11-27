@@ -56,15 +56,11 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
         xrightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_X, false);
         xleftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_X, false);
 
-        spin_leftMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, leftMotor, GamePadOmniWheelMotor.Control.LEFT_BUMPER, false);
-        spin_rightMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, rightMotor, GamePadOmniWheelMotor.Control.LEFT_BUMPER, false);
-        spin_leftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.LEFT_BUMPER,false);
-        spin_rightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.LEFT_BUMPER, false);
+        spin_leftMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, leftMotor, GamePadOmniWheelMotor.Control.RIGHT_STICK_X, true);
+        spin_rightMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, rightMotor, GamePadOmniWheelMotor.Control.RIGHT_STICK_X, true);
+        spin_leftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.RIGHT_STICK_X,true);
+        spin_rightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.RIGHT_STICK_X, true);
 
-        spinr_leftMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, leftMotor, GamePadOmniWheelMotor.Control.RIGHT_BUMPER, true);
-        spinr_rightMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, rightMotor, GamePadOmniWheelMotor.Control.RIGHT_BUMPER, true);
-        spinr_leftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.RIGHT_BUMPER, true);
-        spinr_rightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.RIGHT_BUMPER, true);
     }
 
     /**
@@ -78,13 +74,13 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
             spin_leftMotorStickBack.update();
             spin_leftMotorStick.update();
         }
-        else if (gamePad.right_bumper) {
-
-            spinr_rightMotorStickBack.update();
-            spinr_rightMotorStick.update();
-            spinr_leftMotorStickBack.update();
-            spinr_leftMotorStick.update();
-        }
+//        else if (gamePad.right_bumper) {
+//
+//            spinr_rightMotorStickBack.update();
+//            spinr_rightMotorStick.update();
+//            spinr_leftMotorStickBack.update();
+//            spinr_leftMotorStick.update();
+  //      }
         else {
             yleftMotorStick.update();
             yrightMotorStick.update();
@@ -115,10 +111,10 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
         spin_rightMotorStick.startRunMode( runMode);
         spin_rightMotorStickBack.startRunMode( runMode);
 
-        spinr_leftMotorStickBack.startRunMode( runMode);
-        spinr_leftMotorStick.startRunMode( runMode);
-        spinr_rightMotorStick.startRunMode( runMode);
-        spinr_rightMotorStickBack.startRunMode( runMode);
+//        spinr_leftMotorStickBack.startRunMode( runMode);
+//        spinr_leftMotorStick.startRunMode( runMode);
+//        spinr_rightMotorStick.startRunMode( runMode);
+//        spinr_rightMotorStickBack.startRunMode( runMode);
     }
 
 }

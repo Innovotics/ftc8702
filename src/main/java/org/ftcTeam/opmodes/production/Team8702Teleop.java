@@ -67,7 +67,7 @@ public class Team8702Teleop extends ActiveOpMode {
         if (Team8702RobotConfig.CLAPPER_ON) {
             clapperGamePadServo.update();
             clapperGamePadMotor.update();
-            checkClapperTouchSensor();
+           // checkClapperTouchSensor();
         }
         //getTelemetryUtil().sendTelemetry();
     }
