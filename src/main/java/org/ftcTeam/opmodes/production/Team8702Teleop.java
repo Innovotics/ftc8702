@@ -48,8 +48,8 @@ public class Team8702Teleop extends ActiveOpMode {
             clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
         }
         if (Team8702RobotConfig.ELMO_ON) {
-            elmoSpinReset = new GamePadServo(this,gamepad1,robot.elmoSpin, GamePadServo.Control.X_B,robot.elmoSpin.getPosition(),false);
-            elmoReachReset = new GamePadServo(this,gamepad1,robot.elmoReach,GamePadServo.Control.Y_A,robot.elmoReach.getPosition(),false);
+            //elmoSpinReset = new GamePadServo(this,gamepad1,robot.elmoSpin, GamePadServo.Control.X_B,robot.elmoSpin.getPosition(),false);
+           // elmoReachReset = new GamePadServo(this,gamepad1,robot.elmoReach,GamePadServo.Control.Y_A,robot.elmoReach.getPosition(),false);
         }
     }
 

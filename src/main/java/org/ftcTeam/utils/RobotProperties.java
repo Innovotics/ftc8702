@@ -32,6 +32,10 @@ public class RobotProperties {
     public static final String FLOOR_RIGHT = "floorRight";
     public static final String FLOOR_LEFT = "floorLeft";
 
+    //Vuforia
+    public static final String VUFORIA = "vuforia";
+    public static final String VUFORIA_DEFTYPE = "vuforiaDefType";
+
 
 
 
