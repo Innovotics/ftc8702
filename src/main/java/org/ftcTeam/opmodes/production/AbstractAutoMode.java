@@ -53,6 +53,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         this.elmoOperation = new ElmoOperation(this);
 
+
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
 

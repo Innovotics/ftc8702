@@ -18,6 +18,7 @@ public class Team8702Teleop extends ActiveOpMode {
     private GamePadOmniWheelDrive gamePadOmniWheelDrive;
     private GamePadDuelServo clapperGamePadServo;
     private GamePadMotor clapperGamePadMotor;
+    private GamePadServo clapperGamePadLock;
 
     private GamePadServo elmoSpinReset;
     private GamePadServo elmoReachReset;
@@ -30,6 +31,13 @@ public class Team8702Teleop extends ActiveOpMode {
 
         robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
+        robot.elmoReach.setPosition(0.95);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        robot.elmoSpin.setPosition(0.0);
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -46,9 +54,10 @@ public class Team8702Teleop extends ActiveOpMode {
         if (Team8702RobotConfig.CLAPPER_ON) {
             clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B, 0.35);
             clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
+//            clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.Y_A, 0.5);
         }
         if (Team8702RobotConfig.ELMO_ON) {
-            //elmoSpinReset = new GamePadServo(this,gamepad1,robot.elmoSpin, GamePadServo.Control.X_B,robot.elmoSpin.getPosition(),false);
+          //  elmoSpinReset = new GamePadServo(this,gamepad1,robot.elmoSpin, GamePadServo.Control.X_B,robot.elmoSpin.getPosition(),false);
            // elmoReachReset = new GamePadServo(this,gamepad1,robot.elmoReach,GamePadServo.Control.Y_A,robot.elmoReach.getPosition(),false);
         }
     }
@@ -67,7 +76,8 @@ public class Team8702Teleop extends ActiveOpMode {
         if (Team8702RobotConfig.CLAPPER_ON) {
             clapperGamePadServo.update();
             clapperGamePadMotor.update();
-           // checkClapperTouchSensor();
+            clapperGamePadLock.update();
+        //    checkClapperTouchSensor();
         }
         //getTelemetryUtil().sendTelemetry();
     }
