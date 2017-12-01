@@ -82,7 +82,7 @@ public class Team8702Prod extends RobotConfiguration {
             clapperRight.setPosition(0.3);
             clapperTouchTop = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_TOUCH_BOTTOM);
             clapperTouchBottom = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_TOUCH_UP);
-            clapperExtensionLock = (Servo) getHardwareOn(RobotProperties.CLAPPER_LOCK, hardwareMap);
+            clapperExtensionLock = (Servo) getHardwareOn(RobotProperties.CLAPPER_LOCK, hardwareMap.servo);
             //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         }
 
