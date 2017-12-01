@@ -38,6 +38,7 @@ public class Team8702Teleop extends ActiveOpMode {
             e.printStackTrace();
         }
         robot.elmoSpin.setPosition(0.0);
+        robot.clapperExtensionLock.setPosition(.5);
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -54,7 +55,7 @@ public class Team8702Teleop extends ActiveOpMode {
         if (Team8702RobotConfig.CLAPPER_ON) {
             clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B, 0.35);
             clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
-//            clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.Y_A, 0.5);
+            clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.Y_A, 0.5);
         }
         if (Team8702RobotConfig.ELMO_ON) {
           //  elmoSpinReset = new GamePadServo(this,gamepad1,robot.elmoSpin, GamePadServo.Control.X_B,robot.elmoSpin.getPosition(),false);
