@@ -1,5 +1,8 @@
 package org.ftcTeam.opmodes.production;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.ftcTeam.utils.ColorValue;
@@ -8,7 +11,8 @@ import org.ftcbootstrap.components.ColorSensorComponent;
 /**
  * Created by dkim on 11/24/17.
  */
-
+@Autonomous(name = "Team8702Teleop", group = "production")
+@Disabled
 public class ParkingColorSensor {
 
     //Declare Color Sensor

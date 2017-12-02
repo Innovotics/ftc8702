@@ -1,6 +1,5 @@
 package org.ftcTeam.opmodes.production;
 
-import org.ftcTeam.configurations.production.Team8702Prod;
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
 import org.ftcbootstrap.ActiveOpMode;
@@ -55,7 +54,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
 
         //Color Sensor
-        colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
+        colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
