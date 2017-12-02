@@ -72,7 +72,11 @@ public class Team8702ProdAuto extends RobotConfiguration {
             elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
             //Color Sensor
             elmoColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
-            getTelemetryUtil().addData("Color component: ", elmoColorSensor.toString());
+            if (elmoColorSensor != null) {
+                getTelemetryUtil().addData("ElmoColorSensor: ", elmoColorSensor.toString());
+            } else {
+                getTelemetryUtil().addData("ElmoColorSensor: ", "is null");
+            }
         }
         getTelemetryUtil().sendTelemetry();
     }
