@@ -12,10 +12,10 @@ public class ElmoOperation {
 
     private enum ElmoState {
         START_POSITION(0.0),
-        SPIN_FIRST(0.5),
-        REACH_MOVING_FORWARD(0.3),
-        SPIN_TO_HIT_BALL(0.6),
-        SPIN_RECOIL(0.5),
+        SPIN_FIRST(0.4),
+        REACH_MOVING_FORWARD(0.37),
+        SPIN_TO_HIT_BALL(0.2),
+        SPIN_RECOIL(0.4),
         REACH_MOVING_BACKWARD(0.95),
         SPIN_RESET(0.0),
         END_POSITION(0.0);
@@ -242,9 +242,12 @@ public class ElmoOperation {
         return servoPosition;
     }
 
-    private SPIN_DIRECTION getSpinDirection() {
+    private SPIN_DIRECTION getSpinDirection() throws InterruptedException {
 
         SPIN_DIRECTION direction = SPIN_DIRECTION.POSITIVE;
+
+        // sleep to give time to sense the color.
+        Thread.sleep(1000);
 
         printColors();
 
