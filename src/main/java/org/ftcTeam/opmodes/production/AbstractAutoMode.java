@@ -2,9 +2,9 @@ package org.ftcTeam.opmodes.production;
 
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
+import org.ftcTeam.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
-import org.ftcTeam.utils.ColorValue;
 
 abstract class AbstractAutoMode extends ActiveOpMode {
 
@@ -46,6 +46,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     protected void onInit() {
 
         robot = Team8702ProdAuto.newConfig(hardwareMap, getTelemetryUtil());
+
         //Set state to Init
         currentState = State.INIT;
 

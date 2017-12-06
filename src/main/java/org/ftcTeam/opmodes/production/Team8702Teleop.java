@@ -39,6 +39,8 @@ public class Team8702Teleop extends ActiveOpMode {
         }
         robot.elmoSpin.setPosition(0.0);
         robot.clapperExtensionLock.setPosition(.5);
+        robot.clapperRight.setPosition(-0.25);
+        robot.clapperLeft.setPosition(0.75);
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -53,9 +55,9 @@ public class Team8702Teleop extends ActiveOpMode {
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
         //gamePadOmniWheelDrive.startRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if (Team8702RobotConfig.CLAPPER_ON) {
-            clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B, 0.35);
+            clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B,0.00, true);
             clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
-            clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.Y_A, 0.5);
+            clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.X_B, 0.9);
         }
         if (Team8702RobotConfig.ELMO_ON) {
           //  elmoSpinReset = new GamePadServo(this,gamepad1,robot.elmoSpin, GamePadServo.Control.X_B,robot.elmoSpin.getPosition(),false);
@@ -83,7 +85,7 @@ public class Team8702Teleop extends ActiveOpMode {
         //getTelemetryUtil().sendTelemetry();
     }
 
-    private void checkClapperTouchSensor()
+ /*   private void checkClapperTouchSensor()
     {
             // send the info back to driver station using telemetry function.
             // if the digital channel returns true it's HIGH and the button is unpressed.
@@ -108,5 +110,5 @@ public class Team8702Teleop extends ActiveOpMode {
                 //}
             }
             telemetry.update();
-    }
+    }*/
 }
