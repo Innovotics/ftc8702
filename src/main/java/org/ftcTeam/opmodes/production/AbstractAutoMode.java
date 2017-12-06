@@ -94,7 +94,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
             case KNOCK_OFF_JEWEL: //Move robot to appropriate direction for color
                 logStage();
-
                 targetReached = elmoOperation.knockOffJewel();
 
 //                //move one wheel forward

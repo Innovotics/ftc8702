@@ -71,8 +71,6 @@ public class Team8702ProdAuto extends RobotConfiguration {
             // Elmo Servos
             elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
             elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
-            //Color Sensor
-            //elmoColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
             elmoColorSensor = hardwareMap.colorSensor.get(RobotProperties.COLOR_ELMO);
             if (elmoColorSensor != null) {
                 getTelemetryUtil().addData("ElmoColorSensor: ", elmoColorSensor.toString());

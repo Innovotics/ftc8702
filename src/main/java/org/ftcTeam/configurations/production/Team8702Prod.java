@@ -31,8 +31,6 @@ public class Team8702Prod extends RobotConfiguration {
     public Servo clapperLeft;
     public Servo clapperRight;
     public DcMotor clapperMotor;
-   // public DigitalChannel clapperTouchTop;
- //   public DigitalChannel clapperTouchBottom;
     public Servo clapperExtensionLock;
 
     //Servo
@@ -78,16 +76,10 @@ public class Team8702Prod extends RobotConfiguration {
             clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
             clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
             clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
-            //clapperLeft.setPosition(0.3);
-            //clapperRight.setPosition(0.3);
-           // clapperTouchTop = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_TOUCH_BOTTOM);
-            //clapperTouchBottom = hardwareMap.get(DigitalChannel.class, RobotProperties.CLAPPER_TOUCH_UP);
             clapperExtensionLock = (Servo) getHardwareOn(RobotProperties.CLAPPER_LOCK, hardwareMap.servo);
-            //digitalTouch.setMode(DigitalChannel.Mode.INPUT);
         }
 
         if (Team8702RobotConfig.ELMO_ON) {
-            // Elmo Servos
             elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
             elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
         }

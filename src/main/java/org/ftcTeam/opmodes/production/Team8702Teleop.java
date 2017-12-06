@@ -20,27 +20,24 @@ public class Team8702Teleop extends ActiveOpMode {
     private GamePadMotor clapperGamePadMotor;
     private GamePadServo clapperGamePadLock;
 
-    private GamePadServo elmoSpinReset;
-    private GamePadServo elmoReachReset;
-
-    /**
-     * Implement this method to define the code to run when the Init button is pressed on the Driver station.
-     */
     @Override
     protected void onInit() {
-
         robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
-        robot.elmoReach.setPosition(0.95);
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (Team8702RobotConfig.ELMO_ON) {
+            robot.elmoReach.setPosition(0.95);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            robot.elmoSpin.setPosition(0.0);
         }
-        robot.elmoSpin.setPosition(0.0);
-        robot.clapperExtensionLock.setPosition(.5);
-        robot.clapperRight.setPosition(-0.25);
-        robot.clapperLeft.setPosition(0.75);
+        if (Team8702RobotConfig.CLAPPER_ON) {
+            robot.clapperExtensionLock.setPosition(.5);
+            robot.clapperRight.setPosition(-0.25);
+            robot.clapperLeft.setPosition(0.75);
+        }
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -53,15 +50,10 @@ public class Team8702Teleop extends ActiveOpMode {
         super.onStart();
 
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
-        //gamePadOmniWheelDrive.startRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         if (Team8702RobotConfig.CLAPPER_ON) {
             clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B,0.00, true);
             clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
             clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.X_B, 0.9);
-        }
-        if (Team8702RobotConfig.ELMO_ON) {
-          //  elmoSpinReset = new GamePadServo(this,gamepad1,robot.elmoSpin, GamePadServo.Control.X_B,robot.elmoSpin.getPosition(),false);
-           // elmoReachReset = new GamePadServo(this,gamepad1,robot.elmoReach,GamePadServo.Control.Y_A,robot.elmoReach.getPosition(),false);
         }
     }
 
@@ -80,35 +72,7 @@ public class Team8702Teleop extends ActiveOpMode {
             clapperGamePadServo.update();
             clapperGamePadMotor.update();
             clapperGamePadLock.update();
-        //    checkClapperTouchSensor();
         }
         //getTelemetryUtil().sendTelemetry();
     }
-
- /*   private void checkClapperTouchSensor()
-    {
-            // send the info back to driver station using telemetry function.
-            // if the digital channel returns true it's HIGH and the button is unpressed.
-            if (robot.clapperTouchTop.getState() == true) {
-                telemetry.addData("Top Touch Clapper Sensor", "Is Pressed");
-                if (gamepad2.y) {
-                    robot.clapperMotor.setPower(0);
-                }
-                //else
-                //{
-                  //  robot.clapperMotor.setPower(0.5);
-               // }
-            }
-            else if (robot.clapperTouchBottom.getState() == true){
-                telemetry.addData("Bottom Touch Clapper Sensor", "Is Pressed");
-                if (gamepad2.a) {
-                    robot.clapperMotor.setPower(0);
-                }
-                //else
-                //{
-                  //  robot.clapperMotor.setPower(0.5);
-                //}
-            }
-            telemetry.update();
-    }*/
 }
