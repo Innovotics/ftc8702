@@ -5,10 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.ftcTeam.utils.ColorValue;
 
 
-public class AutoModeBlue extends AbstractAutoMode {
+@Autonomous(name = "RedAngle", group = "Ops")
+public class AutoModeRedAngle extends AbstractAutoMode{
 
+    //Set color to Red
     protected ColorValue getPanelColor() {
-        return ColorValue.BLUE;
+
+        return ColorValue.RED;
     }
 
 }
