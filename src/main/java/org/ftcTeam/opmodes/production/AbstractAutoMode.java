@@ -77,7 +77,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
                 startTheRobot();
                 if (targetReached) {
-                    currentState = State.ELMO_DOWN;
+                    if (Team8702RobotConfig.ELMO_ON) {
+                        currentState = State.ELMO_DOWN;
+                    }
+                    else {
+                        currentState = State.PARKING;
+                    }
                     targetReached = false;
                 }
                 break;
