@@ -2,9 +2,9 @@ package org.ftcTeam.opmodes.production;
 
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
-import org.ftcTeam.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
+import org.ftcTeam.utils.ColorValue;
 
 abstract class AbstractAutoMode extends ActiveOpMode {
 
@@ -39,6 +39,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     public ColorSensorComponent colorSensorComponent;
 
     abstract ColorValue getPanelColor();
+    abstract void park();
 
     private ElmoOperation elmoOperation;
 
@@ -94,6 +95,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
             case KNOCK_OFF_JEWEL: //Move robot to appropriate direction for color
                 logStage();
+
                 targetReached = elmoOperation.knockOffJewel();
 
 //                //move one wheel forward

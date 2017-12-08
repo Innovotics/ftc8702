@@ -8,10 +8,9 @@ import org.ftcTeam.utils.ColorValue;
 @Autonomous(name = "RedAngle", group = "Ops")
 public class AutoModeRedAngle extends AutoModeRed{
 
-    //Set color to Red
-    protected ColorValue getPanelColor() {
+    @Override
+    void park() {
 
-        return ColorValue.RED;
     }
 
 }

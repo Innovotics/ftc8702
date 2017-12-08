@@ -7,9 +7,8 @@ import org.ftcTeam.utils.ColorValue;
 
 @Autonomous(name = "BlueStraight", group = "Ops")
 public class AutoModeBlueStraight extends AutoModeBlue{
+    @Override
+    void park() {
 
-    protected ColorValue getPanelColor() {
-        return ColorValue.BLUE;
     }
-
 }
