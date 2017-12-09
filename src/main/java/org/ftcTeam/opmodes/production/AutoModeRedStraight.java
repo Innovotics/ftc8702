@@ -7,7 +7,7 @@ import org.ftcTeam.utils.ColorValue;
 @Autonomous(name = "RedStraight", group = "Ops")
 public class AutoModeRedStraight extends AutoModeRed {
     @Override
-    void park() {
-
+    boolean park() {
+    return true;
     }
 }

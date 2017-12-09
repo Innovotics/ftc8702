@@ -9,7 +9,8 @@ import org.ftcTeam.utils.ColorValue;
 public class AutoModeRedAngle extends AutoModeRed{
 
     @Override
-    void park() {
+    boolean park() {
+        return true;
 
     }
 

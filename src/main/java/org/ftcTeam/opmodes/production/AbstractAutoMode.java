@@ -39,7 +39,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     public ColorSensorComponent colorSensorComponent;
 
     abstract ColorValue getPanelColor();
-    abstract void park() throws InterruptedException;
+    abstract boolean park() throws InterruptedException;
 
     private ElmoOperation elmoOperation;
 
@@ -78,7 +78,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 startTheRobot();
                 if (targetReached) {
                     if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.ELMO_DOWN;
+                        currentState = State.PARKING;
                     }
                     else {
                         currentState = State.PARKING;
@@ -129,7 +129,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     // Skip this
                     targetReached = true;
                 } else {
-                   park();
+                  targetReached = park();
 
 //                    if(panelColor.equals(ColorValue.BLUE)){
 //                        //move the robot right for parking
