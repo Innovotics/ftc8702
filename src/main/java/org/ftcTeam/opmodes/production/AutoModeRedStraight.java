@@ -8,7 +8,7 @@ import org.ftcTeam.utils.ColorValue;
 public class AutoModeRedStraight extends AutoModeRed {
 
     protected ColorValue getPanelColor() {
-        return ColorValue.BLUE;
+        return ColorValue.RED;
     }
 
 }

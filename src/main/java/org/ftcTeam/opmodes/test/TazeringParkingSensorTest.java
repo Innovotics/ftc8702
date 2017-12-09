@@ -3,7 +3,6 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftcTeam.configurations.test.Team8702ParkingSensor;
-import org.ftcTeam.opmodes.production.ParkingColorSensor;
 import org.ftcTeam.utils.ColorValue;
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.ActiveOpMode;
