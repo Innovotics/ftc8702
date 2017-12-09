@@ -10,6 +10,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     protected enum State {
         INIT,
+        VUFORIA_DETECTION,
         ELMO_DOWN,
         READ_JEWEL_COLOR,
         KNOCK_OFF_JEWEL,
