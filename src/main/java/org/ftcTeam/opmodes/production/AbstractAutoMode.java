@@ -2,9 +2,9 @@ package org.ftcTeam.opmodes.production;
 
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
-import org.ftcTeam.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
+import org.ftcTeam.utils.ColorValue;
 
 abstract class AbstractAutoMode extends ActiveOpMode {
 
@@ -39,6 +39,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     public ColorSensorComponent colorSensorComponent;
 
     abstract ColorValue getPanelColor();
+    abstract void park();
 
     private ElmoOperation elmoOperation;
 
@@ -76,7 +77,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
                 startTheRobot();
                 if (targetReached) {
-                    currentState = State.ELMO_DOWN;
+                    if (Team8702RobotConfig.ELMO_ON) {
+                        currentState = State.ELMO_DOWN;
+                    }
+                    else {
+                        currentState = State.PARKING;
+                    }
                     targetReached = false;
                 }
                 break;
@@ -94,6 +100,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
             case KNOCK_OFF_JEWEL: //Move robot to appropriate direction for color
                 logStage();
+
                 targetReached = elmoOperation.knockOffJewel();
 
 //                //move one wheel forward
@@ -122,23 +129,25 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     // Skip this
                     targetReached = true;
                 } else {
-                    if(panelColor.equals(ColorValue.BLUE)){
-                        //move the robot right for parking
-                        robot.motorFL.setPower(.2 * (-1));
-                        robot.motorFR.setPower(.2 * (-1));
-                        robot.motorBL.setPower(.2);
-                        robot.motorBR.setPower(.2);
-                        sleep(2000);
-                        targetReached = true;
-                    } else if(panelColor.equals(ColorValue.RED)) {
-                        //move the robot left for parking
-                        robot.motorFL.setPower(.2);
-                        robot.motorFR.setPower(.2);
-                        robot.motorBL.setPower(.2 * (-1));
-                        robot.motorBR.setPower(.2 * (-1));
-                        sleep(2000);
-                        targetReached = true;
-                    }
+                   park();
+
+//                    if(panelColor.equals(ColorValue.BLUE)){
+//                        //move the robot right for parking
+//                        robot.motorFL.setPower(.2 * (-1));
+//                        robot.motorFR.setPower(.2 * (-1));
+//                        robot.motorBL.setPower(.2);
+//                        robot.motorBR.setPower(.2);
+//                        sleep(2000);
+//                        targetReached = true;
+//                    } else if(panelColor.equals(ColorValue.RED)) {
+//                        //move the robot left for parking
+//                        robot.motorFL.setPower(.2);
+//                        robot.motorFR.setPower(.2);
+//                        robot.motorBL.setPower(.2 * (-1));
+//                        robot.motorBR.setPower(.2 * (-1));
+//                        sleep(2000);
+//                        targetReached = true;
+//                    }
                 }
                 if (targetReached) {
                     currentState = State.DONE;
