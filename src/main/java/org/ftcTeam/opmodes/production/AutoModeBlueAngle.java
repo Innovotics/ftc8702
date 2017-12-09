@@ -9,7 +9,12 @@ import org.ftcTeam.utils.ColorValue;
 public class AutoModeBlueAngle extends AutoModeBlue {
 
     @Override
-    void park() {
-
+    void park() throws InterruptedException{
+        //Move robot out of the platform
+        robot.motorFL.setPower(.2 * (1));
+        robot.motorFR.setPower(.2 * (1));
+        robot.motorBL.setPower(.2 * (-1));
+        robot.motorBL.setPower(.2 * (-1));
+        Thread.sleep(1000);
     }
 }

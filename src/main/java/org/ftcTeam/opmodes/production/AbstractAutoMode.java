@@ -39,7 +39,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     public ColorSensorComponent colorSensorComponent;
 
     abstract ColorValue getPanelColor();
-    abstract void park();
+    abstract void park() throws InterruptedException;
 
     private ElmoOperation elmoOperation;
 
