@@ -18,6 +18,7 @@ import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
 import org.ftcTeam.utils.ColorValue;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
 abstract class AbstractAutoMode extends ActiveOpMode {
@@ -82,9 +83,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
 
-        //Init vuforia
-        initVuforia();
-
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
     }
@@ -114,6 +112,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     else {
                         currentState = State.VUFORIA_DETECTION;
                     }
+
                     targetReached = false;
                 }
                 break;
@@ -156,6 +155,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
             case VUFORIA_DETECTION: //Detect vuforia
                 logStage();
+
+                //Init vuforia
+                initVuforia();
 
                 //Read crypto message
                 readCryptoMessage();
@@ -210,6 +212,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 }
                 break;
             case DONE:
+                logStage();
                 setOperationsCompleted();
                 break;
         }
@@ -267,7 +270,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
-        //activate relicTrackable
+        //activate relic tracker
         relicTrackables.activate();
 
     }
@@ -280,15 +283,16 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     //Read crypto box
     private void readCryptoMessage() {
 
-
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
-            telemetry.addData("VuMark", "%s visible", vuMark);
+            getTelemetryUtil().addData("VuMark", vuMark.toString());
+            getTelemetryUtil().sendTelemetry();
 
             cryptoBoxLocation = vuMark;
 
             OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
             telemetry.addData("Pose", format(pose));
+            getTelemetryUtil().sendTelemetry();
 
             if (pose != null) {
                 VectorF trans = pose.getTranslation();
@@ -307,6 +311,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         }
         else {
             telemetry.addData("VuMark", "not visible");
+            getTelemetryUtil().sendTelemetry();
         }
 
         telemetry.update();
