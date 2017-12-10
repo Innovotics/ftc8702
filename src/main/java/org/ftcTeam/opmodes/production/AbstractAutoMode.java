@@ -19,6 +19,7 @@ import org.ftcTeam.utils.CryptoBoxLocation;
 import org.ftcTeam.utils.RobotAutonomousUtils;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
+import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 
 abstract class AbstractAutoMode extends ActiveOpMode {
@@ -31,7 +32,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         KNOCK_OFF_JEWEL,
         ELMO_UP,
         VUFORIA_DETECTION,
-        DETECT_BAR_COLOR,
         SWITCH_TO_CLAPPER,
         PARKING,
         DONE
@@ -57,7 +57,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     //Declared colorSensorComponent
     public ColorSensorComponent colorSensorComponent;
-    public ColorSensorComponent cryptColorSensorComponent;
 
     //Set cryptoBoxLocation to Unknown
     private CryptoBoxLocation cryptoBoxLocation = CryptoBoxLocation.UNKNOWN;
@@ -87,7 +86,13 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
-        cryptColorSensorComponent = new ColorSensorComponent(this, robot.cryptColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
+
+        //Motor to Encoders
+        robot.motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
+        robot.motorToEncoderFR = new MotorToEncoder(this, robot.motorFL);
+        robot.motorToEncoderBL = new MotorToEncoder(this, robot.motorFL);
+        robot.motorToEncoderBR = new MotorToEncoder(this, robot.motorFL);
+
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -184,23 +189,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 break;
 
-            case DETECT_BAR_COLOR: //Detects Color of the bar
-                logStage();
-
-                //telemetry of bar color
-                getTelemetryUtil().addData("Bar color", getBarColor().toString());
-                getTelemetryUtil().sendTelemetry();
-
-                if (getBarColor() != ColorValue.ZILCH) {
-                    targetReached = true;
-                }
-
-                if (targetReached) {
-                    currentState = State.DONE;
-                }
-
-                break;
-
             case SWITCH_TO_CLAPPER: //Rotate 180 degrees
                 logStage();
 
@@ -289,23 +277,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         return resultColor;
     }
 
-    //Determines color value of bar color sensor
-    public ColorValue getBarColor() {
-
-        ColorValue barColor = ColorValue.ZILCH;
-
-        //Determine which is color to call
-        if (robot.cryptColorSensor.red() > robot.cryptColorSensor.blue()
-                && robot.cryptColorSensor.red() > robot.cryptColorSensor.green()) {
-            barColor = ColorValue.RED;
-        } else if (robot.cryptColorSensor.blue() > robot.cryptColorSensor.red()
-                && robot.cryptColorSensor.green() > robot.cryptColorSensor.red()) {
-            barColor = ColorValue.BLUE;
-        }
-
-        return barColor;
-    }
-
     //telemetry for logs
     private void logStage() {
         getTelemetryUtil().addData("Stage", currentState.toString());
@@ -359,7 +330,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 case CENTER:
                     cryptoBoxLocation = CryptoBoxLocation.CENTER;
                     break;
-
             }
 
             telemetry.addData("Pose", format(pose));

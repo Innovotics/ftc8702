@@ -3,12 +3,15 @@ package org.ftcTeam.opmodes.production;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftcTeam.utils.ColorValue;
+import org.ftcTeam.utils.EncoderBasedAutonomousUtil;
 import org.ftcTeam.utils.RobotAutonomousUtils;
 
 
 @Autonomous(name = "BlueStraight", group = "Ops")
 public class AutoModeBlueStraight extends AutoModeBlue{
     @Override
+
+
     boolean park() {
         return true;
 
@@ -32,8 +35,6 @@ public class AutoModeBlueStraight extends AutoModeBlue{
         Thread.sleep(1000);
 
         //180 robot
-        RobotAutonomousUtils.rotateMotor(getRobot().motorFR, getRobot().motorFL, getRobot().motorBL, getRobot().motorBR);
-
-
+        EncoderBasedAutonomousUtil.rotateMotor180(getRobot().motorToEncoderFR, getRobot().motorToEncoderFL, getRobot().motorToEncoderBR, getRobot().motorToEncoderBL);
     }
 }

@@ -11,6 +11,8 @@ import org.ftcbootstrap.components.utils.MotorDirection;
 
 public class RobotAutonomousUtils {
 
+    int rotateMotor = 1140;
+
     public static void pauseMotor(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
         try {
             motorR.setPower(0);
@@ -46,4 +48,5 @@ public class RobotAutonomousUtils {
         pauseMotor(motorR, motorL, motorBL, motorBR);
 
     }
+
 }

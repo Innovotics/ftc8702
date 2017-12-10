@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
+import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -28,13 +29,17 @@ public class Team8702ProdAuto extends RobotConfiguration {
     public DcMotor motorBR;
     public DcMotor motorBL;
 
+    public MotorToEncoder motorToEncoderFR;
+    public MotorToEncoder motorToEncoderFL;
+    public MotorToEncoder motorToEncoderBR;
+    public MotorToEncoder motorToEncoderBL;
+
     //Servo
     public Servo elmoSpin;
     public Servo elmoReach;
 
     //Color Sensor
     public ColorSensor elmoColorSensor;
-    public ColorSensor cryptColorSensor;
 
     /**
      * Factory method for this class
@@ -60,6 +65,7 @@ public class Team8702ProdAuto extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
 
+
         if (Team8702RobotConfig.MOTOR_ON) {
             // Front Motors
             motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
@@ -80,10 +86,6 @@ public class Team8702ProdAuto extends RobotConfiguration {
                 getTelemetryUtil().addData("ElmoColorSensor: ", "is null");
             }
 
-        }
-
-        if (Team8702RobotConfig.CRYPT_ON) {
-            cryptColorSensor = hardwareMap.colorSensor.get(RobotProperties.COLOR_CRYPT);
         }
         getTelemetryUtil().sendTelemetry();
     }
