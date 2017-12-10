@@ -12,13 +12,13 @@ import org.ftcbootstrap.components.utils.MotorDirection;
 public class EncoderBasedAutonomousUtil {
 
 
-    public static void pauseMotorEncoder(MotorToEncoder motorR, MotorToEncoder motorL, MotorToEncoder motorBR, MotorToEncoder motorBL) {
-        boolean targetReached = false;
+    public static boolean pauseMotorEncoder(MotorToEncoder motorR, MotorToEncoder motorL, MotorToEncoder motorBR, MotorToEncoder motorBL) {
 
         motorR.stop();
         motorL.stop();
         motorBR.stop();
         motorBL.stop();
+        return true;
     }
 
     public static boolean rotateMotor180(MotorToEncoder motorR, MotorToEncoder motorL, MotorToEncoder motorBR, MotorToEncoder motorBL) throws InterruptedException {
@@ -38,21 +38,20 @@ public class EncoderBasedAutonomousUtil {
         }
     }
 
-    public static boolean strafeLeft(MotorToEncoder motorR, MotorToEncoder motorL, MotorToEncoder motorBR, MotorToEncoder motorBL) throws InterruptedException {
+
+    public static boolean strafLeft(MotorToEncoder motorR, MotorToEncoder motorL, MotorToEncoder motorBR, MotorToEncoder motorBL) throws InterruptedException{
         //values
-        int strafeRobot = 1140;
-        boolean targetReached = false;
+        int rotateMotor = 1140;
 
-        targetReached = motorR.runToTarget(.5, strafeRobot * (1), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-                motorL.runToTarget(.5, strafeRobot * (1), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-                motorBR.runToTarget(.5, strafeRobot * (-1), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER) &&
-                motorBL.runToTarget(.5, strafeRobot * (-1), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+        boolean isFRDone = motorR.runToTarget(1.0, rotateMotor * (1), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+        boolean isFLDone = motorL.runToTarget(1.0, rotateMotor * (1), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+        boolean isBRDone = motorBR.runToTarget(1.0, rotateMotor * (-1), MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+        boolean isBLDone = motorBL.runToTarget(1.0, rotateMotor * (-1), MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_USING_ENCODER);
 
-        if (targetReached) {
+        if (isFRDone && isFLDone && isBRDone && isBLDone) {
             return true;
-
-        } else {
-
+        }
+        else {
             return false;
         }
     }

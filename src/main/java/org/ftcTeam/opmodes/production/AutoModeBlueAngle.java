@@ -45,7 +45,7 @@ public class AutoModeBlueAngle extends AutoModeBlue {
     }
 
     @Override
-    void setGlyphPosition() {
+    public void setGlyphPosition() {
 
     }
 }
