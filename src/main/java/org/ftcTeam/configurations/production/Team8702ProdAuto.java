@@ -31,8 +31,10 @@ public class Team8702ProdAuto extends RobotConfiguration {
     //Servo
     public Servo elmoSpin;
     public Servo elmoReach;
+
     //Color Sensor
     public ColorSensor elmoColorSensor;
+    public ColorSensor cryptColorSensor;
 
     /**
      * Factory method for this class
@@ -77,6 +79,11 @@ public class Team8702ProdAuto extends RobotConfiguration {
             } else {
                 getTelemetryUtil().addData("ElmoColorSensor: ", "is null");
             }
+
+        }
+
+        if (Team8702RobotConfig.CRYPT_ON) {
+            cryptColorSensor = hardwareMap.colorSensor.get(RobotProperties.COLOR_CRYPT);
         }
         getTelemetryUtil().sendTelemetry();
     }

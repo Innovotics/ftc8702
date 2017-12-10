@@ -31,6 +31,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         KNOCK_OFF_JEWEL,
         ELMO_UP,
         VUFORIA_DETECTION,
+        DETECT_BAR_COLOR,
         PARKING,
         DONE
     }
@@ -51,11 +52,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     EncoderBasedOmniWheelController wheelController;
 
     //Set ColorValue to zilch
-    ColorValue jewelColorValue = ColorValue.ZILCH;
     ColorValue panelColor = ColorValue.ZILCH;
 
     //Declared colorSensorComponent
     public ColorSensorComponent colorSensorComponent;
+    public ColorSensorComponent cryptColorSensorComponent;
 
     //Set cryptoBoxLocation to Unknown
     private CryptoBoxLocation cryptoBoxLocation = CryptoBoxLocation.UNKNOWN;
@@ -84,6 +85,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
+        cryptColorSensorComponent = new ColorSensorComponent(this, robot.cryptColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -111,9 +113,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached) {
                     if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.VUFORIA_DETECTION;
+                        currentState = State.DETECT_BAR_COLOR;
                     } else {
-                        currentState = State.VUFORIA_DETECTION;
+                        currentState = State.DETECT_BAR_COLOR;
                     }
 
                     targetReached = false;
@@ -179,7 +181,26 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 }
 
                 break;
-            case PARKING:
+
+            case DETECT_BAR_COLOR: //Detects Color of the bar
+                logStage();
+
+                //telemetry of bar color
+                getTelemetryUtil().addData("Bar color", getBarColor().toString());
+                getTelemetryUtil().sendTelemetry();
+
+                if(getBarColor() != ColorValue.ZILCH) {
+                    targetReached = true;
+                }
+
+                sleep(10000);
+                if(targetReached) {
+                    currentState = State.DONE;
+                }
+
+                break;
+
+            case PARKING: //Parks the robot to appropriate location
                 logStage();
                 if (!Team8702RobotConfig.AUTO_PARKING_ON) {
                     // Skip this
@@ -211,7 +232,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     sleep(1000);
                 }
                 break;
-            case DONE:
+
+            case DONE: // When all operations are complete
                 logStage();
 
                 //set telemetry
@@ -237,7 +259,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         return currentState;
     }
 
+    //Determines Color Value of Elmo Color Sensor
     public ColorValue getElmoColor() {
+
         ColorValue resultColor = ColorValue.ZILCH;
 
         //Determine which is color to call
@@ -248,9 +272,28 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 && robot.elmoColorSensor.green() > robot.elmoColorSensor.red()) {
             resultColor = ColorValue.BLUE;
         }
+
         return resultColor;
     }
 
+    //Determines color value of bar color sensor
+    public ColorValue getBarColor() {
+
+        ColorValue barColor = ColorValue.ZILCH;
+
+        //Determine which is color to call
+        if (robot.cryptColorSensor.red() > robot.cryptColorSensor.blue()
+                && robot.cryptColorSensor.red() > robot.cryptColorSensor.green()) {
+            barColor = ColorValue.RED;
+        } else if (robot.cryptColorSensor.blue() > robot.cryptColorSensor.red()
+                && robot.cryptColorSensor.green() > robot.cryptColorSensor.red()) {
+            barColor = ColorValue.BLUE;
+        }
+
+        return barColor;
+    }
+
+    //telemetry for logs
     private void logStage() {
         getTelemetryUtil().addData("Stage", currentState.toString());
     }
@@ -258,7 +301,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     //Method that Initializes vuforia
     private void initVuforia() {
 
-        //Sets cameria monitor
+        //Sets camera monitor
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
 
