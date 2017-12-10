@@ -103,6 +103,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case INIT: //Set everything
                 logStage();
 
+                initVuforia();
+
                 //set targetReached to true
                 startTheRobot();
 
@@ -157,12 +159,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case VUFORIA_DETECTION: //Detect vuforia
                 logStage();
 
-                //call init vuforia
-                if (vuforia == null) {
-                    //init vuforia
-                    initVuforia();
-                }
-
                 //Read crypto message
                 readCryptoMessage();
 
@@ -170,12 +166,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 if (cryptoBoxLocation != CryptoBoxLocation.UNKNOWN) {
                     targetReached = true;
                     getTelemetryUtil().addData("VuMark Location: ", cryptoBoxLocation.toString());
-                    getTelemetryUtil().sendTelemetry();
                     relicTrackables.deactivate();
                 }
 
                 //test if targetReached is true
-                if (targetReached = true) {
+                if (targetReached == true) {
                     //parks
                     currentState = State.DONE;
 
@@ -258,7 +253,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     private void logStage() {
         getTelemetryUtil().addData("Stage", currentState.toString());
-        getTelemetryUtil().sendTelemetry();
     }
 
     //Method that Initializes vuforia
@@ -292,11 +286,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     //Read crypto box
     private void readCryptoMessage() {
+        OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
             getTelemetryUtil().addData("VuMark", vuMark.toString());
-            getTelemetryUtil().sendTelemetry();
 
             switch (vuMark) {
                 case LEFT:
@@ -311,9 +306,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
             }
 
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
             telemetry.addData("Pose", format(pose));
-            getTelemetryUtil().sendTelemetry();
 
             if (pose != null) {
                 VectorF trans = pose.getTranslation();
@@ -331,7 +324,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             }
         } else {
             telemetry.addData("VuMark", "not visible");
-            getTelemetryUtil().sendTelemetry();
         }
 
         telemetry.update();
