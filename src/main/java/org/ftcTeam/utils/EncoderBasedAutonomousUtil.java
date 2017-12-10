@@ -30,5 +30,20 @@ public class EncoderBasedAutonomousUtil {
         motorBL.runToTarget(.5, rotateMotor, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public static boolean strafLeft(MotorToEncoder motorR, MotorToEncoder motorL, MotorToEncoder motorBR, MotorToEncoder motorBL) throws InterruptedException{
+        //values
+        int rotateMotor = 1140;
 
+        boolean isFRDone = motorR.runToTarget(.5, rotateMotor, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+        boolean isFLDone = motorL.runToTarget(.5, rotateMotor, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+        boolean isBRDone = motorBR.runToTarget(.5, rotateMotor, MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+        boolean isBLDone = motorBL.runToTarget(.5, rotateMotor, MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+
+        if (isFRDone && isFLDone && isBRDone && isBLDone) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }
