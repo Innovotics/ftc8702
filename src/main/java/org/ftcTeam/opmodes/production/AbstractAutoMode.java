@@ -67,6 +67,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     //Set abstract ColorValue
     abstract ColorValue getPanelColor();
+
     abstract boolean park() throws InterruptedException;
 
     private ElmoOperation elmoOperation;
@@ -102,15 +103,14 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case INIT: //Set everything
                 logStage();
 
-            //set targetReached to true
-            startTheRobot();
+                //set targetReached to true
+                startTheRobot();
 
                 //test if targetReached is true
                 if (targetReached) {
                     if (Team8702RobotConfig.ELMO_ON) {
                         currentState = State.VUFORIA_DETECTION;
-                    }
-                    else {
+                    } else {
                         currentState = State.VUFORIA_DETECTION;
                     }
 
@@ -157,8 +157,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case VUFORIA_DETECTION: //Detect vuforia
                 logStage();
 
-            //call init vuforia
-                if(vuforia == null) {
+                //call init vuforia
+                if (vuforia == null) {
                     //init vuforia
                     initVuforia();
                 }
@@ -167,7 +167,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 readCryptoMessage();
 
                 //Test if cryptoBox is not UNKNOWN
-                if(cryptoBoxLocation != CryptoBoxLocation.UNKNOWN) {
+                if (cryptoBoxLocation != CryptoBoxLocation.UNKNOWN) {
                     targetReached = true;
                     getTelemetryUtil().addData("VuMark Location: ", cryptoBoxLocation.toString());
                     getTelemetryUtil().sendTelemetry();
@@ -175,7 +175,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 }
 
                 //test if targetReached is true
-                if(targetReached = true) {
+                if (targetReached = true) {
                     //parks
                     currentState = State.DONE;
 
@@ -186,11 +186,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
             case PARKING:
                 logStage();
-                if(!Team8702RobotConfig.AUTO_PARKING_ON) {
+                if (!Team8702RobotConfig.AUTO_PARKING_ON) {
                     // Skip this
                     targetReached = true;
                 } else {
-                  targetReached = park();
+                    targetReached = park();
 
 //                    if(panelColor.equals(ColorValue.BLUE)){
 //                        //move the robot right for parking
@@ -298,7 +298,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             getTelemetryUtil().addData("VuMark", vuMark.toString());
             getTelemetryUtil().sendTelemetry();
 
-            switch(vuMark){
+            switch (vuMark) {
                 case LEFT:
                     cryptoBoxLocation = CryptoBoxLocation.LEFT;
                     break;
@@ -311,7 +311,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
             }
 
-            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
+            OpenGLMatrix pose = ((VuforiaTrackableDefaultListener) relicTemplate.getListener()).getPose();
             telemetry.addData("Pose", format(pose));
             getTelemetryUtil().sendTelemetry();
 
@@ -329,8 +329,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 double rY = rot.secondAngle;
                 double rZ = rot.thirdAngle;
             }
-        }
-        else {
+        } else {
             telemetry.addData("VuMark", "not visible");
             getTelemetryUtil().sendTelemetry();
         }
