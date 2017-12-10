@@ -10,6 +10,7 @@ import javax.xml.transform.sax.TemplatesHandler;
 @Autonomous(name = "BlueAngle", group = "Ops")
 public class AutoModeBlueAngle extends AutoModeBlue {
 
+
     @Override
     boolean park() throws InterruptedException {
         //Move robot out of the platform
@@ -41,5 +42,10 @@ public class AutoModeBlueAngle extends AutoModeBlue {
         Thread.sleep(1000);
 
         return true;
+    }
+
+    @Override
+    void setGlyphPosition() {
+
     }
 }

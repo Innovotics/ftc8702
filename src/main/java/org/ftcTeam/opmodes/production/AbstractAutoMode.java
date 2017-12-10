@@ -1,5 +1,6 @@
 package org.ftcTeam.opmodes.production;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -13,12 +14,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefau
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
+import org.ftcTeam.utils.ColorValue;
 import org.ftcTeam.utils.CryptoBoxLocation;
+import org.ftcTeam.utils.RobotAutonomousUtils;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
-import org.ftcTeam.utils.ColorValue;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
 abstract class AbstractAutoMode extends ActiveOpMode {
@@ -32,6 +32,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         ELMO_UP,
         VUFORIA_DETECTION,
         DETECT_BAR_COLOR,
+        SWITCH_TO_CLAPPER,
         PARKING,
         DONE
     }
@@ -68,6 +69,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     //Set abstract ColorValue
     abstract ColorValue getPanelColor();
+    abstract void setGlyphPosition() throws InterruptedException;
 
     abstract boolean park() throws InterruptedException;
 
@@ -113,9 +115,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached) {
                     if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.DETECT_BAR_COLOR;
+                        currentState = State.SWITCH_TO_CLAPPER;
                     } else {
-                        currentState = State.DETECT_BAR_COLOR;
+                        currentState = State.SWITCH_TO_CLAPPER;
                     }
 
                     targetReached = false;
@@ -189,19 +191,30 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 getTelemetryUtil().addData("Bar color", getBarColor().toString());
                 getTelemetryUtil().sendTelemetry();
 
-                if(getBarColor() != ColorValue.ZILCH) {
+                if (getBarColor() != ColorValue.ZILCH) {
                     targetReached = true;
                 }
 
-                sleep(10000);
-                if(targetReached) {
+                if (targetReached) {
                     currentState = State.DONE;
                 }
 
                 break;
 
+            case SWITCH_TO_CLAPPER: //Rotate 180 degrees
+                logStage();
+
+                setGlyphPosition() ;
+                targetReached = true;
+
+                if (targetReached) {
+                    currentState = State.DONE;
+                }
+                break;
+
             case PARKING: //Parks the robot to appropriate location
                 logStage();
+
                 if (!Team8702RobotConfig.AUTO_PARKING_ON) {
                     // Skip this
                     targetReached = true;

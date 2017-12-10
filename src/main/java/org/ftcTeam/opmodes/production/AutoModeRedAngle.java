@@ -38,4 +38,9 @@ public class AutoModeRedAngle extends AutoModeRed {
 
         return true;
     }
+
+    @Override
+    void setGlyphPosition() {
+
+    }
 }

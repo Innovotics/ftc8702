@@ -10,4 +10,9 @@ public class AutoModeRedStraight extends AutoModeRed {
     boolean park() {
     return true;
     }
+
+    @Override
+    void setGlyphPosition() {
+
+    }
 }
