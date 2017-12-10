@@ -58,11 +58,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     public ColorSensorComponent colorSensorComponent;
 
     //Set cryptoBoxLocation to Unknown
-    private RelicRecoveryVuMark cryptoBoxLocation = RelicRecoveryVuMark.UNKNOWN;
+    private CryptoBoxLocation cryptoBoxLocation = CryptoBoxLocation.UNKNOWN;
 
     //Adding Vuforia
-    VuforiaLocalizer vuforia;
+    VuforiaLocalizer vuforia = null;
     VuforiaTrackable relicTemplate = null;
+    VuforiaTrackables relicTrackables = null;
 
     //Set abstract ColorValue
     abstract ColorValue getPanelColor();
@@ -156,17 +157,21 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case VUFORIA_DETECTION: //Detect vuforia
                 logStage();
 
-                //Init vuforia
-                initVuforia();
+            //call init vuforia
+                if(vuforia == null) {
+                    //init vuforia
+                    initVuforia();
+                }
 
                 //Read crypto message
                 readCryptoMessage();
 
                 //Test if cryptoBox is not UNKNOWN
-                if(cryptoBoxLocation != RelicRecoveryVuMark.UNKNOWN) {
+                if(cryptoBoxLocation != CryptoBoxLocation.UNKNOWN) {
                     targetReached = true;
                     getTelemetryUtil().addData("VuMark Location: ", cryptoBoxLocation.toString());
                     getTelemetryUtil().sendTelemetry();
+                    relicTrackables.deactivate();
                 }
 
                 //test if targetReached is true
@@ -213,6 +218,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
             case DONE:
                 logStage();
+
+                //set telemetry
+                getTelemetryUtil().addData("VuMark", cryptoBoxLocation.toString());
+                getTelemetryUtil().sendTelemetry();
+
                 setOperationsCompleted();
                 break;
         }
@@ -266,7 +276,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
 
         //Set relic tracker
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
 
@@ -288,7 +298,18 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             getTelemetryUtil().addData("VuMark", vuMark.toString());
             getTelemetryUtil().sendTelemetry();
 
-            cryptoBoxLocation = vuMark;
+            switch(vuMark){
+                case LEFT:
+                    cryptoBoxLocation = CryptoBoxLocation.LEFT;
+                    break;
+                case RIGHT:
+                    cryptoBoxLocation = CryptoBoxLocation.RIGHT;
+                    break;
+                case CENTER:
+                    cryptoBoxLocation = CryptoBoxLocation.CENTER;
+                    break;
+
+            }
 
             OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)relicTemplate.getListener()).getPose();
             telemetry.addData("Pose", format(pose));
