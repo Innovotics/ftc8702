@@ -3,6 +3,7 @@ package org.ftcTeam.configurations.production;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.ftcTeam.utils.RobotAutonomousUtils;
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
@@ -10,6 +11,7 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 import com.qualcomm.robotcore.robot.Robot;
 
 
@@ -29,10 +31,10 @@ public class Team8702ProdAuto extends RobotConfiguration {
     public DcMotor motorBR;
     public DcMotor motorBL;
 
-    public MotorToEncoder motorToEncoderFR;
-    public MotorToEncoder motorToEncoderFL;
-    public MotorToEncoder motorToEncoderBR;
-    public MotorToEncoder motorToEncoderBL;
+//    public MotorToEncoder motorToEncoderFR;
+//    public MotorToEncoder motorToEncoderFL;
+//    public MotorToEncoder motorToEncoderBR;
+//    public MotorToEncoder motorToEncoderBL;
 
     //Servo
     public Servo elmoSpin;
@@ -40,6 +42,9 @@ public class Team8702ProdAuto extends RobotConfiguration {
 
     //Color Sensor
     public ColorSensor elmoColorSensor;
+
+    //Ultrasonic Sensor
+    public UltrasonicSensor ultraSonicSensor;
 
     /**
      * Factory method for this class
@@ -64,6 +69,8 @@ public class Team8702ProdAuto extends RobotConfiguration {
     @Override
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
+
+        ultraSonicSensor = (UltrasonicSensor) getHardwareOn(RobotProperties.ULTRASONIC_SENSOR, hardwareMap.ultrasonicSensor);
 
 
         if (Team8702RobotConfig.MOTOR_ON) {
