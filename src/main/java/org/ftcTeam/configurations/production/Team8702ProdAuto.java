@@ -1,18 +1,19 @@
 package org.ftcTeam.configurations.production;
 
+
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.ftcTeam.utils.RobotAutonomousUtils;
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
+
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
+
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.UltrasonicSensor;
-import com.qualcomm.robotcore.robot.Robot;
 
 
 /**
@@ -34,7 +35,7 @@ public class Team8702ProdAuto extends RobotConfiguration {
 //    public MotorToEncoder motorToEncoderFR;
 //    public MotorToEncoder motorToEncoderFL;
 //    public MotorToEncoder motorToEncoderBR;
-//    public MotorToEncoder motorToEncoderBL;
+//    public MotorToEncoder motorToEncoder
 
     //Servo
     public Servo elmoSpin;
@@ -44,7 +45,9 @@ public class Team8702ProdAuto extends RobotConfiguration {
     public ColorSensor elmoColorSensor;
 
     //Ultrasonic Sensor
-    public UltrasonicSensor ultraSonicSensor;
+    public ModernRoboticsI2cRangeSensor rangeSensorL;
+    public ModernRoboticsI2cRangeSensor rangeSensorR;
+
 
     /**
      * Factory method for this class
@@ -70,9 +73,6 @@ public class Team8702ProdAuto extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
 
-        ultraSonicSensor = (UltrasonicSensor) getHardwareOn(RobotProperties.ULTRASONIC_SENSOR, hardwareMap.ultrasonicSensor);
-
-
         if (Team8702RobotConfig.MOTOR_ON) {
             // Front Motors
             motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
@@ -87,6 +87,7 @@ public class Team8702ProdAuto extends RobotConfiguration {
             elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
             elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
             elmoColorSensor = hardwareMap.colorSensor.get(RobotProperties.COLOR_ELMO);
+
             if (elmoColorSensor != null) {
                 getTelemetryUtil().addData("ElmoColorSensor: ", elmoColorSensor.toString());
             } else {
@@ -94,6 +95,9 @@ public class Team8702ProdAuto extends RobotConfiguration {
             }
 
         }
+
+        rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
+        rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
         getTelemetryUtil().sendTelemetry();
     }
 

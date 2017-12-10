@@ -38,7 +38,8 @@ public class RobotProperties {
     public static final String VUFORIA_DEFTYPE = "vuforiaDefType";
 
     //Ultrasonic Sensor
-    public static final String ULTRASONIC_SENSOR = "barUTSensor";
+    public static final String ULTRASONIC_SENSOR = "barUTSensorL";
+    public static final String ULTRASONIC_SENSOR_R = "barUTSensorR";
 
 
 

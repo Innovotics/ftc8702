@@ -1,5 +1,7 @@
 package org.ftcTeam.opmodes.production;
 
+import com.qualcomm.robotcore.robot.Robot;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -39,6 +41,10 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         DONE
     }
 
+    private static final int RANGE_BAR = 30;
+    private static final int RANGE_CRYPT = 34;
+    private int currentBarHopping = CryptoBoxLocation.LEFT;
+
     //Setting Target Reached value.
     //If it is set to true then State moves to next step
     //Starting of each step, it will set to false so the the can run until
@@ -61,7 +67,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     public ColorSensorComponent colorSensorComponent;
 
     //Set cryptoBoxLocation to Unknown
-    private CryptoBoxLocation cryptoBoxLocation = CryptoBoxLocation.UNKNOWN;
+    private int cryptoBoxLocation = CryptoBoxLocation.UNKNOWN;
 
     //Adding Vuforia
     VuforiaLocalizer vuforia = null;
@@ -176,7 +182,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //Test if cryptoBox is not UNKNOWN
                 if (cryptoBoxLocation != CryptoBoxLocation.UNKNOWN) {
                     targetReached = true;
-                    getTelemetryUtil().addData("VuMark Location: ", cryptoBoxLocation.toString());
+                    getTelemetryUtil().addData("VuMark Location: ", cryptoBoxLocation);
                     relicTrackables.deactivate();
                 }
 
@@ -212,7 +218,19 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
                 // Use ultra sonic sensor
                 // 1. Strafe right until detect bar
-                targetReached = true;
+                RobotAutonomousUtils.continuousStrafLeft(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+
+                if(robot.rangeSensorL.rawUltrasonic() < RANGE_BAR ) {
+                    if(currentBarHopping == cryptoBoxLocation) {
+                        RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                        //to do open clapper and push
+                        targetReached = true;
+                    } else {
+                        currentBarHopping ++;
+                        Thread.sleep(200);
+                    }
+
+                }
                 if (targetReached) {
                     currentState = State.DONE;
                 }
@@ -255,7 +273,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
 
                 //set telemetry
-                getTelemetryUtil().addData("VuMark", cryptoBoxLocation.toString());
+                getTelemetryUtil().addData("VuMark", cryptoBoxLocation);
                 getTelemetryUtil().sendTelemetry();
 
                 setOperationsCompleted();
@@ -371,6 +389,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         telemetry.update();
     }
+
+    private void adjustRobot() {
+
+    }
+
 
 }
 

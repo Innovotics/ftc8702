@@ -25,16 +25,6 @@ public class RobotAutonomousUtils {
         }
     }
 
-    public static void pauseMotor(MotorToEncoder motorR, MotorToEncoder motorL) {
-        try {
-            motorR.stop();
-            motorL.stop();
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void rotateMotor(DcMotor motorR, DcMotor motorL, DcMotor motorBL, DcMotor motorBR) {
         try{
             motorR.setPower(.5 * (1));
@@ -61,6 +51,24 @@ public class RobotAutonomousUtils {
             e.printStackTrace();
         }
         pauseMotor(motorR, motorL, motorBL, motorBR);
+
+    }
+
+    public static void continuousStrafLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
+
+            motorL.setPower(.25 * (1));
+            motorR.setPower(.25 * (1));
+            motorBL.setPower(.25 * (-1));
+            motorBR.setPower(.25 * (-1));
+
+    }
+
+    public static void continuousStrafRight(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
+
+        motorL.setPower(.25 * (-1));
+        motorR.setPower(.25 * (-1));
+        motorBL.setPower(.25 * (1));
+        motorBR.setPower(.25 * (1));
 
     }
 

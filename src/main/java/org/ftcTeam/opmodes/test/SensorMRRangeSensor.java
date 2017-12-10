@@ -30,6 +30,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @Autonomous(name = "Sensor: MR range sensor", group = "Sensor")
 public class SensorMRRangeSensor extends LinearOpMode {
 
+        //28 for bar
+        //34 for case
     ModernRoboticsI2cRangeSensor rangeSensor;
 
     @Override public void runOpMode() {
