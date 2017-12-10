@@ -32,7 +32,12 @@ public class EncoderBasedAutonomousUtil {
         motorBL.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
 
         if (targetReached) {
+                    motorR.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    motorL.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    motorBR.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    motorBL.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             return true;
+
         } else {
             return false;
         }
@@ -49,6 +54,10 @@ public class EncoderBasedAutonomousUtil {
         boolean isBLDone = motorBL.runToTarget(1.0, rotateMotor * (-1), MotorDirection.MOTOR_BACKWARD, DcMotor.RunMode.RUN_USING_ENCODER);
 
         if (isFRDone && isFLDone && isBRDone && isBLDone) {
+            motorR.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorL.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorBR.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorBL.runToTarget(.5, rotateMotor * (0), MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             return true;
         }
         else {
