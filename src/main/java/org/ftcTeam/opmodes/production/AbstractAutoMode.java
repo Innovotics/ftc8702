@@ -89,9 +89,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         //Motor to Encoders
         robot.motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
-        robot.motorToEncoderFR = new MotorToEncoder(this, robot.motorFL);
-        robot.motorToEncoderBL = new MotorToEncoder(this, robot.motorFL);
-        robot.motorToEncoderBR = new MotorToEncoder(this, robot.motorFL);
+        robot.motorToEncoderFR = new MotorToEncoder(this, robot.motorFR);
+        robot.motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
+        robot.motorToEncoderBR = new MotorToEncoder(this, robot.motorBR);
 
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
