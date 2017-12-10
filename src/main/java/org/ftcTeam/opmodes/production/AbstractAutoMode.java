@@ -33,6 +33,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         ELMO_UP,
         VUFORIA_DETECTION,
         SWITCH_TO_CLAPPER,
+        GET_OFF_PLATFORM,
+        SLIDE_TO_DETECT,
         PARKING,
         DONE
     }
@@ -120,9 +122,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached) {
                     if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.SWITCH_TO_CLAPPER;
+                        currentState = State.SLIDE_TO_DETECT;
                     } else {
-                        currentState = State.SWITCH_TO_CLAPPER;
+                        currentState = State.SLIDE_TO_DETECT;
                     }
 
                     targetReached = false;
@@ -191,14 +193,30 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
             case SWITCH_TO_CLAPPER: //Rotate 180 degrees
                 logStage();
+                // TODO - Lift off glyph
+                targetReached = true;
+                if (targetReached) {
+                    currentState = State.GET_OFF_PLATFORM;
+                }
+                break;
+            case GET_OFF_PLATFORM: //Rotate 180 degrees
+                logStage();
 
                 setGlyphPosition() ;
+                targetReached = true;
+                if (targetReached) {
+                    currentState = State.SLIDE_TO_DETECT;
+                }
+                break;
+            case SLIDE_TO_DETECT: //Rotate 180 degrees
+                logStage();
+                // Use ultra sonic sensor
+                // 1. Strafe right until detect bar
                 targetReached = true;
                 if (targetReached) {
                     currentState = State.DONE;
                 }
                 break;
-
             case PARKING: //Parks the robot to appropriate location
                 logStage();
 
