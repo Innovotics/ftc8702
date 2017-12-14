@@ -1,10 +1,13 @@
 package org.ftcTeam.opmodes.production;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -22,6 +25,8 @@ import org.ftcTeam.utils.RobotAutonomousUtils;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
+
+import java.util.Locale;
 
 
 abstract class AbstractAutoMode extends ActiveOpMode {
@@ -82,6 +87,10 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     private ElmoOperation elmoOperation;
 
+
+    Orientation angles;
+    Acceleration gravity;
+
     @Override
     protected void onInit() {
 
@@ -101,8 +110,18 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 //        robot.motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
 //        robot.motorToEncoderBR = new MotorToEncoder(this, robot.motorBR);
 
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit =  BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        robot.imu.initialize(parameters);
+        angles =  robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
+        getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
         getTelemetryUtil().sendTelemetry();
     }
 
@@ -394,6 +413,13 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     }
 
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees) {
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
 
 }
 

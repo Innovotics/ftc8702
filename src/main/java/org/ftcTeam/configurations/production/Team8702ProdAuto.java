@@ -1,6 +1,7 @@
 package org.ftcTeam.configurations.production;
 
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -47,7 +48,7 @@ public class Team8702ProdAuto extends RobotConfiguration {
     //Ultrasonic Sensor
     public ModernRoboticsI2cRangeSensor rangeSensorL;
     public ModernRoboticsI2cRangeSensor rangeSensorR;
-
+    public BNO055IMU imu;
 
     /**
      * Factory method for this class
@@ -98,6 +99,8 @@ public class Team8702ProdAuto extends RobotConfiguration {
 
         rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
         rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
         getTelemetryUtil().sendTelemetry();
     }
 
