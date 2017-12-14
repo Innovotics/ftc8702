@@ -263,22 +263,27 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 // Use ultra sonic sensor
                 // 1. Strafe right until detect bar
-                RobotAutonomousUtils.continuousStrafLeft(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+
+                if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
+                    RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                    targetReached = true;
+                }
 
                 getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
                 getTelemetryUtil().sendTelemetry();
 
-                if(robot.rangeSensorL.rawUltrasonic() < RANGE_BAR ) {
-                    if(currentBarHopping == cryptoBoxLocation) {
-                        RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
-                        //to do open clapper and push
-                        targetReached = true;
-                    } else {
-                        currentBarHopping ++;
-                        Thread.sleep(200);
-                    }
-
-                }
+//                if(robot.rangeSensorL.rawUltrasonic() < RANGE_BAR ) {
+//                    if(currentBarHopping == cryptoBoxLocation) {
+//                        RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+//                        //to do open clapper and push
+//                        targetReached = true;
+//                    } else {
+//                        currentBarHopping ++;
+//                        Thread.sleep(200);
+//                    }
+//
+//                }
                 if (targetReached) {
                     currentState = State.DONE;
                 }
