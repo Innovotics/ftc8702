@@ -260,10 +260,10 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 break;
             case SLIDE_TO_DETECT: //Rotate 180 degrees
                 logStage();
-
+                telemetry.addData("raw ultrasonic", robot.rangeSensorL.rawUltrasonic());
                 // Use ultra sonic sensor
                 // 1. Strafe right until detect bar
-                RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+              //  RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
 
                 if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
                     RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
