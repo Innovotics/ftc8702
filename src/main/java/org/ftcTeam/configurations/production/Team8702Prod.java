@@ -30,6 +30,8 @@ public class Team8702Prod extends RobotConfiguration {
     //Servo
     public Servo clapperLeft;
     public Servo clapperRight;
+    public Servo clapperLeftB;
+    public Servo clapperRightB;
     public DcMotor clapperMotor;
     public Servo clapperExtensionLock;
 
@@ -76,6 +78,8 @@ public class Team8702Prod extends RobotConfiguration {
             clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
             clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
             clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
+            clapperLeftB = (Servo) getHardwareOn(RobotProperties.SERVO_LEFTBOTTOM, hardwareMap.servo);
+            clapperRightB = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHTBOTTOM, hardwareMap.servo);
             clapperExtensionLock = (Servo) getHardwareOn(RobotProperties.CLAPPER_LOCK, hardwareMap.servo);
         }
 

@@ -11,14 +11,14 @@ import org.ftcbootstrap.components.ServoComponent;
 /**
  * Operation to assist with operating a servo from a gamepad button
  */
-public class GamePadDuelServo extends OpModeComponent {
+public class BumperGamePadDuelServo extends OpModeComponent {
 
     // use the Y and A buttons for up and down and the  X and B buttons for left and right
 
     public  static enum Control {
         Y_A,
-        X_B
-
+        X_B,
+        LB_RB
     }
 
     private Control currentControl;
@@ -38,7 +38,7 @@ public class GamePadDuelServo extends OpModeComponent {
      * @param servo2 Servo
      * @param control  use the Y and A buttons for up and down and the  X and B buttons for left and right
      */
-    public GamePadDuelServo(ActiveOpMode opMode, Gamepad gamepad, Servo servo1, Servo servo2, Control control, double initialPosition) {
+    public BumperGamePadDuelServo(ActiveOpMode opMode, Gamepad gamepad, Servo servo1, Servo servo2, Control control, double initialPosition) {
 
         this(opMode,gamepad, servo1, servo2,control,initialPosition,false);
 
@@ -54,7 +54,7 @@ public class GamePadDuelServo extends OpModeComponent {
      * @param initialPosition must set the initial position of the servo before working with it
      * @param reverseOrientation  true if the servo is install in the reverse orientation
      */
-    public GamePadDuelServo(ActiveOpMode opMode, Gamepad gamepad, Servo servo1, Servo servo2, Control control, double initialPosition, boolean reverseOrientation) {
+    public BumperGamePadDuelServo(ActiveOpMode opMode, Gamepad gamepad, Servo servo1, Servo servo2, Control control, double initialPosition, boolean reverseOrientation) {
 
         super(opMode);
         //this.servoComponent1 = new ServoComponent(opMode,  servo1,   initialPosition , reverseOrientation);
@@ -71,19 +71,13 @@ public class GamePadDuelServo extends OpModeComponent {
      */
     public void update() {
 
-        boolean rightVal =  currentControl == Control.Y_A  ?  gamepad.y : gamepad.b;
-        boolean leftVal =   currentControl == Control.Y_A  ?  gamepad.a : gamepad.x;
-
-        addTelemetry("rightVal", rightVal); ;
-        addTelemetry("leftVal", leftVal);
-
         // update the position of the servo
-        if (rightVal) {
+        if (gamepad.right_bumper) {
             servoComponent1.incrementServoTargetPosition(servoDelta);
             servoComponent2.incrementServoTargetPosition(-servoDelta);
         }
 
-        if (leftVal) {
+        if (gamepad.left_bumper) {
             servoComponent1.incrementServoTargetPosition(-servoDelta);
             servoComponent2.incrementServoTargetPosition(servoDelta);
         }

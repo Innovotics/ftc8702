@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcTeam.configurations.production.Team8702Prod;
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
+import org.ftcTeam.utils.BumperGamePadDuelServo;
 import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadMotor;
@@ -16,7 +17,8 @@ public class Team8702Teleop extends ActiveOpMode {
 
     private Team8702Prod robot;
     private GamePadOmniWheelDrive gamePadOmniWheelDrive;
-    private GamePadDuelServo clapperGamePadServo;
+    private GamePadDuelServo clapperGamePadServoUpper;
+    private BumperGamePadDuelServo clapperGamePadServoBottom;
     private GamePadMotor clapperGamePadMotor;
     private GamePadServo clapperGamePadLock;
 
@@ -37,6 +39,8 @@ public class Team8702Teleop extends ActiveOpMode {
             robot.clapperExtensionLock.setPosition(.5);
             robot.clapperRight.setPosition(-0.25);
             robot.clapperLeft.setPosition(0.75);
+            robot.clapperRightB.setPosition(-0.25);
+            robot.clapperLeftB.setPosition(0.75);
         }
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -51,7 +55,8 @@ public class Team8702Teleop extends ActiveOpMode {
 
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
         if (Team8702RobotConfig.CLAPPER_ON) {
-            clapperGamePadServo = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B,0.00, true);
+            clapperGamePadServoUpper = new GamePadDuelServo(this, gamepad2, robot.clapperRight, robot.clapperLeft, GamePadDuelServo.Control.X_B,0.00, true);
+            clapperGamePadServoBottom = new BumperGamePadDuelServo(this, gamepad2, robot.clapperRightB, robot.clapperLeftB, BumperGamePadDuelServo.Control.LB_RB, 0.00, true);
             clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
             clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.X_B, 0.9);
         }
@@ -69,7 +74,8 @@ public class Team8702Teleop extends ActiveOpMode {
             gamePadOmniWheelDrive.update();
         }
         if (Team8702RobotConfig.CLAPPER_ON) {
-            clapperGamePadServo.update();
+            clapperGamePadServoUpper.update();
+            clapperGamePadServoBottom.update();
             clapperGamePadMotor.update();
             clapperGamePadLock.update();
         }
