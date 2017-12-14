@@ -41,11 +41,14 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         VUFORIA_DETECTION,
         SWITCH_TO_CLAPPER,
         GET_OFF_PLATFORM,
+        ROTATE,
+        DETECT_INITIAL_DISTANCE,
         SLIDE_TO_DETECT,
         PARKING,
         DONE
     }
 
+    private int initialDistance;
     private static final int RANGE_BAR = 30;
     private static final int RANGE_CRYPT = 34;
     private int currentBarHopping = CryptoBoxLocation.LEFT;
@@ -148,9 +151,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached) {
                     if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.SLIDE_TO_DETECT;
+                        currentState = State.DETECT_INITIAL_DISTANCE;
                     } else {
-                        currentState = State.SLIDE_TO_DETECT;
+                        currentState = State.DETECT_INITIAL_DISTANCE;
                     }
 
                     targetReached = false;
@@ -223,6 +226,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 targetReached = true;
                 if (targetReached) {
                     currentState = State.GET_OFF_PLATFORM;
+                    targetReached = false;
                 }
                 break;
             case GET_OFF_PLATFORM: //Rotate 180 degrees
@@ -231,14 +235,38 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 setGlyphPosition() ;
                 targetReached = true;
                 if (targetReached) {
+                    currentState = State.ROTATE;
+                    targetReached = false;
+                }
+                break;
+            case ROTATE: //Rotate 180/90 degrees
+                logStage();
+
+                targetReached = true;
+                if (targetReached) {
+                    currentState = State.DETECT_INITIAL_DISTANCE;
+                    targetReached = false;
+                }
+                break;
+            case DETECT_INITIAL_DISTANCE: //Rotate 180 degrees
+                logStage();
+
+                initialDistance = robot.rangeSensorL.rawUltrasonic();
+                targetReached = true;
+                if (targetReached) {
                     currentState = State.SLIDE_TO_DETECT;
+                    targetReached = false;
                 }
                 break;
             case SLIDE_TO_DETECT: //Rotate 180 degrees
                 logStage();
+
                 // Use ultra sonic sensor
                 // 1. Strafe right until detect bar
                 RobotAutonomousUtils.continuousStrafLeft(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+
+                getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
+                getTelemetryUtil().sendTelemetry();
 
                 if(robot.rangeSensorL.rawUltrasonic() < RANGE_BAR ) {
                     if(currentBarHopping == cryptoBoxLocation) {
