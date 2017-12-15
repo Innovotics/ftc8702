@@ -151,9 +151,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached) {
                     if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.DETECT_INITIAL_DISTANCE;
+                        currentState = State.VUFORIA_DETECTION;
                     } else {
-                        currentState = State.DETECT_INITIAL_DISTANCE;
+                        currentState = State.VUFORIA_DETECTION;
                     }
 
                     targetReached = false;
@@ -212,7 +212,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached == true) {
                     //parks
-                    currentState = State.DONE;
+                    currentState = State.DETECT_INITIAL_DISTANCE;
 
                     //resets targetReached
                     targetReached = false;
@@ -256,6 +256,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 if (targetReached) {
                     currentState = State.SLIDE_TO_DETECT;
                     targetReached = false;
+                    RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+
                 }
                 break;
             case SLIDE_TO_DETECT: //Rotate 180 degrees
@@ -263,11 +265,17 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 telemetry.addData("raw ultrasonic", robot.rangeSensorL.rawUltrasonic());
                 // Use ultra sonic sensor
                 // 1. Strafe right until detect bar
-              //  RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
 
                 if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
-                    RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
-                    targetReached = true;
+//                    RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                    if(currentBarHopping == cryptoBoxLocation) {
+                        RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                        //to do open clapper and push
+                        targetReached = true;
+                    } else {
+                        currentBarHopping ++;
+                        Thread.sleep(200);
+                    }
                 }
 
                 getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );

@@ -65,10 +65,10 @@ public class RobotAutonomousUtils {
 
     public static void continuousStrafRight(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
 
-        motorL.setPower(.25 * (-1));
-        motorR.setPower(.25 * (-1));
-        motorBL.setPower(.25 * (1));
-        motorBR.setPower(.25 * (1));
+        motorL.setPower(.5 * (-1));
+        motorR.setPower(.5 * (-1));
+        motorBL.setPower(.5 * (1));
+        motorBR.setPower(.5 * (1));
 
     }
 
