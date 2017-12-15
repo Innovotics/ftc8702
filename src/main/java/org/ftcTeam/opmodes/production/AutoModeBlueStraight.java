@@ -13,7 +13,7 @@ public class AutoModeBlueStraight extends AutoModeBlue {
     @Override
     void setGlyphPosition() throws InterruptedException {
         //Move robot out of the platform
-        RobotAutonomousUtils.strafLeft(getRobot().motorFL, getRobot().motorFR,getRobot().motorBR, getRobot().motorBL );
+        RobotAutonomousUtils.strafAdjustLeft(getRobot().motorFL, getRobot().motorFR,getRobot().motorBR, getRobot().motorBL );
       //  RobotAutonomousUtils.rotateMotor180(getRobot().motorFL, getRobot().motorFR,getRobot().motorBR, getRobot().motorBL );
     }
 

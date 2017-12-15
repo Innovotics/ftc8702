@@ -51,7 +51,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private int initialDistance;
     private static final int RANGE_BAR = 30;
     private static final int RANGE_CRYPT = 34;
-    private int currentBarHopping = CryptoBoxLocation.LEFT;
+    private int currentBarHopping = 0;
 
     //Setting Target Reached value.
     //If it is set to true then State moves to next step
@@ -102,6 +102,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         //Set state to Init
         currentState = State.INIT;
 
+
+
         this.elmoOperation = new ElmoOperation(this);
 
         //Color Sensor
@@ -123,6 +125,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         robot.imu.initialize(parameters);
         angles =  robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        initVuforia();
+
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
@@ -134,7 +138,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         // Read color of panel (Red or Blue)
         panelColor = getPanelColor();
 
-        initVuforia();
 
         super.onStart();
     }
@@ -259,7 +262,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = false;
                     RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                     // Temporary
-                    cryptoBoxLocation = CryptoBoxLocation.CENTER;
+                    cryptoBoxLocation = CryptoBoxLocation.RIGHT;
                 }
                 break;
             case SLIDE_TO_DETECT: //Rotate 180 degrees
@@ -269,20 +272,21 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 // 1. Strafe right until detect bar
 
                 if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
-                    sleep(10000);
+                    getTelemetryUtil().addData("value: ", robot.rangeSensorL.rawUltrasonic());
+                    getTelemetryUtil().sendTelemetry();
 
-                  //  RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+
+                    //  RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                     if(currentBarHopping == cryptoBoxLocation) {
                         RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
-                        getTelemetryUtil().addData("currentBarHopping", currentBarHopping);
-
+                        Thread.sleep(1000);
+                        RobotAutonomousUtils.strafAdjustLeft(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                         //to do open clapper and push
+
                         targetReached = true;
                     } else {
                         currentBarHopping ++;
-                        sleep(10000);
-                        getTelemetryUtil().addData(" Con currentBarHopping", currentBarHopping);
-                       // RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                        sleep(1000);
                     }
                 }
 

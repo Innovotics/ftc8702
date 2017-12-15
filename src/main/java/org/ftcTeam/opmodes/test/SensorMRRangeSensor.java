@@ -26,6 +26,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.ftcTeam.utils.RobotProperties;
 
 @Autonomous(name = "Sensor: MR range sensor", group = "Sensor")
 public class SensorMRRangeSensor extends LinearOpMode {
@@ -37,7 +38,7 @@ public class SensorMRRangeSensor extends LinearOpMode {
     @Override public void runOpMode() {
 
         // get a reference to our compass
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "sensor_range");
+        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
 
         // wait for the start button to be pressed
         waitForStart();

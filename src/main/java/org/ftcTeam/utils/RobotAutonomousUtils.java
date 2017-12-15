@@ -39,14 +39,13 @@ public class RobotAutonomousUtils {
 
     }
 
-    public static void strafLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
+    public static void strafAdjustLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
         try{
-            motorL.setPower(.5 * (1));
-            motorR.setPower(.5 * (1));
-            motorBL.setPower(.5 * (-1));
-            motorBR.setPower(.5 * (-1));
-            Thread.sleep(2000);
-            Thread.sleep(2200);
+            motorL.setPower(.4 * (1));
+            motorR.setPower(.4 * (1));
+            motorBL.setPower(.4 * (-1));
+            motorBR.setPower(.4 * (-1));
+            Thread.sleep(600);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -71,6 +70,7 @@ public class RobotAutonomousUtils {
         motorBR.setPower(.4 * (1));
 
     }
+
 
     public static void rotateMotor180(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
         try{
