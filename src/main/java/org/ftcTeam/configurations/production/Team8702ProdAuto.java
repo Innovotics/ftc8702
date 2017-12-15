@@ -98,7 +98,7 @@ public class Team8702ProdAuto extends RobotConfiguration {
         }
 
         rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
-        rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
+//        rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         getTelemetryUtil().sendTelemetry();
