@@ -133,6 +133,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         // Read color of panel (Red or Blue)
         panelColor = getPanelColor();
+
+        initVuforia();
+
         super.onStart();
     }
 
@@ -142,8 +145,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         switch (currentState) {
             case INIT: //Set everything
                 logStage();
-
-                initVuforia();
 
                 //set targetReached to true
                 startTheRobot();
@@ -258,7 +259,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = false;
                     RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                     // Temporary
-                    cryptoBoxLocation = CryptoBoxLocation.LEFT;
+                    cryptoBoxLocation = CryptoBoxLocation.CENTER;
                 }
                 break;
             case SLIDE_TO_DETECT: //Rotate 180 degrees
@@ -268,14 +269,20 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 // 1. Strafe right until detect bar
 
                 if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
-//                    RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                    sleep(10000);
+
+                  //  RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                     if(currentBarHopping == cryptoBoxLocation) {
                         RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                        getTelemetryUtil().addData("currentBarHopping", currentBarHopping);
+
                         //to do open clapper and push
                         targetReached = true;
                     } else {
                         currentBarHopping ++;
-                        Thread.sleep(200);
+                        sleep(10000);
+                        getTelemetryUtil().addData(" Con currentBarHopping", currentBarHopping);
+                       // RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                     }
                 }
 
