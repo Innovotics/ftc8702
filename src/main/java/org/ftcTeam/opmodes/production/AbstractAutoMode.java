@@ -257,7 +257,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     currentState = State.SLIDE_TO_DETECT;
                     targetReached = false;
                     RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
-
+                    // Temporary
+                    cryptoBoxLocation = CryptoBoxLocation.LEFT;
                 }
                 break;
             case SLIDE_TO_DETECT: //Rotate 180 degrees
