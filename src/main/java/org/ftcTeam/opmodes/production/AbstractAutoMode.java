@@ -51,7 +51,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private int initialDistance;
     private static final int RANGE_BAR = 30;
     private static final int RANGE_CRYPT = 34;
-    private int currentBarHopping = CryptoBoxLocation.LEFT;
+    private int currentBarHopping = 0;
 
     //Setting Target Reached value.
     //If it is set to true then State moves to next step
@@ -90,6 +90,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
     private ElmoOperation elmoOperation;
 
+    private ClapperOperation clapperOperation;
 
     Orientation angles;
     Acceleration gravity;
@@ -103,6 +104,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         currentState = State.INIT;
 
         this.elmoOperation = new ElmoOperation(this);
+
+        this.clapperOperation = new ClapperOperation(this);
+
 
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
@@ -123,6 +127,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         robot.imu.initialize(parameters);
         angles =  robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        initVuforia();
+
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
@@ -133,6 +139,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         // Read color of panel (Red or Blue)
         panelColor = getPanelColor();
+
+
         super.onStart();
     }
 
@@ -143,7 +151,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case INIT: //Set everything
                 logStage();
 
-                initVuforia();
+               // initVuforia();
 
                 //set targetReached to true
                 startTheRobot();
@@ -151,9 +159,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached) {
                     if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.VUFORIA_DETECTION;
+                        currentState = State.ELMO_DOWN;
                     } else {
-                        currentState = State.VUFORIA_DETECTION;
+                        currentState = State.ELMO_DOWN;
                     }
 
                     targetReached = false;
@@ -190,7 +198,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 targetReached = elmoOperation.elmoUp();
 
                 if (targetReached) {
-                    currentState = State.PARKING;
+                    currentState = State.VUFORIA_DETECTION;
                     targetReached = false;
                     sleep(1000);
                 }
@@ -212,7 +220,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached == true) {
                     //parks
-                    currentState = State.DETECT_INITIAL_DISTANCE;
+                    currentState = State.SWITCH_TO_CLAPPER;
 
                     //resets targetReached
                     targetReached = false;
@@ -222,10 +230,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
             case SWITCH_TO_CLAPPER: //Rotate 180 degrees
                 logStage();
-                // TODO - Lift off glyph
+
+                this.clapperOperation.liftGlyph();
+
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.GET_OFF_PLATFORM;
+                    currentState = State.DONE;
                     targetReached = false;
                 }
                 break;
@@ -248,7 +258,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = false;
                 }
                 break;
-            case DETECT_INITIAL_DISTANCE: //Rotate 180 degrees
+            case DETECT_INITIAL_DISTANCE:
                 logStage();
 
                 initialDistance = robot.rangeSensorL.rawUltrasonic();
@@ -258,41 +268,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = false;
                     RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                     // Temporary
-                    cryptoBoxLocation = CryptoBoxLocation.LEFT;
+                    cryptoBoxLocation = CryptoBoxLocation.RIGHT;
                 }
                 break;
             case SLIDE_TO_DETECT: //Rotate 180 degrees
                 logStage();
-                telemetry.addData("raw ultrasonic", robot.rangeSensorL.rawUltrasonic());
-                // Use ultra sonic sensor
-                // 1. Strafe right until detect bar
-
-                if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
-//                    RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
-                    if(currentBarHopping == cryptoBoxLocation) {
-                        RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
-                        //to do open clapper and push
-                        targetReached = true;
-                    } else {
-                        currentBarHopping ++;
-                        Thread.sleep(200);
-                    }
-                }
-
-                getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
-                getTelemetryUtil().sendTelemetry();
-
-//                if(robot.rangeSensorL.rawUltrasonic() < RANGE_BAR ) {
-//                    if(currentBarHopping == cryptoBoxLocation) {
-//                        RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
-//                        //to do open clapper and push
-//                        targetReached = true;
-//                    } else {
-//                        currentBarHopping ++;
-//                        Thread.sleep(200);
-//                    }
-//
-//                }
+                targetReached = slideToDetect();
                 if (targetReached) {
                     currentState = State.DONE;
                 }
@@ -305,24 +286,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = true;
                 } else {
                     targetReached = park();
-
-//                    if(panelColor.equals(ColorValue.BLUE)){
-//                        //move the robot right for parking
-//                        robot.motorFL.setPower(.2 * (-1));
-//                        robot.motorFR.setPower(.2 * (-1));
-//                        robot.motorBL.setPower(.2);
-//                        robot.motorBR.setPower(.2);
-//                        sleep(2000);
-//                        targetReached = true;
-//                    } else if(panelColor.equals(ColorValue.RED)) {
-//                        //move the robot left for parking
-//                        robot.motorFL.setPower(.2);
-//                        robot.motorFR.setPower(.2);
-//                        robot.motorBL.setPower(.2 * (-1));
-//                        robot.motorBR.setPower(.2 * (-1));
-//                        sleep(2000);
-//                        targetReached = true;
-//                    }
                 }
                 if (targetReached) {
                     currentState = State.DONE;
@@ -335,9 +298,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
 
                 //set telemetry
-                getTelemetryUtil().addData("VuMark", cryptoBoxLocation);
-                getTelemetryUtil().sendTelemetry();
-
+                //getTelemetryUtil().addData("VuMark", cryptoBoxLocation);
+                //getTelemetryUtil().sendTelemetry();
                 setOperationsCompleted();
                 break;
         }
@@ -455,6 +417,30 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private void adjustRobot() {
 
     }
+
+    // Slide until detect the right bar
+    // Adjust left to fit into to slide
+    private boolean slideToDetect() throws InterruptedException {
+        telemetry.addData("raw ultrasonic", robot.rangeSensorL.rawUltrasonic());
+        if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
+            getTelemetryUtil().addData("value: ", robot.rangeSensorL.rawUltrasonic());
+
+            if(currentBarHopping == cryptoBoxLocation) {
+                RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                Thread.sleep(1000);
+                RobotAutonomousUtils.strafAdjustLeft(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                return true;
+            } else {
+                currentBarHopping ++;
+                sleep(1000);
+            }
+        }
+        getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
+        getTelemetryUtil().sendTelemetry();
+
+        return false;
+    }
+
 
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
