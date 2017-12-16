@@ -2,6 +2,7 @@ package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -23,6 +24,7 @@ import org.ftcTeam.utils.CryptoBoxLocation;
 import org.ftcTeam.utils.RobotAutonomousUtils;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
+import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 import java.util.Locale;
 
@@ -156,12 +158,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 //test if targetReached is true
                 if (targetReached) {
-                    if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.ELMO_DOWN;
-                    } else {
-                        currentState = State.ELMO_DOWN;
-                    }
-
+                    currentState  = State.GET_OFF_PLATFORM;
                     targetReached = false;
                 }
                 break;
@@ -250,8 +247,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case GET_OFF_PLATFORM: //Rotate 180 degrees
                 logStage();
 
-                setGlyphPosition() ;
+//                RobotAutonomousUtils.offFromPlatform(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 targetReached = true;
+                getTelemetryUtil().addData("Angle PlATFORM", formatAngle(angles.angleUnit, angles.firstAngle) );
                 if (targetReached) {
                     currentState = State.ROTATE;
                     targetReached = false;
@@ -262,7 +260,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.DETECT_INITIAL_DISTANCE;
+                    currentState = State.DONE;
                     targetReached = false;
                 }
                 break;
@@ -276,7 +274,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = false;
                     RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                     // Temporary
-                    cryptoBoxLocation = CryptoBoxLocation.RIGHT;
+                    cryptoBoxLocation = CryptoBoxLocation.LEFT;
                 }
                 break;
             case SLIDE_TO_DETECT:
@@ -314,7 +312,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 //set telemetry
                 //getTelemetryUtil().addData("VuMark", cryptoBoxLocation);
-                //getTelemetryUtil().sendTelemetry();
+                getTelemetryUtil().sendTelemetry();
                 setOperationsCompleted();
                 break;
         }
@@ -437,8 +435,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     // Adjust left to fit into to slide
     private boolean slideToDetect() throws InterruptedException {
         telemetry.addData("raw ultrasonic", robot.rangeSensorL.rawUltrasonic());
-        if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
-            getTelemetryUtil().addData("value: ", robot.rangeSensorL.rawUltrasonic());
+        int distance = robot.rangeSensorL.rawUltrasonic();
+        if( (initialDistance - 20) < distance && distance < (initialDistance - 4)) {
+            getTelemetryUtil().addData("Ultra value: ", distance);
 
             if(currentBarHopping == cryptoBoxLocation) {
                 RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
@@ -447,7 +446,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 return true;
             } else {
                 currentBarHopping ++;
-                sleep(1000);
+                sleep(1200);
             }
         }
         getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
