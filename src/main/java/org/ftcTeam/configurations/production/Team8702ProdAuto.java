@@ -102,11 +102,14 @@ public class Team8702ProdAuto extends RobotConfiguration {
 
         }
 
-        rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
-        clapperLeftB = (Servo) getHardwareOn(RobotProperties.SERVO_LEFTBOTTOM, hardwareMap.servo);
-        clapperRightB = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHTBOTTOM, hardwareMap.servo);
-        clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        if (Team8702RobotConfig.CLAPPER_ON) {
+            rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
+            clapperLeftB = (Servo) getHardwareOn(RobotProperties.SERVO_LEFTBOTTOM, hardwareMap.servo);
+            clapperRightB = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHTBOTTOM, hardwareMap.servo);
+            clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+        }
+
         getTelemetryUtil().sendTelemetry();
     }
 
