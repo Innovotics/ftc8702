@@ -39,6 +39,7 @@ public class RobotAutonomousUtils {
 
     }
 
+    // Move the robot to adjust into box holder
     public static void strafAdjustLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
         try{
             motorL.setPower(.4 * (1));
@@ -50,7 +51,6 @@ public class RobotAutonomousUtils {
             e.printStackTrace();
         }
         pauseMotor(motorR, motorL, motorBL, motorBR);
-
     }
 
     public static void continuousStrafLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
