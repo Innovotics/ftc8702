@@ -1,9 +1,17 @@
 package org.ftcTeam.utils;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcbootstrap.components.utils.MotorDirection;
+import org.ftcbootstrap.components.utils.TelemetryUtil;
+
+import java.util.Locale;
 
 /**
  * Created by dkim on 1/11/17.
@@ -38,6 +46,7 @@ public class RobotAutonomousUtils {
         pauseMotor(motorR, motorL, motorBL, motorBR);
 
     }
+
 
     // Move the robot to adjust into box holder
     public static void strafAdjustLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
@@ -85,16 +94,22 @@ public class RobotAutonomousUtils {
     }
 
 
-    public static void rotateMotor180(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
-        try{
-            motorR.setPower(.5 * (1));
-            motorL.setPower(.5 * (1));
-            motorBR.setPower(.5 * (1));
-            motorBL.setPower(.5 * (1));
-            Thread.sleep(2200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public static void rotateMotor180(double intialAngle, BNO055IMU imu, DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL, TelemetryUtil tUtil) {
+
+        motorR.setPower(.4);
+        motorL.setPower(.4);
+        motorBR.setPower(.4);
+        motorBL.setPower(.4);
+        Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        double angle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+        while ((intialAngle + 180) > angle) {
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            angle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+
+            tUtil.addData("Heading Angle", angle );
+            tUtil.sendTelemetry();
         }
+
         pauseMotor(motorR, motorL, motorBL, motorBR);
 
     }
@@ -111,4 +126,6 @@ public class RobotAutonomousUtils {
         pauseMotor(motorR, motorL, motorBL, motorBR);
 
     }
+
+
 }
