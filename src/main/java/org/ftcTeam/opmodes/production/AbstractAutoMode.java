@@ -2,7 +2,6 @@ package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -24,7 +23,6 @@ import org.ftcTeam.utils.CryptoBoxLocation;
 import org.ftcTeam.utils.RobotAutonomousUtils;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 import java.util.Locale;
 
@@ -44,6 +42,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         ROTATE,
         DETECT_INITIAL_DISTANCE,
         SLIDE_TO_DETECT,
+        DROP_GLYPH,
         PARKING,
         DONE
     }
@@ -230,11 +229,21 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case SWITCH_TO_CLAPPER: //Rotate 180 degrees
                 logStage();
 
+                Thread.sleep(500);
+
+                this.clapperOperation.initClapperRightAndLeftMotor();
+
+                Thread.sleep(500);
+
+                this.clapperOperation.grabGlyph();
+
+                Thread.sleep(500);
+
                 this.clapperOperation.liftGlyph();
 
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.GET_OFF_PLATFORM;
                     targetReached = false;
                 }
                 break;
@@ -274,7 +283,14 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
                 targetReached = slideToDetect();
                 if (targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.DROP_GLYPH;
+                }
+                break;
+            case DROP_GLYPH:
+                logStage();
+                targetReached = clapperOperation.dropGlyph();
+                if (targetReached) {
+                    currentState = State.PARKING;
                 }
                 break;
             case PARKING: //Parks the robot to appropriate location
