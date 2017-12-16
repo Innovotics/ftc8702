@@ -56,7 +56,7 @@ public class Team8702Teleop extends ActiveOpMode {
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
         if (Team8702RobotConfig.CLAPPER_ON) {
             clapperGamePadServoUpper = new GamePadDuelServo(this, gamepad2, robot.clapperLeft, robot.clapperRight, GamePadDuelServo.Control.X_B,0.00, true);
-            clapperGamePadServoBottom = new BumperGamePadDuelServo(this, gamepad2, robot.clapperRightB, robot.clapperLeftB, BumperGamePadDuelServo.Control.LB_RB, 0.00, true);
+            clapperGamePadServoBottom = new BumperGamePadDuelServo(this, gamepad2, robot.clapperLeftB, robot.clapperRightB, BumperGamePadDuelServo.Control.LB_RB, 0.00, true);
             clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
             clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.X_B, 0.9);
         }

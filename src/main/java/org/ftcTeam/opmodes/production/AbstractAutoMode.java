@@ -110,15 +110,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         this.clapperOperation = new ClapperOperation(this);
 
-
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
-
-        //Motor to Encoders
-//        robot.motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
-//        robot.motorToEncoderFR = new MotorToEncoder(this, robot.motorFR);
-//        robot.motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
-//        robot.motorToEncoderBR = new MotorToEncoder(this, robot.motorBR);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit =  BNO055IMU.AngleUnit.DEGREES;
@@ -178,9 +171,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
 
                 targetReached = elmoOperation.knockOffJewel();
-
-//                //move one wheel forward
-//                targetReached = motorToEncoderFL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
 
                 if (targetReached) {
                     currentState = State.ELMO_UP;
@@ -247,11 +237,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case GET_OFF_PLATFORM: //Rotate 180 degrees
                 logStage();
 
-//                RobotAutonomousUtils.offFromPlatform(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                RobotAutonomousUtils.offFromPlatform(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 targetReached = true;
                 getTelemetryUtil().addData("Angle PlATFORM", formatAngle(angles.angleUnit, angles.firstAngle) );
                 if (targetReached) {
-                    currentState = State.ROTATE;
+                    currentState = State.DONE;
                     targetReached = false;
                 }
                 break;
