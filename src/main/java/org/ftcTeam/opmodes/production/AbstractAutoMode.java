@@ -103,6 +103,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         //Set state to Init
         currentState = State.INIT;
 
+
+
         this.elmoOperation = new ElmoOperation(this);
 
         this.clapperOperation = new ClapperOperation(this);
@@ -150,9 +152,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         switch (currentState) {
             case INIT: //Set everything
                 logStage();
-
-               // initVuforia();
-
                 //set targetReached to true
                 startTheRobot();
 
@@ -271,7 +270,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     cryptoBoxLocation = CryptoBoxLocation.RIGHT;
                 }
                 break;
-            case SLIDE_TO_DETECT: //Rotate 180 degrees
+            case SLIDE_TO_DETECT:
                 logStage();
                 targetReached = slideToDetect();
                 if (targetReached) {
