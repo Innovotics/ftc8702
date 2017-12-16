@@ -34,7 +34,7 @@ public class RobotAutonomousUtils {
     }
 
     public static void rotateMotor(DcMotor motorR, DcMotor motorL, DcMotor motorBL, DcMotor motorBR) {
-        try{
+        try {
             motorR.setPower(.5 * (1));
             motorL.setPower(.5 * (1));
             motorBR.setPower(.5 * (1));
@@ -50,7 +50,7 @@ public class RobotAutonomousUtils {
 
     // Move the robot to adjust into box holder
     public static void strafAdjustLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
-        try{
+        try {
             motorL.setPower(.4 * (1));
             motorR.setPower(.4 * (1));
             motorBL.setPower(.4 * (-1));
@@ -63,12 +63,12 @@ public class RobotAutonomousUtils {
     }
 
     public static void offFromPlatform(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
-        try{
+        try {
             motorL.setPower(.4 * (1));
             motorR.setPower(.4 * (1));
             motorBL.setPower(.4 * (-1));
             motorBR.setPower(.4 * (-1));
-            Thread.sleep(2500);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -77,10 +77,10 @@ public class RobotAutonomousUtils {
 
     public static void continuousStrafLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
 
-            motorL.setPower(.25 * (1));
-            motorR.setPower(.25 * (1));
-            motorBL.setPower(.25 * (-1));
-            motorBR.setPower(.25 * (-1));
+        motorL.setPower(.25 * (1));
+        motorR.setPower(.25 * (1));
+        motorBL.setPower(.25 * (-1));
+        motorBR.setPower(.25 * (-1));
 
     }
 
@@ -93,28 +93,46 @@ public class RobotAutonomousUtils {
 
     }
 
+    public static void adjustStrafRight(int location, DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
+        try {
+            motorL.setPower(-0.40);
+            motorR.setPower(-0.40);
+            motorBL.setPower(0.40);
+            motorBR.setPower(0.40);
+            if (location == 1) {
+                Thread.sleep(1450);
+            }else if (location == 2) {
+                Thread.sleep(3000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        pauseMotor(motorR, motorL, motorBL, motorBR);
+
+    }
 
     public static void rotateMotor180(double intialAngle, BNO055IMU imu, DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL, TelemetryUtil tUtil) {
 
-        motorR.setPower(.4);
-        motorL.setPower(.4);
-        motorBR.setPower(.4);
-        motorBL.setPower(.4);
+        motorR.setPower(.3);
+        motorL.setPower(.3);
+        motorBR.setPower(.3);
+        motorBL.setPower(.3);
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double angle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
-        while ((intialAngle + 180) > angle) {
+        while ((intialAngle + 177) > angle) {
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             angle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
 
-            tUtil.addData("Heading Angle", angle );
+            tUtil.addData("Heading Angle", angle);
             tUtil.sendTelemetry();
         }
 
         pauseMotor(motorR, motorL, motorBL, motorBR);
 
     }
+
     public static void rotateMotor90(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
-        try{
+        try {
             motorR.setPower(.5 * (1));
             motorL.setPower(.5 * (1));
             motorBR.setPower(.5 * (1));
@@ -126,6 +144,18 @@ public class RobotAutonomousUtils {
         pauseMotor(motorR, motorL, motorBL, motorBR);
 
     }
+    public static void pushGlyph(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
+        try {
+            motorR.setPower(.5 * (1));
+            motorL.setPower(.5 * (1));
+            motorBR.setPower(.5 * (1));
+            motorBL.setPower(.5 * (1));
+            Thread.sleep(1100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        pauseMotor(motorR, motorL, motorBL, motorBR);
 
+    }
 
 }

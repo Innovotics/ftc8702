@@ -42,8 +42,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         SWITCH_TO_CLAPPER,
         GET_OFF_PLATFORM,
         ROTATE,
-        DETECT_INITIAL_DISTANCE,
-        SLIDE_TO_DETECT,
+        ADJUST_TO_BOX,
         DROP_GLYPH,
         PARKING,
         DONE
@@ -155,7 +154,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 //test if targetReached is true
                 if (targetReached) {
-                    currentState  = State.GET_OFF_PLATFORM;
+                    currentState  = State.ELMO_DOWN;
                     targetReached = false;
                 }
                 break;
@@ -254,28 +253,17 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 RobotAutonomousUtils.rotateMotor180(initialAngle, robot.imu, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL, getTelemetryUtil());
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.ADJUST_TO_BOX;
                     targetReached = false;
                 }
                 break;
-            case DETECT_INITIAL_DISTANCE:
+            case ADJUST_TO_BOX:
                 logStage();
-
-                initialDistance = robot.rangeSensorL.rawUltrasonic();
+                RobotAutonomousUtils.adjustStrafRight(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.SLIDE_TO_DETECT;
-                    targetReached = false;
-                    RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
-                    // Temporary
-                    cryptoBoxLocation = CryptoBoxLocation.LEFT;
-                }
-                break;
-            case SLIDE_TO_DETECT:
-                logStage();
-                targetReached = slideToDetect();
-                if (targetReached) {
                     currentState = State.DROP_GLYPH;
+                    targetReached = false;
                 }
                 break;
             case DROP_GLYPH:
@@ -288,12 +276,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case PARKING: //Parks the robot to appropriate location
                 logStage();
 
-                if (!Team8702RobotConfig.AUTO_PARKING_ON) {
-                    // Skip this
-                    targetReached = true;
-                } else {
-                    targetReached = park();
-                }
+                RobotAutonomousUtils.pushGlyph(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                targetReached = true;
                 if (targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
