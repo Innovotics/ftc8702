@@ -44,6 +44,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         ROTATE,
         DETECT_INITIAL_DISTANCE,
         SLIDE_TO_DETECT,
+        DROP_GLYPH,
         PARKING,
         DONE
     }
@@ -95,6 +96,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     Orientation angles;
     Acceleration gravity;
 
+    double initialAngle;
+
     @Override
     protected void onInit() {
 
@@ -113,12 +116,13 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit =  BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
 
         robot.imu.initialize(parameters);
         angles =  robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
@@ -126,6 +130,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
+        initialAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
         getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
         getTelemetryUtil().sendTelemetry();
     }
@@ -215,28 +220,38 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case SWITCH_TO_CLAPPER: //Rotate 180 degrees
                 logStage();
 
+                Thread.sleep(500);
+
+                this.clapperOperation.initClapperRightAndLeftMotor();
+
+                Thread.sleep(500);
+
+                this.clapperOperation.grabGlyph();
+
+                Thread.sleep(500);
+
                 this.clapperOperation.liftGlyph();
 
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.GET_OFF_PLATFORM;
                     targetReached = false;
                 }
                 break;
-            case GET_OFF_PLATFORM: //Rotate 180 degrees
+            case GET_OFF_PLATFORM:
                 logStage();
 
                 RobotAutonomousUtils.offFromPlatform(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 targetReached = true;
                 getTelemetryUtil().addData("Angle PlATFORM", formatAngle(angles.angleUnit, angles.firstAngle) );
                 if (targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.ROTATE;
                     targetReached = false;
                 }
                 break;
             case ROTATE: //Rotate 180/90 degrees
                 logStage();
-
+                RobotAutonomousUtils.rotateMotor180(initialAngle, robot.imu, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL, getTelemetryUtil());
                 targetReached = true;
                 if (targetReached) {
                     currentState = State.DONE;
@@ -260,7 +275,14 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
                 targetReached = slideToDetect();
                 if (targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.DROP_GLYPH;
+                }
+                break;
+            case DROP_GLYPH:
+                logStage();
+                targetReached = clapperOperation.dropGlyph();
+                if (targetReached) {
+                    currentState = State.PARKING;
                 }
                 break;
             case PARKING: //Parks the robot to appropriate location
@@ -431,6 +453,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
+
 
     String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
