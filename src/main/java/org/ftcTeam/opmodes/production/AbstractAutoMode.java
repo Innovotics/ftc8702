@@ -109,15 +109,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
         this.clapperOperation = new ClapperOperation(this);
 
-
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
-
-        //Motor to Encoders
-//        robot.motorToEncoderFL = new MotorToEncoder(this, robot.motorFL);
-//        robot.motorToEncoderFR = new MotorToEncoder(this, robot.motorFR);
-//        robot.motorToEncoderBL = new MotorToEncoder(this, robot.motorBL);
-//        robot.motorToEncoderBR = new MotorToEncoder(this, robot.motorBR);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit =  BNO055IMU.AngleUnit.DEGREES;
@@ -157,12 +150,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 //test if targetReached is true
                 if (targetReached) {
-                    if (Team8702RobotConfig.ELMO_ON) {
-                        currentState = State.ELMO_DOWN;
-                    } else {
-                        currentState = State.ELMO_DOWN;
-                    }
-
+                    currentState  = State.GET_OFF_PLATFORM;
                     targetReached = false;
                 }
                 break;
@@ -182,9 +170,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
 
                 targetReached = elmoOperation.knockOffJewel();
-
-//                //move one wheel forward
-//                targetReached = motorToEncoderFL.runToTarget(1.0, 1240, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
 
                 if (targetReached) {
                     currentState = State.ELMO_UP;
@@ -241,10 +226,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case GET_OFF_PLATFORM: //Rotate 180 degrees
                 logStage();
 
-                setGlyphPosition() ;
+                RobotAutonomousUtils.offFromPlatform(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 targetReached = true;
+                getTelemetryUtil().addData("Angle PlATFORM", formatAngle(angles.angleUnit, angles.firstAngle) );
                 if (targetReached) {
-                    currentState = State.ROTATE;
+                    currentState = State.DONE;
                     targetReached = false;
                 }
                 break;
@@ -253,7 +239,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.DETECT_INITIAL_DISTANCE;
+                    currentState = State.DONE;
                     targetReached = false;
                 }
                 break;
@@ -267,7 +253,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                     targetReached = false;
                     RobotAutonomousUtils.continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                     // Temporary
-                    cryptoBoxLocation = CryptoBoxLocation.RIGHT;
+                    cryptoBoxLocation = CryptoBoxLocation.LEFT;
                 }
                 break;
             case SLIDE_TO_DETECT:
@@ -298,7 +284,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 //set telemetry
                 //getTelemetryUtil().addData("VuMark", cryptoBoxLocation);
-                //getTelemetryUtil().sendTelemetry();
+                getTelemetryUtil().sendTelemetry();
                 setOperationsCompleted();
                 break;
         }
@@ -421,8 +407,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     // Adjust left to fit into to slide
     private boolean slideToDetect() throws InterruptedException {
         telemetry.addData("raw ultrasonic", robot.rangeSensorL.rawUltrasonic());
-        if(robot.rangeSensorL.rawUltrasonic() < initialDistance - 3) {
-            getTelemetryUtil().addData("value: ", robot.rangeSensorL.rawUltrasonic());
+        int distance = robot.rangeSensorL.rawUltrasonic();
+        if( (initialDistance - 20) < distance && distance < (initialDistance - 4)) {
+            getTelemetryUtil().addData("Ultra value: ", distance);
 
             if(currentBarHopping == cryptoBoxLocation) {
                 RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
@@ -431,7 +418,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 return true;
             } else {
                 currentBarHopping ++;
-                sleep(1000);
+                sleep(1200);
             }
         }
         getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );

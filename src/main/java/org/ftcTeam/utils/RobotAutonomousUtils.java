@@ -46,7 +46,20 @@ public class RobotAutonomousUtils {
             motorR.setPower(.4 * (1));
             motorBL.setPower(.4 * (-1));
             motorBR.setPower(.4 * (-1));
-            Thread.sleep(600);
+            Thread.sleep(550);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        pauseMotor(motorR, motorL, motorBL, motorBR);
+    }
+
+    public static void offFromPlatform(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
+        try{
+            motorL.setPower(.4 * (1));
+            motorR.setPower(.4 * (1));
+            motorBL.setPower(.4 * (-1));
+            motorBR.setPower(.4 * (-1));
+            Thread.sleep(2500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -64,10 +77,10 @@ public class RobotAutonomousUtils {
 
     public static void continuousStrafRight(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
 
-        motorL.setPower(.4 * (-1));
-        motorR.setPower(.4 * (-1));
-        motorBL.setPower(.4 * (1));
-        motorBR.setPower(.4 * (1));
+        motorL.setPower(-0.40);
+        motorR.setPower(-0.40);
+        motorBL.setPower(0.40);
+        motorBR.setPower(0.40);
 
     }
 
