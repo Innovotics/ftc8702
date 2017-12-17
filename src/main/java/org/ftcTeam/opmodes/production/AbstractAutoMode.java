@@ -39,12 +39,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         KNOCK_OFF_JEWEL,
         ELMO_UP,
         VUFORIA_DETECTION,
-        SWITCH_TO_CLAPPER,
+        LIFT_GLYPH,
         GET_OFF_PLATFORM,
         ROTATE,
-        ADJUST_TO_BOX,
+        STRAFE_TO_ADJUST,
         DROP_GLYPH,
-        PARKING,
+        PUSH_GLYPH,
         DONE
     }
 
@@ -186,7 +186,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 targetReached = elmoOperation.elmoUp();
 
                 if (targetReached) {
-                    currentState = State.VUFORIA_DETECTION;
+                    currentState = State.VUFORIA_DETECTION
+
+                    ;
                     targetReached = false;
                     sleep(1000);
                 }
@@ -208,7 +210,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 //test if targetReached is true
                 if (targetReached == true) {
                     //parks
-                    currentState = State.SWITCH_TO_CLAPPER;
+                    currentState = State.LIFT_GLYPH;
 
                     //resets targetReached
                     targetReached = false;
@@ -216,7 +218,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 break;
 
-            case SWITCH_TO_CLAPPER: //Rotate 180 degrees
+            case LIFT_GLYPH: //Rotate 180 degrees
                 logStage();
 
                 Thread.sleep(500);
@@ -240,7 +242,12 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case GET_OFF_PLATFORM:
                 logStage();
 
-                RobotAutonomousUtils.offFromPlatform(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                if(getPanelColor().equals(ColorValue.BLUE)) {
+                    RobotAutonomousUtils.offFromPlatformBlue(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                } else {
+                    RobotAutonomousUtils.offFromPlatformRed(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                }
+
                 targetReached = true;
                 getTelemetryUtil().addData("Angle PlATFORM", formatAngle(angles.angleUnit, angles.firstAngle) );
                 if (targetReached) {
@@ -253,41 +260,46 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 RobotAutonomousUtils.rotateMotor180(initialAngle, robot.imu, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL, getTelemetryUtil());
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.ADJUST_TO_BOX;
+                    currentState = State.STRAFE_TO_ADJUST;
                     targetReached = false;
                 }
                 break;
-            case ADJUST_TO_BOX:
+            case STRAFE_TO_ADJUST:
                 logStage();
-                RobotAutonomousUtils.adjustStrafRight(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                if(getPanelColor().equals(ColorValue.BLUE)) {
+                    RobotAutonomousUtils.adjustStrafRight(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                } else {
+                    RobotAutonomousUtils.strafAdjustLeft(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                }
                 targetReached = true;
                 if (targetReached) {
                     currentState = State.DROP_GLYPH;
                     targetReached = false;
                 }
                 break;
-            case DROP_GLYPH:
+            case DROP_GLYPH: //Parks the robot to appropriate location
                 logStage();
                 targetReached = clapperOperation.dropGlyph();
+                targetReached = true;
                 if (targetReached) {
-                    currentState = State.PARKING;
+                    currentState = State.PUSH_GLYPH;
+                    targetReached = false;
+                    sleep(500);
                 }
                 break;
-            case PARKING: //Parks the robot to appropriate location
+            case PUSH_GLYPH:
                 logStage();
-
                 RobotAutonomousUtils.pushGlyph(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 targetReached = true;
                 if (targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
-                    sleep(1000);
                 }
                 break;
-
             case DONE: // When all operations are complete
                 logStage();
-
+                RobotAutonomousUtils.moveBackToPark(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 //set telemetry
                 //getTelemetryUtil().addData("VuMark", cryptoBoxLocation);
                 getTelemetryUtil().sendTelemetry();
@@ -420,7 +432,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             if(currentBarHopping == cryptoBoxLocation) {
                 RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 Thread.sleep(1000);
-                RobotAutonomousUtils.strafAdjustLeft(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                RobotAutonomousUtils.strafAdjustLeft(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 return true;
             } else {
                 currentBarHopping ++;

@@ -15,7 +15,7 @@ public class AutoModeBlueAngle extends AutoModeBlue {
     @Override
     boolean park() throws InterruptedException {
         //Move robot out of the platform
-        RobotAutonomousUtils.strafAdjustLeft(getRobot().motorFL, getRobot().motorFR,getRobot().motorBR, getRobot().motorBL );
+//        RobotAutonomousUtils.strafAdjustLeft(AbstractAutoMode.cryptoBoxLocation, getRobot().motorFL, getRobot().motorFR,getRobot().motorBR, getRobot().motorBL );
 
         //Move the robot forwards
         getRobot().motorFL.setPower(.25 * (1));
@@ -36,7 +36,7 @@ public class AutoModeBlueAngle extends AutoModeBlue {
 
     @Override
     public void setGlyphPosition() throws InterruptedException {
-        RobotAutonomousUtils.strafAdjustLeft(getRobot().motorFL, getRobot().motorFR,getRobot().motorBR, getRobot().motorBL );
+//        RobotAutonomousUtils.strafAdjustLeft(getRobot().motorFL, getRobot().motorFR,getRobot().motorBR, getRobot().motorBL );
         RobotAutonomousUtils.rotateMotor90(getRobot().motorFL, getRobot().motorFR,getRobot().motorBR, getRobot().motorBL );
     }
 }
