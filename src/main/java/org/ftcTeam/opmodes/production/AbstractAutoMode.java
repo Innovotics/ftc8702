@@ -53,6 +53,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private static final int RANGE_CRYPT = 34;
     private int currentBarHopping = 0;
 
+
     //Setting Target Reached value.
     //If it is set to true then State moves to next step
     //Starting of each step, it will set to false so the the can run until
@@ -96,6 +97,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     Acceleration gravity;
 
     double initialAngle;
+    double currentAngle;
+    double targetAngle;
 
     @Override
     protected void onInit() {
@@ -154,7 +157,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                 //test if targetReached is true
                 if (targetReached) {
-                    currentState  = State.ELMO_DOWN;
+                    currentState  = State.ROTATE;
                     targetReached = false;
                 }
                 break;
@@ -260,6 +263,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 RobotAutonomousUtils.rotateMotor180(initialAngle, robot.imu, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL, getTelemetryUtil());
                 targetReached = true;
                 if (targetReached) {
+                    targetAngle = feedbackAngle();
                     currentState = State.STRAFE_TO_ADJUST;
                     targetReached = false;
                 }
@@ -267,13 +271,26 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case STRAFE_TO_ADJUST:
                 logStage();
                 if(getPanelColor().equals(ColorValue.BLUE)) {
-                    RobotAutonomousUtils.adjustStrafRight(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                    RobotAutonomousUtils.adjustStrafRight( robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 } else {
                     RobotAutonomousUtils.strafAdjustLeft(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 }
+
+                currentAngle = feedbackAngle();
+
+                if(currentAngle != targetAngle) {
+                    RobotAutonomousUtils.pauseMotor(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+
+                  while(currentAngle > targetAngle) {
+
+                      RobotAutonomousUtils.continuousRotateMotorLeft(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+
+                  }
+                }
+
                 targetReached = true;
                 if (targetReached) {
-                    currentState = State.DROP_GLYPH;
+                    currentState = State.DONE;
                     targetReached = false;
                 }
                 break;
@@ -455,5 +472,13 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
+    private double feedbackAngle() {
+        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        return AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+    }
+
+
+
 }
+
 
