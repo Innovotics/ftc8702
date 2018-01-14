@@ -13,7 +13,7 @@ import org.ftcbootstrap.components.OpModeComponent;
  * <p>
  * This class is modification of GamePadMotor
  */
-public class GamePadMacanWheelDrive extends OpModeComponent {
+public class GamePadMecanumWheelDrive extends OpModeComponent {
 
     public enum Control {
         LEFT_STICK_X,
@@ -33,7 +33,7 @@ public class GamePadMacanWheelDrive extends OpModeComponent {
     private float buttonPower;
     private boolean isReverse;
 
-    public GamePadMacanWheelDrive(ActiveOpMode opMode, Gamepad gamepad, DcMotor fr, DcMotor fl, DcMotor br, DcMotor bl, Control control, boolean reverse) {
+    public GamePadMecanumWheelDrive(ActiveOpMode opMode, Gamepad gamepad, DcMotor fr, DcMotor fl, DcMotor br, DcMotor bl, Control control, boolean reverse) {
         super(opMode);
         this.motorFR = fr;
         this.motorFL = fl;
@@ -126,19 +126,6 @@ public class GamePadMacanWheelDrive extends OpModeComponent {
     }
 
 
-    private void forward(float power) {
-        motorFR.setPower(power * -1);
-        motorFL.setPower(power );
-        motorBR.setPower(power * -1);
-        motorBL.setPower(power);
-    }
-    private void reverse(float power) {
-        motorFR.setPower(power );
-        motorFL.setPower(power * -1);
-        motorBR.setPower(power);
-        motorBL.setPower(power * -1);
-    }
-
     private void shift(float power) {
         motorFR.setPower(power * -1);
         motorFL.setPower(power * -1);
@@ -146,18 +133,6 @@ public class GamePadMacanWheelDrive extends OpModeComponent {
         motorBL.setPower(power);
     }
 
-//    private void shiftLeft(float power) {
-//        motorFR.setPower(power );
-//        motorFL.setPower(power * -1);
-//        motorBR.setPower(power);
-//        motorBL.setPower(power * -1);
-//    }
-//    private void shiftRight(float power) {
-//        motorFR.setPower(power );
-//        motorFL.setPower(power * -1);
-//        motorBR.setPower(power);
-//        motorBL.setPower(power * -1);
-//    }
 
 }
 
