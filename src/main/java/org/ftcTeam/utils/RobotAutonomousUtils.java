@@ -7,6 +7,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.ftcTeam.configurations.production.Team8702Prod;
+import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 /**
@@ -43,6 +45,23 @@ public class RobotAutonomousUtils {
 
     }
 
+    public static void continuousRotateMotorLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBL, DcMotor motorBR) {
+
+            motorR.setPower(.5 * (1));
+            motorL.setPower(.5 * (1));
+            motorBR.setPower(.5 * (1));
+            motorBL.setPower(.5 * (1));
+
+    }
+
+    public static void continuousRotateMotorRight(DcMotor motorR, DcMotor motorL, DcMotor motorBL, DcMotor motorBR) {
+
+        motorR.setPower(.5 * (-1));
+        motorL.setPower(.5 * (-1));
+        motorBR.setPower(.5 * (-1));
+        motorBL.setPower(.5 * (-1));
+
+    }
 
     public static void offFromPlatformBlue(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
         try {
@@ -88,26 +107,79 @@ public class RobotAutonomousUtils {
 
     }
 
-    public static void adjustStrafRight(int location, DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
+    public static void adjustStrafRight(DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL, double targetAngle, int targetDistance, BNO055IMU gyroSensor, Team8702ProdAuto robot) {
+        boolean targetReached = false;
+        Orientation angles;
+        double currentAngle;
 
-        motorL.setPower(-0.4);
-        motorR.setPower(-0.4);
-        motorBL.setPower(0.4);
-        motorBR.setPower(0.4);
+       angles = gyroSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        currentAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
 
-        pauseMotor(motorR, motorL, motorBL, motorBR);
+        while(true) {
+            if(targetAngle > currentAngle) {
+                while(targetAngle > currentAngle) {
+                    //analyze current angle
+                    angles = gyroSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+                    currentAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
 
+                    //if current angle is too big then rotate a little bit
+                    if(targetAngle > currentAngle){
+                        try {
+                            continuousRotateMotorLeft(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            } else if(targetAngle < currentAngle) {
+
+                while(targetAngle < currentAngle) {
+                    //analyze current angle
+                    angles = gyroSensor.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+                    currentAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+
+                    //if current angle is too big then rotat a little bit
+                    if(targetAngle < currentAngle) {
+                        try{
+                            continuousRotateMotorRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                            Thread.sleep(200);
+                        } catch(InterruptedException e) {
+
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+            } else {
+                try {
+                    continuousStrafRight(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                    Thread.sleep(200);
+                } catch(InterruptedException e) {
+
+                }
+
+            }
+        }
     }
+
+
 
     // Move the robot to adjust into box holder
     public static void strafAdjustLeft(int location, DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL) {
+try {
+    motorL.setPower(.4 * (1));
+    motorR.setPower(.4 * (1));
+    motorBL.setPower(.4 * (-1));
+    motorBR.setPower(.4 * (-1));
+    Thread.sleep(5000);
+}catch(InterruptedException e) {
 
-        motorL.setPower(.4 * (1));
-        motorR.setPower(.4 * (1));
-        motorBL.setPower(.4 * (-1));
-        motorBR.setPower(.4 * (-1));
+}
 
-        pauseMotor(motorR, motorL, motorBL, motorBR);
     }
 
     public static void rotateMotor180(double intialAngle, BNO055IMU imu, DcMotor motorR, DcMotor motorL, DcMotor motorBR, DcMotor motorBL, TelemetryUtil tUtil) {
