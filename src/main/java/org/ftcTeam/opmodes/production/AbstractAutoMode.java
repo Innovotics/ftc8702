@@ -51,6 +51,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private static final int RANGE_BAR = 30;
     private static final int RANGE_CRYPT = 34;
     private int currentBarHopping = 0;
+    private int firstBarDistance = 0;
+    private int secondBarDistance = 0;
+    private int thirdBarDistance = 0;
 
 
     //Setting Target Reached value.
@@ -271,7 +274,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case STRAFE_TO_ADJUST:
                 logStage();
                 if(getPanelColor().equals(ColorValue.BLUE)) {
-                    RobotAutonomousUtils.adjustStrafRight( robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                    RobotAutonomousUtils.adjustStrafRight( robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL, 0.0, 0, robot.imu, robot);
                 } else {
                     RobotAutonomousUtils.strafAdjustLeft(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 }
