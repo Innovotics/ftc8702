@@ -2,7 +2,6 @@ package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -17,14 +16,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.ftc8702.opmodes.FourWheelMotors;
+import org.ftc8702.opmodes.MecanumWheelMotors;
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
-import org.ftcTeam.configurations.production.Team8702RobotConfig;
 import org.ftcTeam.utils.ColorValue;
 import org.ftcTeam.utils.CryptoBoxLocation;
 import org.ftcTeam.utils.RobotAutonomousUtils;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 import java.util.Locale;
 
@@ -66,6 +65,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     //Declare the MotorToEncoder
     private Team8702ProdAuto robot;
 
+    private FourWheelMotors fourWheelMotors;
     //Wheel Controller
     EncoderBasedOmniWheelController wheelController;
 
@@ -104,7 +104,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     protected void onInit() {
 
         robot = Team8702ProdAuto.newConfig(hardwareMap, getTelemetryUtil());
-
+        fourWheelMotors = new MecanumWheelMotors(robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
         //Set state to Init
         currentState = State.INIT;
 
