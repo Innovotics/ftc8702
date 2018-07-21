@@ -51,9 +51,9 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     private static final int RANGE_BAR = 30;
     private static final int RANGE_CRYPT = 34;
     private int currentBarHopping = 0;
-    private int firstBarDistance = 0;
-    private int secondBarDistance = 0;
-    private int thirdBarDistance = 0;
+    private double firstBarDistance = 0;
+    private double secondBarDistance = 0;
+    private double thirdBarDistance = 0;
 
 
     //Setting Target Reached value.

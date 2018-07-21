@@ -27,29 +27,33 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.ftcTeam.utils.RobotProperties;
+import org.ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "Sensor: MR range sensor", group = "Sensor")
-public class SensorMRRangeSensor extends LinearOpMode {
+public class SensorMRRangeSensor extends ActiveOpMode {
 
         //28 for bar
         //34 for case
     ModernRoboticsI2cRangeSensor rangeSensor;
 
-    @Override public void runOpMode() {
-
-        // get a reference to our compass
+    @Override
+    protected void onInit() {
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
 
-        // wait for the start button to be pressed
-        waitForStart();
+    }
 
-        while (opModeIsActive()) {
-            telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
-            telemetry.addData("raw optical", rangeSensor.rawOptical());
-            telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
-            telemetry.addData("cm", "%.2f cm", rangeSensor.getDistance(DistanceUnit.CM));
-            telemetry.update();
-        }
+    @Override
+    protected void onStart( ) {
+
+    }
+
+    @Override
+    protected void activeLoop() {
+        telemetry.addData("raw ultrasonic", rangeSensor.rawUltrasonic());
+        telemetry.addData("raw optical", rangeSensor.rawOptical());
+        telemetry.addData("cm optical", "%.2f cm", rangeSensor.cmOptical());
+        telemetry.addData("cm", "%.2f cm", rangeSensor.getDistance(DistanceUnit.CM));
+        telemetry.update();
     }
 
 }
