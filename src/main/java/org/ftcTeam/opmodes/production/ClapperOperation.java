@@ -19,7 +19,7 @@ public class ClapperOperation {
     private final long CLAPPER_MOTOR_RUNTIME = 500;
 
     private final double CLAPPER_RIGHT_B_INIT_POS = 0.0;
-    private final double CLAPPER_RIGHT_B_GRAB_POS = 0.6;
+    private final double CLAPPER_RIGHT_B_GRAB_POS = 0.4; // change was made here
 
     private final double CLAPPER_LEFT_B_INIT_POS = 0.75;
     private final double CLAPPER_LEFT_B_GRAB_POS = 0.2;

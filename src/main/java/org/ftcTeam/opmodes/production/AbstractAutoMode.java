@@ -274,7 +274,11 @@ abstract class AbstractAutoMode extends ActiveOpMode {
             case STRAFE_TO_ADJUST:
                 logStage();
                 if(getPanelColor().equals(ColorValue.BLUE)) {
+
                     RobotAutonomousUtils.adjustStrafRight( robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL, 0.0, 0, robot.imu, robot);
+
+                   // RobotAutonomousUtils.adjustStrafRight( robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+
                 } else {
                     RobotAutonomousUtils.strafAdjustLeft(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
                 }
