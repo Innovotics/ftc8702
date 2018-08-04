@@ -26,21 +26,26 @@ public class Team8702Teleop extends ActiveOpMode {
     protected void onInit() {
         robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
 
-        if (Team8702RobotConfig.ELMO_ON) {
-            robot.elmoReach.setPosition(0.95);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        try {
+            if (Team8702RobotConfig.ELMO_ON) {
+                robot.elmoReach.setPosition(0.95);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                robot.elmoSpin.setPosition(0.0);
             }
-            robot.elmoSpin.setPosition(0.0);
+            if (Team8702RobotConfig.CLAPPER_ON) {
+                robot.clapperExtensionLock.setPosition(.5);
+                robot.clapperRight.setPosition(-0.25);
+                robot.clapperLeft.setPosition(0.75);
+                robot.clapperRightB.setPosition(-0.25);
+                robot.clapperLeftB.setPosition(0.75);
+            }
         }
-        if (Team8702RobotConfig.CLAPPER_ON) {
-            robot.clapperExtensionLock.setPosition(.5);
-            robot.clapperRight.setPosition(-0.25);
-            robot.clapperLeft.setPosition(0.75);
-            robot.clapperRightB.setPosition(-0.25);
-            robot.clapperLeftB.setPosition(0.75);
+        catch (Throwable E) {
+
         }
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
