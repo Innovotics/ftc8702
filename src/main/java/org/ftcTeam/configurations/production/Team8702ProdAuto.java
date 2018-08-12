@@ -90,8 +90,6 @@ public class Team8702ProdAuto extends RobotConfiguration {
 
         if (Team8702RobotConfig.ELMO_ON) {
             // Elmo Servos
-            elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
-            elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
             elmoColorSensor = hardwareMap.colorSensor.get(RobotProperties.COLOR_ELMO);
 
             if (elmoColorSensor != null) {
@@ -105,9 +103,7 @@ public class Team8702ProdAuto extends RobotConfiguration {
         if (Team8702RobotConfig.CLAPPER_ON) {
             rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
            // rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
-            clapperLeftB = (Servo) getHardwareOn(RobotProperties.SERVO_LEFTBOTTOM, hardwareMap.servo);
-            clapperRightB = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHTBOTTOM, hardwareMap.servo);
-            clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
+
             imu = hardwareMap.get(BNO055IMU.class, "imu");
         }
 

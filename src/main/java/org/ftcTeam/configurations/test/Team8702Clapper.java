@@ -48,10 +48,8 @@ public class Team8702Clapper extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
         setTelemetry(telemetryUtil);
-        clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
         //Servos
-        clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-        clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
+        clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_TEST, hardwareMap.servo);
         clapperLeft.setPosition(0.5);
         clapperRight.setPosition(0.5);
     }

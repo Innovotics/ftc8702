@@ -1,8 +1,6 @@
 package org.ftcTeam.configurations.production;
 
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -28,16 +26,8 @@ public class Team8702Prod extends RobotConfiguration {
     public DcMotor motorBL;
 
     //Servo
-    public Servo clapperLeft;
-    public Servo clapperRight;
-    public Servo clapperLeftB;
-    public Servo clapperRightB;
-    public DcMotor clapperMotor;
-    public Servo clapperExtensionLock;
+    public Servo servoTest;
 
-    //Servo
-    public Servo elmoSpin;
-    public Servo elmoReach;
     /**
      * Factory method for this class
      *
@@ -73,20 +63,9 @@ public class Team8702Prod extends RobotConfiguration {
             motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
         }
 
-        if (Team8702RobotConfig.CLAPPER_ON) {
-            //Clapper Parts
-            clapperMotor = (DcMotor) getHardwareOn(RobotProperties.CLAPPER_MOTOR, hardwareMap.dcMotor);
-            clapperLeft = (Servo) getHardwareOn(RobotProperties.SERVO_LEFT, hardwareMap.servo);
-            clapperRight = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHT, hardwareMap.servo);
-            clapperLeftB = (Servo) getHardwareOn(RobotProperties.SERVO_LEFTBOTTOM, hardwareMap.servo);
-            clapperRightB = (Servo) getHardwareOn(RobotProperties.SERVO_RIGHTBOTTOM, hardwareMap.servo);
-            clapperExtensionLock = (Servo) getHardwareOn(RobotProperties.CLAPPER_LOCK, hardwareMap.servo);
-        }
+        //Clapper Parts
+        servoTest = (Servo) getHardwareOn(RobotProperties.SERVO_TEST, hardwareMap.servo);
 
-        if (Team8702RobotConfig.ELMO_ON) {
-            elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
-            elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
-        }
         getTelemetryUtil().sendTelemetry();
     }
 }

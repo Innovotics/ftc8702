@@ -48,9 +48,6 @@ public class Team8702Elmo extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-        //Servos
-        elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
-        elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
 
     }
 

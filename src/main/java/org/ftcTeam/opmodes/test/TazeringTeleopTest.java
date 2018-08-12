@@ -32,9 +32,7 @@ public class TazeringTeleopTest extends ActiveOpMode {
         super.onStart();
 
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
-        gamePadServo = new GamePadDuelServo(this, gamepad1, robot.clapperLeft, robot.clapperRight, GamePadDuelServo.Control.Y_A, 0);
-        gamePadMotor = new GamePadMotor(this, gamepad1, robot.clapperMotor, GamePadMotor.Control.RIGHT_STICK_Y);
-    }
+           }
 
     /**
      * Implement this method to define the code to run when the Start button is pressed on the Driver station.

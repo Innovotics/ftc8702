@@ -1,7 +1,6 @@
 package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcTeam.configurations.production.Team8702Prod;
@@ -16,37 +15,20 @@ import org.ftcbootstrap.components.operations.servos.GamePadServo;
 public class Team8702Teleop extends ActiveOpMode {
 
     private Team8702Prod robot;
+
     private GamePadOmniWheelDrive gamePadOmniWheelDrive;
-    private GamePadDuelServo clapperGamePadServoUpper;
-    private BumperGamePadDuelServo clapperGamePadServoBottom;
+
+    // save the duelServo for future use
+    //private GamePadDuelServo clapperGamePadServoUpper;
+
     private GamePadMotor clapperGamePadMotor;
     private GamePadServo clapperGamePadLock;
 
     @Override
     protected void onInit() {
         robot = Team8702Prod.newConfig(hardwareMap, getTelemetryUtil());
+        robot.servoTest.setPosition(0.75);
 
-        try {
-            if (Team8702RobotConfig.ELMO_ON) {
-                robot.elmoReach.setPosition(0.95);
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                robot.elmoSpin.setPosition(0.0);
-            }
-            if (Team8702RobotConfig.CLAPPER_ON) {
-                robot.clapperExtensionLock.setPosition(.5);
-                robot.clapperRight.setPosition(-0.25);
-                robot.clapperLeft.setPosition(0.75);
-                robot.clapperRightB.setPosition(-0.25);
-                robot.clapperLeftB.setPosition(0.75);
-            }
-        }
-        catch (Throwable E) {
-
-        }
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -59,12 +41,11 @@ public class Team8702Teleop extends ActiveOpMode {
         super.onStart();
 
         gamePadOmniWheelDrive = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
-        if (Team8702RobotConfig.CLAPPER_ON) {
-            clapperGamePadServoUpper = new GamePadDuelServo(this, gamepad2, robot.clapperLeft, robot.clapperRight, GamePadDuelServo.Control.X_B,0.00, true);
-            clapperGamePadServoBottom = new BumperGamePadDuelServo(this, gamepad2, robot.clapperLeftB, robot.clapperRightB, BumperGamePadDuelServo.Control.LB_RB, 0.00, true);
-            clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
-            clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.X_B, 0.9);
-        }
+
+        // keep these servo related gamepad controls for future use since we only have 1 servo (servoTest) defined here
+        // clapperGamePadServoUpper = new GamePadDuelServo(this, gamepad2, robot.servoTest, robot.clapperRight, GamePadDuelServo.Control.X_B,0.00, true);
+        // clapperGamePadMotor = new GamePadMotor(this, gamepad2, robot.clapperMotor, GamePadMotor.Control.UP_DOWN_BUTTONS, 0.5f);
+        // clapperGamePadLock = new GamePadServo(this, gamepad1, robot.clapperExtensionLock, GamePadServo.Control.X_B, 0.9);
     }
 
     /**
@@ -75,15 +56,13 @@ public class Team8702Teleop extends ActiveOpMode {
      */
     @Override
     protected void activeLoop() throws InterruptedException {
-        if (Team8702RobotConfig.MOTOR_ON) {
-            gamePadOmniWheelDrive.update();
-        }
-        if (Team8702RobotConfig.CLAPPER_ON) {
-            clapperGamePadServoUpper.update();
-            clapperGamePadServoBottom.update();
-            clapperGamePadMotor.update();
-            clapperGamePadLock.update();
-        }
-        //getTelemetryUtil().sendTelemetry();
+        gamePadOmniWheelDrive.update();
+
+        // keep for future use
+        /*
+        clapperGamePadServoUpper.update();
+        clapperGamePadMotor.update();
+        clapperGamePadLock.update();
+        */
     }
 }
