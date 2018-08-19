@@ -1,5 +1,7 @@
 package org.ftcTeam.opmodes.test;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftcTeam.configurations.test.Team8702AdafruitSensor;
@@ -70,20 +72,28 @@ public class TazeringAdafruitTest extends ActiveOpMode {
         //Boolean Values
         boolean redBoolean = colorSensorComponent.isRed(Red, Blue, Green);
         boolean blueBoolean = colorSensorComponent.isBlue(Red, Blue, Green);
+        boolean greenBoolean = colorSensorComponent.isGreen(Red, Blue, Green);
 
         //Determine which is color to call
+
         if (robot.elmoSensor.red() > robot.elmoSensor.blue() && robot.elmoSensor.red() > robot.elmoSensor.green()) {
             redBoolean = true;
         }
 
-        if (robot.elmoSensor.blue() > robot.elmoSensor.red() && robot.elmoSensor.green() > robot.elmoSensor.red()) {
+        if (robot.elmoSensor.blue() > robot.elmoSensor.red() && robot.elmoSensor.blue() > robot.elmoSensor.red()) {
             blueBoolean = true;
+        }
+
+        if (robot.elmoSensor.green() > robot.elmoSensor.red() && robot.elmoSensor.green() > robot.elmoSensor.blue()) {
+            greenBoolean = true;
         }
 
         if (redBoolean) {
             return ColorValue.RED;
         } else if (blueBoolean) {
             return ColorValue.BLUE;
+        } else if (greenBoolean) {
+            return ColorValue.GREEN;
         }
         return ColorValue.ZILCH;
 

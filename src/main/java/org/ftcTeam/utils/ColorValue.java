@@ -8,5 +8,6 @@ public enum ColorValue {
 
     RED,
     BLUE,
+    GREEN,
     ZILCH
 }

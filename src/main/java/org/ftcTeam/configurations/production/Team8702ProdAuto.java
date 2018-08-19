@@ -45,6 +45,7 @@ public class Team8702ProdAuto extends RobotConfiguration {
     //Color Sensor
     public ColorSensor elmoColorSensor;
 
+
     //Ultrasonic Sensor
     public ModernRoboticsI2cRangeSensor rangeSensorL;
     public ModernRoboticsI2cRangeSensor rangeSensorR;
