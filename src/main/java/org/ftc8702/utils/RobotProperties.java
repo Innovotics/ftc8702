@@ -17,21 +17,14 @@ public class RobotProperties {
     public static final String SERVO_TEST = "servo1";
 
     // Color Sensor
-    public static final String COLOR_ELMO = "colorElmo";
-    public static final String COLOR_PARKING = "colorParking";
-    public static final String COLOR_CRYPT = "colorCrypt";
-
-    // Floor Reader
-    public static final String FLOOR_RIGHT = "floorRight";
-    public static final String FLOOR_LEFT = "floorLeft";
-
-    //Vuforia
-    public static final String VUFORIA = "vuforia";
-    public static final String VUFORIA_DEFTYPE = "vuforiaDefType";
+    public static final String COLOR_SENSOR_FRONT_LEFT = "colorSensorFL";
+    public static final String COLOR_SENSOR_FRONT_RIGHT = "colorSensorFR";
+    public static final String COLOR_SENSOR_BACK_LEFT = "colorSensorBL";
+    public static final String COLOR_SENSOR_BACK_RIGHT = "colorSensorBR";
 
     //Ultrasonic Sensor
-    public static final String ULTRASONIC_SENSOR = "barUTSensorL";
-    public static final String ULTRASONIC_SENSOR_R = "barUTSensorR";
+    public static final String ULTRASONIC_SENSOR_FRONT = "ultraSensorF";
+    public static final String ULTRASONIC_SENSOR_RIGHT = "ultraSensorR";
 
 
 

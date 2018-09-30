@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
-import org.ftcTeam.utils.RobotProperties;
+import org.ftc8702.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 
 import org.ftcbootstrap.components.utils.TelemetryUtil;
@@ -16,6 +16,7 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 
 /**
@@ -76,36 +77,44 @@ public class Team8702ProdAuto extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
 
-        if (Team8702RobotConfig.MOTOR_ON) {
             // Front Motors
             motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
             motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
             // Back Motors
             motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
             motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
-        }
 
-        if (Team8702RobotConfig.ELMO_ON) {
-            // Elmo Servos
-            colorSensorBR = hardwareMap.colorSensor.get(RobotProperties.COLOR_ELMO);
+        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_BACK_LEFT);
+        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_BACK_RIGHT);
+        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_FRONT_LEFT);
+        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_FRONT_RIGHT);
 
-            if (colorSensorBL != null) {
-                getTelemetryUtil().addData("ElmoColorSensor: ", colorSensorBR.toString());
-            } else {
-                getTelemetryUtil().addData("ElmoColorSensor: ", "is null");
-            }
-
-        }
-
-        if (Team8702RobotConfig.CLAPPER_ON) {
-            rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
+            rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_RIGHT);
            // rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
 
             gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
-        }
-
         getTelemetryUtil().sendTelemetry();
     }
 
+    public void initColorSensor(HardwareMap hardwareMap, String sensorName) {
+        ColorSensor colorSensor = hardwareMap.colorSensor.get(sensorName);
 
+        if (colorSensor != null) {
+            getTelemetryUtil().addData("ColorSensor: ", colorSensorBR.toString());
+        } else {
+            getTelemetryUtil().addData("ColorSensor: ", "is null");
+        }
+
+    }
+
+    public void initUltrasonicSensor(HardwareMap hardwareMap, String sensorName) {
+        UltrasonicSensor ultrasonicSensor = hardwareMap.ultrasonicSensor.get(sensorName);
+
+        if (ultrasonicSensor != null) {
+            getTelemetryUtil().addData("UltrasonicSensor: ", rangeSensorF.toString());
+        } else {
+            getTelemetryUtil().addData("UltraSonicSensor: ", "is null");
+        }
+
+    }
 }
