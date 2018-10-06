@@ -1,9 +1,11 @@
 package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 
-@Autonomous(name = "RedAngle", group = "Ops")
+
+@Disabled
 public class AutoModeRedAngle extends AutoModeRed {
 
     @Override

@@ -17,8 +17,7 @@ import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
  * See: {@link GamePadTankDrive}
  */
 
-@TeleOp(name = "GamePadDriveOpModeTeletest", group = "Ops")
-@Disabled
+@TeleOp(name = "GamePadDriveOpModeTeletest", group = "production")
 public class GamePadDriveOpModeTeletest extends ActiveOpMode {
 
     private Team8702TestProd robot;
