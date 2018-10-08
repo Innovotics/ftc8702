@@ -5,7 +5,6 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -24,7 +23,6 @@ abstract class UltronGyroSensorTest extends ActiveOpMode {
     //If it is set to true then State moves to next step
     //Starting of each step, it will set to false so the the can run until
     // robot set to true
-    boolean targetReached = false;
 
     //Declare the MotorToEncoder
     private Team8702TestProd robot;
@@ -69,11 +67,6 @@ abstract class UltronGyroSensorTest extends ActiveOpMode {
     @Override
     protected void activeLoop() throws InterruptedException {
 
-    }
-
-    private void startTheRobot() {
-        // TODO logic later
-        targetReached = true;
     }
 
     //Format method
