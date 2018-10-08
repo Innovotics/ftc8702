@@ -9,4 +9,5 @@ public class RobotProperties {
     //Motor
     public static final String MOTOR_LEFT = "motorL";
     public static final String MOTOR_RIGHT= "motorR";
+    public static final String COLOR_SENSOR_FRONT_LEFT = "colorSensor";
 }
