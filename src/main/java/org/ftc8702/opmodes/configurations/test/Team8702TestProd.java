@@ -3,9 +3,6 @@ package org.ftc8702.opmodes.configurations.test;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-
-import org.ftcTeam.configurations.production.Team8702RobotConfig;
 import org.ftc8702.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
