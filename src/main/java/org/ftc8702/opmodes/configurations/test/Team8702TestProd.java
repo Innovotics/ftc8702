@@ -1,5 +1,6 @@
 package org.ftc8702.opmodes.configurations.test;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -23,6 +24,9 @@ public class Team8702TestProd extends RobotConfiguration {
     //motors
     public DcMotor motorR;
     public DcMotor motorL;
+
+    //Gyro Sensor
+    public BNO055IMU gyroSensor;
 
     /**
      * Factory method for this class
@@ -53,6 +57,10 @@ public class Team8702TestProd extends RobotConfiguration {
             motorR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
             motorL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
 
-            getTelemetryUtil().sendTelemetry();
+            //gyro sensor
+        gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
+
+
+        getTelemetryUtil().sendTelemetry();
     }
 }
