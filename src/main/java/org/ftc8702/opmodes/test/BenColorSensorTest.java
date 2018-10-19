@@ -35,39 +35,27 @@ public class BenColorSensorTest extends ActiveOpMode {
         getTelemetryUtil().addData("red", Integer.toString(robotConfig.colorSensor.red()));
         getTelemetryUtil().addData("blue", Integer.toString(robotConfig.colorSensor.blue()));
         getTelemetryUtil().addData("green", Integer.toString(robotConfig.colorSensor.green()));
+        getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robotConfig.colorSensor.red() - robotConfig.colorSensor.blue())));
     }
 
     public ColorValue getColor() {
-        int Red = colorSensorComponent.getR();
-        int Blue = colorSensorComponent.getB();
-        int Green = colorSensorComponent.getG();
-
-        //Boolean Values
-        boolean redBoolean = colorSensorComponent.isRed(Red, Blue, Green);
-        boolean blueBoolean = colorSensorComponent.isBlue(Red, Blue, Green);
-        boolean greenBoolean = colorSensorComponent.isGreen(Red, Blue, Green);
+        //Helping fix the red color sense correctly, 20 is to offset the color sensor bias toward red.
+        int FixRed = 20;
 
         //Determine which is color to call
-
-        if (robotConfig.colorSensor.red() > robotConfig.colorSensor.blue() && robotConfig.colorSensor.red() > robotConfig.colorSensor.green()) {
-            redBoolean = true;
+        if ( Math.abs(robotConfig.colorSensor.red() - robotConfig.colorSensor.blue()) > FixRed
+                && Math.abs(robotConfig.colorSensor.red() -  robotConfig.colorSensor.green()) > FixRed) {
+            return ColorValue.RED;
         }
 
-        if (robotConfig.colorSensor.blue() > robotConfig.colorSensor.red() && robotConfig.colorSensor.blue() > robotConfig.colorSensor.red()) {
-            blueBoolean = true;
+        if (robotConfig.colorSensor.blue() > robotConfig.colorSensor.red() && robotConfig.colorSensor.blue() > robotConfig.colorSensor.green()) {
+            return ColorValue.BLUE;
         }
 
         if (robotConfig.colorSensor.green() > robotConfig.colorSensor.red() && robotConfig.colorSensor.green() > robotConfig.colorSensor.blue()) {
-            greenBoolean = true;
-        }
-
-        if (redBoolean) {
-            return ColorValue.RED;
-        } else if (blueBoolean) {
-            return ColorValue.BLUE;
-        } else if (greenBoolean) {
             return ColorValue.GREEN;
         }
+
         return ColorValue.ZILCH;
     }
 }
