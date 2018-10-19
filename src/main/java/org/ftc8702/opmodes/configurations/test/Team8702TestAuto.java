@@ -6,6 +6,8 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.ftcTeam.configurations.production.Team8702RobotConfig;
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 
@@ -62,9 +64,11 @@ public class Team8702TestAuto extends RobotConfiguration {
     @Override
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
-            // Front Motors
 
+        if (Team8702RobotConfig.MOTOR_ON) {
+            // Front Motors
             motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
+        }
 
             rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
 
