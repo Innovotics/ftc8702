@@ -1,4 +1,4 @@
-package org.ftc8702.opmodes;
+package org.ftc8702.components.motors;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
