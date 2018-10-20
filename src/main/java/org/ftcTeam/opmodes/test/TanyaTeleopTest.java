@@ -1,5 +1,6 @@
 package org.ftcTeam.opmodes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.test.Team8702Clapper;
@@ -8,6 +9,7 @@ import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 
 @TeleOp(name="TanyaTeleopTest", group="test")
+@Disabled
 public class TanyaTeleopTest extends ActiveOpMode {
 
     //private Team8702Prod robot;

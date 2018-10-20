@@ -1,6 +1,7 @@
 package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.ftcTeam.utils.ColorValue;
 import org.ftcTeam.utils.RobotAutonomousUtils;
@@ -9,6 +10,7 @@ import javax.xml.transform.sax.TemplatesHandler;
 
 
 @Autonomous(name = "BlueAngle", group = "Ops")
+@Disabled
 public class AutoModeBlueAngle extends AutoModeBlue {
 
 

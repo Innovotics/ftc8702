@@ -10,7 +10,6 @@ public class RobotProperties {
     public static final String MOTOR_LEFT = "motorL";
     public static final String MOTOR_RIGHT= "motorR";
 
-
     //Color sensor
     public static final String COLOR_SENSOR_FRONT_LEFT= "colorSensorFL";
     public static final String COLOR_SENSOR_FRONT_RIGHT= "colorSensorFR";

@@ -30,6 +30,7 @@ import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "Sensor: MR range sensor", group = "Sensor")
+@Disabled
 public class SensorMRRangeSensor extends ActiveOpMode {
 
         //28 for bar

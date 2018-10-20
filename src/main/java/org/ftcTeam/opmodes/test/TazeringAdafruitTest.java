@@ -3,6 +3,7 @@ package org.ftcTeam.opmodes.test;
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.ftcTeam.configurations.test.Team8702AdafruitSensor;
 import org.ftcTeam.utils.ColorValue;
@@ -16,6 +17,7 @@ import org.ftcbootstrap.components.ColorSensorComponent;
 
 
 @Autonomous(name = "Test: Adafruit", group = "Test")
+@Disabled
 public class TazeringAdafruitTest extends ActiveOpMode {
 
     //Declare the MotorToEncoder

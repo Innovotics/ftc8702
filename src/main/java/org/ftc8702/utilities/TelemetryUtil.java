@@ -1,4 +1,4 @@
-package org.ftc8702.utils;
+package org.ftc8702.utilities;
 
 import org.ftcbootstrap.ActiveOpMode;
 

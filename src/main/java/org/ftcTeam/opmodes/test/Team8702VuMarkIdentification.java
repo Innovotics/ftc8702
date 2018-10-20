@@ -69,6 +69,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 // Copied and renamed from ConceptVuMarkIdentification.java
 @Autonomous(name="VuMark Id test", group ="test")
+@Disabled
 public class Team8702VuMarkIdentification extends LinearOpMode {
 
     public static final String TAG = "Vuforia VuMark Sample";
