@@ -111,8 +111,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         //Set state to Init
         currentState = State.INIT;
 
-
-
         this.elmoOperation = new ElmoOperation(this);
 
         this.clapperOperation = new ClapperOperation(this);

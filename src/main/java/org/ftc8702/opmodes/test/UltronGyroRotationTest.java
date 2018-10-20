@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.ftc8702.components.ImuGyroSensor;
 import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
 import org.ftc8702.utils.test.RobotTwoWheelsAutonomousUtil;
 import org.ftcbootstrap.ActiveOpMode;
@@ -49,14 +50,7 @@ public class UltronGyroRotationTest extends ActiveOpMode {
         //specify configuration name save from scan operation
         robot = Team8702TestAuto.newConfig(hardwareMap, getTelemetryUtil());
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        robot.imu.initialize(parameters);
+               robot.imu.initialize(ImuGyroSensor.getParameters());
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -71,6 +65,9 @@ public class UltronGyroRotationTest extends ActiveOpMode {
         //set reference
         robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
         initialAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+        getTelemetryUtil().addData("Angle", ImuGyroSensor.formatAngle(angles.angleUnit, angles.firstAngle));
+        getTelemetryUtil().sendTelemetry();
+
 
     }
 
@@ -83,15 +80,13 @@ public class UltronGyroRotationTest extends ActiveOpMode {
     @Override
     protected void activeLoop() throws InterruptedException {
 
-        getTelemetryUtil().addData("step: " + step, "current");
-
         //Take Reference Angle
-        RobotTwoWheelsAutonomousUtil.rotateMotor90(initialAngle, robot.imu, robot.motorR, robot.motorL);
+//        RobotTwoWheelsAutonomousUtil.rotateMotor90(initialAngle, robot.imu, robot.motorR, robot.motorL);
 
-        getTelemetryUtil().addData("")
+            telemetry.update();
+            getTelemetryUtil().sendTelemetry();
 
         //send any telemetry that may have been added in the above operations
-        getTelemetryUtil().sendTelemetry();
 
 
 
