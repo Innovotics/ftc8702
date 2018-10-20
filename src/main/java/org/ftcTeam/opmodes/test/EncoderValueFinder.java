@@ -1,6 +1,7 @@
 package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftcTeam.configurations.production.Team8702Prod;
@@ -10,6 +11,7 @@ import org.ftcbootstrap.components.utils.MotorDirection;
 
 
 @Autonomous(name = "AutoModeTest", group = "Ops")
+@Disabled
 public class EncoderValueFinder extends ActiveOpMode {
 
     // 1 rotation for 40 neverest motor is 1140

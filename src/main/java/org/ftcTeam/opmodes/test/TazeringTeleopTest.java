@@ -1,5 +1,6 @@
 package org.ftcTeam.opmodes.test;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.production.Team8702Prod;
@@ -9,6 +10,7 @@ import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 
 @TeleOp(name = "TazeringTeleopTest", group = "test")
+@Disabled
 public class TazeringTeleopTest extends ActiveOpMode {
     private Team8702Prod robot;
     private GamePadOmniWheelDrive gamePadOmniWheelDrive;

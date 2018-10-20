@@ -4,12 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftcTeam.configurations.test.Team8702Elmo;
 import org.ftcbootstrap.ActiveOpMode;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Autonomous(name="TazeringElmoServerTest", group="Autonomous")
+@Disabled
 public class TazeringElmoServoTest extends ActiveOpMode {
 
     //Declare the robot

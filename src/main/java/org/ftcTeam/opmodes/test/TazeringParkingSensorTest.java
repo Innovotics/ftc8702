@@ -1,6 +1,7 @@
 package org.ftcTeam.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.ftcTeam.configurations.test.Team8702ParkingSensor;
 import org.ftcTeam.utils.ColorValue;
@@ -14,6 +15,7 @@ import org.ftcbootstrap.ActiveOpMode;
 
 
 @Autonomous(name = "Test: Parking", group = "Test")
+@Disabled
 public class TazeringParkingSensorTest extends ActiveOpMode {
 
     //Declare the MotorToEncoder
