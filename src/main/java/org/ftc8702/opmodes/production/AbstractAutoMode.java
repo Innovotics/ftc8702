@@ -3,30 +3,21 @@ package org.ftc8702.opmodes.production;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.ftc8702.opmodes.FourWheelMotors;
-import org.ftc8702.opmodes.MecanumWheelMotors;
+import org.ftc8702.components.ImuGyroSensor;
+import org.ftc8702.components.color.ColorSensorComponent;
+import org.ftc8702.components.motors.FourWheelMotors;
+import org.ftc8702.components.motors.MecanumWheelMotors;
+import org.ftc8702.utils.ColorValue;
+import org.ftc8702.utils.RobotAutonomousUtils;
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
-import org.ftcTeam.opmodes.production.ClapperOperation;
-import org.ftcTeam.opmodes.production.ElmoOperation;
-import org.ftcTeam.opmodes.production.EncoderBasedOmniWheelController;
-import org.ftcTeam.utils.ColorValue;
-import org.ftcTeam.utils.CryptoBoxLocation;
-import org.ftcTeam.utils.RobotAutonomousUtils;
+
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.ColorSensorComponent;
+
 
 import java.util.Locale;
 
@@ -98,20 +89,13 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         //Color Sensor
         colorSensorComponent = new ColorSensorComponent(this, robot.elmoColorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
-        robot.imu.initialize(parameters);
+        robot.imu.initialize(ImuGyroSensor.getParameters());
         angles =  robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         initialAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
-        getTelemetryUtil().addData("Heading Angle", formatAngle(angles.angleUnit, angles.firstAngle) );
+        getTelemetryUtil().addData("Heading Angle", ImuGyroSensor.formatAngle(angles.angleUnit, angles.firstAngle) );
         getTelemetryUtil().sendTelemetry();
     }
 
@@ -222,15 +206,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         return false;
     }
 
-
-    String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-
-    String formatDegrees(double degrees) {
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
-    }
 
     private double feedbackAngle() {
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);

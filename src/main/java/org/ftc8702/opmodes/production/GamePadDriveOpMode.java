@@ -1,9 +1,8 @@
 package org.ftc8702.opmodes.production;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftc8702.opmodes.configurations.test.Team8702TestProd;
+import org.ftc8702.opmodes.configurations.production.ProdManualRobot;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 
@@ -17,10 +16,10 @@ import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
  * See: {@link GamePadTankDrive}
  */
 
-@TeleOp(name = "GamePadDriveOpModeTeletest", group = "production")
-public class GamePadDriveOpModeTeletest extends ActiveOpMode {
+@TeleOp(name = "GamePadDriveOpMode", group = "production")
+public class GamePadDriveOpMode extends ActiveOpMode {
 
-    private Team8702TestProd robot;
+    private ProdManualRobot robot;
     private GamePadTankDrive gamePadTankDrive;
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -28,7 +27,7 @@ public class GamePadDriveOpModeTeletest extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = Team8702TestProd.newConfig(hardwareMap, getTelemetryUtil());
+        robot = ProdManualRobot.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
