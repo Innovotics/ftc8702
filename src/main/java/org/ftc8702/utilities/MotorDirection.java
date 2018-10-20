@@ -1,4 +1,4 @@
-package org.ftc8702.utils;
+package org.ftc8702.utilities;
 
 /**
  * Enum to define common motor directions

@@ -1,7 +1,8 @@
-package org.ftc8702.utils;
+package org.ftc8702.utilities;
 
 
-import org.ftcbootstrap.components.ColorSensorComponent;
+import org.ftc8702.utils.ColorValue;
+
 
 /**
  * Created by tylerkim on 12/21/16.
