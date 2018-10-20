@@ -1,5 +1,6 @@
 package org.ftcTeam.opmodes.production;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
@@ -12,6 +13,7 @@ import org.ftcbootstrap.components.operations.motors.GamePadMotor;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
 @TeleOp(name = "Team8702Teleop", group = "production")
+@Disabled
 public class Team8702Teleop extends ActiveOpMode {
 
     private Team8702Prod robot;
