@@ -1,11 +1,9 @@
 package org.ftc8702.opmodes.configurations.production;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-
-import org.ftcTeam.configurations.production.Team8702RobotConfig;
-import org.ftcTeam.utils.RobotProperties;
+import org.ftc8702.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -18,16 +16,14 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702Prod extends RobotConfiguration {
+public class ProdManualRobot extends RobotConfiguration {
     //51.4 = 1 inch
     //motors
-    public DcMotor motorFR;
-    public DcMotor motorFL;
-    public DcMotor motorBR;
-    public DcMotor motorBL;
+    public DcMotor motorR;
+    public DcMotor motorL;
 
-    //Servo
-    public Servo servoTest;
+    //Gyro Sensor
+    public BNO055IMU gyroSensor;
 
     /**
      * Factory method for this class
@@ -36,9 +32,9 @@ public class Team8702Prod extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static Team8702Prod newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static ProdManualRobot newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        Team8702Prod config = new Team8702Prod();
+        ProdManualRobot config = new ProdManualRobot();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
@@ -54,18 +50,13 @@ public class Team8702Prod extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-        if (Team8702RobotConfig.MOTOR_ON) {
             // Front Motors
-            motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-            motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
+            motorR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
+            motorL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
 
-            // Back Motors
-            motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
-            motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
-        }
+            //gyro sensor
+        gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
 
-        //Clapper Parts
-        servoTest = (Servo) getHardwareOn(RobotProperties.SERVO_TEST, hardwareMap.servo);
 
         getTelemetryUtil().sendTelemetry();
     }
