@@ -3,15 +3,15 @@ package org.ftc8702.opmodes.test;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
 import org.ftc8702.utils.test.RobotTwoWheelsAutonomousUtil;
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
 
 
 /**
@@ -50,11 +50,11 @@ public class UltronGyroRotationTest extends ActiveOpMode {
         robot = Team8702TestAuto.newConfig(hardwareMap, getTelemetryUtil());
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         robot.imu.initialize(parameters);
 
@@ -63,66 +63,38 @@ public class UltronGyroRotationTest extends ActiveOpMode {
     }
 
     @Override
-    protected void onStart() throws InterruptedException  {
+    protected void onStart() throws InterruptedException {
         super.onStart();
-        step = 1;
+
+        angles =  robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
 
         //set reference
         robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
+        initialAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+
     }
 
     /**
      * Implement this method to define the code to run when the Start button is pressed on the Driver station.
      * This method will be called on each hardware cycle just as the loop() method is called for event based Opmodes
-     *  @throws InterruptedException
+     *
+     * @throws InterruptedException
      */
     @Override
     protected void activeLoop() throws InterruptedException {
 
-        getTelemetryUtil().addData("step: " + step , "current");
+        getTelemetryUtil().addData("step: " + step, "current");
 
-        boolean targetReached = false;
+        //Take Reference Angle
+        RobotTwoWheelsAutonomousUtil.rotateMotor90(initialAngle, robot.imu, robot.motorR, robot.motorL);
 
-        switch (step) {
-            case 1:
-                //Take Reference Angle
-                if(targetReached == false) {
-                    initialAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
-                    targetReached = true;
-                }
-                if (targetReached) {
-                    targetReached = false;
-                    step++;
-                }
-                break;
-            case 2:
-                //Rotate According to Reference Angle
-                if(targetReached == false) {
-                    RobotTwoWheelsAutonomousUtil.rotateMotor90(initialAngle, robot.imu,robot.motorR, robot.motorL);
-                    targetReached = true;
-                }
-
-                if(targetReached) {
-                    targetReached = false;
-                    step = 99;
-                }
-                break;
-            case 99:
-                getTelemetryUtil().addData("step" + step + " Opmode Status", "Robot Stopped.  Kill switch activated");
-                setOperationsCompleted();
-                break;
-
-            default:
-                setOperationsCompleted();
-                break;
-
-        }
-
+        getTelemetryUtil().addData("")
 
         //send any telemetry that may have been added in the above operations
         getTelemetryUtil().sendTelemetry();
 
 
-    }
 
     }
+
+}
