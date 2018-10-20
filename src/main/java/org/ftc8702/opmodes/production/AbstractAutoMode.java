@@ -56,6 +56,8 @@ abstract class AbstractAutoMode extends ActiveOpMode {
     //Starting of each step, it will set to false so the the can run until
     // robot set to true
     boolean targetReached = false;
+    private int initDegree;
+    private int degrees = 0;
 
     //States
     private State currentState;
@@ -130,12 +132,25 @@ abstract class AbstractAutoMode extends ActiveOpMode {
                 logStage();
                 //set targetReached to true
                 startTheRobot();
+                currentState = State.KNOCK_BLOCK;
 
                 //test if targetReached is true
                 if (targetReached) {
                     targetReached = false;
                 }
                 break;
+
+            case KNOCK_BLOCK: //Turn 45 degrees
+                logStage();
+
+
+                //set targetReached to true
+                if (targetReached) {
+                    targetReached = false;
+                }
+
+
+
             case DONE: // When all operations are complete
                 logStage();
 

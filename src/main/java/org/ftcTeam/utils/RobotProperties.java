@@ -7,10 +7,8 @@ package org.ftcTeam.utils;
 public class RobotProperties {
 
     //Motor
-    public static final String MOTOR_RIGHT_FRONT = "motorRF";
-    public static final String MOTOR_RIGHT_BACK = "motorRB";
-    public static final String MOTOR_LEFT_FRONT = "motorLF";
-    public static final String MOTOR_LEFT_BACK = "motorLB";
+    public static final String MOTOR_RIGHT_FRONT = "motorR";
+    public static final String MOTOR_LEFT_FRONT = "motorL";
 
     //Servos
     // Servo for testing

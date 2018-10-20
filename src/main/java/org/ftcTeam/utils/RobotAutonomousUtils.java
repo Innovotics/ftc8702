@@ -31,18 +31,14 @@ public class RobotAutonomousUtils {
         }
     }
 
-    public static void rotateMotor(DcMotor motorR, DcMotor motorL, DcMotor motorBL, DcMotor motorBR) {
+    public static void rotateMotor(DcMotor motorR, DcMotor motorL) {
         try {
             motorR.setPower(.5 * (1));
             motorL.setPower(.5 * (1));
-            motorBR.setPower(.5 * (1));
-            motorBL.setPower(.5 * (1));
             Thread.sleep(2200);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        pauseMotor(motorR, motorL, motorBL, motorBR);
-
     }
 
     public static void continuousRotateMotorLeft(DcMotor motorR, DcMotor motorL, DcMotor motorBL, DcMotor motorBR) {

@@ -35,10 +35,6 @@ public class Team8702ProdAuto extends RobotConfiguration {
     public DcMotor motorBR;
     public DcMotor motorBL;
 
-//    public MotorToEncoder motorToEncoderFR;
-//    public MotorToEncoder motorToEncoderFL;
-//    public MotorToEncoder motorToEncoderBR;
-//    public MotorToEncoder motorToEncoder
 
 
     //Color Sensor
@@ -77,9 +73,6 @@ public class Team8702ProdAuto extends RobotConfiguration {
             // Front Motors
             motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
             motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
-            // Back Motors
-            motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
-            motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
 
 //        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_BACK_LEFT);
 //        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_BACK_RIGHT);

@@ -1,18 +1,22 @@
 package org.ftc8702.opmodes.test;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.ftcbootstrap.demos.demobot.DemoBot;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.ftc8702.utils.test.RobotTwoWheelsAutonomousUtil;
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.utils.MotorDirection;
 import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
+
 
 /**
  * Note: This Exercise assumes that you have used your Robot Controller App to "scan" your hardware and
- * saved the configuration named: "DemoBot" and creating a class by the same name: {@link DemoBot}.
+ * saved the configuration named: "DemoBot" and creating a class by the same name: {@link }.
  * <p/>
  * Note:  It is assumed that the proper registry is used for this set of demos. To confirm please
  * search for "Enter your custom registry here"  in  {@link org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;}
@@ -23,13 +27,18 @@ import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
  */
 
 
-@Autonomous(name = "UltronEncoderTest", group = "Sensors Test")
-public class UltronEncoderTest extends ActiveOpMode {
+@Autonomous(name = "UltronGyroRotationTest", group = "Sensors Test")
+public class UltronGyroRotationTest extends ActiveOpMode {
 
     private Team8702TestAuto robot;
 
-    private MotorToEncoder motorToEncoder;
     private int step;
+
+    Orientation angles;
+    Acceleration gravity;
+    double initialAngle;
+    double currentAngle;
+    double targetAngle;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -40,18 +49,26 @@ public class UltronEncoderTest extends ActiveOpMode {
         //specify configuration name save from scan operation
         robot = Team8702TestAuto.newConfig(hardwareMap, getTelemetryUtil());
 
-        motorToEncoder = new MotorToEncoder(  this, robot.motorFR);
-        motorToEncoder.setName("motorFR");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        robot.imu.initialize(parameters);
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
-
     }
 
     @Override
     protected void onStart() throws InterruptedException  {
         super.onStart();
         step = 1;
+
+        //set reference
+        robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
     }
 
     /**
@@ -68,11 +85,25 @@ public class UltronEncoderTest extends ActiveOpMode {
 
         switch (step) {
             case 1:
-
-                //full power , forward for 8880
-                targetReached = motorToEncoder.runToTarget(1, 9600,
-                        MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+                //Take Reference Angle
+                if(targetReached == false) {
+                    initialAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+                    targetReached = true;
+                }
                 if (targetReached) {
+                    targetReached = false;
+                    step++;
+                }
+                break;
+            case 2:
+                //Rotate According to Reference Angle
+                if(targetReached == false) {
+                    RobotTwoWheelsAutonomousUtil.rotateMotor90(initialAngle, robot.imu,robot.motorR, robot.motorL);
+                    targetReached = true;
+                }
+
+                if(targetReached) {
+                    targetReached = false;
                     step = 99;
                 }
                 break;

@@ -6,8 +6,6 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.ftcTeam.configurations.production.Team8702RobotConfig;
 import org.ftcTeam.utils.RobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 
@@ -15,7 +13,6 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import com.qualcomm.robotcore.hardware.Servo;
 import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 
@@ -30,15 +27,13 @@ import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 public class Team8702TestAuto extends RobotConfiguration {
     //51.4 = 1 inch
     //motors
-    public DcMotor motorFR;
+    public DcMotor motorR;
+    public DcMotor motorL;
 
     public MotorToEncoder motorToEncoder;
 
-    //Color Sensor
-    public ColorSensor elmoColorSensor;
-
     //Ultrasonic Sensor
-    public ModernRoboticsI2cRangeSensor rangeSensorL;
+//    public ModernRoboticsI2cRangeSensor rangeSensorL;
     public BNO055IMU imu;
 
     /**
@@ -64,13 +59,10 @@ public class Team8702TestAuto extends RobotConfiguration {
     @Override
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
+            motorR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
+            motorL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
 
-        if (Team8702RobotConfig.MOTOR_ON) {
-            // Front Motors
-            motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-        }
-
-            rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
+//            rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
 
             imu = hardwareMap.get(BNO055IMU.class, "imu");
 
