@@ -63,7 +63,10 @@ abstract class AbstractAutoMode extends LinearOpMode {
         robot.init(hardwareMap);
     }
 
-
+    @Override
+    public void runOpMode() throws InterruptedException {
+        onInit();
+    }
 
 }
 
