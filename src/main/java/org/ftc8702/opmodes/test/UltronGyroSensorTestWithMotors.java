@@ -30,10 +30,8 @@
 package org.ftc8702.opmodes.test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -67,6 +65,9 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
     Orientation angles;
     Acceleration gravity;
     Team8702TestAuto robot = new Team8702TestAuto();
+    private double initialAngle;
+    private double currentAngle;
+
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -89,6 +90,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
         parameters.loggingTag          = "IMU";
 
         robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
+        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         robot.init(hardwareMap);
 
@@ -100,8 +102,14 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
         // Wait until we're told to go
         waitForStart();
 
+
+
         // Loop and update the dashboard
         while (opModeIsActive()) {
+            boolean isCompleted = runWithCondition(-90);
+            if(isCompleted){
+                break;
+            }
             telemetry.update();
         }
     }
@@ -164,4 +172,17 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
+    boolean runWithCondition( double angle){
+        currentAngle = angles.firstAngle;
+        if(currentAngle > angle) {
+            robot.leftMotor.setPower(0.0);
+            robot.rightMotor.setPower(0.0);
+            return true;
+        }
+            robot.leftMotor.setPower(-0.2);
+            robot.rightMotor.setPower(0.2);
+            return false;
+
+
+    }
 }
