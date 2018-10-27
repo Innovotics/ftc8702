@@ -27,79 +27,40 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702ProdAuto extends RobotConfiguration {
-    //51.4 = 1 inch
-    //motors
-    public DcMotor motorFR;
-    public DcMotor motorFL;
-    public DcMotor motorBR;
-    public DcMotor motorBL;
+public class Team8702ProdAuto  {
+    public DcMotor motorR;
+    public DcMotor motorL;
 
-//    public MotorToEncoder motorToEncoderFR;
-//    public MotorToEncoder motorToEncoderFL;
-//    public MotorToEncoder motorToEncoderBR;
-//    public MotorToEncoder motorToEncoder
-
-
-    //Color Sensor
-    public ColorSensor colorSensorBR;
-
-    //Ultrasonic Sensor
-    public ModernRoboticsI2cRangeSensor rangeSensorR;
-    public ModernRoboticsI2cRangeSensor rangeSensorF;
-    //FIGURE OUT HOW TO USE
     public BNO055IMU gyroSensor;
 
-    /**
-     * Factory method for this class
-     *
-     * @param hardwareMap
-     * @param telemetryUtil
-     * @return
-     */
-    public static Team8702ProdAuto newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    //Ultrasonic Sensor
+//    public ModernRoboticsI2cRangeSensor rangeSensorR;
+//    public ModernRoboticsI2cRangeSensor rangeSensorF;
+    //FIGURE OUT HOW TO USE
 
-        Team8702ProdAuto config = new Team8702ProdAuto();
-        config.init(hardwareMap, telemetryUtil);
-        return config;
+    /* local OpMode members. */
+    HardwareMap hwMap   =  null;
+
+    public Team8702ProdAuto() {
+
     }
 
-    /**
-     * Assign your class instance variables to the saved device names in the hardware map
-     *
-     * @param hardwareMap
-     * @param telemetryUtil
-     */
-    @Override
-    protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
-        setTelemetry(telemetryUtil);
+    public void init(HardwareMap hardwareMap) {
+        hwMap = hardwareMap;
 
-            // Front Motors
-            motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-            motorFL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
-            // Back Motors
-            motorBR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_BACK, hardwareMap.dcMotor);
-            motorBL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT_BACK, hardwareMap.dcMotor);
+        motorR = hwMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
+        motorL = hwMap.get(DcMotor.class, RobotProperties.MOTOR_LEFT_FRONT);
 
-//        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_BACK_LEFT);
-//        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_BACK_RIGHT);
-//        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_FRONT_LEFT);
-//        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_FRONT_RIGHT);
-//
-//            rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_RIGHT);
-//           // rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
-
-            gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
-        getTelemetryUtil().sendTelemetry();
+        gyroSensor = hwMap.get(BNO055IMU.class, "imu");
     }
 
     public void initColorSensor(HardwareMap hardwareMap, String sensorName) {
         ColorSensor colorSensor = hardwareMap.colorSensor.get(sensorName);
 
         if (colorSensor != null) {
-            getTelemetryUtil().addData("ColorSensor: ", colorSensorBR.toString());
+            //getTelemetryUtil().addData("ColorSensor: ", colorSensorBR.toString());
         } else {
-            getTelemetryUtil().addData("ColorSensor: ", "is null");
+            //getTelemetryUtil().addData("ColorSensor: ", "is null");
         }
 
     }
@@ -108,9 +69,9 @@ public class Team8702ProdAuto extends RobotConfiguration {
         UltrasonicSensor ultrasonicSensor = hardwareMap.ultrasonicSensor.get(sensorName);
 
         if (ultrasonicSensor != null) {
-            getTelemetryUtil().addData("UltrasonicSensor: ", rangeSensorF.toString());
+            //getTelemetryUtil().addData("UltrasonicSensor: ", rangeSensorF.toString());
         } else {
-            getTelemetryUtil().addData("UltraSonicSensor: ", "is null");
+            //getTelemetryUtil().addData("UltraSonicSensor: ", "is null");
         }
 
     }

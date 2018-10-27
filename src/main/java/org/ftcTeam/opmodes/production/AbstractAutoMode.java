@@ -111,8 +111,6 @@ abstract class AbstractAutoMode extends ActiveOpMode {
         //Set state to Init
         currentState = State.INIT;
 
-
-
         this.elmoOperation = new ElmoOperation(this);
 
         this.clapperOperation = new ClapperOperation(this);
@@ -277,7 +275,7 @@ abstract class AbstractAutoMode extends ActiveOpMode {
 
                     RobotAutonomousUtils.adjustStrafRight( robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL, 0.0, 0, robot.imu, robot);
 
-                   // RobotAutonomousUtils.adjustStrafRight( robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+                   // RobotTwoWheelsAutonomousUtil.adjustStrafRight( robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
 
                 } else {
                     RobotAutonomousUtils.strafAdjustLeft(cryptoBoxLocation, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);

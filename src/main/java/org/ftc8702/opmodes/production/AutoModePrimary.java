@@ -3,8 +3,7 @@ package org.ftc8702.opmodes.production;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.ftcTeam.utils.ColorValue;
-
+import org.ftc8702.utils.ColorValue;
 
 @Autonomous(name = "AutoModePrimary", group = "Ops")
 @Disabled
@@ -19,3 +18,4 @@ public class AutoModePrimary extends AbstractAutoMode {
         return false;
     }
 }
+

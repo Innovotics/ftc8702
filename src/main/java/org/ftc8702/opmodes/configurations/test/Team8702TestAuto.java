@@ -1,79 +1,99 @@
+/* Copyright (c) 2017 FIRST. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided that
+ * the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice, this list
+ * of conditions and the following disclaimer.
+ *
+ * Redistributions in binary form must reproduce the above copyright notice, this
+ * list of conditions and the following disclaimer in the documentation and/or
+ * other materials provided with the distribution.
+ *
+ * Neither the name of FIRST nor the names of its contributors may be used to endorse or
+ * promote products derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
+ * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package org.ftc8702.opmodes.configurations.test;
 
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.ftcTeam.configurations.production.Team8702RobotConfig;
-import org.ftcTeam.utils.RobotProperties;
-import org.ftcbootstrap.RobotConfiguration;
-
-import org.ftcbootstrap.components.utils.TelemetryUtil;
-
-import com.qualcomm.robotcore.hardware.ColorSensor;
-
 import com.qualcomm.robotcore.hardware.Servo;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
+import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.ftcTeam.utils.RobotProperties;
 
 /**
- * FTCTeamRobot Saved Configuration
- * <p/>
- * It is assumed that there is a configuration on the phone running the Robot Controller App with the same name as this class and
- * that  configuration is the one that is marked 'activated' on the phone.
- * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
- * saved configuration on the phone.
+ * This is NOT an opmode.
+ *
+ * This class can be used to define all the specific hardware for a single robot.
+ * In this case that robot is a Pushbot.
+ * See PushbotTeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
+ *
+ * This hardware class assumes the following device names have been configured on the robot:
+ * Note:  All names are lower case and some have single spaces between words.
+ *
+ * Motor channel:  Left  drive motor:        "left_drive"
+ * Motor channel:  Right drive motor:        "right_drive"
+ * Motor channel:  Manipulator drive motor:  "left_arm"
+ * Servo channel:  Servo to open left claw:  "left_hand"
+ * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Team8702TestAuto extends RobotConfiguration {
-    //51.4 = 1 inch
-    //motors
-    public DcMotor motorFR;
-
-    public MotorToEncoder motorToEncoder;
-
-    //Color Sensor
-    public ColorSensor elmoColorSensor;
-
-    //Ultrasonic Sensor
-    public ModernRoboticsI2cRangeSensor rangeSensorL;
+public class Team8702TestAuto
+{
+    /* Public OpMode members. */
+    public DcMotor  leftMotor   = null;
+    public DcMotor  rightMotor  = null;
     public BNO055IMU imu;
 
-    /**
-     * Factory method for this class
-     *
-     * @param hardwareMap
-     * @param telemetryUtil
-     * @return
-     */
-    public static Team8702TestAuto newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        Team8702TestAuto config = new Team8702TestAuto();
-        config.init(hardwareMap, telemetryUtil);
-        return config;
+    /* local OpMode members. */
+    HardwareMap hwMap           =  null;
+    private ElapsedTime period  = new ElapsedTime();
+
+    /* Constructor */
+    public Team8702TestAuto(){
+
     }
 
-    /**
-     * Assign your class instance variables to the saved device names in the hardware map
-     *
-     * @param hardwareMap
-     * @param telemetryUtil
-     */
-    @Override
-    protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
-        setTelemetry(telemetryUtil);
+    /* Initialize standard Hardware interfaces */
+    public void init(HardwareMap ahwMap) {
+        // Save reference to Hardware map
+        hwMap = ahwMap;
 
-        if (Team8702RobotConfig.MOTOR_ON) {
-            // Front Motors
-            motorFR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-        }
+        imu = hwMap.get(BNO055IMU.class, "imu");
 
-            rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
 
-            imu = hardwareMap.get(BNO055IMU.class, "imu");
+        // Define and Initialize Motors
+        leftMotor  = hwMap.get(DcMotor.class, RobotProperties.MOTOR_LEFT_FRONT);
+        rightMotor = hwMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
+        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
-        getTelemetryUtil().sendTelemetry();
+        // Set all motors to zero power
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        // Set all motors to run without encoders.
+        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 }
+
