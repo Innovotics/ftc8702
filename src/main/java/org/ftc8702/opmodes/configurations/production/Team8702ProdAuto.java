@@ -46,7 +46,6 @@ public class Team8702ProdAuto  {
     //FIGURE OUT HOW TO USE
     public BNO055IMU gyroSensor;
 
-
     /* local OpMode members. */
     HardwareMap hwMap   =  null;
 
