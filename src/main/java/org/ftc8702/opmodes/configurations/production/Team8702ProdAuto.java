@@ -28,23 +28,15 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * saved configuration on the phone.
  */
 public class Team8702ProdAuto  {
-    //51.4 = 1 inch
-    //motors
-    public DcMotor motorFR;
-    public DcMotor motorFL;
-    public DcMotor motorBR;
-    public DcMotor motorBL;
+    public DcMotor motorR;
+    public DcMotor motorL;
 
-
-
-    //Color Sensor
-    public ColorSensor colorSensorBR;
+    public BNO055IMU gyroSensor;
 
     //Ultrasonic Sensor
-    public ModernRoboticsI2cRangeSensor rangeSensorR;
-    public ModernRoboticsI2cRangeSensor rangeSensorF;
+//    public ModernRoboticsI2cRangeSensor rangeSensorR;
+//    public ModernRoboticsI2cRangeSensor rangeSensorF;
     //FIGURE OUT HOW TO USE
-    public BNO055IMU gyroSensor;
 
     /* local OpMode members. */
     HardwareMap hwMap   =  null;
@@ -56,18 +48,10 @@ public class Team8702ProdAuto  {
     public void init(HardwareMap hardwareMap) {
         hwMap = hardwareMap;
 
-        motorFR = hwMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
-        motorFL = hwMap.get(DcMotor.class, RobotProperties.MOTOR_LEFT_FRONT);
+        motorR = hwMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
+        motorL = hwMap.get(DcMotor.class, RobotProperties.MOTOR_LEFT_FRONT);
 
-//        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_BACK_LEFT);
-//        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_BACK_RIGHT);
-//        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_FRONT_LEFT);
-//        initColorSensor(hardwareMap, RobotProperties.COLOR_SENSOR_FRONT_RIGHT);
-//
-//            rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_RIGHT);
-//           // rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
-
-            gyroSensor = hwMap.get(BNO055IMU.class, "imu");
+        gyroSensor = hwMap.get(BNO055IMU.class, "imu");
     }
 
     public void initColorSensor(HardwareMap hardwareMap, String sensorName) {
