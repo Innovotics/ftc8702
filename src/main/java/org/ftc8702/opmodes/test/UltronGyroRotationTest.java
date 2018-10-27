@@ -36,10 +36,10 @@ public class UltronGyroRotationTest extends ActiveOpMode {
     private int step;
 
     Orientation angles;
-    Acceleration gravity;
     double initialAngle;
     double currentAngle;
     double targetAngle;
+
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -48,7 +48,6 @@ public class UltronGyroRotationTest extends ActiveOpMode {
     protected void onInit() {
 
         //specify configuration name save from scan operation
-        robot = Team8702TestAuto.newConfig(hardwareMap, getTelemetryUtil());
 
                robot.imu.initialize(ImuGyroSensor.getParameters());
 
