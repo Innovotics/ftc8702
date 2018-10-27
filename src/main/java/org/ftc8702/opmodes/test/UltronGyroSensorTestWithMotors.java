@@ -32,9 +32,7 @@ package org.ftc8702.opmodes.test;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -43,9 +41,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 import org.ftc8702.components.ImuGyroSensor;
+import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
+import org.ftc8702.utilities.TelemetryUtil;
 
 import java.util.Locale;
 
@@ -61,9 +59,6 @@ import java.util.Locale;
 // Comment this out to add to the opmode list
 public class UltronGyroSensorTestWithMotors extends LinearOpMode
 {
-    //----------------------------------------------------------------------------------------------
-    // State
-    //----------------------------------------------------------------------------------------------
 
     // The IMU sensor object
     BNO055IMU imu;
@@ -71,6 +66,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
     // State used for updating telemetry
     Orientation angles;
     Acceleration gravity;
+    Team8702TestAuto robot = new Team8702TestAuto();
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -85,17 +81,24 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(ImuGyroSensor.getParameters());
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+
+        robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        robot.init(hardwareMap);
+
+        robot.imu.initialize(parameters);
 
         // Set up our telemetry dashboard
         composeTelemetry();
 
         // Wait until we're told to go
         waitForStart();
-
-        // Start the logging of measured acceleration
-        imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
@@ -113,39 +116,39 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
             // Acquiring the angles is relatively expensive; we don't want
             // to do that in each of the three items that need that info, as that's
             // three times the necessary expense.
-            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            gravity  = imu.getGravity();
+//            angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+//            gravity  = imu.getGravity();
         }
         });
 
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
-                    @Override public String value() {
-                        return imu.getSystemStatus().toShortString();
-                    }
-                })
-                .addData("calib", new Func<String>() {
-                    @Override public String value() {
-                        return imu.getCalibrationStatus().toString();
-                    }
-                });
+//        telemetry.addLine()
+//                .addData("status", new Func<String>() {
+//                    @Override public String value() {
+//                        return imu.getSystemStatus().toShortString();
+//                    }
+//                })
+//                .addData("calib", new Func<String>() {
+//                    @Override public String value() {
+//                        return imu.getCalibrationStatus().toString();
+//                    }
+//                });
 
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(angles.angleUnit, angles.firstAngle);
-                    }
-                })
-                .addData("roll", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(angles.angleUnit, angles.secondAngle);
-                    }
-                })
-                .addData("pitch", new Func<String>() {
-                    @Override public String value() {
-                        return formatAngle(angles.angleUnit, angles.thirdAngle);
-                    }
-                });
+//        telemetry.addLine()
+//                .addData("heading", new Func<String>() {
+//                    @Override public String value() {
+//                        return formatAngle(angles.angleUnit, angles.firstAngle);
+//                    }
+//                })
+//                .addData("roll", new Func<String>() {
+//                    @Override public String value() {
+//                        return formatAngle(angles.angleUnit, angles.secondAngle);
+//                    }
+//                })
+//                .addData("pitch", new Func<String>() {
+//                    @Override public String value() {
+//                        return formatAngle(angles.angleUnit, angles.thirdAngle);
+//                    }
+//                });
 
         telemetry.addLine()
                 .addData("grvty", new Func<String>() {
@@ -165,6 +168,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
 
     //----------------------------------------------------------------------------------------------
     // Formatting
+
     //----------------------------------------------------------------------------------------------
 
     String formatAngle(AngleUnit angleUnit, double angle) {
