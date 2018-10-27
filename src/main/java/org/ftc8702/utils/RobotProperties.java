@@ -13,4 +13,7 @@ public class RobotProperties {
     //Color sensor
     public static final String COLOR_SENSOR_FRONT_LEFT= "colorSensorFL";
     public static final String COLOR_SENSOR_FRONT_RIGHT= "colorSensorFR";
+    public static final String COLOR_SENSOR_BACK_RIGHT= "colorSensorBR";
+    public static final String COLOR_SENSOR_BACK_LEFT= "colorSensorBL";
+
 }

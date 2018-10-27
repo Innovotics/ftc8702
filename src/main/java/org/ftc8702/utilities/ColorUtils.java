@@ -1,6 +1,7 @@
 package org.ftc8702.utilities;
 
 
+import org.ftc8702.components.color.ColorSensorComponent;
 import org.ftc8702.utils.ColorValue;
 
 
