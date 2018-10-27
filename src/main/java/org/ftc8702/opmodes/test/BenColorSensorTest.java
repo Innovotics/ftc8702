@@ -19,7 +19,7 @@ public class BenColorSensorTest extends ActiveOpMode {
         robotConfig = BenTestConfig.newConfig(hardwareMap, getTelemetryUtil());
 
         //Color Sensor
-        colorSensorComponent = new ColorSensorComponent(this, robotConfig.colorSensor, ColorSensorComponent.ColorSensorDevice.ADAFRUIT);
+        colorSensorComponent = new ColorSensorComponent(this, robotConfig.colorSensor, ColorSensorComponent.ColorSensorDevice.MODERN_ROBOTICS_I2C);
         colorSensorComponent.enableLed(false);
 
         //Telemetry
@@ -43,8 +43,8 @@ public class BenColorSensorTest extends ActiveOpMode {
         int FixRed = 20;
 
         //Determine which is color to call
-        if ( Math.abs(robotConfig.colorSensor.red() - robotConfig.colorSensor.blue()) > FixRed
-                && Math.abs(robotConfig.colorSensor.red() -  robotConfig.colorSensor.green()) > FixRed) {
+        if (robotConfig.colorSensor.red() - robotConfig.colorSensor.blue() > FixRed
+                &&(robotConfig.colorSensor.red() -  robotConfig.colorSensor.green()) > FixRed) {
             return ColorValue.RED;
         }
 
