@@ -48,12 +48,13 @@ public class Team8702ProdAuto  {
 
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
+    HardwareMap hwMap   =  null;
 
     public Team8702ProdAuto() {
 
     }
-    protected void init(HardwareMap hardwareMap) {
+
+    public void init(HardwareMap hardwareMap) {
         hwMap = hardwareMap;
 
         motorFR = hwMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
