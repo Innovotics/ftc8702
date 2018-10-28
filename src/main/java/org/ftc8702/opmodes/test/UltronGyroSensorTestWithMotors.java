@@ -68,6 +68,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
     Team8702TestAuto robot = new Team8702TestAuto();
     private double initialAngle;
     private double currentAngle;
+    private double finalAngle;
 
 
     //----------------------------------------------------------------------------------------------
@@ -107,7 +108,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
-            boolean isCompleted = runWithAngleCondition(-90);
+            boolean isCompleted = runWithAngleCondition(90);
             if(isCompleted){
                 break;
             }
@@ -175,7 +176,12 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
 
     boolean runWithAngleCondition( double angle){
         currentAngle = angles.firstAngle;
-        if(currentAngle > Math.abs(angle)) {
+
+        if(currentAngle < 0) {
+            currentAngle = currentAngle * (-1);
+        }
+
+        if(currentAngle > angle) {
             robot.leftMotor.setPower(0.0);
             robot.rightMotor.setPower(0.0);
             return true;
@@ -183,7 +189,6 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
             robot.leftMotor.setPower(0.2);
             robot.rightMotor.setPower(0.2);
             return false;
-
 
     }
 }
