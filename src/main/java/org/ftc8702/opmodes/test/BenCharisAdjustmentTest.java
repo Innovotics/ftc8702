@@ -16,9 +16,13 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
     private static final double TURN_SPEED_LEFT = 0.3;
     private static final double TURN_BACKWORD_SPEED_RIGHT = -0.1;
     private static final double TURN_BACKWORD_SPEED_LEFT = -0.1;
-    private static final long SLEEP_TIME_MS = 250;
 
-    //Helping fix the red color sense correctly, 20 is to offset the color sensor bias toward red.
+    // NOT USED - original intent for slowing down forward momentum; but it did not work well when
+    // comparing to using backward speed on the opposite side of motor.  But keeping it for
+    // reference.
+    // private static final long SLEEP_TIME_MS = 250;
+
+    // help to fix the red color sense correctly, 20 is to offset the color sensor bias toward red.
     private static int RED_COLOR_OFFSET = 20;
 
     private BenCharisConfig robotConfig;
@@ -41,7 +45,11 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
     }
 
     protected void stopRight() {
+        // boost the opposite side of motor when stopping on this side.  This is needed since just 1
+        // motor tends to need a bit more power to move the robot.
         robotConfig.motorL.setPower(isLeftMotorStopped ? 0.0 : TURN_SPEED_LEFT);
+        // set this stopping side motor to backward to offset the forward momentum a bit to back
+        // to its intended stopping position.
         robotConfig.motorR.setPower(TURN_BACKWORD_SPEED_RIGHT);
     }
 
@@ -53,14 +61,6 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
     protected void pauseMovement() {
         robotConfig.motorL.setPower(0.0);
         robotConfig.motorR.setPower(0.0);
-    }
-
-    protected void sleep() {
-        try {
-            TimeUnit.MILLISECONDS.sleep(SLEEP_TIME_MS);
-        } catch (InterruptedException e) {
-            //e.printStackTrace();
-        }
     }
 
     @Override
@@ -106,7 +106,6 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
         int red = colorSensor.red();
         int blue = colorSensor.blue();
         int green = colorSensor.green();
-
 
         //Determine which is color to call
         if ( red - blue > RED_COLOR_OFFSET && red - green > RED_COLOR_OFFSET) {
