@@ -108,7 +108,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
-            boolean isCompleted = runWithAngleCondition(90);
+            boolean isCompleted = runWithAngleCondition(100);
             if(isCompleted){
                 break;
             }
