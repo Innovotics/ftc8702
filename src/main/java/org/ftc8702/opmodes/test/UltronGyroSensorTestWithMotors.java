@@ -42,6 +42,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.components.ImuGyroSensor;
 import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
 import org.ftc8702.utilities.TelemetryUtil;
+import java.lang.Math;
 
 import java.util.Locale;
 
@@ -67,6 +68,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
     Team8702TestAuto robot = new Team8702TestAuto();
     private double initialAngle;
     private double currentAngle;
+    private double finalAngle;
 
 
     //----------------------------------------------------------------------------------------------
@@ -106,7 +108,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
-            boolean isCompleted = runWithCondition(-90);
+            boolean isCompleted = runWithAngleCondition(100);
             if(isCompleted){
                 break;
             }
@@ -172,17 +174,21 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
-    boolean runWithCondition( double angle){
+    boolean runWithAngleCondition( double angle){
         currentAngle = angles.firstAngle;
+
+        if(currentAngle < 0) {
+            currentAngle = currentAngle * (-1);
+        }
+
         if(currentAngle > angle) {
             robot.leftMotor.setPower(0.0);
             robot.rightMotor.setPower(0.0);
             return true;
         }
-            robot.leftMotor.setPower(-0.2);
+            robot.leftMotor.setPower(0.2);
             robot.rightMotor.setPower(0.2);
             return false;
-
 
     }
 }
