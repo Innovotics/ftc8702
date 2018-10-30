@@ -1,21 +1,20 @@
 package org.ftc8702.opmodes.test;
 
+import static org.ftc8702.utils.ColorUtil.*;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.ftc8702.opmodes.configurations.test.BenCharisConfig;
 import org.ftc8702.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 
-import java.util.concurrent.TimeUnit;
-
 @Autonomous(name = "Test: BenCharisAdjustment", group = "Test")
 public class BenCharisAdjustmentTest extends ActiveOpMode {
     private static final double FORWARD_SPEED = 0.15;
-    private static final double TURN_SPEED_RIGHT = 0.3;
+    private static final double TURN_SPEED_RIGHT = 0.33;
     private static final double TURN_SPEED_LEFT = 0.3;
-    private static final double TURN_BACKWORD_SPEED_RIGHT = -0.1;
-    private static final double TURN_BACKWORD_SPEED_LEFT = -0.1;
+    private static final double TURN_BACKWORD_SPEED_RIGHT = -0.27;
+    private static final double TURN_BACKWORD_SPEED_LEFT = -0.23;
 
     // NOT USED - original intent for slowing down forward momentum; but it did not work well when
     // comparing to using backward speed on the opposite side of motor.  But keeping it for
@@ -71,10 +70,10 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
         getTelemetryUtil().addData("Left Color: ", rightColor.name());
 
         // get color readings from both left and right sensors
-        boolean isColorDetectedByRightSensor = (rightColor == ColorValue.BLUE || rightColor == ColorValue.RED);
-        boolean isColorDetectedByLeftSensor = (leftColor == ColorValue.BLUE || leftColor == ColorValue.RED);
+        boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);
+        boolean isColorDetectedByLeftSensor = isRedOrBlueDetected(leftColor);
 
-        // Move both wheels until one of the color sensor detects
+        // Move both wheels until one of the color sensor detects colors
         if (!isColorDetectedByRightSensor && !isColorDetectedByLeftSensor) {
             pauseMovement(); // stop robot moving to slow down the momentum
             moveForward();
@@ -83,14 +82,14 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
 
         //If color sensor is right side, then stop right motor
         if (isColorDetectedByRightSensor) {
-            pauseMovement();
+            pauseMovement(); // turn off both motors to stop the momentum
             stopRight();
             isRightMotorStopped = true;
             getTelemetryUtil().addData("Motor Right", "stopped");
         }
         //If color sensor is left side, then stop left motor
         if (isColorDetectedByLeftSensor) {
-            pauseMovement();
+            pauseMovement(); // turn off both motors to stop the momentum
             stopLeft();
             isLeftMotorStopped = true;
             getTelemetryUtil().addData("Motor Left", "stopped");
@@ -100,22 +99,5 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
         //sleep();
         // Move on to next Phase
         // Play Uptown Funk By Bruno Mars
-    }
-
-    public ColorValue getColor(ColorSensor colorSensor) {
-        int red = colorSensor.red();
-        int blue = colorSensor.blue();
-        int green = colorSensor.green();
-
-        //Determine which is color to call
-        if ( red - blue > RED_COLOR_OFFSET && red - green > RED_COLOR_OFFSET) {
-            return ColorValue.RED;
-        }
-
-        if (blue > red && blue > green) {
-            return ColorValue.BLUE;
-        }
-
-        return ColorValue.ZILCH;
     }
 }
