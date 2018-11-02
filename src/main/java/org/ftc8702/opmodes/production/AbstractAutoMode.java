@@ -4,7 +4,7 @@ package org.ftc8702.opmodes.production;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.opmodes.InnovoticsActiveOpMode;
-import org.ftc8702.opmodes.configurations.production.Team8702ProdAuto;
+import org.ftc8702.configurations.production.Team8702ProdAuto;
 import org.ftc8702.utils.ColorValue;
 
 

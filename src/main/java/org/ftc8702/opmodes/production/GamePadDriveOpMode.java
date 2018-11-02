@@ -2,7 +2,7 @@ package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.ftc8702.opmodes.configurations.production.ProdManualRobot;
+import org.ftc8702.configurations.production.ProdManualRobot;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 

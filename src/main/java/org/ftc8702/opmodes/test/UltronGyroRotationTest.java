@@ -1,17 +1,14 @@
 package org.ftc8702.opmodes.test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.components.ImuGyroSensor;
-import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
-import org.ftc8702.utils.test.RobotTwoWheelsAutonomousUtil;
+import org.ftc8702.configurations.test.Team8702TestAuto;
 import org.ftcbootstrap.ActiveOpMode;
 
 

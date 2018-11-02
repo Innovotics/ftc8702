@@ -39,10 +39,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.ftc8702.components.ImuGyroSensor;
-import org.ftc8702.opmodes.configurations.test.Team8702TestAuto;
-import org.ftc8702.utilities.TelemetryUtil;
-import java.lang.Math;
+import org.ftc8702.configurations.test.Team8702TestAuto;
 
 import java.util.Locale;
 

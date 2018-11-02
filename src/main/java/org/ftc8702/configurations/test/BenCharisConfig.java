@@ -1,4 +1,4 @@
-package org.ftc8702.opmodes.configurations.test;
+package org.ftc8702.configurations.test;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;

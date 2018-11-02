@@ -2,7 +2,7 @@ package org.ftc8702.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.ftc8702.opmodes.configurations.test.BenTestConfig;
+import org.ftc8702.configurations.test.BenTestConfig;
 import org.ftc8702.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.ColorSensorComponent;

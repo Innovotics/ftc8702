@@ -4,7 +4,7 @@ import static org.ftc8702.utils.ColorUtil.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.ftc8702.opmodes.configurations.test.BenCharisConfig;
+import org.ftc8702.configurations.test.BenCharisConfig;
 import org.ftc8702.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 

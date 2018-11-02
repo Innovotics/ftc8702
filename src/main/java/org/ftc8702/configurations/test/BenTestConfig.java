@@ -1,10 +1,9 @@
-package org.ftc8702.opmodes.configurations.test;
+package org.ftc8702.configurations.test;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftc8702.utils.RobotProperties;
-import org.ftcTeam.configurations.test.Team8702AdafruitSensor;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 

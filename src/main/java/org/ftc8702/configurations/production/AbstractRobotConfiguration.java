@@ -1,4 +1,4 @@
-package org.ftc8702.opmodes.configurations.production;
+package org.ftc8702.configurations.production;
 
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
