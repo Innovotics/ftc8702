@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.ftc8702.utils.RobotProperties;
+import org.ftc8702.utils.InnovoticsRobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -22,21 +22,21 @@ public class BenCharisConfig  extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
 
-        //colorSensorFrontLeft = (ColorSensor) getHardwareOn(RobotProperties.COLOR_SENSOR_FRONT_LEFT, hardwareMap.colorSensor);
+        //colorSensorFrontLeft = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_FRONT_LEFT, hardwareMap.colorSensor);
         //getTelemetryUtil().addData("Left Front Color component: ", colorSensorFrontLeft.toString());
 
-        //colorSensorFrontRight = (ColorSensor) getHardwareOn(RobotProperties.COLOR_SENSOR_FRONT_RIGHT, hardwareMap.colorSensor);
+        //colorSensorFrontRight = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_FRONT_RIGHT, hardwareMap.colorSensor);
         //getTelemetryUtil().addData("Right Front Color component: ", colorSensorFrontRight.toString());
 
-        colorSensorBackRight = (ColorSensor) getHardwareOn(RobotProperties.COLOR_SENSOR_BACK_RIGHT, hardwareMap.colorSensor);
+        colorSensorBackRight = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT, hardwareMap.colorSensor);
         getTelemetryUtil().addData("Right Back Color component: ", colorSensorBackRight.toString());
 
-        colorSensorBackLeft = (ColorSensor) getHardwareOn(RobotProperties.COLOR_SENSOR_BACK_LEFT, hardwareMap.colorSensor);
+        colorSensorBackLeft = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT, hardwareMap.colorSensor);
         getTelemetryUtil().addData("Left Back Color component: ", colorSensorBackLeft.toString());
 
         // Front Motors
-        motorR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
-        motorL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
+        motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
+        motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
 
         getTelemetryUtil().sendTelemetry();
     }

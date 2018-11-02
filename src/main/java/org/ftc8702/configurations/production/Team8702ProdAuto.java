@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftc8702.components.ImuGyroSensor;
 import org.ftc8702.utilities.TelemetryUtil;
-import org.ftcTeam.utils.RobotProperties;
+import org.ftc8702.utils.InnovoticsRobotProperties;
 
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -28,7 +28,6 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public DcMotor motorR;
     public DcMotor motorL;
-
     public BNO055IMU gyroSensor;
 
     //Ultrasonic Sensor
@@ -71,8 +70,8 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     private void initWheels(HardwareMap hardwareMap) {
 
-        motorR = hardwareMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
-        motorL = hardwareMap.get(DcMotor.class, RobotProperties.MOTOR_LEFT_FRONT);
+        motorR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_RIGHT_FRONT);
+        motorL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_LEFT_FRONT);
     }
 
     public BNO055IMU getGyroSensor() {

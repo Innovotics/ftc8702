@@ -3,7 +3,8 @@ package org.ftc8702.configurations.production;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.ftc8702.utils.RobotProperties;
+
+import org.ftc8702.utils.InnovoticsRobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -51,8 +52,8 @@ public class ProdManualRobot extends RobotConfiguration {
         setTelemetry(telemetryUtil);
 
             // Front Motors
-            motorR = (DcMotor) getHardwareOn(RobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
-            motorL = (DcMotor) getHardwareOn(RobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
+            motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
+            motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
 
             //gyro sensor
         gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");

@@ -28,9 +28,9 @@ public class ElmoConfig  {
 
     protected void init(RobotConfiguration config, HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 //        // Elmo Servos
-//        elmoSpin = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
-//        elmoReach = (Servo) getHardwareOn(RobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
+//        elmoSpin = (Servo) getHardwareOn(InnovoticsRobotProperties.SERVO_ELMO_SPIN, hardwareMap.servo);
+//        elmoReach = (Servo) getHardwareOn(InnovoticsRobotProperties.SERVO_ELMO_REACH, hardwareMap.servo);
 //        //Color Sensor
-//        elmoColorSensor = (ColorSensor) getHardwareOn(RobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
+//        elmoColorSensor = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_ELMO, hardwareMap.colorSensor);
     }
 }

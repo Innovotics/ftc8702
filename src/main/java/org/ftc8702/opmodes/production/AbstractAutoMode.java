@@ -60,9 +60,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         switch (currentState) {
             case INIT: //Set everything
                 //logStage();
-                //set targetReached to true
- //               startTheRobot();
-
+                targetReached = executeInitState();
                 //test if targetReached is true
                 if (targetReached) {
                    // currentState  = InnovoticsAbstractAutoMode.State.;
@@ -74,7 +72,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case DROP_DOWN: //Bring elmo down
                 //logStage();
-                targetReached = true;
+                targetReached = dropDownState();
 
                 if (targetReached) {
                     currentState = State.DONE;
@@ -88,6 +86,15 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 break;
         }
 
+    }
+
+
+    private boolean executeInitState() {
+        return true;
+    }
+
+    private boolean dropDownState() {
+        return true;
     }
 
 

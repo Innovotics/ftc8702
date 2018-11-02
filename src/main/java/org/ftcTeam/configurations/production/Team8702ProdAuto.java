@@ -100,7 +100,7 @@ public class Team8702ProdAuto extends RobotConfiguration {
 
         if (Team8702RobotConfig.CLAPPER_ON) {
             rangeSensorL = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR);
-           // rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, RobotProperties.ULTRASONIC_SENSOR_R);
+           // rangeSensorR = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRASONIC_SENSOR_R);
 
             imu = hardwareMap.get(BNO055IMU.class, "imu");
         }
