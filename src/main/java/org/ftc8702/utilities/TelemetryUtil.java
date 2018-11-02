@@ -1,5 +1,6 @@
 package org.ftc8702.utilities;
 
+import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftcbootstrap.ActiveOpMode;
 
 import java.util.ArrayList;
@@ -23,14 +24,14 @@ public class TelemetryUtil  {
 
     private long startTime;
     private Map<String, TelemetryModel> teleMap ;
-    private ActiveOpMode opMode;
+    private InnovoticsActiveOpMode opMode;
     boolean sortByTime;
 
     /**
      * Constructor for class
      * @param opMode
      */
-    public TelemetryUtil(ActiveOpMode opMode) {
+    public TelemetryUtil(InnovoticsActiveOpMode opMode) {
         this.opMode = opMode;
         reset();
     }

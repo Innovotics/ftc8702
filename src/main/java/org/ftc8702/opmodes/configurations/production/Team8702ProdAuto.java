@@ -2,20 +2,17 @@ package org.ftc8702.opmodes.configurations.production;
 
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.ftcTeam.configurations.production.Team8702RobotConfig;
+import org.ftc8702.components.ImuGyroSensor;
+import org.ftc8702.utilities.TelemetryUtil;
 import org.ftcTeam.utils.RobotProperties;
-import org.ftcbootstrap.RobotConfiguration;
 
-import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 
@@ -27,7 +24,8 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class Team8702ProdAuto  {
+public class Team8702ProdAuto extends AbstractRobotConfiguration {
+
     public DcMotor motorR;
     public DcMotor motorL;
 
@@ -38,23 +36,18 @@ public class Team8702ProdAuto  {
 //    public ModernRoboticsI2cRangeSensor rangeSensorF;
     //FIGURE OUT HOW TO USE
 
-    /* local OpMode members. */
-    HardwareMap hwMap   =  null;
-
     public Team8702ProdAuto() {
 
     }
 
-    public void init(HardwareMap hardwareMap) {
-        hwMap = hardwareMap;
-
-        motorR = hwMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
-        motorL = hwMap.get(DcMotor.class, RobotProperties.MOTOR_LEFT_FRONT);
-
-        gyroSensor = hwMap.get(BNO055IMU.class, "imu");
+    @Override
+    public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+        setTelemetry(telemetryUtil);
+        gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
+        gyroSensor.initialize(ImuGyroSensor.getParameters());
     }
 
-    public void initColorSensor(HardwareMap hardwareMap, String sensorName) {
+    private void initColorSensor(HardwareMap hardwareMap, String sensorName) {
         ColorSensor colorSensor = hardwareMap.colorSensor.get(sensorName);
 
         if (colorSensor != null) {
@@ -65,7 +58,7 @@ public class Team8702ProdAuto  {
 
     }
 
-    public void initUltrasonicSensor(HardwareMap hardwareMap, String sensorName) {
+    private void initUltrasonicSensor(HardwareMap hardwareMap, String sensorName) {
         UltrasonicSensor ultrasonicSensor = hardwareMap.ultrasonicSensor.get(sensorName);
 
         if (ultrasonicSensor != null) {
@@ -74,5 +67,15 @@ public class Team8702ProdAuto  {
             //getTelemetryUtil().addData("UltraSonicSensor: ", "is null");
         }
 
+    }
+
+    private void initWheels(HardwareMap hardwareMap) {
+
+        motorR = hardwareMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
+        motorL = hardwareMap.get(DcMotor.class, RobotProperties.MOTOR_LEFT_FRONT);
+    }
+
+    public BNO055IMU getGyroSensor() {
+        return gyroSensor;
     }
 }

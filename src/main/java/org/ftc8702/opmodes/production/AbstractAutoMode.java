@@ -1,37 +1,23 @@
 package org.ftc8702.opmodes.production;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.ftc8702.components.ImuGyroSensor;
-import org.ftc8702.components.color.ColorSensorComponent;
-import org.ftc8702.components.motors.FourWheelMotors;
-import org.ftc8702.components.motors.MecanumWheelMotors;
+import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftc8702.opmodes.configurations.production.Team8702ProdAuto;
 import org.ftc8702.utils.ColorValue;
-import org.ftc8702.utils.RobotAutonomousUtils;
-
-import org.ftcbootstrap.ActiveOpMode;
 
 
-import java.util.Locale;
 
-
-abstract class AbstractAutoMode extends LinearOpMode {
+abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     //States for actual autonomous
     protected enum State {
         INIT,
         DROP_DOWN,
-        SELF_ADJUST,
+        ADJUST_TO_BASELINE,
         KNOCK_BLOCK,
-        GO_BACK_TOLANDER,
+        GO_BACK_TO_LANDER,
         GYRO_SENSOR_ADJUSTER,
         ULTRASONIC_ADJUSTER,
         GYRO_SENSOR_TURNER,
@@ -42,6 +28,8 @@ abstract class AbstractAutoMode extends LinearOpMode {
         GYRO_SENSOR_TO_STOP,
         DONE
     }
+    boolean targetReached = false;
+    private State currentState;
 
     //Declare the MotorToEncoder
     private Team8702ProdAuto robot = new Team8702ProdAuto();
@@ -60,13 +48,48 @@ abstract class AbstractAutoMode extends LinearOpMode {
 
     protected void onInit() {
 
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, getTelemetryUtil());
+        getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
+        getTelemetryUtil().sendTelemetry();
     }
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        onInit();
+    protected void activeLoop() throws InterruptedException {
+
+
+        switch (currentState) {
+            case INIT: //Set everything
+                //logStage();
+                //set targetReached to true
+ //               startTheRobot();
+
+                //test if targetReached is true
+                if (targetReached) {
+                   // currentState  = InnovoticsAbstractAutoMode.State.;
+
+                    currentState = State.DROP_DOWN;
+                    targetReached = false;
+                }
+                break;
+
+            case DROP_DOWN: //Bring elmo down
+                //logStage();
+                targetReached = true;
+
+                if (targetReached) {
+                    currentState = State.DONE;
+                    targetReached = false;
+                    break;
+                }
+
+                break;
+            case DONE: // When all operations are complete
+//                logStage();
+                break;
+        }
+
     }
+
 
 }
 
