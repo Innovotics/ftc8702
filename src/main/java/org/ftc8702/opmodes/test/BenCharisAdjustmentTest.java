@@ -21,9 +21,6 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
     // reference.
     // private static final long SLEEP_TIME_MS = 250;
 
-    // help to fix the red color sense correctly, 20 is to offset the color sensor bias toward red.
-    private static int RED_COLOR_OFFSET = 20;
-
     private BenCharisConfig robotConfig;
 
     private boolean isRightMotorStopped = false;

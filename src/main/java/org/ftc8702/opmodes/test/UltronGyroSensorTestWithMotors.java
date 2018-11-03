@@ -55,6 +55,8 @@ import java.util.Locale;
 // Comment this out to add to the opmode list
 public class UltronGyroSensorTestWithMotors extends LinearOpMode
 {
+    public static final int TURN_DEGREE = 95;
+    public static final double TURN_SPEED = -0.2;
 
     // The IMU sensor object
     BNO055IMU imu;
@@ -105,7 +107,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
-            boolean isCompleted = runWithAngleCondition(100);
+            boolean isCompleted = runWithAngleCondition(TURN_DEGREE);
             if(isCompleted){
                 break;
             }
@@ -183,8 +185,8 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
             robot.rightMotor.setPower(0.0);
             return true;
         }
-            robot.leftMotor.setPower(0.2);
-            robot.rightMotor.setPower(0.2);
+            robot.leftMotor.setPower(TURN_SPEED);
+            robot.rightMotor.setPower(TURN_SPEED);
             return false;
 
     }
