@@ -71,10 +71,6 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
     private double roll;
     private double pitch;
 
-    //----------------------------------------------------------------------------------------------
-    // Main logic
-    //----------------------------------------------------------------------------------------------
-
     @Override public void runOpMode() {
 
         // Set up the parameters with which we will use our IMU. Note that integration
@@ -111,7 +107,7 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
             yaw = angles.firstAngle;
             roll = angles.secondAngle;
             pitch = angles.thirdAngle;
-            boolean isCompleted = runWithAngleCondition(95);
+            boolean isCompleted = testElevationChange(11,10);
             if(isCompleted){
                 break;
             }
@@ -195,4 +191,31 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
 
     }
 
+    boolean testElevationChange( double rollLimit, double pitchLimit) {
+        currentRollAngle = roll;
+        currentPitchAngle = pitch;
+
+        if (currentRollAngle < 0) {
+            currentRollAngle = currentRollAngle * (-1);
+        }
+
+        if (currentPitchAngle < 0) {
+            currentPitchAngle = currentPitchAngle * (-1);
+        }
+
+        if(currentPitchAngle > pitchLimit || currentRollAngle > rollLimit) {
+
+                    robot.leftMotor.setPower(0.7);
+                    robot.rightMotor.setPower(0.7);
+                    sleep(200);
+                    robot.leftMotor.setPower(0);
+                    robot.rightMotor.setPower(0);
+
+            return true;
+        }
+
+        robot.leftMotor.setPower(0.5);
+        robot.rightMotor.setPower(-0.5);
+        return false;
+    }
 }
