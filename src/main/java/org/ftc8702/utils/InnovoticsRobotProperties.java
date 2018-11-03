@@ -9,8 +9,11 @@ public class InnovoticsRobotProperties {
     //Motor
     public static final String MOTOR_RIGHT_FRONT = "motorR";
     public static final String MOTOR_LEFT_FRONT = "motorL";
-    public static final String MOTOR_LEFT = "motorL";
-    public static final String MOTOR_RIGHT= "motorR";
+    public static final String GYRO_SENSOR = "imu";
+
+
+
+
 
     //Color sensor
     public static final String COLOR_SENSOR_FRONT_LEFT= "colorSensorFL";

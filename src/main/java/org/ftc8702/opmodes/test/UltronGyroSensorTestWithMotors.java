@@ -40,6 +40,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.configurations.test.Team8702TestAuto;
+import org.ftc8702.utilities.OrientationUtils;
 
 import java.util.Locale;
 
@@ -151,29 +152,22 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
                 .addData("heading", new Func<String>() {
                     @Override
                     public String value() {
-                        return formatAngle(angles.angleUnit, angles.firstAngle);
+                        return OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle);
                     }
                 })
                 .addData("roll", new Func<String>() {
                     @Override
                     public String value() {
-                        return formatAngle(angles.angleUnit, angles.secondAngle);
+                        return OrientationUtils.formatAngle(angles.angleUnit, angles.secondAngle);
                     }
                 })
                 .addData("pitch", new Func<String>() {
                     @Override
                     public String value() {
-                        return formatAngle(angles.angleUnit, angles.thirdAngle);
+                        return OrientationUtils.formatAngle(angles.angleUnit, angles.thirdAngle);
                     }
                 });
 
-    }
-    String formatAngle (AngleUnit angleUnit,double angle){
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-    String formatDegrees ( double degrees){
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
     boolean runWithAngleCondition( double angle){

@@ -1,9 +1,8 @@
 package org.ftc8702.opmodes.production;
 
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.Func;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -19,18 +18,18 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     //States for actual autonomous
     protected enum State {
         INIT,
-        DROP_DOWN,
+        DROP_DOWN,                  // Drop the robot
         ADJUST_TO_BASELINE,
-        KNOCK_BLOCK,
-        GO_BACK_TO_LANDER,
-        GYRO_SENSOR_ADJUSTER,
-        ULTRASONIC_ADJUSTER,
+        KNOCK_BLOCK,                // Move forward and knock the block
+        DROP_MARKER,                // Drop the marker into the home
+        GO_BACK_TO_LANDER,          // Move the robot back b/t base and home
+        GYRO_SENSOR_ADJUSTER,       // Turn robot left
+        ULTRASONIC_ADJUSTER,        // Run the robot along with wall
         GYRO_SENSOR_TURNER,
         ULTRASONIC_SENSOR_TO_DEPOT,
         COLOR_SENSOR_STOP,
-        DROP_MARKER,
         MOVE_TO_PARK,
-        GYRO_SENSOR_TO_STOP,
+        STOP_ON_RAMP,
         DONE
     }
 
@@ -57,6 +56,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
 
         currentState = State.INIT;
+        composeTelemetry();
     }
 
     @Override
@@ -65,7 +65,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         switch (currentState) {
             case INIT: //Set everything
-                //logStage();
+                logStage();
                 targetReached = executeInitState();
                 //test if targetReached is true
                 if (targetReached) {
@@ -77,7 +77,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 break;
 
             case DROP_DOWN: //Bring elmo down
-                //logStage();
+                logStage();
                 targetReached = dropDownState();
 
                 if (targetReached) {
@@ -88,7 +88,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
                 break;
             case GYRO_SENSOR_TURNER: //Bring elmo down
-                //logStage();
+                logStage();
                 targetReached = gyroSensorTurnerState(90);
 
                 if (targetReached) {
@@ -99,7 +99,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
                 break;
             case DONE: // When all operations are complete
-//                logStage();
+                logStage();
                 break;
         }
 
@@ -125,26 +125,77 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         double roll = angles.secondAngle;
         double pitch = angles.thirdAngle;
 
+        robot.turnLeft(-0.2);
         while (true) {
             currentAngle = angles.firstAngle;
-            getTelemetryUtil().addData("yaw: ", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
-
-
-            if(currentAngle < 0) {
+            //getTelemetryUtil().addData("yaw: ", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
+            if (currentAngle < 0) {
                 currentAngle = currentAngle * (-1);
             }
 
-            if(currentAngle > angle) {
+            if (currentAngle > angle) {
                 robot.stopRobot();
                 break;
             }
-            robot.turnLeft(-0.2);
             getTelemetryUtil().sendTelemetry();
         }
         return true;
 
     }
 
+    private void logStage() {
+        getTelemetryUtil().addData("Stage", currentState.toString());
+    }
+
+    void composeTelemetry() {
+
+        // At the beginning of each telemetry update, grab a bunch of data
+        // from the IMU that we will then display in separate lines.
+        telemetry.addAction(new Runnable() {
+            @Override
+            public void run() {
+                // Acquiring the angles is relatively expensive; we don't want
+                // to do that in each of the three items that need that info, as that's
+                // three times the necessary expense.
+                angles = robot.getGyroSensor().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            }
+        });
+
+        telemetry.addLine()
+                .addData("status", new Func<String>() {
+                    @Override
+                    public String value() {
+                        return robot.getGyroSensor().getSystemStatus().toShortString();
+                    }
+                })
+                .addData("calib", new Func<String>() {
+                    @Override
+                    public String value() {
+                        return robot.getGyroSensor().getCalibrationStatus().toString();
+                    }
+                });
+
+        telemetry.addLine()
+                .addData("heading", new Func<String>() {
+                    @Override
+                    public String value() {
+                        return OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle);
+                    }
+                })
+                .addData("roll", new Func<String>() {
+                    @Override
+                    public String value() {
+                        return OrientationUtils.formatAngle(angles.angleUnit, angles.secondAngle);
+                    }
+                })
+                .addData("pitch", new Func<String>() {
+                    @Override
+                    public String value() {
+                        return OrientationUtils.formatAngle(angles.angleUnit, angles.thirdAngle);
+                    }
+                });
+
+    }
 
 }
 

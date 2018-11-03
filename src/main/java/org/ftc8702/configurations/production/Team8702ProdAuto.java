@@ -43,7 +43,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
         initWheels(hardwareMap);
-        gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
+        gyroSensor = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
         gyroSensor.initialize(ImuGyroSensor.getParameters());
     }
 
