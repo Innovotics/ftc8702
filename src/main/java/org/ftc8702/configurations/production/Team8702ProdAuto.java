@@ -42,6 +42,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     @Override
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
+        initWheels(hardwareMap);
         gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
         gyroSensor.initialize(ImuGyroSensor.getParameters());
     }
@@ -72,9 +73,28 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
         motorR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_RIGHT_FRONT);
         motorL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_LEFT_FRONT);
+
+        motorL.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        motorR.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+
     }
 
     public BNO055IMU getGyroSensor() {
         return gyroSensor;
+    }
+
+    public void stopRobot() {
+        motorR.setPower(0);
+        motorL.setPower(0);
+    }
+
+    public void setRunMode() {
+        motorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void turnLeft(double speed) {
+        motorL.setPower(speed);
+        motorR.setPower(speed);
     }
 }
