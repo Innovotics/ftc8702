@@ -55,6 +55,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         robot.init(hardwareMap, getTelemetryUtil());
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
+
+        currentState = State.INIT;
     }
 
     @Override
