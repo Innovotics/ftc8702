@@ -127,17 +127,18 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         while (true) {
             currentAngle = angles.firstAngle;
+            getTelemetryUtil().addData("yaw: ", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
 
-            if (currentAngle < 0) {
+
+            if(currentAngle < 0) {
                 currentAngle = currentAngle * (-1);
             }
 
-            if (currentAngle > angle) {
+            if(currentAngle > angle) {
                 robot.stopRobot();
                 break;
             }
             robot.turnLeft(-0.2);
-            getTelemetryUtil().addData("heading: ", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
             getTelemetryUtil().sendTelemetry();
         }
         return true;
