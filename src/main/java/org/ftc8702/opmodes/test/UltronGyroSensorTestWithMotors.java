@@ -51,12 +51,10 @@ import java.util.Locale;
  *
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
-@Autonomous(name = "Ultron Gyro Sensos With Motor", group = "Sensors Test")
+@Autonomous(name = "Ultron Gyro Sensos With Motor Yaw Variable", group = "Sensors Test")
 // Comment this out to add to the opmode list
 public class UltronGyroSensorTestWithMotors extends LinearOpMode
 {
-    public static final int TURN_DEGREE = 95;
-    public static final double TURN_SPEED = -0.2;
 
     // The IMU sensor object
     BNO055IMU imu;
@@ -68,7 +66,9 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
     private double initialAngle;
     private double currentAngle;
     private double finalAngle;
-
+    private double yaw;
+    private double roll;
+    private double pitch;
 
     //----------------------------------------------------------------------------------------------
     // Main logic
@@ -92,8 +92,8 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
 
         robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-
         robot.init(hardwareMap);
+
 
         robot.imu.initialize(parameters);
 
@@ -107,7 +107,10 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
 
         // Loop and update the dashboard
         while (opModeIsActive()) {
-            boolean isCompleted = runWithAngleCondition(TURN_DEGREE);
+            yaw = angles.firstAngle;
+            roll = angles.secondAngle;
+            pitch = angles.thirdAngle;
+            boolean isCompleted = runWithAngleCondition(95);
             if(isCompleted){
                 break;
             }
@@ -174,7 +177,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
     }
 
     boolean runWithAngleCondition( double angle){
-        currentAngle = angles.firstAngle;
+        currentAngle = yaw;
 
         if(currentAngle < 0) {
             currentAngle = currentAngle * (-1);
@@ -185,8 +188,8 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
             robot.rightMotor.setPower(0.0);
             return true;
         }
-            robot.leftMotor.setPower(TURN_SPEED);
-            robot.rightMotor.setPower(TURN_SPEED);
+            robot.leftMotor.setPower(0.2);
+            robot.rightMotor.setPower(0.2);
             return false;
 
     }
