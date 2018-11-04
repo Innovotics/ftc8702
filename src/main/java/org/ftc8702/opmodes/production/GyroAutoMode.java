@@ -20,26 +20,26 @@ public class GyroAutoMode {
     public GyroAutoMode(Team8702ProdAuto robot, Telemetry telemetry) {
         this.robot = robot;
         this.telemetry = telemetry;
+
     }
 
     public void init() {
         composeTelemetry();
+        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
     }
 
     public boolean gyroSensorTurnerState(double angle) {
-        robot.stopRobot();
-        robot.setRunMode();
         double currentAngle;
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         angles = robot.getGyroSensor().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        double yaw = angles.firstAngle;
-        double roll = angles.secondAngle;
-        double pitch = angles.thirdAngle;
+        double yaw;
 
         robot.turnLeft(-0.2);
         while (true) {
-            currentAngle = angles.firstAngle;
+            yaw = angles.firstAngle;
+            currentAngle = yaw;
             if (currentAngle < 0) {
                 currentAngle = currentAngle * (-1);
             }

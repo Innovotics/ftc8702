@@ -104,8 +104,6 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
         // Wait until we're told to go
         waitForStart();
 
-
-
         // Loop and update the dashboard
         while (opModeIsActive()) {
             yaw = angles.firstAngle;
