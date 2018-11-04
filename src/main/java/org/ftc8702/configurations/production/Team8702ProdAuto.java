@@ -28,35 +28,30 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public DcMotor motorR;
     public DcMotor motorL;
-    public BNO055IMU gyroSensor;
+    public BNO055IMU imu;
 
     //Ultrasonic Sensor
 //    public ModernRoboticsI2cRangeSensor rangeSensorR;
 //    public ModernRoboticsI2cRangeSensor rangeSensorF;
-    //FIGURE OUT HOW TO USE
-
-    public Team8702ProdAuto() {
-
-    }
 
     @Override
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
         initWheels(hardwareMap);
-        gyroSensor = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
-        gyroSensor.initialize(ImuGyroSensor.getParameters());
+        imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
+        imu.initialize(ImuGyroSensor.getParameters());
     }
 
-    private void initColorSensor(HardwareMap hardwareMap, String sensorName) {
-        ColorSensor colorSensor = hardwareMap.colorSensor.get(sensorName);
-
-        if (colorSensor != null) {
-            //getTelemetryUtil().addData("ColorSensor: ", colorSensorBR.toString());
-        } else {
-            //getTelemetryUtil().addData("ColorSensor: ", "is null");
-        }
-
-    }
+//    private void initColorSensor(HardwareMap hardwareMap, String sensorName) {
+//        ColorSensor colorSensor = hardwareMap.colorSensor.get(sensorName);
+//
+//        if (colorSensor != null) {
+//            //getTelemetryUtil().addData("ColorSensor: ", colorSensorBR.toString());
+//        } else {
+//            //getTelemetryUtil().addData("ColorSensor: ", "is null");
+//        }
+//
+//    }
 
     private void initUltrasonicSensor(HardwareMap hardwareMap, String sensorName) {
         UltrasonicSensor ultrasonicSensor = hardwareMap.ultrasonicSensor.get(sensorName);
@@ -80,7 +75,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     }
 
     public BNO055IMU getGyroSensor() {
-        return gyroSensor;
+        return imu;
     }
 
     public void stopRobot() {

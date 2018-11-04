@@ -35,8 +35,8 @@ public class BenCharisConfig  extends RobotConfiguration {
         getTelemetryUtil().addData("Left Back Color component: ", colorSensorBackLeft.toString());
 
         // Front Motors
-        motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT_FRONT, hardwareMap.dcMotor);
-        motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT_FRONT, hardwareMap.dcMotor);
+        motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
+        motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
 
         getTelemetryUtil().sendTelemetry();
     }
