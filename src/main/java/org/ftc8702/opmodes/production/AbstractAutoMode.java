@@ -38,6 +38,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     //Declare the MotorToEncoder
     private Team8702ProdAuto robot = new Team8702ProdAuto();
+    private GyroAutoMode gyroMode;
 
 
     //Set ColorValue to zilch
@@ -52,11 +53,11 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     protected void onInit() {
 
         robot.init(hardwareMap, getTelemetryUtil());
+        gyroMode = new GyroAutoMode(robot, telemetry);
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
 
         currentState = State.INIT;
-        composeTelemetry();
     }
 
     @Override
@@ -89,7 +90,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 break;
             case GYRO_SENSOR_TURNER: //Bring elmo down
                 logStage();
-                targetReached = gyroSensorTurnerState(90);
+                targetReached = gyroMode.gyroSensorTurnerState(90);
 
                 if (targetReached) {
                     currentState = State.DONE;
@@ -114,87 +115,9 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         return true;
     }
 
-    private boolean gyroSensorTurnerState(double angle) {
-        robot.stopRobot();
-        robot.setRunMode();
-        double currentAngle;
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        angles = robot.getGyroSensor().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        double yaw = angles.firstAngle;
-        double roll = angles.secondAngle;
-        double pitch = angles.thirdAngle;
-
-        robot.turnLeft(-0.2);
-        while (true) {
-            currentAngle = angles.firstAngle;
-            //getTelemetryUtil().addData("yaw: ", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
-            if (currentAngle < 0) {
-                currentAngle = currentAngle * (-1);
-            }
-
-            if (currentAngle > angle) {
-                robot.stopRobot();
-                break;
-            }
-            getTelemetryUtil().sendTelemetry();
-        }
-        return true;
-
-    }
 
     private void logStage() {
         getTelemetryUtil().addData("Stage", currentState.toString());
-    }
-
-    void composeTelemetry() {
-
-        // At the beginning of each telemetry update, grab a bunch of data
-        // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() {
-            @Override
-            public void run() {
-                // Acquiring the angles is relatively expensive; we don't want
-                // to do that in each of the three items that need that info, as that's
-                // three times the necessary expense.
-                angles = robot.getGyroSensor().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            }
-        });
-
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return robot.getGyroSensor().getSystemStatus().toShortString();
-                    }
-                })
-                .addData("calib", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return robot.getGyroSensor().getCalibrationStatus().toString();
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle);
-                    }
-                })
-                .addData("roll", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return OrientationUtils.formatAngle(angles.angleUnit, angles.secondAngle);
-                    }
-                })
-                .addData("pitch", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return OrientationUtils.formatAngle(angles.angleUnit, angles.thirdAngle);
-                    }
-                });
-
     }
 
 }
