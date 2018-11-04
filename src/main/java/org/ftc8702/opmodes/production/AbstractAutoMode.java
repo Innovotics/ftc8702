@@ -54,6 +54,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         robot.init(hardwareMap, getTelemetryUtil());
         gyroMode = new GyroAutoMode(robot, telemetry);
+        gyroMode.init();
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
 
