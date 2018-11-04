@@ -9,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.components.ImuGyroSensor;
 import org.ftc8702.configurations.test.Team8702TestAuto;
+import org.ftc8702.utilities.OrientationUtils;
 import org.ftcbootstrap.ActiveOpMode;
 
 
@@ -61,7 +62,7 @@ public class UltronGyroRotationTest extends ActiveOpMode {
         //set reference
         robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
         initialAngle = AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
-        getTelemetryUtil().addData("Angle", ImuGyroSensor.formatAngle(angles.angleUnit, angles.firstAngle));
+        getTelemetryUtil().addData("Angle", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
         getTelemetryUtil().sendTelemetry();
 
 

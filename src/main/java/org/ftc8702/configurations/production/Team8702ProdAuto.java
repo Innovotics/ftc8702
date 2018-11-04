@@ -71,8 +71,8 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     private void initWheels(HardwareMap hardwareMap) {
 
-        motorR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_RIGHT_FRONT);
-        motorL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_LEFT_FRONT);
+        motorR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_RIGHT);
+        motorL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_LEFT);
 
         motorL.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         motorR.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
