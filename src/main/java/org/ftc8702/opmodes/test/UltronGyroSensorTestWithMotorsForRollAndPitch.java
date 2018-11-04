@@ -51,7 +51,7 @@ import java.util.Locale;
  *
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
-@Autonomous(name = "Ultron Gyro Sensos With Motor Yaw Variable", group = "Sensors Test")
+@Autonomous(name = "Ultron Gyro Sensos Motor without Yaw Variable", group = "Sensors Test")
 // Comment this out to add to the opmode list
 public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
 {
@@ -107,7 +107,7 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
             yaw = angles.firstAngle;
             roll = angles.secondAngle;
             pitch = angles.thirdAngle;
-            boolean isCompleted = testElevationChange(11,10);
+             boolean isCompleted = testElevationChange(15,11);
             if(isCompleted){
                 break;
             }
@@ -206,7 +206,7 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
         if(currentPitchAngle > pitchLimit || currentRollAngle > rollLimit) {
 
                     robot.leftMotor.setPower(0.7);
-                    robot.rightMotor.setPower(0.7);
+                    robot.rightMotor.setPower(-0.7);
                     sleep(200);
                     robot.leftMotor.setPower(0);
                     robot.rightMotor.setPower(0);
@@ -214,8 +214,9 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
             return true;
         }
 
-        robot.leftMotor.setPower(0.5);
-        robot.rightMotor.setPower(-0.5);
+        robot.leftMotor.setPower(0.2);
+        robot.rightMotor.setPower(-0.2);
         return false;
     }
 }
+
