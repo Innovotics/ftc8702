@@ -30,10 +30,12 @@
 package org.ftc8702.configurations.test;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.ftc8702.utils.InnovoticsRobotProperties;
 import org.ftcTeam.utils.RobotProperties;
 
 /**
@@ -93,5 +95,6 @@ public class Team8702TestAuto
         rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
+
 }
 

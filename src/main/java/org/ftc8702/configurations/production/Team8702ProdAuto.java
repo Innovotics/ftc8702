@@ -2,6 +2,7 @@ package org.ftc8702.configurations.production;
 
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -29,6 +30,9 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     public DcMotor motorR;
     public DcMotor motorL;
     public BNO055IMU imu;
+    public ColorSensor colorSensorBackLeft;
+    public ColorSensor colorSensorBackRight;
+    public ModernRoboticsI2cRangeSensor rangeSensor;
 
     //Ultrasonic Sensor
 //    public ModernRoboticsI2cRangeSensor rangeSensorR;
@@ -39,6 +43,19 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         setTelemetry(telemetryUtil);
         initWheels(hardwareMap);
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
+
+        //imu.initialize(ImuGyroSensor.getParameters());
+
+        initColorSensor(hardwareMap, colorSensorBackRight, InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT);
+        initColorSensor(hardwareMap, colorSensorBackLeft, InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT);
+
+        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
+        getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
+    }
+
+    private void initColorSensor(HardwareMap hardwareMap, ColorSensor colorSensor, String name) {
+        colorSensor = (ColorSensor) getHardwareOn(name, hardwareMap.colorSensor);
+        getTelemetryUtil().addData(name + ": ", colorSensor == null ? "Not Found" : colorSensor.toString());
     }
 
 
