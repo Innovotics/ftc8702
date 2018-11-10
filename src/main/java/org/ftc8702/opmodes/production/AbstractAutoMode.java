@@ -51,7 +51,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     @Override
     protected void activeLoop() throws InterruptedException {
-
+        getTelemetryUtil().addData("activeLoop current state", currentState.toString());
+        getTelemetryUtil().sendTelemetry();
         switch (currentState) {
             case GYRO_SENSOR_TURNER:
                 logStage();
@@ -85,6 +86,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     private void logStage() {
         getTelemetryUtil().addData("Stage", currentState.toString());
+        getTelemetryUtil().sendTelemetry();
     }
 
 }
