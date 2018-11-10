@@ -8,6 +8,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.ftc8702.configurations.test.BenCharisRangeConfig;
 import org.ftcbootstrap.ActiveOpMode;
 
+import java.util.concurrent.TimeUnit;
+
 public class UltrasonicDriveToCraterAutoMode {
     private static final double FORWARD_TURN_RIGHT_SPEED = 0.3;
     private static final double FORWARD_LEFT_SPEED = 0.11;
@@ -25,26 +27,26 @@ public class UltrasonicDriveToCraterAutoMode {
         rangeSensor = robot.rangeSensor;
     }
 
-    protected void ForwardandTurn() {
+    protected void ForwardandTurn() throws InterruptedException {
         Forward();
         stopRobot();
         turn();
         stopRobot();
     }
 
-    protected void stopRobot() {
+    protected void stopRobot() throws InterruptedException {
         robot.motorR.setPower(0.0);
         robot.motorL.setPower(0.0);
         sleep(PAUSE_DURATION_MS);
     }
 
-    protected void turn() {
+    protected void turn() throws InterruptedException {
         robot.motorR.setPower(FORWARD_TURN_RIGHT_SPEED);
         robot.motorL.setPower(FORWARD_LEFT_SPEED);
         sleep(PAUSE_DURATION_MS);
     }
 
-    protected void Forward() {
+    protected void Forward() throws InterruptedException {
         robot.motorR.setPower(FORWARD_SPEED);
         robot.motorL.setPower(FORWARD_SPEED);
         sleep(PAUSE_DURATION_MS);
@@ -64,6 +66,11 @@ public class UltrasonicDriveToCraterAutoMode {
         telemetry.addData("cm", "%.2f cm", distanceToWallInCM);
         telemetry.update();
     }
+
+    private void sleep(long millis) throws InterruptedException {
+        TimeUnit.MILLISECONDS.sleep(millis);
+    }
+
 }
 
 
