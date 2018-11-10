@@ -18,6 +18,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     //States for actual autonomous
     protected enum State {
         INIT,
+        COLOR_SENSOR_SELF_ADJUST,
+        MOVE_TO_HOME_DEPOT,
         GYRO_SENSOR_TURNER,
         DONE
     }
@@ -27,6 +29,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     private Team8702ProdAuto robot = new Team8702ProdAuto();
     private GyroAutoMode gyroMode;
+    private ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
+    private MoveToHomeDepotAutoMode moveToHomeDepotMode;
 
     //Set ColorValue to zilch
     //ColorValue panelColor = ColorValue.ZILCH;
@@ -38,13 +42,20 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     protected void onInit() {
 
         robot.init(hardwareMap, getTelemetryUtil());
-        gyroMode = new GyroAutoMode(robot, telemetry);
 
+        colorSensorAdjustMode = new ColorSensorAdjustmentAutoMode(robot, telemetry);
+        colorSensorAdjustMode.init();
+
+        moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, telemetry);
+        moveToHomeDepotMode.init();
+
+        gyroMode = new GyroAutoMode(robot, telemetry);
         gyroMode.init();
+
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
 
-        currentState = State.GYRO_SENSOR_TURNER;
+        currentState = State.COLOR_SENSOR_SELF_ADJUST;
         robot.stopRobot();
         robot.setRunMode();
     }
@@ -54,18 +65,29 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
         getTelemetryUtil().sendTelemetry();
         switch (currentState) {
+            case COLOR_SENSOR_SELF_ADJUST:
+                logStage();
+                targetReached = colorSensorAdjustMode.startAdjustment();
+                if (targetReached) {
+                    currentState = State.MOVE_TO_HOME_DEPOT;
+                    targetReached = false;
+                }
+                break;
+            case MOVE_TO_HOME_DEPOT:
+                logStage();
+                targetReached = moveToHomeDepotMode.moveToHomeDepot();
+                if (targetReached) {
+                    currentState = State.GYRO_SENSOR_TURNER;
+                    targetReached = false;
+                }
+                break;
             case GYRO_SENSOR_TURNER:
                 logStage();
                 targetReached = gyroMode.gyroSensorTurnerState(95);
-
                 if (targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
-                    break;
                 }
-
-
-
                 break;
             case DONE: // When all operations are complete
                 logStage();
