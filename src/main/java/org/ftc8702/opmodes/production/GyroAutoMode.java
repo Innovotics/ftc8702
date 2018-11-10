@@ -47,6 +47,12 @@ public class GyroAutoMode {
 
         robot.turnLeft(-0.2);
         while (true) {
+            telemetry. addData("testing", new Func<String>() {
+                @Override
+                public String value() {
+                    return OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle);
+                }
+            })
             yaw = angles.firstAngle;
             currentAngle = yaw;
             if (currentAngle < 0) {
