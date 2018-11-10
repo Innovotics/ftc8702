@@ -33,8 +33,8 @@ public class GyroAutoMode {
         parameters.loggingEnabled      = true;
         parameters.loggingTag          = "IMU";
 
-        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         robot.imu.initialize(parameters);
+        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         composeTelemetry();
     }
 
@@ -43,26 +43,24 @@ public class GyroAutoMode {
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
         angles = robot.getGyroSensor().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        double yaw;
+
 
         robot.turnLeft(-0.2);
-        while (true) {
-            telemetry. addData("testing", new Func<String>() {
-                @Override
-                public String value() {
-                    return OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle);
-                }
-            })
-            yaw = angles.firstAngle;
-            currentAngle = yaw;
+        boolean isCompleted = false;
+        while (!isCompleted) {
+            currentAngle = angles.firstAngle;
+            telemetry.addData("currentAngle", currentAngle);
+            composeTelemetry();
+
             if (currentAngle < 0) {
                 currentAngle = currentAngle * (-1);
             }
 
             if (currentAngle > angle) {
                 robot.stopRobot();
-                break;
+                isCompleted = true;
             }
+            telemetry.update();
         }
         return true;
 
@@ -117,5 +115,9 @@ public class GyroAutoMode {
                     }
                 });
 
+    }
+
+    public Orientation getAngles() {
+        return angles;
     }
 }

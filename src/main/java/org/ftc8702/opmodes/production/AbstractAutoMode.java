@@ -1,16 +1,7 @@
 package org.ftc8702.opmodes.production;
 
-
-
-import org.firstinspires.ftc.robotcore.external.Func;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
-import org.ftc8702.utilities.OrientationUtils;
-import org.ftc8702.utils.ColorValue;
 
 
 abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
@@ -22,18 +13,11 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         DONE
     }
 
-    boolean targetReached = false;
     private State currentState;
 
     private Team8702ProdAuto robot = new Team8702ProdAuto();
     private GyroAutoMode gyroMode;
-
-    //Set ColorValue to zilch
-    //ColorValue panelColor = ColorValue.ZILCH;
-    //abstract ColorValue getPanelColor();
-
-    abstract boolean park() throws InterruptedException;
-    //Acceleration gravity;
+    private double currentAngle;
 
     protected void onInit() {
 
@@ -50,43 +34,56 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     }
 
     @Override
-    protected void activeLoop() throws InterruptedException {
+    protected void onStart() throws InterruptedException {
+        super.onStart();
+    }
+
+    @Override
+    protected void activeLoop(){
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
         getTelemetryUtil().sendTelemetry();
+
         switch (currentState) {
             case GYRO_SENSOR_TURNER:
                 logStage();
-                targetReached = gyroMode.gyroSensorTurnerState(95);
+                sleep(1000);
 
-                if (targetReached) {
+                if(runWithAngleCondition(95)) {
                     currentState = State.DONE;
-                    targetReached = false;
-                    break;
                 }
 
-
-
+                gyroMode.composeTelemetry();
+                getTelemetryUtil().sendTelemetry();
                 break;
+
             case DONE: // When all operations are complete
                 logStage();
                 break;
         }
 
+        telemetry.update();
     }
-
-
-    private boolean executeInitState() {
-        return true;
-    }
-
-    private boolean dropDownState() {
-        return true;
-    }
-
 
     private void logStage() {
         getTelemetryUtil().addData("Stage", currentState.toString());
         getTelemetryUtil().sendTelemetry();
+    }
+
+    boolean runWithAngleCondition( double angle){
+        currentAngle = gyroMode.getAngles().firstAngle;
+
+        if(currentAngle < 0) {
+            currentAngle = currentAngle * (-1);
+        }
+
+        if(currentAngle > angle) {
+            robot.stopRobot();
+            return true;
+        }
+
+        robot.turnLeft(.2);
+        return false;
+
     }
 
 }

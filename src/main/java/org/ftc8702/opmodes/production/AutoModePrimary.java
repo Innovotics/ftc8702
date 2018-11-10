@@ -7,15 +7,5 @@ import org.ftc8702.utils.ColorValue;
 
 @Autonomous(name = "AutoModePrimary", group = "Ops")
 public class AutoModePrimary extends AbstractAutoMode {
-//    @Override
-//    ColorValue getPanelColor() {
-//        return null;
-//    }
-
-    @Override
-    boolean park() throws InterruptedException {
-        return false;
-    }
-
 }
 

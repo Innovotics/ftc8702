@@ -39,19 +39,8 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         setTelemetry(telemetryUtil);
         initWheels(hardwareMap);
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
-        //imu.initialize(ImuGyroSensor.getParameters());
     }
 
-//    private void initColorSensor(HardwareMap hardwareMap, String sensorName) {
-//        ColorSensor colorSensor = hardwareMap.colorSensor.get(sensorName);
-//
-//        if (colorSensor != null) {
-//            //getTelemetryUtil().addData("ColorSensor: ", colorSensorBR.toString());
-//        } else {
-//            //getTelemetryUtil().addData("ColorSensor: ", "is null");
-//        }
-//
-//    }
 
     private void initUltrasonicSensor(HardwareMap hardwareMap, String sensorName) {
         UltrasonicSensor ultrasonicSensor = hardwareMap.ultrasonicSensor.get(sensorName);

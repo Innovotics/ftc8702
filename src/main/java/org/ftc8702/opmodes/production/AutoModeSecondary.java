@@ -9,13 +9,5 @@ import org.ftc8702.utils.ColorValue;
 @Autonomous(name = "AutoModeSecondary", group = "Ops")
 @Disabled
 public class AutoModeSecondary extends AbstractAutoMode {
-//    @Override
-//    ColorValue getPanelColor() {
-//        return null;
-//    }
 
-    @Override
-    boolean park() throws InterruptedException {
-        return false;
-    }
 }
