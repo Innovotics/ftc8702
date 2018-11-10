@@ -120,4 +120,9 @@ public class GyroAutoMode {
     public Orientation getAngles() {
         return angles;
     }
+
+    public void readAngles(){
+        angles = robot.getGyroSensor().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
+    }
 }

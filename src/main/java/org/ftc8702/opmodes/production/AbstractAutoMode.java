@@ -1,5 +1,8 @@
 package org.ftc8702.opmodes.production;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
 
@@ -46,13 +49,12 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         switch (currentState) {
             case GYRO_SENSOR_TURNER:
                 logStage();
-                sleep(1000);
 
                 if(runWithAngleCondition(95)) {
                     currentState = State.DONE;
                 }
 
-                gyroMode.composeTelemetry();
+//                gyroMode.composeTelemetry();
                 getTelemetryUtil().sendTelemetry();
                 break;
 
@@ -69,14 +71,14 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
     }
 
-    boolean runWithAngleCondition( double angle){
+    boolean runWithAngleCondition(double angle){
+        gyroMode.readAngles();
         currentAngle = gyroMode.getAngles().firstAngle;
 
-        if(currentAngle < 0) {
-            currentAngle = currentAngle * (-1);
-        }
+        getTelemetryUtil().addData("Current Angle", currentAngle);
+        getTelemetryUtil().sendTelemetry();
 
-        if(currentAngle > angle) {
+        if(Math.abs(currentAngle) > angle) {
             robot.stopRobot();
             return true;
         }
