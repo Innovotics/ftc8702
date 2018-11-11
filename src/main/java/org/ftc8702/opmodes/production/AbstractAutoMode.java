@@ -33,8 +33,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     //ColorValue panelColor = ColorValue.ZILCH;
     //abstract ColorValue getPanelColor();
 
-
-
     protected void onInit() {
 
         robot.init(hardwareMap, getTelemetryUtil());
@@ -73,6 +71,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 if (targetReached) {
                     currentState = State.MOVE_TO_HOME_DEPOT;
                     targetReached = false;
+
+                    robot.stopRobot();
                     sleep(500);
                 }
                 break;
@@ -82,6 +82,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 if (targetReached) {
                     currentState = State.GYRO_SENSOR_TURNER;
                     targetReached = false;
+
+                    robot.stopRobot();
                     sleep(500);
                 }
                 break;
@@ -91,6 +93,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 if(targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
+
+                    robot.stopRobot();
                     sleep(500);
                 }
                 break;

@@ -44,18 +44,18 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         initWheels(hardwareMap);
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
 
-        //imu.initialize(ImuGyroSensor.getParameters());
-
-        initColorSensor(hardwareMap, colorSensorBackRight, InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT);
-        initColorSensor(hardwareMap, colorSensorBackLeft, InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT);
+        colorSensorBackRight = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT);
+        colorSensorBackLeft = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT);
 
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
         getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
     }
 
-    private void initColorSensor(HardwareMap hardwareMap, ColorSensor colorSensor, String name) {
-        colorSensor = (ColorSensor) getHardwareOn(name, hardwareMap.colorSensor);
+    private ColorSensor initColorSensor(HardwareMap hardwareMap, String name) {
+        ColorSensor colorSensor = (ColorSensor) getHardwareOn(name, hardwareMap.colorSensor);
         getTelemetryUtil().addData(name + ": ", colorSensor == null ? "Not Found" : colorSensor.toString());
+        getTelemetryUtil().sendTelemetry();
+        return colorSensor;
     }
 
 
@@ -95,7 +95,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     }
 
     public void turnLeft(double speed) {
+        motorR.setPower(speed * (-1));
         motorL.setPower(speed);
-        motorR.setPower(speed);
     }
 }
