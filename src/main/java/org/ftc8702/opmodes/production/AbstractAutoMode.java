@@ -15,6 +15,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         COLOR_SENSOR_SELF_ADJUST,
         MOVE_TO_HOME_DEPOT,
         GYRO_SENSOR_TURNER,
+        ULTRASONIC_DRIVE_TO_CRATER,
         DONE
     }
 
@@ -27,6 +28,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     private ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
     private MoveToHomeDepotAutoMode moveToHomeDepotMode;
+    private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     private boolean targetReached = false;
 
     //Set ColorValue to zilch
@@ -45,6 +47,9 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         gyroMode = new GyroAutoMode(robot, getTelemetryUtil());
         gyroMode.init();
+
+        ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, telemetry);
+        ultrasonicDriveToCrater.init();
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
@@ -65,6 +70,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
 
         switch (currentState) {
+
             case COLOR_SENSOR_SELF_ADJUST:
                 logStage();
                 targetReached = colorSensorAdjustMode.startAdjustment();
@@ -91,6 +97,17 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 targetReached = gyroMode.runWithAngleCondition(95);
                 if(targetReached) {
+                    currentState = State.DONE;
+                    targetReached = false;
+
+                    robot.stopRobot();
+                    sleep(500);
+                }
+                break;
+            case ULTRASONIC_DRIVE_TO_CRATER:
+                logStage();
+                targetReached = ultrasonicDriveToCrater.ultrasonicDriveToCrater();
+                if (targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
 
