@@ -45,7 +45,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, telemetry);
         moveToHomeDepotMode.init();
 
-        gyroMode = new GyroAutoMode(robot, telemetry);
+        gyroMode = new GyroAutoMode(robot, getTelemetryUtil());
         gyroMode.init();
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -73,6 +73,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 if (targetReached) {
                     currentState = State.MOVE_TO_HOME_DEPOT;
                     targetReached = false;
+                    sleep(500);
                 }
                 break;
             case MOVE_TO_HOME_DEPOT:
@@ -81,14 +82,17 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 if (targetReached) {
                     currentState = State.GYRO_SENSOR_TURNER;
                     targetReached = false;
+                    sleep(500);
                 }
                 break;
             case GYRO_SENSOR_TURNER:
                 logStage();
-                if(runWithAngleCondition(95)) {
+                targetReached = gyroMode.runWithAngleCondition(95);
+                if(targetReached) {
                     currentState = State.DONE;
+                    targetReached = false;
+                    sleep(500);
                 }
-                getTelemetryUtil().sendTelemetry();
                 break;
             case DONE: // When all operations are complete
                 logStage();
