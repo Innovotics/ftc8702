@@ -27,7 +27,6 @@ public class GyroAutoMode {
     public GyroAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetryUtil) {
         this.robot = robot;
         this.telemetryUtil = telemetryUtil;
-        //this.telemetry = telemetry;
 
     }
 
@@ -41,60 +40,8 @@ public class GyroAutoMode {
         robot.imu.initialize(parameters);
         readAngles();
         //angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        //composeTelemetry();
-    }
 
-//
-//
-//    void composeTelemetry() {
-//
-//        // At the beginning of each telemetry update, grab a bunch of data
-//        // from the IMU that we will then display in separate lines.
-//        telemetry.addAction(new Runnable() {
-//            @Override
-//            public void run() {
-//                // Acquiring the angles is relatively expensive; we don't want
-//                // to do that in each of the three items that need that info, as that's
-//                // three times the necessary expense.
-//                angles = robot.getGyroSensor().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-//            }
-//        });
-//
-//        telemetry.addLine()
-//                .addData("status", new Func<String>() {
-//                    @Override
-//                    public String value() {
-//                        return robot.getGyroSensor().getSystemStatus().toShortString();
-//                    }
-//                })
-//                .addData("calib", new Func<String>() {
-//                    @Override
-//                    public String value() {
-//                        return robot.getGyroSensor().getCalibrationStatus().toString();
-//                    }
-//                });
-//
-//        telemetry.addLine()
-//                .addData("heading", new Func<String>() {
-//                    @Override
-//                    public String value() {
-//                        return OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle);
-//                    }
-//                })
-//                .addData("roll", new Func<String>() {
-//                    @Override
-//                    public String value() {
-//                        return OrientationUtils.formatAngle(angles.angleUnit, angles.secondAngle);
-//                    }
-//                })
-//                .addData("pitch", new Func<String>() {
-//                    @Override
-//                    public String value() {
-//                        return OrientationUtils.formatAngle(angles.angleUnit, angles.thirdAngle);
-//                    }
-//                });
-//
-//    }
+    }
 
     void printReport() {
         telemetryUtil.addData("heading", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
@@ -132,7 +79,7 @@ public class GyroAutoMode {
 
         if(currentPitchAngle > pitchLimit || currentRollAngle > rollLimit) {
 
-            robot.forwardRobot(0.7);
+            robot.forwardRobot(0.77);
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {
@@ -144,7 +91,7 @@ public class GyroAutoMode {
             return true;
         }
 
-        robot.forwardRobot(0.2);
+        robot.forwardRobot(0.4);
         return false;
     }
 

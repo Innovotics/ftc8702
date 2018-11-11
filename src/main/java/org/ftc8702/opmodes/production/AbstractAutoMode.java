@@ -32,6 +32,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     private boolean targetReached = false;
 
+
     //Set ColorValue to zilch
     //ColorValue panelColor = ColorValue.ZILCH;
     //abstract ColorValue getPanelColor();
@@ -47,7 +48,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         moveToHomeDepotMode.init();
 
         gyroMode = new GyroAutoMode(robot, getTelemetryUtil());
-        gyroMode.init();
 
         ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, telemetry, gyroMode);
         ultrasonicDriveToCrater.init();
@@ -77,12 +77,14 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 targetReached = colorSensorAdjustMode.startAdjustment();
                 if (targetReached) {
                     currentState = State.MOVE_TO_HOME_DEPOT;
+                    gyroMode.init();
                     targetReached = false;
 
                     robot.stopRobot();
                     sleep(500);
                 }
                 break;
+
             case MOVE_TO_HOME_DEPOT:
                 logStage();
                 targetReached = moveToHomeDepotMode.moveToHomeDepot();
@@ -94,9 +96,34 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                     sleep(500);
                 }
                 break;
+
             case GYRO_SENSOR_TURNER:
                 logStage();
                 targetReached = gyroMode.runWithAngleCondition(95);
+                if(targetReached) {
+                    currentState = State.ULTRASONIC_DRIVE_TO_CRATER;
+                    targetReached = false;
+
+                    robot.stopRobot();
+                    sleep(500);
+                }
+                break;
+
+            case ULTRASONIC_DRIVE_TO_CRATER:
+                logStage();
+                targetReached = ultrasonicDriveToCrater.ultrasonicDriveToCrater();
+                if (targetReached) {
+                    currentState = State.GO_OVER_RAMP;
+                    targetReached = false;
+
+                    robot.stopRobot();
+                    sleep(500);
+                }
+                break;
+
+            case GO_OVER_RAMP:
+                logStage();
+                targetReached = gyroMode.testElevationChange(15, 11);
                 if(targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
@@ -105,17 +132,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                     sleep(500);
                 }
                 break;
-            case ULTRASONIC_DRIVE_TO_CRATER:
-                logStage();
-                targetReached = ultrasonicDriveToCrater.ultrasonicDriveToCrater();
-                if (targetReached) {
-                    currentState = State.DONE;
-                    targetReached = false;
 
-                    robot.stopRobot();
-                    sleep(500);
-                }
-                break;
             case DONE: // When all operations are complete
                 logStage();
                 break;
@@ -129,22 +146,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
     }
 
-    boolean runWithAngleCondition(double angle){
-        gyroMode.readAngles();
-        currentAngle = gyroMode.getAngles().firstAngle;
-
-        getTelemetryUtil().addData("Current Angle", currentAngle);
-        getTelemetryUtil().sendTelemetry();
-
-        if(Math.abs(currentAngle) > angle) {
-            robot.stopRobot();
-            return true;
-        }
-
-        robot.turnLeft(.2);
-        return false;
-
-    }
 
 }
 
