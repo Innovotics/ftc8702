@@ -16,6 +16,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         MOVE_TO_HOME_DEPOT,
         GYRO_SENSOR_TURNER,
         ULTRASONIC_DRIVE_TO_CRATER,
+        GO_OVER_RAMP,
         DONE
     }
 

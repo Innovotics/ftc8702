@@ -22,6 +22,7 @@ public class GyroAutoMode {
     Orientation angles;
     double currentYawAngle;
     double currentPitchAngle;
+    double currentRollAngle;
 
     public GyroAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetryUtil) {
         this.robot = robot;
@@ -118,6 +119,35 @@ public class GyroAutoMode {
 
     }
 
+    boolean testElevationChange( double rollLimit, double pitchLimit) {
+        readAngles();
+
+        if (currentRollAngle < 0) {
+            currentRollAngle = currentRollAngle * (-1);
+        }
+
+        if (currentPitchAngle < 0) {
+            currentPitchAngle = currentPitchAngle * (-1);
+        }
+
+        if(currentPitchAngle > pitchLimit || currentRollAngle > rollLimit) {
+
+            robot.forwardRobot(0.7);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            robot.stopRobot();
+
+            return true;
+        }
+
+        robot.forwardRobot(0.2);
+        return false;
+    }
+
 
     public Orientation getAngles() {
         return angles;
@@ -127,7 +157,8 @@ public class GyroAutoMode {
         angles = robot.getGyroSensor().getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         currentYawAngle = angles.firstAngle;
         currentPitchAngle = angles.thirdAngle;
-        telemetryUtil.addData("heading(yaw)", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
+        currentRollAngle = angles.secondAngle;
+        telemetryUtil.addData("yaw", OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle));
         telemetryUtil.addData("roll", OrientationUtils.formatAngle(angles.angleUnit, angles.secondAngle));
         telemetryUtil.addData("pitch", OrientationUtils.formatAngle(angles.angleUnit, angles.thirdAngle));
         telemetryUtil.sendTelemetry();
