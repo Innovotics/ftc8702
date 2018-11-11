@@ -15,6 +15,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         COLOR_SENSOR_SELF_ADJUST,
         MOVE_TO_HOME_DEPOT,
         GYRO_SENSOR_TURNER,
+        GO_OVER_RAMP,
         DONE
     }
 

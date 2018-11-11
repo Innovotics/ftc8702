@@ -98,4 +98,10 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         motorR.setPower(speed * (-1));
         motorL.setPower(speed);
     }
+
+    public void forwardRobot(double speed)
+    {
+        motorL.setPower(speed);
+        motorR.setPower(speed);
+    }
 }
