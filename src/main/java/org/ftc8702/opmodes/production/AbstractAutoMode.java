@@ -49,7 +49,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         gyroMode = new GyroAutoMode(robot, getTelemetryUtil());
         gyroMode.init();
 
-        ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, telemetry);
+        ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, telemetry, gyroMode);
         ultrasonicDriveToCrater.init();
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");

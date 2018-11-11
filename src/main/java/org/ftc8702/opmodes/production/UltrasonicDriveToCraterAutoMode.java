@@ -16,6 +16,10 @@ public class UltrasonicDriveToCraterAutoMode {
     private static final double FORWARD_SPEED = 0.2;
     private static final double FINAL_DISTANCE = 30;
     private static final long PAUSE_DURATION_MS = 500;
+    private static final int ROLL_LIMIT_DEGREE = 15;
+    private static final int PITCH_LIMIT_DEGREE = 11;
+    private static final long TOTAL_TIME_LIMIT_MS = 5000;
+
 
     private long startTimeMillis;
 
@@ -25,12 +29,16 @@ public class UltrasonicDriveToCraterAutoMode {
 
     private ModernRoboticsI2cRangeSensor rangeSensor;
 
+    private GyroAutoMode gyroAutoMode;
+
     private double distanceToWallInCM;
 
-    public UltrasonicDriveToCraterAutoMode(Team8702ProdAuto robot, Telemetry telemetry) {
+    public UltrasonicDriveToCraterAutoMode(Team8702ProdAuto robot, Telemetry telemetry, GyroAutoMode gyroAutoMode) {
         this.prodAutoConfig = robot;
         this.telemetry = telemetry;
+        this.gyroAutoMode = gyroAutoMode;
     }
+
     protected void init() {
         rangeSensor = prodAutoConfig.rangeSensor;
     }
@@ -89,11 +97,10 @@ public class UltrasonicDriveToCraterAutoMode {
     }
 
     private boolean testElevationChange() {
-        // TODO - figure out how to integrate Tyler's stuff
-        return ((System.currentTimeMillis() - startTimeMillis) > 5000);
-
+        long duration = System.currentTimeMillis() - startTimeMillis;
+        return gyroAutoMode.testElevationChange(ROLL_LIMIT_DEGREE, PITCH_LIMIT_DEGREE)
+                || (duration > TOTAL_TIME_LIMIT_MS);
     }
-
 
     private void sleep ( long millis) throws InterruptedException {
         TimeUnit.MILLISECONDS.sleep(millis);
