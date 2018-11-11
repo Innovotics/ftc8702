@@ -14,6 +14,7 @@ import org.ftc8702.utils.InnovoticsRobotProperties;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 
@@ -29,19 +30,22 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public DcMotor motorR;
     public DcMotor motorL;
+
     public BNO055IMU imu;
+
     public ColorSensor colorSensorBackLeft;
     public ColorSensor colorSensorBackRight;
+
     public ModernRoboticsI2cRangeSensor rangeSensor;
 
-    //Ultrasonic Sensor
-//    public ModernRoboticsI2cRangeSensor rangeSensorR;
-//    public ModernRoboticsI2cRangeSensor rangeSensorF;
+    public Servo markerDropper;
 
     @Override
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
         initWheels(hardwareMap);
+        initServo(hardwareMap);
+
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
 
         colorSensorBackRight = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT);
@@ -78,6 +82,10 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         motorL.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         motorR.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
 
+    }
+
+    private void initServo(HardwareMap hardwareMap) {
+        markerDropper = hardwareMap.get(Servo.class, InnovoticsRobotProperties.MARKER_DROPPER);
     }
 
     public BNO055IMU getGyroSensor() {

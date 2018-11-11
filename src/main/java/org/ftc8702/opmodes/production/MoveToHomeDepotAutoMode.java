@@ -96,8 +96,12 @@ public class MoveToHomeDepotAutoMode {
         //If colors are detected on both sides, stop both motors
         if (isRightSensorFoundColor && isLeftSensorFoundColor) {
             pauseMovement();
+
             isBothMotorsStopped = true;
-            // TODO: Drop Team Marker
+
+            //Drop Team marker
+            dropTeamMarker();
+
             telemetry.addData("Both Motors", "stopped");
         }
 
@@ -120,4 +124,14 @@ public class MoveToHomeDepotAutoMode {
         TimeUnit.MILLISECONDS.sleep(millis);
     }
 
+    private void dropTeamMarker() {
+        robot.stopRobot();
+        robot.markerDropper.setPosition(0.5);
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        robot.markerDropper.setPosition(0);
+    }
 }

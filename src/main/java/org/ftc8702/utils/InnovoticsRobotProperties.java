@@ -18,4 +18,7 @@ public class InnovoticsRobotProperties {
 
     //Ultrasonic Sensor
     public static final String ULTRA_SONIC_SENSOR= "RangeSensorL";
+
+    //Servo
+    public static final String MARKER_DROPPER = "markerDropper";
 }

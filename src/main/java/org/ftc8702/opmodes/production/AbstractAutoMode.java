@@ -74,7 +74,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case COLOR_SENSOR_SELF_ADJUST:
                 logStage();
-                targetReached = colorSensorAdjustMode.startAdjustment();
+                //targetReached = colorSensorAdjustMode.startAdjustment();
                 if (targetReached) {
                     currentState = State.MOVE_TO_HOME_DEPOT;
                     gyroMode.init();
@@ -99,7 +99,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case GYRO_SENSOR_TURNER:
                 logStage();
-                targetReached = gyroMode.runWithAngleCondition(95);
+                targetReached = gyroMode.runWithAngleCondition(110);
                 if(targetReached) {
                     currentState = State.ULTRASONIC_DRIVE_TO_CRATER;
                     targetReached = false;
