@@ -57,6 +57,7 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
     protected void pauseMovement() {
         robotConfig.motorL.setPower(0.0);
         robotConfig.motorR.setPower(0.0);
+        sleep(500);
     }
 
     @Override
@@ -75,6 +76,13 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
             pauseMovement(); // stop robot moving to slow down the momentum
             moveForward();
             getTelemetryUtil().addData("Motor Both", "move forward");
+        }
+
+        if (isColorDetectedByRightSensor && isColorDetectedByLeftSensor) {
+            pauseMovement(); // stop robot
+            isLeftMotorStopped = true;
+            isRightMotorStopped = true;
+            getTelemetryUtil().addData("Motor Both", "Stopped");
         }
 
         //If color sensor is right side, then stop right motor

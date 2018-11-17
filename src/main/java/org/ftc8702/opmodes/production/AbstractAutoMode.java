@@ -74,7 +74,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case COLOR_SENSOR_SELF_ADJUST:
                 logStage();
-                //targetReached = colorSensorAdjustMode.startAdjustment();
+                targetReached = colorSensorAdjustMode.startAdjustment();
                 if (targetReached) {
                     currentState = State.MOVE_TO_HOME_DEPOT;
                     gyroMode.init();

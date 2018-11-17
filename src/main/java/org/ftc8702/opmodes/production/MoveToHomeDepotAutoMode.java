@@ -11,8 +11,8 @@ import static org.ftc8702.utils.ColorUtil.isRedOrBlueDetected;
 
 public class MoveToHomeDepotAutoMode {
 
-    private static final double FORWARD_SPEED = 0.15;
-    private static final long BEGIN_MOVE_FORARD_DURATION_MS = 3750;
+    private static final double FORWARD_SPEED = 0.25;
+    private static final long BEGIN_MOVE_FORARD_DURATION_MS = 2000;
     private static final long BACKWARD_DRURATION_MS = 1750;
     private static final double BACKWARD_SPEED = -0.15;
 

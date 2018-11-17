@@ -4,18 +4,23 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
 import org.ftc8702.utils.ColorValue;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.ftc8702.utils.ColorUtil.getColor;
 import static org.ftc8702.utils.ColorUtil.isRedOrBlueDetected;
 
 public class ColorSensorAdjustmentAutoMode {
     private static final double FORWARD_SPEED = 0.15;
     private static final double TURN_SPEED_RIGHT = 0.33;
-    private static final double TURN_SPEED_LEFT = 0.3;
-    private static final double TURN_BACKWORD_SPEED_RIGHT = -0.27;
+    private static final double TURN_SPEED_LEFT = 0.26;
+    private static final double TURN_BACKWORD_SPEED_RIGHT = -0.18;
     private static final double TURN_BACKWORD_SPEED_LEFT = -0.23;
 
     private Team8702ProdAuto robot;
     private Telemetry telemetry;
+
+    private long leftSensorDetectedTime = 0;
+    private long rightSensorDetectedTime = 0;
 
     private boolean isRightMotorStopped = false;
     private boolean isLeftMotorStopped = false;
@@ -48,7 +53,7 @@ public class ColorSensorAdjustmentAutoMode {
         robot.motorR.setPower(isRightMotorStopped ? 0.0 : TURN_SPEED_RIGHT);
     }
 
-    private void pauseMovement() {
+    private void pauseMovement() throws InterruptedException {
         robot.motorL.setPower(0.0);
         robot.motorR.setPower(0.0);
     }
@@ -62,14 +67,33 @@ public class ColorSensorAdjustmentAutoMode {
     }
 
     private boolean loopToAdjust() throws InterruptedException {
+        if (isRightMotorStopped && isLeftMotorStopped) {
+            return true;
+        }
+
         ColorValue rightColor = getColor(robot.colorSensorBackRight);
         telemetry.addData("Right Color: ", rightColor.name());
+        boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);
+        //If color sensor is right side, then stop right motor
+        if (isColorDetectedByRightSensor) {
+            pauseMovement(); // turn off both motors to stop the momentum
+            stopRight(); // turn robot to right
+            isRightMotorStopped = true;
+            telemetry.addData("Motor Right", "stopped");
+            return false;
+        }
+
         ColorValue leftColor = getColor(robot.colorSensorBackLeft);
         telemetry.addData("Left Color: ", rightColor.name());
-
-        // get color readings from both left and right sensors
-        boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);
         boolean isColorDetectedByLeftSensor = isRedOrBlueDetected(leftColor);
+        //If color sensor is left side, then stop left motor
+        if (isColorDetectedByLeftSensor) {
+            pauseMovement(); // turn off both motors to stop the momentum
+            stopLeft();
+            isLeftMotorStopped = true;
+            telemetry.addData("Motor Left", "stopped");
+            return false;
+        }
 
         // Move both wheels until one of the color sensor detects colors
         if (!isColorDetectedByRightSensor && !isColorDetectedByLeftSensor) {
@@ -77,22 +101,6 @@ public class ColorSensorAdjustmentAutoMode {
             moveForward();
             telemetry.addData("Motor Both", "move forward");
         }
-
-        //If color sensor is right side, then stop right motor
-        if (isColorDetectedByRightSensor) {
-            pauseMovement(); // turn off both motors to stop the momentum
-            stopRight();
-            isRightMotorStopped = true;
-            telemetry.addData("Motor Right", "stopped");
-        }
-        //If color sensor is left side, then stop left motor
-        if (isColorDetectedByLeftSensor) {
-            pauseMovement(); // turn off both motors to stop the momentum
-            stopLeft();
-            isLeftMotorStopped = true;
-            telemetry.addData("Motor Left", "stopped");
-        }
-        telemetry.update();
 
         // end state - when both motors have stopped, return true to indicate we are done.
         return isLeftMotorStopped && isRightMotorStopped;
