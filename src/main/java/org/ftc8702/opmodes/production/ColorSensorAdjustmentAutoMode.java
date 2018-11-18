@@ -11,6 +11,7 @@ import static org.ftc8702.utils.ColorUtil.isRedOrBlueDetected;
 
 public class ColorSensorAdjustmentAutoMode {
     private static final double FORWARD_SPEED = 0.15;
+    private static final double BACKWARD_SPEED = -0.15;
     private static final double TURN_SPEED_RIGHT = 0.33;
     private static final double TURN_SPEED_LEFT = 0.26;
     private static final double TURN_BACKWORD_SPEED_RIGHT = -0.18;
@@ -53,6 +54,25 @@ public class ColorSensorAdjustmentAutoMode {
         robot.motorR.setPower(isRightMotorStopped ? 0.0 : TURN_SPEED_RIGHT);
     }
 
+    private void turnleft(double power) {
+        robot.motorL.setPower(0);
+        robot.motorR.setPower(power);
+    }
+
+    private void turnright(double power) {
+        robot.motorL.setPower(power);
+        robot.motorR.setPower(0);
+    }
+
+    private void movebackward() {
+        robot.motorL.setPower(BACKWARD_SPEED);
+        robot.motorR.setPower(BACKWARD_SPEED);
+    }
+
+    private void sleep(long duration) throws InterruptedException {
+        TimeUnit.MILLISECONDS.sleep(duration);
+    }
+
     private void pauseMovement() throws InterruptedException {
         robot.motorL.setPower(0.0);
         robot.motorR.setPower(0.0);
@@ -61,7 +81,7 @@ public class ColorSensorAdjustmentAutoMode {
     public boolean startAdjustment() throws InterruptedException {
         boolean isCompleted = false;
         while (!isCompleted) {
-            isCompleted = loopToAdjust();
+            isCompleted = NewAdjustmentLoop();
         }
         return isCompleted;
     }
@@ -106,4 +126,53 @@ public class ColorSensorAdjustmentAutoMode {
         return isLeftMotorStopped && isRightMotorStopped;
     }
 
+    private boolean NewAdjustmentLoop() throws InterruptedException {
+
+        ColorValue rightColor = getColor(robot.colorSensorBackRight);
+        telemetry.addData("Right Color: ", rightColor.name());
+        boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);
+
+        ColorValue leftColor = getColor(robot.colorSensorBackLeft);
+        telemetry.addData("Left Color: ", rightColor.name());
+        boolean isColorDetectedByLeftSensor = isRedOrBlueDetected(leftColor);
+
+        if (isColorDetectedByRightSensor && isColorDetectedByLeftSensor) {
+            pauseMovement(); // stop robot moving to slow down the momentum
+            telemetry.addData("Motor Both", "move forward");
+            // end state - when both motors have stopped, return true to indicate we are done.
+            return true;
+        }
+        else if (!isColorDetectedByRightSensor && !isColorDetectedByLeftSensor) {
+            moveForward();
+        }
+        else if (isColorDetectedByLeftSensor && !isColorDetectedByRightSensor) {
+            turnleft(0.25);
+            boolean isRightSensorDetectColor = false;
+            while (!isRightSensorDetectColor) {
+                ColorValue rightSensorColor = getColor(robot.colorSensorBackRight);
+                isRightSensorDetectColor = isRedOrBlueDetected(rightSensorColor);
+            }
+           sleep(250);
+           movebackward();
+           sleep(1000);
+           pauseMovement();
+        }
+
+        else if (!isColorDetectedByLeftSensor && isColorDetectedByRightSensor) {
+            turnright(0.25);
+            boolean isLeftSensorDetectColor = false;
+            while (!isLeftSensorDetectColor) {
+                ColorValue leftSensorColor = getColor(robot.colorSensorBackLeft);
+                isLeftSensorDetectColor = isRedOrBlueDetected(leftSensorColor);
+            }
+            sleep(250);
+            movebackward();
+            sleep(1000);
+            pauseMovement();
+        }
+
+        return false;
+
+    }
 }
+
