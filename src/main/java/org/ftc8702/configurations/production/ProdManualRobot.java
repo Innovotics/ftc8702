@@ -3,9 +3,11 @@ package org.ftc8702.configurations.production;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
+import org.ftcbootstrap.components.ServoComponent;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
@@ -22,6 +24,8 @@ public class ProdManualRobot extends RobotConfiguration {
     //motors
     public DcMotor motorR;
     public DcMotor motorL;
+    public DcMotor hook;
+    public CRServo intakeSystem;
 
     //Gyro Sensor
     public BNO055IMU gyroSensor;
@@ -57,6 +61,10 @@ public class ProdManualRobot extends RobotConfiguration {
 
             //gyro sensor
         gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
+
+            //Attachments
+            hook = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_HOOK, hardwareMap.dcMotor);
+            intakeSystem = (CRServo) getHardwareOn(InnovoticsRobotProperties.INTAKE_SYSTEM, hardwareMap.crservo);
 
 
         getTelemetryUtil().sendTelemetry();

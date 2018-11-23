@@ -2,10 +2,12 @@ package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.ftc8702.components.servo.GamePadCRServo;
 import org.ftc8702.configurations.production.ProdManualRobot;
 import org.ftcbootstrap.ActiveOpMode;
 import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
-
+import org.ftcbootstrap.components.operations.motors.GamePadMotor;
+import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
 
 /**
@@ -21,6 +23,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
     private ProdManualRobot robot;
     private GamePadTankDrive gamePadTankDrive;
+    private GamePadMotor gamePadMotor;
+    private GamePadCRServo gamePadServo;
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
      */
@@ -42,6 +46,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         //create the operation  to perform a tank drive using the gamepad joysticks.
         gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
+        gamePadMotor = new GamePadMotor(this, gamepad1, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
+        gamePadServo = new GamePadCRServo(this, gamepad2, robot.intakeSystem, GamePadCRServo.Control.Y_A,0.0);
 
     }
 
@@ -56,6 +62,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         //update the motors with the gamepad joystick values
        gamePadTankDrive.update();
+       gamePadMotor.update();
+       gamePadServo.update();
         getTelemetryUtil().sendTelemetry();
 
     }
