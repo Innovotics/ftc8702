@@ -41,15 +41,15 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         robot.init(hardwareMap, getTelemetryUtil());
 
-        colorSensorAdjustMode = new ColorSensorAdjustmentAutoMode(robot, telemetry);
+        colorSensorAdjustMode = new ColorSensorAdjustmentAutoMode(robot, getTelemetryUtil());
         colorSensorAdjustMode.init();
 
-        moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, telemetry);
+        moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, getTelemetryUtil());
         moveToHomeDepotMode.init();
 
         gyroMode = new GyroAutoMode(robot, getTelemetryUtil());
 
-        ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, telemetry, gyroMode);
+        ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
         ultrasonicDriveToCrater.init();
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");

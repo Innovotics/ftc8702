@@ -5,6 +5,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
+import org.ftc8702.utilities.TelemetryUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +24,7 @@ public class UltrasonicDriveToCraterAutoMode {
 
     private long startTimeMillis;
 
-    private Telemetry telemetry;
+    private TelemetryUtil telemetry;
 
     private Team8702ProdAuto prodAutoConfig;
 
@@ -33,7 +34,7 @@ public class UltrasonicDriveToCraterAutoMode {
 
     private double distanceToWallInCM;
 
-    public UltrasonicDriveToCraterAutoMode(Team8702ProdAuto robot, Telemetry telemetry, GyroAutoMode gyroAutoMode) {
+    public UltrasonicDriveToCraterAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetry, GyroAutoMode gyroAutoMode) {
         this.prodAutoConfig = robot;
         this.telemetry = telemetry;
         this.gyroAutoMode = gyroAutoMode;
@@ -83,15 +84,15 @@ public class UltrasonicDriveToCraterAutoMode {
         distanceToWallInCM = rangeSensor.getDistance(DistanceUnit.CM);
 
         if (distanceToWallInCM > FINAL_DISTANCE) {
-            telemetry.addLine("forward and turn");
+            telemetry.addData("forward", "turn");
             ForwardandTurn();
         } else {
-            telemetry.addLine("forward only");
+            telemetry.addData("forward", "only");
             Forward();
         }
 
-        telemetry.addData("cm", "%.2f cm", distanceToWallInCM);
-        telemetry.update();
+        telemetry.addData("Distance", String.format("cm", "%.2f cm", distanceToWallInCM));
+        telemetry.sendTelemetry();
 
         return false; // always return false if elvation change is not detected
     }

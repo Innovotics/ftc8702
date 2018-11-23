@@ -17,6 +17,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * FTCTeamRobot Saved Configuration
@@ -111,5 +113,9 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     {
         motorL.setPower(speed);
         motorR.setPower(speed);
+    }
+
+    public void sleep(long duration) throws InterruptedException {
+        TimeUnit.MILLISECONDS.sleep(duration);
     }
 }
