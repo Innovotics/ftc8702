@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import org.ftc8702.utils.InnovoticsRobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
 import org.ftcbootstrap.components.ServoComponent;
+import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcbootstrap.components.utils.TelemetryUtil;
 
 
@@ -26,9 +27,13 @@ public class ProdManualRobot extends RobotConfiguration {
     public DcMotor motorL;
     public DcMotor hook;
     public CRServo intakeSystem;
+   // public DcMotor belt;
+    public DcMotor slideExtender;
 
-    //Gyro Sensor
+    //Sensors
     public BNO055IMU gyroSensor;
+
+
 
     /**
      * Factory method for this class
@@ -65,7 +70,8 @@ public class ProdManualRobot extends RobotConfiguration {
             //Attachments
             hook = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_HOOK, hardwareMap.dcMotor);
             intakeSystem = (CRServo) getHardwareOn(InnovoticsRobotProperties.INTAKE_SYSTEM, hardwareMap.crservo);
-
+           // belt = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BELT, hardwareMap.dcMotor);
+            slideExtender = (DcMotor) getHardwareOn(InnovoticsRobotProperties.LINEAR_SLIDE_ENXTENSION, hardwareMap.dcMotor);
 
         getTelemetryUtil().sendTelemetry();
     }
