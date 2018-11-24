@@ -29,6 +29,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     private GamePadTankDrive gamePadTankDrive;
     private GamePadMotor gamePadMotor;
     private GamePadCRServo gamePadServo;
+    private GamePadMotor gamePadTransformingMotor;
+
     private MotorToEncoder slideMotorToEncoder;
     private GamePadEncoderMotor gamePadSliderMotor;
     private int encoderLimitingValue = 3600;
@@ -42,6 +44,11 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         slideMotorToEncoder = new MotorToEncoder(this, robot.slideExtender);
         slideMotorToEncoder.setName(InnovoticsRobotProperties.LINEAR_SLIDE_ENXTENSION);
+
+
+
+
+
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -58,9 +65,11 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         gamePadMotor = new GamePadMotor(this, gamepad1, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
         gamePadServo = new GamePadCRServo(this, gamepad2, robot.intakeSystem, GamePadCRServo.Control.Y_A,0.0);
         //gamePadMotor = new GamePadMotor(this, gamepad2, robot.belt, GamePadMotor.Control.LB_RB_BUTTONS);
-        gamePadSliderMotor = new GamePadEncoderMotor(this, gamepad2, robot.slideExtender, GamePadEncoderMotor.Control.RIGHT_STICK_Y, slideMotorToEncoder.motorCurrentPosition(), slideMotorToEncoder);
+        gamePadTransformingMotor = new GamePadMotor(this, gamepad2, robot.transformingMotor, GamePadMotor.Control.RIGHT_STICK_X);
 
         //motor encoder
+        gamePadSliderMotor = new GamePadEncoderMotor(this, gamepad2, robot.slideExtender, GamePadEncoderMotor.Control.RIGHT_STICK_Y, slideMotorToEncoder.motorCurrentPosition(), slideMotorToEncoder);
+
         gamePadSliderMotor.startRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         gamePadSliderMotor.startRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -78,6 +87,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
        gamePadMotor.update();
        gamePadServo.update();
        gamePadSliderMotor.update(slideMotorToEncoder.motorCurrentPosition());
+       gamePadTransformingMotor.update();
+
         getTelemetryUtil().addData("Motor to Encoder Value: ", slideMotorToEncoder.motorCurrentPosition());
 
         getTelemetryUtil().addData("Joystick Power: ", gamepad2.right_stick_y);

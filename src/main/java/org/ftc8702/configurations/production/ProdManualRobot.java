@@ -29,6 +29,7 @@ public class ProdManualRobot extends RobotConfiguration {
     public CRServo intakeSystem;
    // public DcMotor belt;
     public DcMotor slideExtender;
+    public DcMotor transformingMotor;
 
     //Sensors
     public BNO055IMU gyroSensor;
@@ -72,6 +73,7 @@ public class ProdManualRobot extends RobotConfiguration {
             intakeSystem = (CRServo) getHardwareOn(InnovoticsRobotProperties.INTAKE_SYSTEM, hardwareMap.crservo);
            // belt = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BELT, hardwareMap.dcMotor);
             slideExtender = (DcMotor) getHardwareOn(InnovoticsRobotProperties.LINEAR_SLIDE_ENXTENSION, hardwareMap.dcMotor);
+            transformingMotor = (DcMotor) getHardwareOn(InnovoticsRobotProperties.TRANSFORMING_EXTENSION, hardwareMap.dcMotor);
 
         getTelemetryUtil().sendTelemetry();
     }

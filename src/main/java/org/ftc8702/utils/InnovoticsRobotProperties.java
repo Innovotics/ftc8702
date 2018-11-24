@@ -14,6 +14,7 @@ public class InnovoticsRobotProperties {
 
     public static final String GYRO_SENSOR = "imu";
     public static final String LINEAR_SLIDE_ENXTENSION = "slideSystem";
+    public static final String TRANSFORMING_EXTENSION = "transformSystem";
 
     //Color sensor
     public static final String COLOR_SENSOR_BACK_RIGHT= "colorSensorBR";
