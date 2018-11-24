@@ -30,7 +30,7 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     private GamePadCRServo gamePadServo;
     private MotorToEncoder slideMotorToEncoder;
     private GamePadMotor gamePadSliderMotor;
-   // private int encoderLimitingValue = 3600;
+    private int encoderLimitingValue = 3600;
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
      */
@@ -90,13 +90,19 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 //
 //    }
 //
+            stopOnEncoderValue();
 
             getTelemetryUtil().sendTelemetry();
             telemetry.update();
-
-
-
-
     }
+
+    private void stopOnEncoderValue() {
+        if(slideMotorToEncoder.motorCurrentPosition() > encoderLimitingValue || slideMotorToEncoder.motorCurrentPosition() < 0) {
+            robot.slideExtender.setPower(0.0);
+            getTelemetryUtil().addData("Robot Stopped", slideMotorToEncoder.motorCurrentPosition());
+
+        }
+    }
+
 
 }
