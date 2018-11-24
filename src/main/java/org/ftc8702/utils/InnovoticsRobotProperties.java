@@ -9,8 +9,11 @@ public class InnovoticsRobotProperties {
     //Motor
     public static final String MOTOR_RIGHT = "motorR";
     public static final String MOTOR_LEFT = "motorL";
+    public static final String MOTOR_HOOK = "hook";
+    public static final String MOTOR_BELT = "beltSystem";
 
     public static final String GYRO_SENSOR = "imu";
+    public static final String LINEAR_SLIDE_ENXTENSION = "slideSystem";
 
     //Color sensor
     public static final String COLOR_SENSOR_BACK_RIGHT= "colorSensorBR";
@@ -21,4 +24,5 @@ public class InnovoticsRobotProperties {
 
     //Servo
     public static final String MARKER_DROPPER = "markerDropper";
+    public static final String INTAKE_SYSTEM = "intakeSystem";
 }

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -79,9 +80,12 @@ public class ObjectDetectionTest extends LinearOpMode {
                             int goldMineralX = -1;
                             int silverMineral1X = -1;
                             int silverMineral2X = -1;
+
+                            double angleToGold = 0;
                             for (Recognition recognition : updatedRecognitions) {
                                 if (recognition.getLabel().equals(LABEL_GOLD_MINERAL)) {
                                     goldMineralX = (int) recognition.getLeft();
+                                    angleToGold = recognition.estimateAngleToObject(AngleUnit.DEGREES);
                                 } else if (silverMineral1X == -1) {
                                     silverMineral1X = (int) recognition.getLeft();
                                 } else {
@@ -90,11 +94,11 @@ public class ObjectDetectionTest extends LinearOpMode {
                             }
                             if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                                 if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
-                                    telemetry.addData("Gold Mineral Position", "Left");
+                                    telemetry.addData("Gold Mineral Position", "Left at " + String.format("%.2f degree", angleToGold));
                                 } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
-                                    telemetry.addData("Gold Mineral Position", "Right");
+                                    telemetry.addData("Gold Mineral Position", "Right at " + String.format("%.2f degree", angleToGold));;
                                 } else {
-                                    telemetry.addData("Gold Mineral Position", "Center");
+                                    telemetry.addData("Gold Mineral Position", "Center at " + String.format("%.2f degree", angleToGold));
                                 }
                             }
                         }
@@ -119,7 +123,7 @@ public class ObjectDetectionTest extends LinearOpMode {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
         telemetry.addData("vuforia parameter", "inited");
         telemetry.update();
@@ -137,11 +141,23 @@ public class ObjectDetectionTest extends LinearOpMode {
      */
     private void initTfod() {
         telemetry.addLine("init Tfod");
+        telemetry.update();
+
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        telemetry.addData("getId", tfodMonitorViewId);
+        telemetry.update();
+
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        telemetry.addData("getParameters", tfodParameters);
+        telemetry.update();
+
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        telemetry.addData("create detector", tfod);
+        telemetry.update();
+
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+        telemetry.addLine("loadModel");
         telemetry.update();
     }
 }
