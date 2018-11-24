@@ -76,8 +76,6 @@ public class GamePadDriveOpMode extends ActiveOpMode {
        gamePadServo.update();
        gamePadSliderMotor.update();
 
-       getTelemetryUtil().sendTelemetry();
-       telemetry.update();
 
 //       Runnable r = new Runnable() {
 //           @Override
@@ -90,17 +88,11 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 //
 //    }
 //
-//    private void stopOnEncoderValue() {
-//        while (true) {
-//            getTelemetryUtil().addData("Encoder Value: ", slideMotorToEncoder.motorCurrentPosition());
-//            if (slideMotorToEncoder.motorCurrentPosition() > encoderLimitingValue) {
-//                robot.slideExtender.setPower(0.0);
-//
-//            }
-//            getTelemetryUtil().sendTelemetry();
-//            telemetry.update();
-//
-//        }
+
+            getTelemetryUtil().sendTelemetry();
+            telemetry.update();
+
+
 
 
     }
