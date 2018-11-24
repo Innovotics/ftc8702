@@ -56,7 +56,7 @@ public class ObjectDetectionAutoMode {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
         telemetry.addData("vuforia parameter", "inited");
         telemetry.sendTelemetry();
@@ -81,15 +81,17 @@ public class ObjectDetectionAutoMode {
         telemetry.sendTelemetry();
     }
 
-    public boolean detectAndRunDownGoldMineral() {
-        while (!isCompleted)
-        {
+    public boolean detectAndknockDownGoldMineral() {
+        while (!isCompleted) {
             isCompleted = detectGoldMineral();
         }
+        telemetry.addData("Turn robot to ", String.format("%.2f degree", angleToGoldMineral));
+        telemetry.sendTelemetry();
+        // TODO turn robot to angleToGoldMineral and move forward and backward
         return isCompleted;
     }
 
-    public boolean detectGoldMineral() {
+    private boolean detectGoldMineral() {
         // getUpdatedRecognitions() will return null if no new information is available since
         // the last time that call was made.
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();

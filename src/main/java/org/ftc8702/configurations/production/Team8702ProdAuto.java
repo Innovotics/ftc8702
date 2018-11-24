@@ -116,6 +116,11 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         motorL.setPower(speed);
     }
 
+    public void turnRight(double speed) {
+        motorR.setPower(speed);
+        motorL.setPower(speed * (-1));
+    }
+
     public void forwardRobot(double speed)
     {
         motorL.setPower(speed);
