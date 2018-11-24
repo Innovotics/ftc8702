@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit;
 import static java.lang.Thread.sleep;
 
 public class UltrasonicDriveToCraterAutoMode {
-    private static final double FORWARD_TURN_RIGHT_SPEED = 0.3;
-    private static final double FORWARD_LEFT_SPEED = 0.11;
-    private static final double FORWARD_SPEED = 0.2;
+    private static final double FORWARD_TURN_RIGHT_SPEED = 0.35;
+    private static final double FORWARD_LEFT_SPEED = 0.16;
+    private static final double FORWARD_SPEED = 0.3;
     private static final double FINAL_DISTANCE = 30;
     private static final long PAUSE_DURATION_MS = 500;
     private static final int ROLL_LIMIT_DEGREE = 15;
