@@ -1,6 +1,7 @@
 package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftc8702.components.servo.GamePadCRServo;
 import org.ftc8702.configurations.production.ProdManualRobot;
@@ -51,7 +52,6 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-
         //create the operation  to perform a tank drive using the gamepad joysticks.
         gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
         gamePadMotor = new GamePadMotor(this, gamepad1, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
@@ -59,6 +59,9 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         //gamePadMotor = new GamePadMotor(this, gamepad2, robot.belt, GamePadMotor.Control.LB_RB_BUTTONS);
         gamePadSliderMotor = new GamePadMotor(this, gamepad2, robot.slideExtender, GamePadMotor.Control.RIGHT_STICK_Y);
 
+        //motor encoder
+        gamePadSliderMotor.startRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        gamePadSliderMotor.startRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**
@@ -69,13 +72,12 @@ public class GamePadDriveOpMode extends ActiveOpMode {
      */
     @Override
     protected void activeLoop() throws InterruptedException {
-
         //update the motors with the gamepad joystick values
        gamePadTankDrive.update();
        gamePadMotor.update();
        gamePadServo.update();
        gamePadSliderMotor.update();
-
+        getTelemetryUtil().addData("Motor to Encoder Value: ", slideMotorToEncoder.motorCurrentPosition());
 
 //       Runnable r = new Runnable() {
 //           @Override
