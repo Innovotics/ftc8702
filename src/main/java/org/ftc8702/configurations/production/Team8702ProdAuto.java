@@ -42,8 +42,11 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public Servo markerDropper;
 
+    private HardwareMap hardwareMap;
+
     @Override
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+        this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
         initWheels(hardwareMap);
         initServo(hardwareMap);
@@ -55,6 +58,10 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
         getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
+    }
+
+    public HardwareMap getHardwareMap() {
+        return hardwareMap;
     }
 
     private ColorSensor initColorSensor(HardwareMap hardwareMap, String name) {
