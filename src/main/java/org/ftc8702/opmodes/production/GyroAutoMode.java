@@ -66,6 +66,22 @@ public class GyroAutoMode {
 
     }
 
+    public boolean goRightToAngleDegree(double angle){
+        readAngles();
+        //currentYawAngle = getAngles().firstAngle;
+        //telemetryUtil.addData("Current Angle", currentYawAngle);
+        //telemetryUtil.sendTelemetry();
+
+        if(Math.abs(currentYawAngle) > angle) {
+            robot.stopRobot();
+            return true;
+        }
+
+        robot.turnRight(.2);
+        return false;
+
+    }
+
     boolean testElevationChange( double rollLimit, double pitchLimit) {
         readAngles();
 
