@@ -45,11 +45,6 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         slideMotorToEncoder = new MotorToEncoder(this, robot.slideExtender);
         slideMotorToEncoder.setName(InnovoticsRobotProperties.LINEAR_SLIDE_ENXTENSION);
 
-
-
-
-
-
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");

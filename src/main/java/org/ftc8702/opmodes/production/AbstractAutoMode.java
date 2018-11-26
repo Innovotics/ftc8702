@@ -5,6 +5,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
+import org.ftc8702.utils.InnovoticsRobotProperties;
+import org.ftc8702.utilities.MotorToEncoder;
+
 
 
 abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
@@ -12,6 +15,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     //States for actual autonomous
     protected enum State {
         INIT,
+        HOOK,
         COLOR_SENSOR_SELF_ADJUST,
         MOVE_TO_HOME_DEPOT,
         GYRO_SENSOR_TURNER,
@@ -31,6 +35,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     private MoveToHomeDepotAutoMode moveToHomeDepotMode;
     private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     private boolean targetReached = false;
+    private MotorToEncoder hookMotorToEncoder;
 
 
     //Set ColorValue to zilch
@@ -55,14 +60,17 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
 
-        currentState = State.COLOR_SENSOR_SELF_ADJUST;
+        currentState = State.HOOK;
         robot.stopRobot();
         robot.setRunMode();
+
+        hookMotorToEncoder = new MotorToEncoder(this, robot.hook);
     }
 
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
+
     }
 
     @Override
@@ -71,6 +79,18 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
 
         switch (currentState) {
+
+            case HOOK:
+                logStage();
+                if(targetReached) {
+                    currentState = State.COLOR_SENSOR_SELF_ADJUST;
+                    targetReached = false;
+
+                    robot.stopRobot();
+                    sleep(500);
+                }
+
+                break;
 
             case COLOR_SENSOR_SELF_ADJUST:
                 logStage();

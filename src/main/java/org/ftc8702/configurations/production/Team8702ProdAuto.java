@@ -5,6 +5,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftc8702.components.ImuGyroSensor;
@@ -32,6 +33,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public DcMotor motorR;
     public DcMotor motorL;
+    public DcMotor hook;
 
     public BNO055IMU imu;
 
@@ -90,6 +92,9 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
         motorL.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         motorR.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+
+        hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
+        hook.setDirection(DcMotor.Direction.FORWARD);
 
     }
 
