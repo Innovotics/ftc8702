@@ -60,6 +60,10 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
         rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
         getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
+
+
+        hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
+        hook.setDirection(DcMotor.Direction.FORWARD);
     }
 
     public HardwareMap getHardwareMap() {
@@ -92,10 +96,6 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
         motorL.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
         motorR.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
-
-        hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
-        hook.setDirection(DcMotor.Direction.FORWARD);
-
     }
 
     private void initServo(HardwareMap hardwareMap) {

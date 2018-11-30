@@ -1,5 +1,7 @@
 package org.ftc8702.opmodes.production;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -7,7 +9,7 @@ import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
 import org.ftc8702.utils.InnovoticsRobotProperties;
 import org.ftc8702.utilities.MotorToEncoder;
-
+import org.ftcbootstrap.components.utils.MotorDirection;
 
 
 abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
@@ -16,6 +18,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     protected enum State {
         INIT,
         HOOK,
+        TURN_TO_UNHOOK,
         COLOR_SENSOR_SELF_ADJUST,
         MOVE_TO_HOME_DEPOT,
         GYRO_SENSOR_TURNER,
@@ -35,7 +38,9 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     private MoveToHomeDepotAutoMode moveToHomeDepotMode;
     private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     private boolean targetReached = false;
-    private MotorToEncoder hookMotorToEncoder;
+  //  private MotorToEncoder hookMotorToEncoder;
+    private int LimitingEncoderValue = 14968;
+    //2064.51612903225806 per inch
 
 
     //Set ColorValue to zilch
@@ -56,20 +61,23 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
         ultrasonicDriveToCrater.init();
-
+robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
+        getTelemetryUtil().addData("Motor Encoder Value: ", robot.hook.getCurrentPosition());
+
 
         currentState = State.HOOK;
         robot.stopRobot();
         robot.setRunMode();
 
-        hookMotorToEncoder = new MotorToEncoder(this, robot.hook);
     }
 
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
+
 
     }
 
@@ -78,17 +86,39 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
         getTelemetryUtil().sendTelemetry();
 
+        getTelemetryUtil().sendTelemetry();
+        telemetry.update();
+
         switch (currentState) {
 
             case HOOK:
                 logStage();
+
+                //targetReached = hookMotorToEncoder.runToTarget(0.5, LimitingEncoderValue, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.hook.setPower(0.7);
+                while(robot.hook.getCurrentPosition() < LimitingEncoderValue) {
+
+                    getTelemetryUtil().addData("Encoder Value: ", robot.hook.getCurrentPosition());
+
+                    getTelemetryUtil().sendTelemetry();
+                }
+
+                robot.hook.setPower(0.0);
+                targetReached = true;
+
                 if(targetReached) {
-                    currentState = State.COLOR_SENSOR_SELF_ADJUST;
+                    currentState = State.TURN_TO_UNHOOK;
                     targetReached = false;
 
                     robot.stopRobot();
                     sleep(500);
                 }
+
+                break;
+
+            case TURN_TO_UNHOOK:
+                logStage();
+
 
                 break;
 
