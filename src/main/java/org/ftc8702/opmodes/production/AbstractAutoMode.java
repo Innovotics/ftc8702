@@ -68,9 +68,11 @@ robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         getTelemetryUtil().addData("Motor Encoder Value: ", robot.hook.getCurrentPosition());
 
 
-        currentState = State.HOOK;
+        currentState = State.MOVE_TO_HOME_DEPOT;
         robot.stopRobot();
         robot.setRunMode();
+
+        robot.markerDropper.setPosition(.5);
 
     }
 
@@ -139,7 +141,7 @@ robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 logStage();
                 targetReached = moveToHomeDepotMode.moveToHomeDepot();
                 if (targetReached) {
-                    currentState = State.GYRO_SENSOR_TURNER;
+                    currentState = State.DONE;
                     targetReached = false;
 
                     robot.stopRobot();
