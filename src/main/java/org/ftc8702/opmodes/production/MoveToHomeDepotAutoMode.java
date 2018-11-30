@@ -50,23 +50,26 @@ public class MoveToHomeDepotAutoMode {
     }
 
     public boolean moveToHomeDepot() throws InterruptedException {
-        startForwardTime = System.currentTimeMillis();
-        // only need to move forward once at the beginning to avoid the possible color squares
-        // between the depot and lander the field
-        if(needMoveBeginingForward) {
-            moveForward();
-            robot.sleep(BEGIN_MOVE_FORARD_DURATION_MS);
-        }
-        boolean isCompleted = false;
-        while (!isCompleted) {
-            isCompleted = activeLoop();
-        }
+//        startForwardTime = System.currentTimeMillis();
+//        // only need to move forward once at the beginning to avoid the possible color squares
+//        // between the depot and lander the field
+//        if(needMoveBeginingForward) {
+//            moveForward();
+//            robot.sleep(BEGIN_MOVE_FORARD_DURATION_MS);
+//        }
+//        boolean isCompleted = false;
+//        while (!isCompleted) {
+//            isCompleted = activeLoop();
+//        }
+//
+//        moveBackward();
+//        robot.sleep(BACKWARD_DRURATION_MS);
+//        robot.stopRobot();
+//
+//        return isCompleted;
 
-        moveBackward();
-        robot.sleep(BACKWARD_DRURATION_MS);
-        robot.stopRobot();
-
-        return isCompleted;
+        dropTeamMarker();
+        return true;
     }
 
     protected boolean activeLoop() throws InterruptedException {
@@ -110,9 +113,11 @@ public class MoveToHomeDepotAutoMode {
 
     private void dropTeamMarker() throws InterruptedException {
         robot.stopRobot();
-        robot.markerDropper.setPosition(0.5);
+        robot.markerDropper.setPosition(0.0);
         robot.sleep(1000);
-        robot.markerDropper.setPosition(0);
+        robot.markerDropper.setPosition(1.0);
+        robot.sleep(1000);
+        robot.markerDropper.setPosition(.5);
     }
 
     public void setNeedMoveBeginingForward(boolean needMoveBeginingForward) {
