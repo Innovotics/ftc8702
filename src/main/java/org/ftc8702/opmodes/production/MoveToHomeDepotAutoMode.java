@@ -25,8 +25,10 @@ public class MoveToHomeDepotAutoMode {
 
     private boolean isBothMotorsStopped = false;
 
-    private boolean isRightSensorFoundColor= false;
+    private boolean isRightSensorFoundColor = false;
     private boolean isLeftSensorFoundColor = false;
+
+    private boolean needMoveBeginingForward = true;
 
     public MoveToHomeDepotAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetry) {
         this.robot = robot;
@@ -51,9 +53,10 @@ public class MoveToHomeDepotAutoMode {
         startForwardTime = System.currentTimeMillis();
         // only need to move forward once at the beginning to avoid the possible color squares
         // between the depot and lander the field
-        moveForward();
-        robot.sleep(BEGIN_MOVE_FORARD_DURATION_MS);
-
+        if(needMoveBeginingForward) {
+            moveForward();
+            robot.sleep(BEGIN_MOVE_FORARD_DURATION_MS);
+        }
         boolean isCompleted = false;
         while (!isCompleted) {
             isCompleted = activeLoop();
@@ -110,5 +113,9 @@ public class MoveToHomeDepotAutoMode {
         robot.markerDropper.setPosition(0.5);
         robot.sleep(1000);
         robot.markerDropper.setPosition(0);
+    }
+
+    public void setNeedMoveBeginingForward(boolean needMoveBeginingForward) {
+        this.needMoveBeginingForward = needMoveBeginingForward;
     }
 }

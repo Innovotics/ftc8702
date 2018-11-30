@@ -21,13 +21,15 @@ public class ObjectDetectionAutoMode {
 
     private TelemetryUtil telemetry;
     private Team8702ProdAuto robot;
+    private GyroAutoMode gyroMode;
 
     private boolean isCompleted = false;
     private double angleToGoldMineral = 0;
 
-    public ObjectDetectionAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetry) {
+    public ObjectDetectionAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetry, GyroAutoMode gyroMode) {
         this.telemetry = telemetry;
         this.robot = robot;
+        this.gyroMode = gyroMode;
     }
 
     public void init() {
@@ -56,11 +58,9 @@ public class ObjectDetectionAutoMode {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-<<<<<<< HEAD
-        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.FRONT;
-=======
+
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
->>>>>>> 6fb96caa46ed2a646bdd69322584ab274027e811
+
 
         telemetry.addData("vuforia parameter", "inited");
         telemetry.sendTelemetry();
@@ -85,7 +85,7 @@ public class ObjectDetectionAutoMode {
         telemetry.sendTelemetry();
     }
 
-<<<<<<< HEAD
+
     public boolean detectAndRunDownGoldMineral() {
         while (!isCompleted)
         {
@@ -94,20 +94,37 @@ public class ObjectDetectionAutoMode {
         return isCompleted;
     }
 
-    public boolean detectGoldMineral() {
-=======
-    public boolean detectAndknockDownGoldMineral() {
+
+    public boolean detectAndknockDownGoldMineral() throws InterruptedException {
+
         while (!isCompleted) {
             isCompleted = detectGoldMineral();
         }
         telemetry.addData("Turn robot to ", String.format("%.2f degree", angleToGoldMineral));
         telemetry.sendTelemetry();
-        // TODO turn robot to angleToGoldMineral and move forward and backward
+
+        if (angleToGoldMineral > 0) {
+            gyroMode.goRightToAngleDegree(angleToGoldMineral);
+        } else {
+            gyroMode.runWithAngleCondition(angleToGoldMineral);
+        }
+        robot.forwardRobot(0.4);
+        robot.sleep(2000);
+        robot.stopRobot();
+        if (angleToGoldMineral > 0) {
+            gyroMode.runWithAngleCondition(angleToGoldMineral);
+        } else {
+            gyroMode.goRightToAngleDegree(angleToGoldMineral);
+        }
+        robot.forwardRobot(0.4);
+        robot.sleep(2000);
+        robot.stopRobot();
+
         return isCompleted;
     }
 
     private boolean detectGoldMineral() {
->>>>>>> 6fb96caa46ed2a646bdd69322584ab274027e811
+
         // getUpdatedRecognitions() will return null if no new information is available since
         // the last time that call was made.
         List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();

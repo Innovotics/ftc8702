@@ -40,16 +40,19 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
 
         robot.init(hardwareMap, getTelemetryUtil());
 
-        objectDetectRoute = new ObjectDetectionAutoMode(robot, getTelemetryUtil());
+        gyroMode = new GyroAutoMode(robot, getTelemetryUtil());
+        gyroMode.init();
+        objectDetectRoute = new ObjectDetectionAutoMode(robot, getTelemetryUtil(), gyroMode);
         objectDetectRoute.init();
+
+        moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, getTelemetryUtil());
+        moveToHomeDepotMode.setNeedMoveBeginingForward(false);
+        moveToHomeDepotMode.init();
 /*
         colorSensorAdjustMode = new ColorSensorAdjustmentAutoMode(robot, getTelemetryUtil());
         colorSensorAdjustMode.init();
 
-        moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, getTelemetryUtil());
-        moveToHomeDepotMode.init();
 
-        gyroMode = new GyroAutoMode(robot, getTelemetryUtil());
 
         ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
         ultrasonicDriveToCrater.init();
@@ -79,19 +82,18 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
                 logStage();
                 targetReached = objectDetectRoute.detectAndknockDownGoldMineral();
                 if (targetReached) {
-                    currentState = State.DONE; //COLOR_SENSOR_SELF_ADJUST;
+                    currentState = State.MOVE_TO_HOME_DEPOT; //COLOR_SENSOR_SELF_ADJUST;
                     targetReached = false;
                     robot.stopRobot();
                     sleep(500);
                 }
                 break;
-/*
-            case COLOR_SENSOR_SELF_ADJUST:
+
+            case MOVE_TO_HOME_DEPOT:
                 logStage();
-                targetReached = colorSensorAdjustMode.startAdjustment();
+                targetReached = moveToHomeDepotMode.moveToHomeDepot();
                 if (targetReached) {
-                    currentState = State.MOVE_TO_HOME_DEPOT;
-                    gyroMode.init();
+                    currentState = State.GYRO_SENSOR_TURNER;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -103,23 +105,7 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
                 logStage();
                 targetReached = gyroMode.runWithAngleCondition(45);
                 if(targetReached) {
-                    robot.forwardRobot(.3);
-                    sleep(1500);
-                    robot.stopRobot();
-                    gyroMode.runWithAngleCondition(240);
                     currentState = State.ULTRASONIC_DRIVE_TO_CRATER;
-                    targetReached = false;
-
-                    robot.stopRobot();
-                    sleep(500);
-                }
-                break;
-
-            case MOVE_TO_HOME_DEPOT:
-                logStage();
-                targetReached = moveToHomeDepotMode.moveToHomeDepot();
-                if (targetReached) {
-                    currentState = State.GYRO_SENSOR_TURNER;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -153,6 +139,20 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
 
             case DONE: // When all operations are complete
                 logStage();
+                break;
+
+/*
+            case COLOR_SENSOR_SELF_ADJUST:
+                logStage();
+                targetReached = colorSensorAdjustMode.startAdjustment();
+                if (targetReached) {
+                    currentState = State.MOVE_TO_HOME_DEPOT;
+                    gyroMode.init();
+                    targetReached = false;
+
+                    robot.stopRobot();
+                    sleep(500);
+                }
                 break;
 */
         }
