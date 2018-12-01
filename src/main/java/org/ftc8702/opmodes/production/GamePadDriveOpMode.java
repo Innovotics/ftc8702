@@ -31,9 +31,9 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     private GamePadCRServo gamePadServo;
     private GamePadMotor gamePadTransformingMotor;
 
-    private MotorToEncoder slideMotorToEncoder;
-    private GamePadEncoderMotor gamePadSliderMotor;
-    private int encoderLimitingValue = 3600;
+    private MotorToEncoder hookMotorToEncoder;
+    private GamePadEncoderMotor gamePadHookMotor;
+    private int encoderLimitingValue = 13300;
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
      */
@@ -42,13 +42,13 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         robot = ProdManualRobot.newConfig(hardwareMap, getTelemetryUtil());
 
-        slideMotorToEncoder = new MotorToEncoder(this, robot.slideExtender);
-        slideMotorToEncoder.setName(InnovoticsRobotProperties.LINEAR_SLIDE_ENXTENSION);
+        hookMotorToEncoder = new MotorToEncoder(this, robot.hook);
+        hookMotorToEncoder.setName(InnovoticsRobotProperties.MOTOR_HOOK);
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
-        getTelemetryUtil().addData("Motor Encoder Value: ", slideMotorToEncoder.motorCurrentPosition());
+        getTelemetryUtil().addData("Motor Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
 
     }
 
@@ -63,10 +63,10 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         gamePadTransformingMotor = new GamePadMotor(this, gamepad2, robot.transformingMotor, GamePadMotor.Control.RIGHT_STICK_X);
 
         //motor encoder
-        gamePadSliderMotor = new GamePadEncoderMotor(this, gamepad2, robot.slideExtender, GamePadEncoderMotor.Control.RIGHT_STICK_Y, slideMotorToEncoder.motorCurrentPosition(), slideMotorToEncoder);
+        gamePadHookMotor = new GamePadEncoderMotor(this, gamepad2, robot.slideExtender, GamePadEncoderMotor.Control.RIGHT_STICK_Y, hookMotorToEncoder.motorCurrentPosition(), hookMotorToEncoder);
 
-        gamePadSliderMotor.startRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        gamePadSliderMotor.startRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        gamePadHookMotor.startRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        gamePadHookMotor.startRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**
@@ -81,10 +81,10 @@ public class GamePadDriveOpMode extends ActiveOpMode {
        gamePadTankDrive.update();
        gamePadMotor.update();
        gamePadServo.update();
-       gamePadSliderMotor.update(slideMotorToEncoder.motorCurrentPosition());
+       gamePadHookMotor.update(hookMotorToEncoder.motorCurrentPosition());
        gamePadTransformingMotor.update();
 
-        getTelemetryUtil().addData("Motor to Encoder Value: ", slideMotorToEncoder.motorCurrentPosition());
+        getTelemetryUtil().addData("Motor to Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
 
         getTelemetryUtil().addData("Joystick Power: ", gamepad2.right_stick_y);
 
@@ -106,9 +106,9 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     }
 
     private void stopOnEncoderValue() {
-        if(slideMotorToEncoder.motorCurrentPosition() > encoderLimitingValue || slideMotorToEncoder.motorCurrentPosition() < 0) {
+        if(hookMotorToEncoder.motorCurrentPosition() > encoderLimitingValue || hookMotorToEncoder.motorCurrentPosition() < 0) {
             robot.slideExtender.setPower(0.0);
-            getTelemetryUtil().addData("Robot Stopped", slideMotorToEncoder.motorCurrentPosition());
+            getTelemetryUtil().addData("Robot Stopped", hookMotorToEncoder.motorCurrentPosition());
 
         }
     }
