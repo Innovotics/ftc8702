@@ -28,7 +28,9 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     private ProdManualRobot robot;
     private GamePadTankDrive gamePadTankDrive;
     private GamePadMotor gamePadMotor;
-    private GamePadCRServo gamePadServo;
+    private GamePadServo gamePadPlowServo;
+
+//    private GamePadCRServo gamePadServo;
 //    private GamePadMotor gamePadTransformingMotor;
 
     private MotorToEncoder hookMotorToEncoder;
@@ -64,6 +66,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         //motor encoder
         gamePadHookMotor = new GamePadEncoderMotor(this, gamepad2, robot.hook, GamePadEncoderMotor.Control.RIGHT_STICK_Y, hookMotorToEncoder.motorCurrentPosition(), hookMotorToEncoder);
+        gamePadPlowServo = new GamePadServo(this, gamepad2, robot.plow, GamePadServo.Control.Y_A, 0);
+
 
         gamePadHookMotor.startRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         gamePadHookMotor.startRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -80,9 +84,10 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         //update the motors with the gamepad joystick values
        gamePadTankDrive.update();
        gamePadMotor.update();
-       gamePadServo.update();
+//       gamePadServo.update();
        gamePadHookMotor.update(hookMotorToEncoder.motorCurrentPosition());
 //       gamePadTransformingMotor.update();
+        gamePadPlowServo.update();
 
         getTelemetryUtil().addData("Motor to Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
 

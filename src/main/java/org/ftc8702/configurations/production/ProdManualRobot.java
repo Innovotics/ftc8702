@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
 import org.ftcbootstrap.RobotConfiguration;
@@ -26,6 +27,7 @@ public class ProdManualRobot extends RobotConfiguration {
     public DcMotor motorR;
     public DcMotor motorL;
     public DcMotor hook;
+    public Servo plow;
 //    public CRServo intakeSystem;
    // public DcMotor belt;
 //    public DcMotor slideExtender;
@@ -64,6 +66,7 @@ public class ProdManualRobot extends RobotConfiguration {
             // Front Motors
             motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
             motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
+            plow = (Servo) getHardwareOn(InnovoticsRobotProperties.MARKER_DROPPER, hardwareMap.servo);
 
             //gyro sensor
         gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");

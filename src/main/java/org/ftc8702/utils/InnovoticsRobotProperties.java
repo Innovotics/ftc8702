@@ -26,4 +26,5 @@ public class InnovoticsRobotProperties {
     //Servo
     public static final String MARKER_DROPPER = "markerDropper";
     public static final String INTAKE_SYSTEM = "intakeSystem";
+
 }
