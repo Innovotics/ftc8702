@@ -19,6 +19,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         INIT,
         HOOK,
         TURN_TO_UNHOOK,
+        KNOCK_GOLD_MINERAL,
         COLOR_SENSOR_SELF_ADJUST,
         MOVE_TO_HOME_DEPOT,
         DROP_MARKER,
@@ -32,6 +33,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     private Team8702ProdAuto robot = new Team8702ProdAuto();
     private GyroAutoMode gyroMode;
+    private ObjectDetectionAutoMode objectDetectRoute;
 
     private double currentAngle;
 
@@ -42,7 +44,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
   //  private MotorToEncoder hookMotorToEncoder;
     private int LimitingEncoderValue = 12400;
     //2064.51612903225806 per inch
-
+    private double angleToGold = 0;
 
     //Set ColorValue to zilch
     //ColorValue panelColor = ColorValue.ZILCH;
@@ -59,22 +61,28 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         moveToHomeDepotMode.init();
 
         gyroMode = new GyroAutoMode(robot, getTelemetryUtil());
+        gyroMode.init();
+
+        objectDetectRoute = new ObjectDetectionAutoMode(robot, getTelemetryUtil(), gyroMode);
+        objectDetectRoute.init();
+        angleToGold = objectDetectRoute.getGoldMineralAngle();
+        getTelemetryUtil().addData("Angle To Gold", angleToGold +" degs");
 
         ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
         ultrasonicDriveToCrater.init();
-    robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
-        getTelemetryUtil().sendTelemetry();
+
+        robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         getTelemetryUtil().addData("Motor Encoder Value: ", robot.hook.getCurrentPosition());
 
+        getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
+        getTelemetryUtil().sendTelemetry();
 
-        currentState = State.DROP_MARKER;
+        currentState = State.GYRO_SENSOR_TURNER;//.HOOK;
         robot.stopRobot();
         robot.setRunMode();
 
         robot.markerDropper.setPosition(.5);
-
     }
 
     @Override
@@ -98,11 +106,9 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
 
                 //targetReached = hookMotorToEncoder.runToTarget(0.5, LimitingEncoderValue, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.hook.setPower(0.7);
-                while(robot.hook.getCurrentPosition() < LimitingEncoderValue) {
-
+                robot.hook.setPower(-0.7);
+                while(Math.abs(robot.hook.getCurrentPosition()) < LimitingEncoderValue) {
                     getTelemetryUtil().addData("Encoder Value: ", robot.hook.getCurrentPosition());
-
                     getTelemetryUtil().sendTelemetry();
                 }
 
@@ -110,22 +116,39 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 targetReached = true;
 
                 if(targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.TURN_TO_UNHOOK;
                     targetReached = false;
 
                     robot.stopRobot();
                     sleep(500);
                 }
-
                 break;
 
             case TURN_TO_UNHOOK:
                 logStage();
                 gyroMode.runWithAngleCondition(45);
-                robot.forwardRobot(0.15);
+                robot.forwardRobot(0.1);
                 robot.sleep(750);
                 robot.stopRobot();
-                currentState = State.COLOR_SENSOR_SELF_ADJUST;
+                sleep(500);
+                gyroMode.goRightToAngleDegree(45);
+
+                currentState = State.KNOCK_GOLD_MINERAL;
+                robot.stopRobot();
+                sleep(500);
+                break;
+
+            case KNOCK_GOLD_MINERAL:
+                logStage();
+                targetReached = objectDetectRoute.knockDownGoldMineral(angleToGold);
+                if (targetReached) {
+                    currentState = State.MOVE_TO_HOME_DEPOT;
+                    gyroMode.init();
+                    targetReached = false;
+
+                    robot.stopRobot();
+                    sleep(500);
+                }
                 break;
 
             case COLOR_SENSOR_SELF_ADJUST:
@@ -145,7 +168,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 targetReached = moveToHomeDepotMode.moveToHomeDepot();
                 if (targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.DROP_MARKER;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -155,22 +178,22 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case DROP_MARKER:
                 logStage();
+                robot.markerDropper.setPosition(0.0);
+                robot.sleep(1000);
+                robot.markerDropper.setPosition(1.0);
+                robot.sleep(1000);
+                robot.markerDropper.setPosition(.5);
 
-                if (targetReached) {
-                    currentState = State.DONE;
-                    targetReached = false;
-
-                    robot.stopRobot();
-                    sleep(500);
-                }
-
+                currentState = State.GYRO_SENSOR_TURNER;
+                robot.stopRobot();
+                sleep(500);
                 break;
 
             case GYRO_SENSOR_TURNER:
                 logStage();
                 targetReached = gyroMode.runWithAngleCondition(110);
                 if(targetReached) {
-                    currentState = State.ULTRASONIC_DRIVE_TO_CRATER;
+                    currentState = State.DONE;//.ULTRASONIC_DRIVE_TO_CRATER;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -214,8 +237,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().addData("Stage", currentState.toString());
         getTelemetryUtil().sendTelemetry();
     }
-
-
 }
 
 
