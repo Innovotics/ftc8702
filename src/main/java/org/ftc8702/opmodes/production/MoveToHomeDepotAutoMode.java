@@ -50,26 +50,23 @@ public class MoveToHomeDepotAutoMode {
     }
 
     public boolean moveToHomeDepot() throws InterruptedException {
-//        startForwardTime = System.currentTimeMillis();
-//        // only need to move forward once at the beginning to avoid the possible color squares
-//        // between the depot and lander the field
-//        if(needMoveBeginingForward) {
-//            moveForward();
-//            robot.sleep(BEGIN_MOVE_FORARD_DURATION_MS);
-//        }
-//        boolean isCompleted = false;
-//        while (!isCompleted) {
-//            isCompleted = activeLoop();
-//        }
-//
-//        moveBackward();
-//        robot.sleep(BACKWARD_DRURATION_MS);
-//        robot.stopRobot();
-//
-//        return isCompleted;
+        startForwardTime = System.currentTimeMillis();
+        // only need to move forward once at the beginning to avoid the possible color squares
+        // between the depot and lander the field
+        if(needMoveBeginingForward) {
+            moveForward();
+            robot.sleep(BEGIN_MOVE_FORARD_DURATION_MS);
+        }
+        boolean isCompleted = false;
+        while (!isCompleted) {
+            isCompleted = activeLoop();
+        }
 
-        dropTeamMarker();
-        return true;
+        moveBackward();
+        robot.sleep(BACKWARD_DRURATION_MS);
+        robot.stopRobot();
+
+        return isCompleted;
     }
 
     protected boolean activeLoop() throws InterruptedException {
@@ -102,22 +99,11 @@ public class MoveToHomeDepotAutoMode {
         //If colors are detected on both sides, stop both motors
         if ((isRightSensorFoundColor && isLeftSensorFoundColor) || isTimedOut)  {
             telemetry.addData("Exit", isTimedOut ? "TimedOut" : "ColorDetected");
-            //Drop Team marker
-            dropTeamMarker();
             return true;
         }
 
         telemetry.sendTelemetry();
         return false;
-    }
-
-    private void dropTeamMarker() throws InterruptedException {
-        robot.stopRobot();
-        robot.markerDropper.setPosition(0.0);
-        robot.sleep(1000);
-        robot.markerDropper.setPosition(1.0);
-        robot.sleep(1000);
-        robot.markerDropper.setPosition(.5);
     }
 
     public void setNeedMoveBeginingForward(boolean needMoveBeginingForward) {

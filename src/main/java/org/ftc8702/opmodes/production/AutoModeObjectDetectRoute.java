@@ -83,7 +83,8 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
         switch (currentState) {
             case OBJECT_DETECT:
                 logStage();
-                targetReached = objectDetectRoute.detectAndknockDownGoldMineral();
+                double angleToGold = objectDetectRoute.getGoldMineralAngle();
+                targetReached = objectDetectRoute.knockDownGoldMineral(angleToGold);
                 if (targetReached) {
                     currentState = State.MOVE_TO_HOME_DEPOT; //COLOR_SENSOR_SELF_ADJUST;
                     targetReached = false;

@@ -16,6 +16,9 @@ public class ObjectDetectionAutoMode {
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
     private static final String VUFORIA_KEY = "ASVx607/////AAABmeYAtysWv0AXpZe726GhwxofjFOd04VMHXb225G3ekEFMyTp6Wb9dJcGjGpeDNyRQBzGLKn2BMDTmBb5fMFIUBrN/LdHRaR1XtWhBnAusAVpP5nhLPAAdNIT6duwXmcijvtNKrHg4Eh/dA8UPFBRdx/uFkWpRYwEntXDWYor3Fo03J02mLPUvic76qSUlNBWhDM3pe/V1I82oGRt/X4yEsXKRk3YiDFnAMbxziGnYAV2I5rX9oVPriZ9y+JB5YvfSZIIYgmp3GYxQVJjIqUNNYM5+PBaBxBy012laaKhqf40BYxX41QEfbCq+KNx76JSCOSvVRKEay39+czt1JAyaBMIWadXSHrrmPI12JRAG+57";
+
+    private static final long TIME_OUT = 5000;
+
     private VuforiaLocalizer vuforia;
     private TFObjectDetector tfod;
 
@@ -25,6 +28,7 @@ public class ObjectDetectionAutoMode {
 
     private boolean isCompleted = false;
     private double angleToGoldMineral = 0;
+
 
     public ObjectDetectionAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetry, GyroAutoMode gyroMode) {
         this.telemetry = telemetry;
@@ -87,32 +91,38 @@ public class ObjectDetectionAutoMode {
 
     public double getGoldMineralAngle() {
         boolean isFound = false;
+
+        long start = System.currentTimeMillis();
         while (!isFound) {
             isFound = detectGoldMineral();
+            long duration = System.currentTimeMillis() - start;
+            telemetry.addData("time out duration ms", duration);
+            if (duration > TIME_OUT) {
+                telemetry.addData("time out", "reached");
+                break;
+            }
+            telemetry.sendTelemetry();
         }
+
         return angleToGoldMineral;
     }
 
-    public boolean detectAndknockDownGoldMineral() throws InterruptedException {
-
-        while (!isCompleted) {
-            isCompleted = detectGoldMineral();
-        }
-        telemetry.addData("Turn robot to ", String.format("%.2f degree", angleToGoldMineral));
+    public boolean knockDownGoldMineral(double goldAngle) throws InterruptedException {
+        telemetry.addData("Turn robot to ", String.format("%.2f degree", goldAngle));
         telemetry.sendTelemetry();
 
-        if (angleToGoldMineral > 0) {
-            gyroMode.goRightToAngleDegree(angleToGoldMineral);
+        if (goldAngle > 0) {
+            gyroMode.goRightToAngleDegree(goldAngle);
         } else {
-            gyroMode.runWithAngleCondition(angleToGoldMineral);
+            gyroMode.runWithAngleCondition(goldAngle);
         }
         robot.forwardRobot(0.4);
         robot.sleep(2000);
         robot.stopRobot();
-        if (angleToGoldMineral > 0) {
-            gyroMode.runWithAngleCondition(angleToGoldMineral);
+        if (goldAngle > 0) {
+            gyroMode.runWithAngleCondition(goldAngle);
         } else {
-            gyroMode.goRightToAngleDegree(angleToGoldMineral);
+            gyroMode.goRightToAngleDegree(goldAngle);
         }
         robot.forwardRobot(0.4);
         robot.sleep(2000);
