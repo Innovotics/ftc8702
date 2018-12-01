@@ -44,6 +44,8 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
         gyroMode.init();
         objectDetectRoute = new ObjectDetectionAutoMode(robot, getTelemetryUtil(), gyroMode);
         objectDetectRoute.init();
+        double angleToGold = objectDetectRoute.getGoldMineralAngle();
+        getTelemetryUtil().addData("Angle To Gold", angleToGold +" degs");
 
         moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, getTelemetryUtil());
         moveToHomeDepotMode.setNeedMoveBeginingForward(false);
@@ -61,6 +63,7 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
 
         currentState = State.OBJECT_DETECT;
+
 /*
         robot.stopRobot();
         robot.setRunMode();

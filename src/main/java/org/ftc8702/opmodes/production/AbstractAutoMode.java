@@ -120,8 +120,11 @@ robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             case TURN_TO_UNHOOK:
                 logStage();
-
-
+                gyroMode.runWithAngleCondition(45);
+                robot.forwardRobot(0.15);
+                robot.sleep(750);
+                robot.stopRobot();
+                currentState = State.COLOR_SENSOR_SELF_ADJUST;
                 break;
 
             case COLOR_SENSOR_SELF_ADJUST:

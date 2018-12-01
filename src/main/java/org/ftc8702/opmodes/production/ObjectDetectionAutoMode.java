@@ -85,15 +85,13 @@ public class ObjectDetectionAutoMode {
         telemetry.sendTelemetry();
     }
 
-
-    public boolean detectAndRunDownGoldMineral() {
-        while (!isCompleted)
-        {
-            isCompleted = detectGoldMineral();
+    public double getGoldMineralAngle() {
+        boolean isFound = false;
+        while (!isFound) {
+            isFound = detectGoldMineral();
         }
-        return isCompleted;
+        return angleToGoldMineral;
     }
-
 
     public boolean detectAndknockDownGoldMineral() throws InterruptedException {
 

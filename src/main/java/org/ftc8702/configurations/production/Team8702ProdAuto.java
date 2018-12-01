@@ -70,10 +70,6 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         return hardwareMap;
     }
 
-    public HardwareMap getHardwareMap() {
-        return this.hardwareMap;
-    }
-
     private ColorSensor initColorSensor(HardwareMap hardwareMap, String name) {
         ColorSensor colorSensor = (ColorSensor) getHardwareOn(name, hardwareMap.colorSensor);
         getTelemetryUtil().addData(name + ": ", colorSensor == null ? "Not Found" : colorSensor.toString());
