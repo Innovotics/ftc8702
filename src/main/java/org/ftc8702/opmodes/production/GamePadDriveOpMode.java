@@ -33,9 +33,10 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 //    private GamePadCRServo gamePadServo;
 //    private GamePadMotor gamePadTransformingMotor;
 
-    private MotorToEncoder hookMotorToEncoder;
-    private GamePadEncoderMotor gamePadHookMotor;
-    private int encoderLimitingValue = 16000;
+    //private MotorToEncoder hookMotorToEncoder;
+    //private GamePadEncoderMotor gamePadHookMotor;
+    private GamePadMotor gamePadHookMotor;
+    //private int encoderLimitingValue = 16000;
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
      */
@@ -44,13 +45,13 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         robot = ProdManualRobot.newConfig(hardwareMap, getTelemetryUtil());
 
-        hookMotorToEncoder = new MotorToEncoder(this, robot.hook);
-        hookMotorToEncoder.setName(InnovoticsRobotProperties.MOTOR_HOOK);
+        //hookMotorToEncoder = new MotorToEncoder(this, robot.hook);
+        //hookMotorToEncoder.setName(InnovoticsRobotProperties.MOTOR_HOOK);
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
-        getTelemetryUtil().addData("Motor Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
+        //getTelemetryUtil().addData("Motor Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
 
     }
 
@@ -59,13 +60,15 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         super.onStart();
         //create the operation  to perform a tank drive using the gamepad joysticks.
         gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
-        gamePadMotor = new GamePadMotor(this, gamepad1, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
+
+        //gamePadMotor = new GamePadMotor(this, gamepad1, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
 //        gamePadServo = new GamePadCRServo(this, gamepad2, robot.intakeSystem, GamePadCRServo.Control.Y_A,0.0);
         //gamePadMotor = new GamePadMotor(this, gamepad2, robot.belt, GamePadMotor.Control.LB_RB_BUTTONS);
 //        gamePadTransformingMotor = new GamePadMotor(this, gamepad2, robot.transformingMotor, GamePadMotor.Control.RIGHT_STICK_X);
 
         //motor encoder
-        gamePadHookMotor = new GamePadEncoderMotor(this, gamepad2, robot.hook, GamePadEncoderMotor.Control.RIGHT_STICK_Y, hookMotorToEncoder.motorCurrentPosition(), hookMotorToEncoder);
+        //gamePadHookMotor = new GamePadEncoderMotor(this, gamepad2, robot.hook, GamePadEncoderMotor.Control.RIGHT_STICK_Y, hookMotorToEncoder.motorCurrentPosition(), hookMotorToEncoder);
+        gamePadHookMotor = new GamePadMotor(this, gamepad2, robot.hook, GamePadMotor.Control.RIGHT_STICK_Y);
         gamePadPlowServo = new GamePadServo(this, gamepad2, robot.plow, GamePadServo.Control.Y_A, 0);
 
 
@@ -83,13 +86,14 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
         //update the motors with the gamepad joystick values
        gamePadTankDrive.update();
-       gamePadMotor.update();
+       //gamePadMotor.update();
 //       gamePadServo.update();
-       gamePadHookMotor.update(hookMotorToEncoder.motorCurrentPosition());
+       // gamePadHookMotor.update(hookMotorToEncoder.motorCurrentPosition());
+       gamePadHookMotor.update();
 //       gamePadTransformingMotor.update();
         gamePadPlowServo.update();
 
-        getTelemetryUtil().addData("Motor to Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
+        //getTelemetryUtil().addData("Motor to Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
 
         getTelemetryUtil().addData("Joystick Power: ", gamepad2.right_stick_y);
 
@@ -104,19 +108,19 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 //
 //    }
 //
-            stopOnEncoderValue();
+            // stopOnEncoderValue();
 
             getTelemetryUtil().sendTelemetry();
             telemetry.update();
     }
 
-    private void stopOnEncoderValue() {
-        if(hookMotorToEncoder.motorCurrentPosition() > encoderLimitingValue || hookMotorToEncoder.motorCurrentPosition() < 0) {
-            robot.hook.setPower(0.0);
-            getTelemetryUtil().addData("Robot Stopped", hookMotorToEncoder.motorCurrentPosition());
-
-        }
-    }
+//    private void stopOnEncoderValue() {
+//        if(hookMotorToEncoder.motorCurrentPosition() > encoderLimitingValue || hookMotorToEncoder.motorCurrentPosition() < 0) {
+//            robot.hook.setPower(0.0);
+//            getTelemetryUtil().addData("Robot Stopped", hookMotorToEncoder.motorCurrentPosition());
+//
+//        }
+//    }
 
 
 }
