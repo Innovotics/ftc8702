@@ -21,6 +21,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         TURN_TO_UNHOOK,
         COLOR_SENSOR_SELF_ADJUST,
         MOVE_TO_HOME_DEPOT,
+        DROP_MARKER,
         GYRO_SENSOR_TURNER,
         ULTRASONIC_DRIVE_TO_CRATER,
         GO_OVER_RAMP,
@@ -39,7 +40,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     private boolean targetReached = false;
   //  private MotorToEncoder hookMotorToEncoder;
-    private int LimitingEncoderValue = 14968;
+    private int LimitingEncoderValue = 12400;
     //2064.51612903225806 per inch
 
 
@@ -61,14 +62,14 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
         ultrasonicDriveToCrater.init();
-robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
         getTelemetryUtil().addData("Motor Encoder Value: ", robot.hook.getCurrentPosition());
 
 
-        currentState = State.MOVE_TO_HOME_DEPOT;
+        currentState = State.DROP_MARKER;
         robot.stopRobot();
         robot.setRunMode();
 
@@ -109,7 +110,7 @@ robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 targetReached = true;
 
                 if(targetReached) {
-                    currentState = State.TURN_TO_UNHOOK;
+                    currentState = State.DONE;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -150,6 +151,19 @@ robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                     robot.stopRobot();
                     sleep(500);
                 }
+                break;
+
+            case DROP_MARKER:
+                logStage();
+
+                if (targetReached) {
+                    currentState = State.DONE;
+                    targetReached = false;
+
+                    robot.stopRobot();
+                    sleep(500);
+                }
+
                 break;
 
             case GYRO_SENSOR_TURNER:
