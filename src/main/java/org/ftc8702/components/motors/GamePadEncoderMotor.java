@@ -40,6 +40,7 @@ public class GamePadEncoderMotor extends OpModeComponent {
     private float buttonPower;
     private MotorToEncoder motorToEncoder;
     private int currentValue;
+    private int limitingValue;
     /**
      * Constructor for operation.  Telemetry enabled by default.
      *
@@ -63,7 +64,7 @@ public class GamePadEncoderMotor extends OpModeComponent {
      * @param control     {@link GamePadEncoderMotor.Control}
      * @param buttonPower power to apply when using gamepad buttons
      */
-    public GamePadEncoderMotor(ActiveOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, float buttonPower, MotorToEncoder motorToEncoder) {
+    public GamePadEncoderMotor(ActiveOpMode opMode, Gamepad gamepad, DcMotor motor, Control control, float buttonPower, MotorToEncoder motorToEncoder, int limitingEncoderValue) {
 
         super(opMode);
         this.gamepad = gamepad;
@@ -71,6 +72,7 @@ public class GamePadEncoderMotor extends OpModeComponent {
         this.control = control;
         this.buttonPower = buttonPower;
         this.motorToEncoder = motorToEncoder;
+        this.limitingValue = limitingEncoderValue;
 
     }
 
@@ -94,7 +96,7 @@ public class GamePadEncoderMotor extends OpModeComponent {
                 getOpMode().getTelemetryUtil().addData("Current Value: ", currentValue);
 
                 if (gamepad.right_stick_y > 0) {
-                    if (currentValue < 3600) {
+                    if (currentValue < limitingValue) {
                         power = scaleMotorPower(gamepad.right_stick_y);
 
                     } else {
