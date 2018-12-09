@@ -51,34 +51,41 @@ public class GyroAutoMode {
     }
 
     public boolean runWithAngleCondition(double angle){
-        readAngles();
-        //currentYawAngle = getAngles().firstAngle;
-        //telemetryUtil.addData("Current Angle", currentYawAngle);
-        //telemetryUtil.sendTelemetry();
+        boolean isFinished = false;
+        while (!isFinished)
+        {
+            readAngles();
+            //currentYawAngle = getAngles().firstAngle;
+            //telemetryUtil.addData("Current Angle", currentYawAngle);
+            //telemetryUtil.sendTelemetry();
 
-        if(Math.abs(currentYawAngle) > angle) {
-            robot.stopRobot();
-            return true;
+            if(Math.abs(currentYawAngle) > angle) {
+                robot.stopRobot();
+                isFinished = true;
+            }
+
+            robot.turnLeft(.3);
         }
 
-        robot.turnLeft(.3);
-        return false;
-
+        return isFinished;
     }
 
     public boolean goRightToAngleDegree(double angle){
-        readAngles();
-        //currentYawAngle = getAngles().firstAngle;
-        //telemetryUtil.addData("Current Angle", currentYawAngle);
-        //telemetryUtil.sendTelemetry();
+        boolean isFinished = false;
+        while (!isFinished) {
+            readAngles();
+            //currentYawAngle = getAngles().firstAngle;
+            //telemetryUtil.addData("Current Angle", currentYawAngle);
+            //telemetryUtil.sendTelemetry();
 
-        if(Math.abs(currentYawAngle) > angle) {
-            robot.stopRobot();
-            return true;
+            if (Math.abs(currentYawAngle) > angle) {
+                robot.stopRobot();
+                return true;
+            }
+
+            robot.turnRight(.3);
         }
-
-        robot.turnRight(.3);
-        return false;
+        return isFinished;
 
     }
 
