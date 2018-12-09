@@ -63,7 +63,8 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
 
         hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
-        hook.setDirection(DcMotor.Direction.FORWARD);
+        hook.setDirection(DcMotor.Direction.REVERSE );
+
     }
 
     public HardwareMap getHardwareMap() {
@@ -94,7 +95,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         motorL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_LEFT);
 
         motorL.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motorR.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        motorR.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
     }
 
     private void initServo(HardwareMap hardwareMap) {
@@ -116,27 +117,27 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     }
 
     public void turnLeft(double speed) {
-        motorR.setPower(speed * (-1));
+        motorR.setPower(-speed);
         // TODO: TEST THIS
-        motorL.setPower(-speed);
+        motorL.setPower(speed);
     }
 
     public void turnRight(double speed) {
-        // TODO: TEST THIS
+            // TODO: TEST THIS
         motorR.setPower(speed);
-        motorL.setPower(speed * (1));
+        motorL.setPower(-speed);
     }
 
     public void forwardRobot(double speed)
     {
-        motorL.setPower(-speed);
-        motorR.setPower(-speed);
+        motorL.setPower(speed);
+        motorR.setPower(speed);
     }
 
     public void backwardRobot(double speed)
     {
-        motorL.setPower(speed);
-        motorR.setPower(speed);
+        motorL.setPower(-speed);
+        motorR.setPower(-speed);
     }
 
     public void sleep(long duration) throws InterruptedException {

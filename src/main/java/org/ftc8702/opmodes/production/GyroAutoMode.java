@@ -55,9 +55,9 @@ public class GyroAutoMode {
         while (!isFinished)
         {
             readAngles();
-            //currentYawAngle = getAngles().firstAngle;
-            //telemetryUtil.addData("Current Angle", currentYawAngle);
-            //telemetryUtil.sendTelemetry();
+            currentYawAngle = getAngles().firstAngle;
+            telemetryUtil.addData("Current Angle", currentYawAngle);
+            telemetryUtil.sendTelemetry();
 
             if(Math.abs(currentYawAngle) > Math.abs(angle)) {
                 robot.stopRobot();
@@ -74,9 +74,9 @@ public class GyroAutoMode {
         boolean isFinished = false;
         while (!isFinished) {
             readAngles();
-            //currentYawAngle = getAngles().firstAngle;
-            //telemetryUtil.addData("Current Angle", currentYawAngle);
-            //telemetryUtil.sendTelemetry();
+            currentYawAngle = getAngles().firstAngle;
+            telemetryUtil.addData("Current Angle", currentYawAngle);
+            telemetryUtil.sendTelemetry();
 
             if (Math.abs(currentYawAngle) > angle) {
                 robot.stopRobot();

@@ -47,13 +47,9 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         robot = ProdManualRobot.newConfig(hardwareMap, getTelemetryUtil());
 
-        //hookMotorToEncoder = new MotorToEncoder(this, robot.hook);
-        //hookMotorToEncoder.setName(InnovoticsRobotProperties.MOTOR_HOOK);
-
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
-        //getTelemetryUtil().addData("Motor Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
 
     }
 
@@ -77,9 +73,6 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         gamePadHookMotor = new GamePadMotor(this, gamepad2, robot.hook, GamePadMotor.Control.RIGHT_STICK_Y);
         gamePadPlowServo = new GamePadServo(this, gamepad2, robot.plow, GamePadServo.Control.Y_A, 0);
 
-
-        gamePadHookMotor.startRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        gamePadHookMotor.startRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     /**
@@ -94,7 +87,6 @@ public class GamePadDriveOpMode extends ActiveOpMode {
        gamePadTankDrive.update();
        //gamePadMotor.update();
 //       gamePadServo.update();
-       // gamePadHookMotor.update(hookMotorToEncoder.motorCurrentPosition());
        gamePadHookMotor.update();
 //       gamePadTransformingMotor.update();
         gamePadPlowServo.update();

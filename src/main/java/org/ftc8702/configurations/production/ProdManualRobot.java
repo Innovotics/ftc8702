@@ -2,6 +2,7 @@ package org.ftc8702.configurations.production;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -28,10 +29,6 @@ public class ProdManualRobot extends RobotConfiguration {
     public DcMotor motorL;
     public DcMotor hook;
     public Servo plow;
-//    public CRServo intakeSystem;
-   // public DcMotor belt;
-//    public DcMotor slideExtender;
-//    public DcMotor transformingMotor;
 
     //Sensors
     public BNO055IMU gyroSensor;
@@ -73,6 +70,7 @@ public class ProdManualRobot extends RobotConfiguration {
 
             //Attachments
             hook = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_HOOK, hardwareMap.dcMotor);
+            hook.setDirection(DcMotorSimple.Direction.REVERSE);
 //            intakeSystem = (CRServo) getHardwareOn(InnovoticsRobotProperties.INTAKE_SYSTEM, hardwareMap.crservo);
            // belt = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BELT, hardwareMap.dcMotor);
 //            slideExtender = (DcMotor) getHardwareOn(InnovoticsRobotProperties.LINEAR_SLIDE_ENXTENSION, hardwareMap.dcMotor);

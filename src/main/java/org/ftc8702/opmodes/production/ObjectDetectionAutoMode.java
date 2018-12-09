@@ -156,6 +156,9 @@ public class ObjectDetectionAutoMode {
                     if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
                         telemetry.addData("Gold Mineral Position", "Left");
                     } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
+                        if(angleToGoldMineral > 0) {
+                            angleToGoldMineral = angleToGoldMineral * -1;
+                        }
                         telemetry.addData("Gold Mineral Position", "Right");
                     } else {
                         telemetry.addData("Gold Mineral Position", "Center");
