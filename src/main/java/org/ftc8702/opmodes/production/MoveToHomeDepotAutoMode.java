@@ -40,13 +40,11 @@ public class MoveToHomeDepotAutoMode {
     }
 
     protected void moveForward() {
-        robot.motorR.setPower(isBothMotorsStopped ? 0.0 : FORWARD_SPEED);
-        robot.motorL.setPower(isBothMotorsStopped ? 0.0 : FORWARD_SPEED);
+        robot.forwardRobot(isBothMotorsStopped ? 0.0 : FORWARD_SPEED);
     }
 
     protected void moveBackward() {
-        robot.motorL.setPower(BACKWARD_SPEED);
-        robot.motorR.setPower(BACKWARD_SPEED);
+        robot.backwardRobot(BACKWARD_SPEED);
     }
 
     public boolean moveToHomeDepot() throws InterruptedException {
