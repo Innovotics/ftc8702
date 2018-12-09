@@ -90,19 +90,19 @@ public class ObjectDetectionAutoMode {
     }
 
     public double getGoldMineralAngle() {
-        boolean isFound = false;
-
-        long start = System.currentTimeMillis();
-        while (!isFound) {
-            isFound = detectGoldMineral();
-            long duration = System.currentTimeMillis() - start;
-            telemetry.addData("time out duration ms", duration);
-            if (duration > TIME_OUT) {
-                telemetry.addData("time out", "reached");
-                break;
-            }
-            telemetry.sendTelemetry();
-        }
+//        boolean isFound = false;
+//
+//        long start = System.currentTimeMillis();
+////        while (!isFound) {
+           detectGoldMineral();
+////            long duration = System.currentTimeMillis() - start;
+////            telemetry.addData("time out duration ms", duration);
+////            if (duration > TIME_OUT) {
+////                telemetry.addData("time out", "reached");
+////                break;
+//           // }
+//            telemetry.sendTelemetry();
+//        }
 
         return angleToGoldMineral;
     }
@@ -114,13 +114,13 @@ public class ObjectDetectionAutoMode {
         if (goldAngle > 0) {
             gyroMode.goRightToAngleDegree(goldAngle);
         } else {
-            gyroMode.runWithAngleCondition(goldAngle);
+            gyroMode.goLeftAngleCondition(goldAngle);
         }
         robot.forwardRobot(0.4);
         robot.sleep(2000);
         robot.stopRobot();
         if (goldAngle > 0) {
-            gyroMode.runWithAngleCondition(goldAngle);
+            gyroMode.goLeftAngleCondition(goldAngle);
         } else {
             gyroMode.goRightToAngleDegree(goldAngle);
         }

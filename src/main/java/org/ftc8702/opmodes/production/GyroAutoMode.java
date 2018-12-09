@@ -50,7 +50,7 @@ public class GyroAutoMode {
         telemetryUtil.sendTelemetry();
     }
 
-    public boolean runWithAngleCondition(double angle){
+    public boolean goLeftAngleCondition(double angle){
         boolean isFinished = false;
         while (!isFinished)
         {
@@ -59,7 +59,7 @@ public class GyroAutoMode {
             //telemetryUtil.addData("Current Angle", currentYawAngle);
             //telemetryUtil.sendTelemetry();
 
-            if(Math.abs(currentYawAngle) > angle) {
+            if(Math.abs(currentYawAngle) > Math.abs(angle)) {
                 robot.stopRobot();
                 isFinished = true;
             }

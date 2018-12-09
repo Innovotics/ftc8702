@@ -43,7 +43,7 @@ public class GyroSensorGetOffHook {
 
 
     public boolean moveAngle45() throws InterruptedException {
-        gyroMode.runWithAngleCondition(45);
+        gyroMode.goLeftAngleCondition(45);
         robot.forwardRobot(0.15);
         robot.sleep(750);
         robot.stopRobot();

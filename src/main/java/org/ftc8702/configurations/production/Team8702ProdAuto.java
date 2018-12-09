@@ -129,8 +129,8 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public void forwardRobot(double speed)
     {
-        motorL.setPower(speed);
-        motorR.setPower(speed);
+        motorL.setPower(-speed);
+        motorR.setPower(-speed);
     }
 
     public void sleep(long duration) throws InterruptedException {

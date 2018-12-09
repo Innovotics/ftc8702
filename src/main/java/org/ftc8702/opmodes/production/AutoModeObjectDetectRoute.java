@@ -107,7 +107,7 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
 
             case GYRO_SENSOR_TURNER:
                 logStage();
-                targetReached = gyroMode.runWithAngleCondition(45);
+                targetReached = gyroMode.goLeftAngleCondition(45);
                 if(targetReached) {
                     currentState = State.ULTRASONIC_DRIVE_TO_CRATER;
                     targetReached = false;
