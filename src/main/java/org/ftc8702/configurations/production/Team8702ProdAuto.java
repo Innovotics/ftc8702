@@ -133,6 +133,12 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         motorR.setPower(-speed);
     }
 
+    public void backwardRobot(double speed)
+    {
+        motorL.setPower(speed);
+        motorR.setPower(speed);
+    }
+
     public void sleep(long duration) throws InterruptedException {
         TimeUnit.MILLISECONDS.sleep(duration);
     }

@@ -65,17 +65,15 @@ public class ColorSensorAdjustmentAutoMode {
     */
 
     private void turnLeft(double power) {
-        robot.motorL.setPower(0);
-        robot.motorR.setPower(power);
+        robot.turnLeft(power);
     }
 
     private void turnRight(double power) {
-        robot.motorL.setPower(power);
-        robot.motorR.setPower(0);
+        robot.turnRight(power);
     }
 
     private void moveBackward() {
-        robot.forwardRobot(BACKWARD_SPEED);
+        robot.backwardRobot(BACKWARD_SPEED);
     }
 
     public boolean startAdjustment() throws InterruptedException {
