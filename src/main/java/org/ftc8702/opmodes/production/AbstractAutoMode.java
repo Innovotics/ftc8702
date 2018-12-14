@@ -80,7 +80,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
 
         angleToGold = 20; // for testing only
-        currentState = State.TURN_TO_UNHOOK; // State.DETECT_GOLD_MINERAL
+        currentState = State.DETECT_GOLD_MINERAL; // State.DETECT_GOLD_MINERAL
         robot.stopRobot();
         robot.setRunMode();
 
@@ -111,7 +111,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 getTelemetryUtil().sendTelemetry();
                 telemetry.update();
 
-                currentState = State.HOOK;
+                currentState = State.KNOCK_GOLD_MINERAL;
                 targetReached = false;
 
                 robot.stopRobot();
@@ -172,23 +172,23 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 telemetry.update();
 
                 if(angleToGold > 0) {
-                    gyroMode.goRightToAngleDegree(Math.abs(angleToGold));
-                    sleep(1000);
-                    robot.forwardRobot(.3);
-                    sleep(1000);
-                    targetReached = gyroMode.goLeftAngleCondition(Math.abs(angleToGold));
-                    sleep(1000);
+                    targetReached = gyroMode.goRightToAngleDegree(angleToGold * -1);
+                    //sleep(1000);
+//                    robot.forwardRobot(.3);
+//                    sleep(1000);
+//                    targetReached = gyroMode.goLeftAngleCondition(Math.abs(angleToGold));
+//                    sleep(1000);
                 } else {
-                    gyroMode.goLeftAngleCondition(Math.abs(angleToGold));
-                    sleep(1000);
-                    robot.forwardRobot(.3);
-                    sleep(1000);
-                    targetReached = gyroMode.goRightToAngleDegree(Math.abs(angleToGold));
-                    sleep(1000);
+                    targetReached = gyroMode.goLeftAngleCondition(Math.abs(angleToGold));
+//                    sleep(1000);
+//                    robot.forwardRobot(.3);
+//                    sleep(1000);
+//                    targetReached = gyroMode.goRightToAngleDegree(Math.abs(angleToGold));
+//                    sleep(1000);
                 }
 
                 if(targetReached) {
-                    currentState = State.MOVE_TO_HOME_DEPOT;
+                    currentState = State.DONE;
                     targetReached = false;
 
                     robot.stopRobot();
