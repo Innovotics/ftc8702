@@ -60,13 +60,13 @@ public class GyroAutoMode {
             telemetryUtil.sendTelemetry();
 
             if(Math.abs(currentYawAngle) > Math.abs(angle)) {
+                telemetryUtil.addData("stopping robot, reached=", currentYawAngle);
                 robot.stopRobot();
-                isFinished = true;
+                return true;
             }
 
-            robot.turnLeft(.3);
+            robot.turnLeft(.4);
         }
-
         return isFinished;
     }
 
@@ -78,15 +78,14 @@ public class GyroAutoMode {
             telemetryUtil.addData("Current Angle", currentYawAngle);
             telemetryUtil.sendTelemetry();
 
-            if (Math.abs(currentYawAngle) > angle) {
+            if (currentYawAngle < angle) {
                 robot.stopRobot();
                 return true;
             }
 
-            robot.turnRight(.3);
+            robot.turnRight(.4);
         }
         return isFinished;
-
     }
 
     boolean testElevationChange( double rollLimit, double pitchLimit) {
