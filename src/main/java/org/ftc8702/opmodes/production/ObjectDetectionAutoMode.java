@@ -101,7 +101,7 @@ public class ObjectDetectionAutoMode {
 ////                telemetry.addData("time out", "reached");
 ////                break;
 //           // }
-//            telemetry.sendTelemetry();
+//            telemetry.sendTelemetry();x
 //        }
 
         return angleToGoldMineral;
