@@ -29,6 +29,7 @@ public class ProdManualRobot extends RobotConfiguration {
     public DcMotor motorL;
     public DcMotor hook;
     public Servo plow;
+    public CRServo plowExtender;
 
     //Sensors
     public BNO055IMU gyroSensor;
@@ -64,6 +65,7 @@ public class ProdManualRobot extends RobotConfiguration {
             motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
             motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
             plow = (Servo) getHardwareOn(InnovoticsRobotProperties.MARKER_DROPPER, hardwareMap.servo);
+            plowExtender = (CRServo) getHardwareOn(InnovoticsRobotProperties.PLOW_EXTENDER, hardwareMap.crservo);
 
             //gyro sensor
         gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");

@@ -73,13 +73,37 @@ public class GamePadCRServo extends OpModeComponent {
 
 
         // update the position of the servo
-        if (rightVal) {
-            servo.setPower(servoDelta);
+
+        while (gamepad.x) {
+            servo.setPower(-1.0);
         }
 
-        if (leftVal) {
-            servo.setPower(-servoDelta);
+        while (gamepad.b) {
+            servo.setPower(1.0);
         }
+
+        servo.setPower(0.0);
+//        if(!gamepad.y) {
+//            servo.setPower(0.0);
+//
+//        } else if(gamepad.y) {
+//            servo.setPower(1.0);
+//        }
+//
+//        if(!gamepad.x) {
+//            servo.setPower(0.0);
+//        } else if(gamepad.x) {
+//            servo.setPower(-1.0);
+//        }
+
+
+//        if (rightVal) {
+//            servo.setPower(servoDelta);
+//        }
+//
+//        if (leftVal) {
+//            servo.setPower(-servoDelta);
+//        }
 
     }
 

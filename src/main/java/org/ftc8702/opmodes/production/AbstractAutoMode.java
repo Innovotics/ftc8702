@@ -179,14 +179,14 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 telemetry.update();
 
                 if(goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
-                    targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold);
+                    targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold + 1);
                     sleep(500);
                     robot.forwardRobot(.3);
                     sleep(3000);
                     robot.stopRobot();
                     targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
                 } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
-                    targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold);
+                    targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold + 1);
                     sleep(500);
                     robot.forwardRobot(.3);
                     sleep(3000);
@@ -242,7 +242,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 robot.sleep(1000);
                 robot.backwardRobot(.25);
                 robot.sleep(1000);
-                currentState = State.GYRO_SENSOR_TURNER;
+                currentState = State.DONE;
                 robot.stopRobot();
                 sleep(500);
                 break;
