@@ -125,14 +125,14 @@ public class AutoModeSecondary extends AbstractAutoMode {
                 telemetry.update();
 
                 if(goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
-                    targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold + 1);
+                    targetReached = gyroMode.goRightToAngleDegree((initialRightAngleToGold + 30));
                     sleep(500);
                     robot.forwardRobot(.3);
                     sleep(3000);
                     robot.stopRobot();
                     //targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
                 } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
-                    targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold + 1);
+                    targetReached = gyroMode.goLeftAngleCondition((initialLeftAngleToGold + 30));
                     sleep(500);
                     robot.forwardRobot(.3);
                     sleep(3000);
