@@ -11,6 +11,10 @@ import org.ftc8702.utilities.TelemetryUtil;
 import java.util.List;
 
 public class ObjectDetectionAutoMode {
+    public enum Position {
+        LEFT, RIGHT, CENTER;
+    }
+
     private static final String TFOD_MODEL_ASSET = "RoverRuckus.tflite";
     private static final String LABEL_GOLD_MINERAL = "Gold Mineral";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
@@ -89,12 +93,12 @@ public class ObjectDetectionAutoMode {
         telemetry.sendTelemetry();
     }
 
-    public double getGoldMineralAngle() {
+//    public double getGoldMineralAngle() {
 //        boolean isFound = false;
 //
 //        long start = System.currentTimeMillis();
 ////        while (!isFound) {
-           detectGoldMineral();
+//           detectGoldMineral();
 ////            long duration = System.currentTimeMillis() - start;
 ////            telemetry.addData("time out duration ms", duration);
 ////            if (duration > TIME_OUT) {
@@ -104,8 +108,8 @@ public class ObjectDetectionAutoMode {
 //            telemetry.sendTelemetry();
 //        }
 
-        return angleToGoldMineral;
-    }
+//        return angleToGoldMineral;
+//    }
 
     public boolean knockDownGoldMineral(double goldAngle) throws InterruptedException {
         telemetry.addData("Turn robot to ", String.format("%.2f degree", goldAngle));
@@ -131,7 +135,8 @@ public class ObjectDetectionAutoMode {
         return isCompleted;
     }
 
-    private boolean detectGoldMineral() {
+    public Position detectGoldMineral() {
+        Position goldPosition = Position.CENTER;
 
         // getUpdatedRecognitions() will return null if no new information is available since
         // the last time that call was made.
@@ -154,21 +159,23 @@ public class ObjectDetectionAutoMode {
                 }
                 if (goldMineralX != -1 && silverMineral1X != -1 && silverMineral2X != -1) {
                     if (goldMineralX < silverMineral1X && goldMineralX < silverMineral2X) {
+                        goldPosition = Position.LEFT;
                         telemetry.addData("Gold Mineral Position", "Left");
                     } else if (goldMineralX > silverMineral1X && goldMineralX > silverMineral2X) {
 //                        if(angleToGoldMineral > 0) {
 //                            angleToGoldMineral = angleToGoldMineral * -1;
 //                        }
+                        goldPosition = Position.RIGHT;
                         telemetry.addData("Gold Mineral Position", "Right");
                     } else {
+                        goldPosition = Position.CENTER;
                         telemetry.addData("Gold Mineral Position", "Center");
                     }
-                    return true;
                 }
             }
             telemetry.sendTelemetry();
         }
 
-        return false;
+        return goldPosition;
     }
 }
