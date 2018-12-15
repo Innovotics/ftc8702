@@ -78,10 +78,15 @@ public class UltrasonicDriveToCraterAutoMode {
 
     protected boolean activeLoop() throws InterruptedException {
         if (testElevationChange()) {
+            telemetry.addData("elevation changed", "roll=" + gyroAutoMode.currentRollAngle + ":pitch=" + gyroAutoMode.currentPitchAngle);
+            telemetry.sendTelemetry();
+            stopRobot();
             return true;
         }
 
         distanceToWallInCM = rangeSensor.getDistance(DistanceUnit.CM);
+        telemetry.addData("Distance", String.format("cm", "%.2f cm", distanceToWallInCM));
+        telemetry.sendTelemetry();
 
         if (distanceToWallInCM > FINAL_DISTANCE) {
             telemetry.addData("forward", "turn");
@@ -91,15 +96,12 @@ public class UltrasonicDriveToCraterAutoMode {
             Forward();
         }
 
-        telemetry.addData("Distance", String.format("cm", "%.2f cm", distanceToWallInCM));
-        telemetry.sendTelemetry();
-
         return false; // always return false if elvation change is not detected
     }
 
     private boolean testElevationChange() {
         long duration = System.currentTimeMillis() - startTimeMillis;
-        return gyroAutoMode.testElevationChange(ROLL_LIMIT_DEGREE, PITCH_LIMIT_DEGREE)
+        return gyroAutoMode.isRollPitchChange(ROLL_LIMIT_DEGREE, PITCH_LIMIT_DEGREE)
                 || (duration > TOTAL_TIME_LIMIT_MS);
     }
 

@@ -88,6 +88,20 @@ public class GyroAutoMode {
         return isFinished;
     }
 
+    public boolean isRollPitchChange( double rollLimit, double pitchLimit) {
+        readAngles();
+
+//        if (currentRollAngle < 0) {
+//            currentRollAngle = currentRollAngle * (-1);
+//        }
+//
+//        if (currentPitchAngle < 0) {
+//            currentPitchAngle = currentPitchAngle * (-1);
+//        }
+//
+        return (Math.abs(currentPitchAngle) > pitchLimit || Math.abs(currentRollAngle) > rollLimit);
+    }
+
     boolean testElevationChange( double rollLimit, double pitchLimit) {
         readAngles();
 

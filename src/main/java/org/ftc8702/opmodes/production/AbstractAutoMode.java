@@ -44,8 +44,15 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     private boolean targetReached = false;
   //  private MotorToEncoder hookMotorToEncoder;
     private int LimitingEncoderValue = 12000;//12400;
+
+    private double initialLeftAngleToGold = 25;
+    private double initialRightAngleToGold = -25;
+
+    private double reverseLeftAngleToGold = -37;
+    private double reverseRightAngleToGold = 40;
+
     //2064.51612903225806 per inch
-    private double angleToGold = 0;
+    private ObjectDetectionAutoMode.Position goldPosition;
 
     //Set ColorValue to zilch
     //ColorValue panelColor = ColorValue.ZILCH;
@@ -66,8 +73,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         objectDetectRoute = new ObjectDetectionAutoMode(robot, getTelemetryUtil(), gyroMode);
         objectDetectRoute.init();
-        //angleToGold = objectDetectRoute.getGoldMineralAngle();
-        getTelemetryUtil().addData("Angle To Gold", angleToGold +" degs");
+        //goldPosition = objectDetectRoute.getGoldMineralAngle();
+        getTelemetryUtil().addData("gold position", goldPosition+"");
 
         ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
         ultrasonicDriveToCrater.init();
@@ -79,8 +86,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
 
-        angleToGold = 20; // for testing only
-        currentState = State.DETECT_GOLD_MINERAL; // State.DETECT_GOLD_MINERAL
+        goldPosition = ObjectDetectionAutoMode.Position.CENTER; // for testing only
+        currentState = State.DETECT_GOLD_MINERAL;
         robot.stopRobot();
         robot.setRunMode();
 
@@ -104,14 +111,14 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case DETECT_GOLD_MINERAL:
                 logStage();
-                angleToGold = objectDetectRoute.getGoldMineralAngle();
+                goldPosition = objectDetectRoute.detectGoldMineral();
                 sleep(1000);
 
-                getTelemetryUtil().addData("Angle to Go: ", angleToGold);
+                getTelemetryUtil().addData("gold position: ", goldPosition+"");
                 getTelemetryUtil().sendTelemetry();
                 telemetry.update();
 
-                currentState = State.KNOCK_GOLD_MINERAL;
+                currentState = State.HOOK;
                 targetReached = false;
 
                 robot.stopRobot();
@@ -167,28 +174,34 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
             case KNOCK_GOLD_MINERAL:
                 logStage();
 
-                getTelemetryUtil().addData("Degrees: ", angleToGold);
+                getTelemetryUtil().addData("gold position: ", goldPosition+"");
                 getTelemetryUtil().sendTelemetry();
                 telemetry.update();
 
-                if(angleToGold > 0) {
-                    targetReached = gyroMode.goRightToAngleDegree(angleToGold * -1);
-                    //sleep(1000);
-//                    robot.forwardRobot(.3);
-//                    sleep(1000);
-//                    targetReached = gyroMode.goLeftAngleCondition(Math.abs(angleToGold));
-//                    sleep(1000);
+                if(goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
+                    targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold);
+                    sleep(500);
+                    robot.forwardRobot(.3);
+                    sleep(3000);
+                    robot.stopRobot();
+                    targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
+                } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
+                    targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold);
+                    sleep(500);
+                    robot.forwardRobot(.3);
+                    sleep(3000);
+                    robot.stopRobot();
+                    targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
                 } else {
-                    targetReached = gyroMode.goLeftAngleCondition(Math.abs(angleToGold));
-//                    sleep(1000);
-//                    robot.forwardRobot(.3);
-//                    sleep(1000);
-//                    targetReached = gyroMode.goRightToAngleDegree(Math.abs(angleToGold));
-//                    sleep(1000);
+                    // center
+                    robot.forwardRobot(.3);
+                    sleep(3000);
+                    robot.stopRobot();
+                    targetReached = true;
                 }
 
                 if(targetReached) {
-                    currentState = State.DONE;
+                    currentState = State.MOVE_TO_HOME_DEPOT;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -228,7 +241,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 robot.markerDropper.setPosition(0.0);
                 robot.sleep(1000);
                 robot.backwardRobot(.25);
-                robot.sleep(1500);
+                robot.sleep(1000);
                 currentState = State.GYRO_SENSOR_TURNER;
                 robot.stopRobot();
                 sleep(500);
@@ -236,7 +249,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case GYRO_SENSOR_TURNER:
                 logStage();
-                targetReached = gyroMode.goRightToAngleDegree(110);
+                targetReached = gyroMode.goLeftAngleCondition(110);
                 if(targetReached) {
                     currentState = State.ULTRASONIC_DRIVE_TO_CRATER;
                     targetReached = false;
