@@ -10,26 +10,27 @@ import org.ftc8702.utils.ColorValue;
 
 @Autonomous(name = "AutoModeSecondary", group = "Ops")
 public class AutoModeSecondary extends AbstractAutoMode {
-    private State currentState;
-
-    private Team8702ProdAuto robot = new Team8702ProdAuto();
-    private GyroAutoMode gyroMode;
-    private ObjectDetectionAutoMode objectDetectRoute;
-
-    private double currentAngle;
-
-    private ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
-    private MoveToHomeDepotAutoMode moveToHomeDepotMode;
-    private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
-    private boolean targetReached = false;
-
+//    private State currentState;
+//
+//    private Team8702ProdAuto robot = new Team8702ProdAuto();
+//    private GyroAutoMode gyroMode;
+//    private ObjectDetectionAutoMode objectDetectRoute;
+//
+//    private double currentAngle;
+//
+//    private ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
+//    private MoveToHomeDepotAutoMode moveToHomeDepotMode;
+//    private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
+//    private boolean targetReached = false;
+//
     //2064.51612903225806 per inch
-    private ObjectDetectionAutoMode.Position goldPosition;
+//    private ObjectDetectionAutoMode.Position goldPosition;
 
     //Set ColorValue to zilch
     //ColorValue panelColor = ColorValue.ZILCH;
     //abstract ColorValue getPanelColor();
 
+    @Override
     protected void onInit() {
         super.onInit();
 
@@ -49,8 +50,6 @@ public class AutoModeSecondary extends AbstractAutoMode {
     @Override
     protected void activeLoop() throws InterruptedException {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
-        getTelemetryUtil().sendTelemetry();
-
         getTelemetryUtil().sendTelemetry();
         telemetry.update();
 
@@ -131,18 +130,18 @@ public class AutoModeSecondary extends AbstractAutoMode {
                     robot.forwardRobot(.3);
                     sleep(3000);
                     robot.stopRobot();
-                    targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
+                    //targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
                 } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
                     targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold + 1);
                     sleep(500);
                     robot.forwardRobot(.3);
                     sleep(3000);
                     robot.stopRobot();
-                    targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
+                    //targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
                 } else {
                     // center
                     robot.forwardRobot(.3);
-                    sleep(3000);
+                    sleep(1500);
                     robot.stopRobot();
                     targetReached = true;
                 }

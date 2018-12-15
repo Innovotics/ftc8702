@@ -28,32 +28,33 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         GYRO_SENSOR_TURNER,
         ULTRASONIC_DRIVE_TO_CRATER,
         GO_OVER_RAMP,
+        TURN_TO_HOMEDEPOT,
         DONE
     }
 
-    private State currentState;
+    protected State currentState;
 
-    private Team8702ProdAuto robot = new Team8702ProdAuto();
-    private GyroAutoMode gyroMode;
-    private ObjectDetectionAutoMode objectDetectRoute;
+    protected Team8702ProdAuto robot = new Team8702ProdAuto();
+    protected GyroAutoMode gyroMode;
+    protected ObjectDetectionAutoMode objectDetectRoute;
 
-    private double currentAngle;
+    protected double currentAngle;
 
-    private ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
-    private MoveToHomeDepotAutoMode moveToHomeDepotMode;
-    private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
-    private boolean targetReached = false;
+    protected ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
+    protected MoveToHomeDepotAutoMode moveToHomeDepotMode;
+    protected UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
+    protected boolean targetReached = false;
   //  private MotorToEncoder hookMotorToEncoder;
     protected int LimitingEncoderValue = 12000;//12400;
 
     protected double initialLeftAngleToGold = 33;
-    protected double initialRightAngleToGold = -33;
+    protected double initialRightAngleToGold = -34;
 
-    protected double reverseLeftAngleToGold = 47;
-    protected double reverseRightAngleToGold = -50;
+    protected double reverseLeftAngleToGold = -42;
+    protected double reverseRightAngleToGold = -45;
 
     //2064.51612903225806 per inch
-    private ObjectDetectionAutoMode.Position goldPosition;
+    protected ObjectDetectionAutoMode.Position goldPosition;
 
     //Set ColorValue to zilch
     //ColorValue panelColor = ColorValue.ZILCH;
@@ -196,7 +197,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 } else {
                     // center
                     robot.forwardRobot(.3);
-                    sleep(3000);
+                    sleep(1500);
                     robot.stopRobot();
                     targetReached = true;
                 }
@@ -241,6 +242,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 // robot.sleep(1000);
                 robot.markerDropper.setPosition(0.0);
                 robot.sleep(1000);
+                robot.markerDropper.setPosition(0.9);
                 robot.backwardRobot(.25);
                 robot.sleep(1000);
                 currentState = State.BACK_TO_CRATER;
