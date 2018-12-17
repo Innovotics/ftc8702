@@ -136,7 +136,7 @@ public class ObjectDetectionAutoMode {
     }
 
     public Position detectGoldMineral() {
-        Position goldPosition = Position.CENTER;
+        Position goldPosition = Position.LEFT;
 
         // getUpdatedRecognitions() will return null if no new information is available since
         // the last time that call was made.

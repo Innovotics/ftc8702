@@ -74,7 +74,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         gyroMode.init();
 
         objectDetectRoute = new ObjectDetectionAutoMode(robot, getTelemetryUtil(), gyroMode);
-        objectDetectRoute.init();
         //goldPosition = objectDetectRoute.getGoldMineralAngle();
         getTelemetryUtil().addData("gold position", goldPosition+"");
 
@@ -113,8 +112,10 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case DETECT_GOLD_MINERAL:
                 logStage();
-                goldPosition = objectDetectRoute.detectGoldMineral();
+                objectDetectRoute.init();
                 sleep(1000);
+                goldPosition = objectDetectRoute.detectGoldMineral();
+                sleep(500);
 
                 getTelemetryUtil().addData("gold position: ", goldPosition+"");
                 getTelemetryUtil().sendTelemetry();
@@ -152,16 +153,16 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
             case TURN_TO_UNHOOK:
                 logStage();
                 gyroMode.goLeftAngleCondition(15);
-                sleep(1000);
+                sleep(750);
 
-                robot.hook.setPower(-0.7);
-                sleep(2500);
+                robot.hook.setPower(-0.9);
+                sleep(1500);
                 robot.hook.setPower(0.0);
 
                 robot.forwardRobot(0.3);
                 sleep(500);
                 robot.stopRobot();
-                sleep(1000);
+                sleep(750);
 
                 //robot.forwardRobot(-0.1);
                 //robot.sleep(750);
@@ -241,7 +242,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 // robot.markerDropper.setPosition(0.0);
                 // robot.sleep(1000);
                 robot.markerDropper.setPosition(0.0);
-                robot.sleep(1000);
+                robot.sleep(900);
                 robot.markerDropper.setPosition(0.9);
                 robot.backwardRobot(.25);
                 robot.sleep(1000);
@@ -254,8 +255,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 if (goldPosition == ObjectDetectionAutoMode.Position.LEFT
                         || goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
-                    robot.backwardRobot(.5);
-                    robot.sleep(3000);
+                    robot.backwardRobot(.8);
+                    robot.sleep(2700);
                 }
                 robot.stopRobot();
                 currentState = State.DONE;

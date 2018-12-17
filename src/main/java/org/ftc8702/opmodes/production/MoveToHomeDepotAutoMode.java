@@ -16,7 +16,7 @@ public class MoveToHomeDepotAutoMode {
     private static final long BEGIN_MOVE_FORARD_DURATION_MS = 1000;
     private static final long BACKWARD_DRURATION_MS = 750;
     private static final double BACKWARD_SPEED = -0.15;
-    private static final long TIMED_OUT = 2000;
+    private static final long TIMED_OUT = 1500;
 
     private Team8702ProdAuto robot;
     private TelemetryUtil telemetry;
