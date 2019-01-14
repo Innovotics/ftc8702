@@ -2,15 +2,8 @@ package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
-import org.ftc8702.utils.InnovoticsRobotProperties;
-import org.ftc8702.utilities.MotorToEncoder;
-import org.ftcbootstrap.components.utils.MotorDirection;
-
 
 abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
@@ -105,8 +98,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     @Override
     protected void activeLoop() throws InterruptedException {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
-        getTelemetryUtil().sendTelemetry();
-
         getTelemetryUtil().sendTelemetry();
         telemetry.update();
 
