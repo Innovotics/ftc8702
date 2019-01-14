@@ -28,6 +28,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         GYRO_SENSOR_TURNER,
         ULTRASONIC_DRIVE_TO_CRATER,
         GO_OVER_RAMP,
+        SecondaryGetToCrater,
         TURN_TO_HOMEDEPOT,
         DONE
     }
@@ -75,6 +76,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         objectDetectRoute = new ObjectDetectionAutoMode(robot, getTelemetryUtil(), gyroMode);
         //goldPosition = objectDetectRoute.getGoldMineralAngle();
+        objectDetectRoute.init();
         getTelemetryUtil().addData("gold position", goldPosition+"");
 
         ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
@@ -112,7 +114,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case DETECT_GOLD_MINERAL:
                 logStage();
-                objectDetectRoute.init();
                 sleep(1000);
                 goldPosition = objectDetectRoute.detectGoldMineral();
                 sleep(500);
