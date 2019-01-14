@@ -60,7 +60,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
                 goldPosition = objectDetectRoute.detectGoldMineral();
                 sleep(1000);
 
-                getTelemetryUtil().addData("gold position: ", goldPosition+"");
+                getTelemetryUtil().addData("gold position: ", goldPosition + "");
                 getTelemetryUtil().sendTelemetry();
                 telemetry.update();
 
@@ -71,12 +71,14 @@ public class AutoModeSecondary extends AbstractAutoMode {
                 sleep(500);
                 break;
 
+            case INIT:
+                break;
             case HOOK:
                 logStage();
 
                 //targetReached = hookMotorToEncoder.runToTarget(0.5, LimitingEncoderValue, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.hook.setPower(0.7);
-                while(Math.abs(robot.hook.getCurrentPosition()) < LimitingEncoderValue) {
+                while (Math.abs(robot.hook.getCurrentPosition()) < LimitingEncoderValue) {
                     getTelemetryUtil().addData("Encoder Value: ", robot.hook.getCurrentPosition());
                     getTelemetryUtil().sendTelemetry();
                 }
@@ -84,7 +86,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
                 robot.hook.setPower(0.0);
                 targetReached = true;
 
-                if(targetReached) {
+                if (targetReached) {
                     currentState = State.TURN_TO_UNHOOK;
                     targetReached = false;
 
@@ -120,18 +122,18 @@ public class AutoModeSecondary extends AbstractAutoMode {
             case KNOCK_GOLD_MINERAL:
                 logStage();
 
-                getTelemetryUtil().addData("gold position: ", goldPosition+"");
+                getTelemetryUtil().addData("gold position: ", goldPosition + "");
                 getTelemetryUtil().sendTelemetry();
                 telemetry.update();
 
-                if(goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
+                if (goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
                     targetReached = gyroMode.goRightToAngleDegree((initialRightAngleToGold + 30));
                     sleep(500);
                     robot.forwardRobot(.3);
                     sleep(3000);
                     robot.stopRobot();
                     //targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
-                } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
+                } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT) {
                     targetReached = gyroMode.goLeftAngleCondition((initialLeftAngleToGold + 30));
                     sleep(500);
                     robot.forwardRobot(.3);
@@ -145,13 +147,37 @@ public class AutoModeSecondary extends AbstractAutoMode {
                     robot.stopRobot();
                     targetReached = true;
                 }
+                break;
+            case SecondaryGetToCrater:
+                logStage();
 
-                // just need to touch/park the crater
-                robot.forwardRobot(.3);
-                sleep(500);
-                robot.stopRobot();
+                if (goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
+                    targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
+                    robot.sleep(500);
+                    robot.forwardRobot(0.3);
+                    robot.sleep(1000);
+                    robot.turnRight(0.7);
+                    robot.sleep(1000);
+                    robot.stopRobot();
+                if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
+                    targetReached = gyroMode.goLeftAngleCondition((reverseLeftAngleToGold));
+                    robot.sleep(500);
+                    robot.forwardRobot(0.3);
+                    robot.sleep(1000);
+                    robot.turnLeft(0.7);
+                    robot.sleep(1000);
+                    robot.stopRobot();
+                if (goldPosition == ObjectDetectionAutoMode.Position.CENTER){
+                    robot.forwardRobot(0.3);
+                    robot.sleep(1000);
+                    robot.turnLeft(0.7);
+                    robot.sleep(1000);
+                    robot.stopRobot();
+                }
+                }
+                }
 
-                if(targetReached) {
+                if (targetReached) {
                     currentState = State.DONE;
                     targetReached = false;
 
@@ -160,7 +186,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
                 }
                 break;
 
-            case COLOR_SENSOR_SELF_ADJUST:
+            /*case COLOR_SENSOR_SELF_ADJUST:
                 logStage();
                 targetReached = colorSensorAdjustMode.startAdjustment();
                 if (targetReached) {
@@ -196,7 +222,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
                 currentState = State.BACK_TO_CRATER;
                 robot.stopRobot();
                 sleep(500);
-                break;
+               break;
 
             case BACK_TO_CRATER:
                 logStage();
@@ -251,6 +277,26 @@ public class AutoModeSecondary extends AbstractAutoMode {
         }
 
         telemetry.update();
-    }
+  */
+            case COLOR_SENSOR_SELF_ADJUST:
+                break;
+            case MOVE_TO_HOME_DEPOT:
+                break;
+            case DROP_MARKER:
+                break;
+            case BACK_TO_CRATER:
+                break;
+            case GYRO_SENSOR_TURNER:
+                break;
+            case ULTRASONIC_DRIVE_TO_CRATER:
+                break;
+            case GO_OVER_RAMP:
+                break;
+            case TURN_TO_HOMEDEPOT:
+                break;
+            case DONE:
+                break;
+        }
 
+    }
 }
