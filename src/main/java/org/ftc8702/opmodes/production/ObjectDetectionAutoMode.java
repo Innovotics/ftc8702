@@ -9,6 +9,7 @@ import org.ftc8702.configurations.production.Team8702ProdAuto;
 import org.ftc8702.utilities.TelemetryUtil;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ObjectDetectionAutoMode {
     public enum Position {
@@ -45,15 +46,7 @@ public class ObjectDetectionAutoMode {
         telemetry.addData("vuforia", "inited");
         telemetry.sendTelemetry();
 
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
-        } else {
-            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
 
-        if (tfod != null) {
-            tfod.activate();
-        }
     }
 
     /**
@@ -135,7 +128,20 @@ public class ObjectDetectionAutoMode {
         return isCompleted;
     }
 
-    public Position detectGoldMineral() {
+    public Position detectGoldMineral() throws InterruptedException {
+
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTfod();
+        } else {
+            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
+        if (tfod != null) {
+            tfod.activate();
+        }
+        //This sleep of for letting the program get new information, if removed the camera's information
+        // will not transfer to the phone
+        robot.sleep(500);
+
         Position goldPosition = Position.LEFT;
 
         // getUpdatedRecognitions() will return null if no new information is available since
