@@ -221,7 +221,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 targetReached = moveToHomeDepotMode.moveToHomeDepot();
                 if (targetReached) {
-                    currentState = State.DROP_MARKER;
+                    currentState = State.BACK_TO_CRATER;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -229,7 +229,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 }
                 break;
 
-            case DROP_MARKER:
+            /*case DROP_MARKER:
                 logStage();
                 // robot.markerDropper.setPosition(0.0);
                 // robot.sleep(1000);
@@ -242,7 +242,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 robot.stopRobot();
                 sleep(500);
                 break;
-
+*/
             case BACK_TO_CRATER:
                 logStage();
                 if (goldPosition == ObjectDetectionAutoMode.Position.LEFT
