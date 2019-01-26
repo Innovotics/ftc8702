@@ -36,15 +36,15 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     protected ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
     protected MoveToHomeDepotAutoMode moveToHomeDepotMode;
-    protected UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
+    // protected UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     protected boolean targetReached = false;
   //  private MotorToEncoder hookMotorToEncoder;
     protected int LimitingEncoderValue = 12000;//12400;
 
-    protected double initialLeftAngleToGold = 33;
-    protected double initialRightAngleToGold = -34;
+    protected double initialLeftAngleToGold = 25; // 33 for qualifer robot
+    protected double initialRightAngleToGold = -26; // -34 for qualifer robt
 
-    protected double reverseLeftAngleToGold = -42;
+    protected double reverseLeftAngleToGold = -34; // -42;
     protected double reverseRightAngleToGold = -45;
 
     //2064.51612903225806 per inch
@@ -72,8 +72,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         objectDetectRoute.init();
         getTelemetryUtil().addData("gold position", goldPosition+"");
 
-        ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
-        ultrasonicDriveToCrater.init();
+        //ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
+        //ultrasonicDriveToCrater.init();
 
         robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -144,14 +144,14 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case TURN_TO_UNHOOK:
                 logStage();
-                gyroMode.goLeftAngleCondition(15);
+                gyroMode.goLeftAngleCondition(20);
                 sleep(750);
 
                 robot.hook.setPower(-0.9);
                 sleep(1500);
                 robot.hook.setPower(0.0);
 
-                robot.forwardRobot(0.3);
+                robot.forwardRobot(0.2);
                 sleep(500);
                 robot.stopRobot();
                 sleep(750);
@@ -176,21 +176,23 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 if(goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
                     targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold);
                     sleep(500);
-                    robot.forwardRobot(.3);
-                    sleep(3000);
+                    robot.forwardRobot(.2);
+                    sleep(1750);
                     robot.stopRobot();
+                    sleep(500);
                     targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
                 } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
                     targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold);
                     sleep(500);
-                    robot.forwardRobot(.3);
-                    sleep(3000);
+                    robot.forwardRobot(.2);
+                    sleep(1750);
                     robot.stopRobot();
+                    sleep(500);
                     targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
                 } else {
                     // center
-                    robot.forwardRobot(.3);
-                    sleep(1500);
+                    robot.forwardRobot(.2);
+                    sleep(900);
                     robot.stopRobot();
                     targetReached = true;
                 }
@@ -221,7 +223,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 targetReached = moveToHomeDepotMode.moveToHomeDepot();
                 if (targetReached) {
-                    currentState = State.BACK_TO_CRATER;
+                    currentState = State.DROP_MARKER;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -229,7 +231,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 }
                 break;
 
-            /*case DROP_MARKER:
+            case DROP_MARKER:
                 logStage();
                 // robot.markerDropper.setPosition(0.0);
                 // robot.sleep(1000);
@@ -242,13 +244,13 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 robot.stopRobot();
                 sleep(500);
                 break;
-*/
+
             case BACK_TO_CRATER:
                 logStage();
                 if (goldPosition == ObjectDetectionAutoMode.Position.LEFT
                         || goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
-                    robot.backwardRobot(.8);
-                    robot.sleep(2700);
+                    robot.backwardRobot(.6);
+                    robot.sleep(2000);
                 }
                 robot.stopRobot();
                 currentState = State.DONE;
@@ -266,6 +268,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 }
                 break;
 
+                /*
             case ULTRASONIC_DRIVE_TO_CRATER:
                 logStage();
                 targetReached = ultrasonicDriveToCrater.ultrasonicDriveToCrater();
@@ -277,7 +280,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                     sleep(500);
                 }
                 break;
-
+                */
             case GO_OVER_RAMP:
                 logStage();
                 targetReached = gyroMode.testElevationChange(15, 11);
