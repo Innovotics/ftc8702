@@ -58,8 +58,8 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         colorSensorBackRight = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT);
         colorSensorBackLeft = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT);
 
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
-        getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
+        //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
+        //getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
 
 
         hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
