@@ -41,7 +41,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
   //  private MotorToEncoder hookMotorToEncoder;
     protected int LimitingEncoderValue = 12000;//12400;
 
-    protected double initialLeftAngleToGold = 33;
+    protected double initialLeftAngleToGold = 29;
     protected double initialRightAngleToGold = -34;
 
     protected double reverseLeftAngleToGold = -42;
@@ -144,7 +144,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case TURN_TO_UNHOOK:
                 logStage();
-                gyroMode.goLeftAngleCondition(15);
+                gyroMode.goLeftAngleCondition(25);
                 sleep(750);
 
                 robot.hook.setPower(-0.9);
@@ -152,7 +152,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 robot.hook.setPower(0.0);
 
                 robot.forwardRobot(0.3);
-                sleep(500);
+                sleep(250);
                 robot.stopRobot();
                 sleep(750);
 

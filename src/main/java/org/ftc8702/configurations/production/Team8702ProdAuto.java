@@ -40,7 +40,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     public ColorSensor colorSensorBackLeft;
     public ColorSensor colorSensorBackRight;
 
-    public ModernRoboticsI2cRangeSensor rangeSensor;
+   // public ModernRoboticsI2cRangeSensor rangeSensor;
 
     public Servo markerDropper;
 
@@ -58,12 +58,11 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         colorSensorBackRight = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT);
         colorSensorBackLeft = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT);
 
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
-        getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
-
-
         hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
         hook.setDirection(DcMotor.Direction.REVERSE );
+
+        //  rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
+        // getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
 
     }
 

@@ -41,7 +41,7 @@ public class UltrasonicDriveToCraterAutoMode {
     }
 
     protected void init() {
-        rangeSensor = prodAutoConfig.rangeSensor;
+    //    rangeSensor = prodAutoConfig.rangeSensor;
     }
 
     protected void ForwardandTurn() throws InterruptedException {
