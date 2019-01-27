@@ -28,10 +28,10 @@ public class BenCharisConfig  extends RobotConfiguration {
         //colorSensorFrontRight = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_FRONT_RIGHT, hardwareMap.colorSensor);
         //getTelemetryUtil().addData("Right Front Color component: ", colorSensorFrontRight.toString());
 
-        colorSensorBackRight = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT, hardwareMap.colorSensor);
+        //colorSensorBackRight = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT, hardwareMap.colorSensor);
         getTelemetryUtil().addData("Right Back Color component: ", colorSensorBackRight.toString());
 
-        colorSensorBackLeft = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT, hardwareMap.colorSensor);
+        //colorSensorBackLeft = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT, hardwareMap.colorSensor);
         getTelemetryUtil().addData("Left Back Color component: ", colorSensorBackLeft.toString());
 
         // Front Motors

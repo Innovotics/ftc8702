@@ -72,9 +72,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         objectDetectRoute.init();
         getTelemetryUtil().addData("gold position", goldPosition+"");
 
-        //ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
-        //ultrasonicDriveToCrater.init();
-
         robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         getTelemetryUtil().addData("Motor Encoder Value: ", robot.hook.getCurrentPosition());
@@ -123,13 +120,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
             case HOOK:
                 logStage();
 
-                //targetReached = hookMotorToEncoder.runToTarget(0.5, LimitingEncoderValue, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.hook.setPower(0.7);
-                while(Math.abs(robot.hook.getCurrentPosition()) < LimitingEncoderValue) {
-                    getTelemetryUtil().addData("Encoder Value: ", robot.hook.getCurrentPosition());
-                    getTelemetryUtil().sendTelemetry();
-                }
-
+               sleep(3000);
                 robot.hook.setPower(0.0);
                 targetReached = true;
 
@@ -235,11 +227,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 // robot.markerDropper.setPosition(0.0);
                 // robot.sleep(1000);
-                robot.markerDropper.setPosition(0.0);
-                robot.sleep(900);
-                robot.markerDropper.setPosition(0.9);
-                robot.backwardRobot(.25);
-                robot.sleep(1000);
+                robot.openClaw();
                 currentState = State.BACK_TO_CRATER;
                 robot.stopRobot();
                 sleep(500);

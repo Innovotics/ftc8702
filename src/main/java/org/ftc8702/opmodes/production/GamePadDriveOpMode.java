@@ -27,16 +27,13 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
     private ProdManualRobot robot;
     private GamePadTankDrive gamePadTankDrive;
-    private GamePadServo gamePadPlowServo;
-    private GamePadCRServo gamePadPlowExtenderServo;
-
-//    private GamePadCRServo gamePadServo;
-//    private GamePadMotor gamePadTransformingMotor;
-
-    //private MotorToEncoder hookMotorToEncoder;
-    //private GamePadEncoderMotor gamePadHookMotor;
     private GamePadMotor gamePadHookMotor;
-    private int encoderLimitingValue;
+    private GamePadMotor gamePadShortArm;
+    private GamePadMotor gamePadLongArm;
+
+    private GamePadServo gamePadClawA;
+    private GamePadServo gamePadClawB;
+   private int encoderLimitingValue;
     //private int encoderLimitingValue = 16000;
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -57,22 +54,12 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         super.onStart();
         //create the operation  to perform a tank drive using the gamepad joysticks.
         gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
-//        gamePadMotor = new GamePadMotor(this, gamepad1, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
+        gamePadHookMotor = new GamePadMotor(this, gamepad2, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
+        gamePadShortArm = new GamePadMotor (this, gamepad2, robot.shortArm, GamePadMotor.Control.RIGHT_STICK_Y);
+        gamePadLongArm = new GamePadMotor (this, gamepad2, robot.longArm, GamePadMotor.Control.LEFT_STICK_Y);
 
-        //gamePadMotor = new GamePadMotor(this, gamepad1, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
-//        gamePadServo = new GamePadCRServo(this, gamepad2, robot.intakeSystem, GamePadCRServo.Control.Y_A,0.0);
-        //gamePadMotor = new GamePadMotor(this, gamepad2, robot.belt, GamePadMotor.Control.LB_RB_BUTTONS);
-//        gamePadTransformingMotor = new GamePadMotor(this, gamepad2, robot.transformingMotor, GamePadMotor.Control.RIGHT_STICK_X);
-
-        //motor encoder
-
-        //gamePadHookMotor = new GamePadEncoderMotor(this, gamepad2, robot.hook, GamePadEncoderMotor.Control.RIGHT_STICK_Y, hookMotorToEncoder.motorCurrentPosition(), hookMotorToEncoder, encoderLimitingValue);
-
-        //gamePadHookMotor = new GamePadEncoderMotor(this, gamepad2, robot.hook, GamePadEncoderMotor.Control.RIGHT_STICK_Y, hookMotorToEncoder.motorCurrentPosition(), hookMotorToEncoder);
-        gamePadHookMotor = new GamePadMotor(this, gamepad2, robot.hook, GamePadMotor.Control.RIGHT_STICK_Y);
-        gamePadPlowServo = new GamePadServo(this, gamepad2, robot.plow, GamePadServo.Control.Y_A, 0);
-        gamePadPlowExtenderServo = new GamePadCRServo(this, gamepad2, robot.plowExtender, GamePadCRServo.Control.X_B, 0.0);
-
+        gamePadClawA = new GamePadServo(this, gamepad1, robot.clawA, GamePadServo.Control.Y_A, 0.0);
+        gamePadClawB = new GamePadServo(this, gamepad1, robot.clawB, GamePadServo.Control.X_B, 0.0);
     }
 
     /**
@@ -85,12 +72,12 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
         //update the motors with the gamepad joystick values
        gamePadTankDrive.update();
-       //gamePadMotor.update();
-//       gamePadServo.update();
        gamePadHookMotor.update();
-//       gamePadTransformingMotor.update();
-        gamePadPlowServo.update();
-        gamePadPlowExtenderServo.update();
+       gamePadShortArm.update();
+       gamePadLongArm.update();
+
+       gamePadClawA.update();
+       gamePadClawB.update();
 
         //getTelemetryUtil().addData("Motor to Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
 

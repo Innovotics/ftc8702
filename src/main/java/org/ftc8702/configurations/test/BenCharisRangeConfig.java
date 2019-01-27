@@ -21,7 +21,7 @@ public class BenCharisRangeConfig extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
 
-        rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
+        //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
         getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
 
         // Front Motors

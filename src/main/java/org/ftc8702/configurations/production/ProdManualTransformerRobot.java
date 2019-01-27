@@ -62,7 +62,6 @@ public class ProdManualTransformerRobot extends RobotConfiguration {
             motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
 
         primaryArm = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_HOOK, hardwareMap.dcMotor);
-        secondaryArm = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BELT, hardwareMap.dcMotor);
 
         getTelemetryUtil().sendTelemetry();
     }

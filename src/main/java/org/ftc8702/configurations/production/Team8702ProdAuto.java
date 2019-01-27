@@ -35,6 +35,12 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     public DcMotor motorL;
     public DcMotor hook;
 
+    public DcMotor longArm;
+    public DcMotor shortArm;
+
+    public Servo clawA;
+    public Servo clawB;
+
     public BNO055IMU imu;
 
     public ColorSensor colorSensorBackLeft;
@@ -51,12 +57,11 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
         initWheels(hardwareMap);
-        initServo(hardwareMap);
+        // initServo(hardwareMap);
+        initArmWheels(hardwareMap);
+        initClawServos(hardwareMap);
 
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
-
-        colorSensorBackRight = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT);
-        colorSensorBackLeft = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT);
 
         //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
         //getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
@@ -98,6 +103,20 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         motorR.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
     }
 
+    private void initArmWheels(HardwareMap hardwareMap) {
+
+        shortArm = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.SHORT_ARM);
+        longArm = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.LONG_ARM);
+
+        shortArm.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
+        longArm.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+    }
+
+    private void initClawServos(HardwareMap hardwareMap) {
+        clawA = hardwareMap.get(Servo.class, InnovoticsRobotProperties.CLAW_A);
+        clawB = hardwareMap.get(Servo.class, InnovoticsRobotProperties.CLAW_B);
+    }
+
     private void initServo(HardwareMap hardwareMap) {
         markerDropper = hardwareMap.get(Servo.class, InnovoticsRobotProperties.MARKER_DROPPER);
     }
@@ -114,6 +133,16 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     public void setRunMode() {
         motorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void openClaw() {
+        clawA.setPosition(.9);
+        clawB.setPosition(.9);
+    }
+
+    public void closeClaw() {
+        clawA.setPosition(.2);
+        clawB.setPosition(.2);
     }
 
     public void turnLeft(double speed) {
