@@ -36,16 +36,21 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     protected ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
     protected MoveToHomeDepotAutoMode moveToHomeDepotMode;
-    protected UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
+    // protected UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     protected boolean targetReached = false;
   //  private MotorToEncoder hookMotorToEncoder;
     protected int LimitingEncoderValue = 12000;//12400;
 
+<<<<<<< HEAD
     protected double initialLeftAngleToGold = 29;
     protected double initialRightAngleToGold = -34;
+=======
+    protected double initialLeftAngleToGold = 25; // 33 for qualifer robot
+    protected double reverseLeftAngleToGold = -34; // -42;
+>>>>>>> 7ff1fd590dc486b59eabbf0cc343f9d3432fd695
 
-    protected double reverseLeftAngleToGold = -42;
-    protected double reverseRightAngleToGold = -45;
+    protected double initialRightAngleToGold = -26; // -34 for qualifer robt
+    protected double reverseRightAngleToGold = 37; // -45
 
     //2064.51612903225806 per inch
     protected ObjectDetectionAutoMode.Position goldPosition;
@@ -71,9 +76,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         //goldPosition = objectDetectRoute.getGoldMineralAngle();
         objectDetectRoute.init();
         getTelemetryUtil().addData("gold position", goldPosition+"");
-
-        ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
-        ultrasonicDriveToCrater.init();
 
         robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -123,13 +125,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
             case HOOK:
                 logStage();
 
-                //targetReached = hookMotorToEncoder.runToTarget(0.5, LimitingEncoderValue, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
                 robot.hook.setPower(0.7);
-                while(Math.abs(robot.hook.getCurrentPosition()) < LimitingEncoderValue) {
-                    getTelemetryUtil().addData("Encoder Value: ", robot.hook.getCurrentPosition());
-                    getTelemetryUtil().sendTelemetry();
-                }
-
+               sleep(3000);
                 robot.hook.setPower(0.0);
                 targetReached = true;
 
@@ -144,15 +141,24 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case TURN_TO_UNHOOK:
                 logStage();
+<<<<<<< HEAD
                 gyroMode.goLeftAngleCondition(25);
+=======
+                gyroMode.goLeftAngleCondition(20);
+>>>>>>> 7ff1fd590dc486b59eabbf0cc343f9d3432fd695
                 sleep(750);
 
                 robot.hook.setPower(-0.9);
                 sleep(1500);
                 robot.hook.setPower(0.0);
 
+<<<<<<< HEAD
                 robot.forwardRobot(0.3);
                 sleep(250);
+=======
+                robot.forwardRobot(0.2);
+                sleep(500);
+>>>>>>> 7ff1fd590dc486b59eabbf0cc343f9d3432fd695
                 robot.stopRobot();
                 sleep(750);
 
@@ -176,20 +182,22 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 if(goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
                     targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold);
                     sleep(500);
-                    robot.forwardRobot(.3);
+                    robot.forwardRobot(.2);
                     sleep(3000);
                     robot.stopRobot();
+                    sleep(500);
                     targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
                 } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
                     targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold);
                     sleep(500);
-                    robot.forwardRobot(.3);
+                    robot.forwardRobot(.2);
                     sleep(3000);
                     robot.stopRobot();
+                    sleep(500);
                     targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
                 } else {
                     // center
-                    robot.forwardRobot(.3);
+                    robot.forwardRobot(.2);
                     sleep(1500);
                     robot.stopRobot();
                     targetReached = true;
@@ -233,11 +241,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 // robot.markerDropper.setPosition(0.0);
                 // robot.sleep(1000);
-                robot.markerDropper.setPosition(0.0);
-                robot.sleep(900);
-                robot.markerDropper.setPosition(0.9);
-                robot.backwardRobot(.25);
-                robot.sleep(1000);
+                robot.openClaw();
                 currentState = State.BACK_TO_CRATER;
                 robot.stopRobot();
                 sleep(500);
@@ -247,8 +251,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 if (goldPosition == ObjectDetectionAutoMode.Position.LEFT
                         || goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
-                    robot.backwardRobot(.8);
-                    robot.sleep(2700);
+                    robot.backwardRobot(.6);
+                    robot.sleep(2000);
                 }
                 robot.stopRobot();
                 currentState = State.DONE;
@@ -266,6 +270,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 }
                 break;
 
+                /*
             case ULTRASONIC_DRIVE_TO_CRATER:
                 logStage();
                 targetReached = ultrasonicDriveToCrater.ultrasonicDriveToCrater();
@@ -277,7 +282,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                     sleep(500);
                 }
                 break;
-
+                */
             case GO_OVER_RAMP:
                 logStage();
                 targetReached = gyroMode.testElevationChange(15, 11);

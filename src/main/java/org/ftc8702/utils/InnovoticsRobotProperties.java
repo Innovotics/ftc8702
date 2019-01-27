@@ -10,22 +10,14 @@ public class InnovoticsRobotProperties {
     public static final String MOTOR_RIGHT = "motorR";
     public static final String MOTOR_LEFT = "motorL";
     public static final String MOTOR_HOOK = "hook";
-    public static final String MOTOR_BELT = "beltSystem";
+    public static final String LONG_ARM = "longArm";
+    public static final String SHORT_ARM = "shortArm";
 
     public static final String GYRO_SENSOR = "imu";
-    public static final String LINEAR_SLIDE_ENXTENSION = "slideSystem";
-    public static final String TRANSFORMING_EXTENSION = "transformSystem";
-
-    //Color sensor
-    public static final String COLOR_SENSOR_BACK_RIGHT= "colorSensorBR";
-    public static final String COLOR_SENSOR_BACK_LEFT= "colorSensorBL";
-
-    //Ultrasonic Sensor
-    public static final String ULTRA_SONIC_SENSOR= "RangeSensorL";
 
     //Servo
     public static final String MARKER_DROPPER = "markerDropper";
-    public static final String INTAKE_SYSTEM = "intakeSystem";
-    public static final String PLOW_EXTENDER = "plowExtender";
+    public static final String CLAW_A = "clawA";
+    public static final String CLAW_B = "clawB";
 
 }

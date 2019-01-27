@@ -28,8 +28,13 @@ public class ProdManualRobot extends RobotConfiguration {
     public DcMotor motorR;
     public DcMotor motorL;
     public DcMotor hook;
-    public Servo plow;
-    public CRServo plowExtender;
+    public DcMotor longArm;
+    public DcMotor shortArm;
+
+    public Servo clawA;
+    public Servo clawB;
+
+
 
     //Sensors
     public BNO055IMU gyroSensor;
@@ -61,22 +66,20 @@ public class ProdManualRobot extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-            // Front Motors
+            // Motors
             motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
             motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
-            plow = (Servo) getHardwareOn(InnovoticsRobotProperties.MARKER_DROPPER, hardwareMap.servo);
-            plowExtender = (CRServo) getHardwareOn(InnovoticsRobotProperties.PLOW_EXTENDER, hardwareMap.crservo);
-
-            //gyro sensor
-        gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
-
-            //Attachments
             hook = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_HOOK, hardwareMap.dcMotor);
             hook.setDirection(DcMotorSimple.Direction.REVERSE);
-//            intakeSystem = (CRServo) getHardwareOn(InnovoticsRobotProperties.INTAKE_SYSTEM, hardwareMap.crservo);
-           // belt = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BELT, hardwareMap.dcMotor);
-//            slideExtender = (DcMotor) getHardwareOn(InnovoticsRobotProperties.LINEAR_SLIDE_ENXTENSION, hardwareMap.dcMotor);
-//            transformingMotor = (DcMotor) getHardwareOn(InnovoticsRobotProperties.TRANSFORMING_EXTENSION, hardwareMap.dcMotor);
+            shortArm = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SHORT_ARM, hardwareMap.dcMotor);
+            longArm = (DcMotor) getHardwareOn(InnovoticsRobotProperties.LONG_ARM, hardwareMap.dcMotor);
+
+            //Servo
+            clawA = (Servo) getHardwareOn(InnovoticsRobotProperties.CLAW_A, hardwareMap.servo);
+            clawB = (Servo) getHardwareOn(InnovoticsRobotProperties.CLAW_B, hardwareMap.servo);
+
+            //gyro sensor
+            gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");
 
         getTelemetryUtil().sendTelemetry();
     }
