@@ -42,10 +42,10 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     protected int LimitingEncoderValue = 12000;//12400;
 
     protected double initialLeftAngleToGold = 25; // 33 for qualifer robot
-    protected double initialRightAngleToGold = -26; // -34 for qualifer robt
-
     protected double reverseLeftAngleToGold = -34; // -42;
-    protected double reverseRightAngleToGold = -45;
+
+    protected double initialRightAngleToGold = -26; // -34 for qualifer robt
+    protected double reverseRightAngleToGold = 37; // -45
 
     //2064.51612903225806 per inch
     protected ObjectDetectionAutoMode.Position goldPosition;
@@ -177,7 +177,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                     targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold);
                     sleep(500);
                     robot.forwardRobot(.2);
-                    sleep(1750);
+                    sleep(3000);
                     robot.stopRobot();
                     sleep(500);
                     targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
@@ -185,14 +185,14 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                     targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold);
                     sleep(500);
                     robot.forwardRobot(.2);
-                    sleep(1750);
+                    sleep(3000);
                     robot.stopRobot();
                     sleep(500);
                     targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
                 } else {
                     // center
                     robot.forwardRobot(.2);
-                    sleep(900);
+                    sleep(1500);
                     robot.stopRobot();
                     targetReached = true;
                 }
