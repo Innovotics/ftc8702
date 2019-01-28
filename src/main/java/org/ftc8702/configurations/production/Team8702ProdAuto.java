@@ -63,43 +63,13 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
 
-<<<<<<< HEAD
-        colorSensorBackRight = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_RIGHT);
-        colorSensorBackLeft = initColorSensor(hardwareMap, InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT);
-=======
-        //rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
-        //getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
-
->>>>>>> 7ff1fd590dc486b59eabbf0cc343f9d3432fd695
-
         hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
-        hook.setDirection(DcMotor.Direction.REVERSE );
-
-        //  rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, InnovoticsRobotProperties.ULTRA_SONIC_SENSOR);
-        // getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
+        hook.setDirection(DcMotor.Direction.FORWARD);
 
     }
 
     public HardwareMap getHardwareMap() {
         return hardwareMap;
-    }
-
-    private ColorSensor initColorSensor(HardwareMap hardwareMap, String name) {
-        ColorSensor colorSensor = (ColorSensor) getHardwareOn(name, hardwareMap.colorSensor);
-        getTelemetryUtil().addData(name + ": ", colorSensor == null ? "Not Found" : colorSensor.toString());
-        getTelemetryUtil().sendTelemetry();
-        return colorSensor;
-    }
-
-    private void initUltrasonicSensor(HardwareMap hardwareMap, String sensorName) {
-        UltrasonicSensor ultrasonicSensor = hardwareMap.ultrasonicSensor.get(sensorName);
-
-        if (ultrasonicSensor != null) {
-            //getTelemetryUtil().addData("UltrasonicSensor: ", rangeSensorF.toString());
-        } else {
-            //getTelemetryUtil().addData("UltraSonicSensor: ", "is null");
-        }
-
     }
 
     private void initWheels(HardwareMap hardwareMap) {
@@ -123,10 +93,6 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     private void initClawServos(HardwareMap hardwareMap) {
         clawA = hardwareMap.get(Servo.class, InnovoticsRobotProperties.CLAW_A);
         clawB = hardwareMap.get(Servo.class, InnovoticsRobotProperties.CLAW_B);
-    }
-
-    private void initServo(HardwareMap hardwareMap) {
-        markerDropper = hardwareMap.get(Servo.class, InnovoticsRobotProperties.MARKER_DROPPER);
     }
 
     public BNO055IMU getGyroSensor() {

@@ -16,6 +16,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         DETECT_GOLD_MINERAL,
         COLOR_SENSOR_SELF_ADJUST,
         MOVE_TO_HOME_DEPOT,
+        LIFT_ARM_UP,
         DROP_MARKER,
         BACK_TO_CRATER,
         GYRO_SENSOR_TURNER,
@@ -32,13 +33,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     protected GyroAutoMode gyroMode;
     protected ObjectDetectionAutoMode objectDetectRoute;
 
-    protected double currentAngle;
-
-    protected ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
     protected MoveToHomeDepotAutoMode moveToHomeDepotMode;
-    // protected UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     protected boolean targetReached = false;
-  //  private MotorToEncoder hookMotorToEncoder;
     protected int LimitingEncoderValue = 12000;//12400;
 
     protected double initialLeftAngleToGold = 29;
@@ -50,16 +46,9 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     //2064.51612903225806 per inch
     protected ObjectDetectionAutoMode.Position goldPosition;
 
-    //Set ColorValue to zilch
-    //ColorValue panelColor = ColorValue.ZILCH;
-    //abstract ColorValue getPanelColor();
-
     protected void onInit() {
 
         robot.init(hardwareMap, getTelemetryUtil());
-
-        colorSensorAdjustMode = new ColorSensorAdjustmentAutoMode(robot, getTelemetryUtil());
-        colorSensorAdjustMode.init();
 
         moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, getTelemetryUtil());
         moveToHomeDepotMode.init();
@@ -68,7 +57,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         gyroMode.init();
 
         objectDetectRoute = new ObjectDetectionAutoMode(robot, getTelemetryUtil(), gyroMode);
-        //goldPosition = objectDetectRoute.getGoldMineralAngle();
         objectDetectRoute.init();
         getTelemetryUtil().addData("gold position", goldPosition+"");
 
@@ -80,12 +68,10 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
 
         goldPosition = ObjectDetectionAutoMode.Position.CENTER; // for testing only
-        currentState = State.DETECT_GOLD_MINERAL;
+        currentState = State.LIFT_ARM_UP;
         robot.stopRobot();
         robot.setRunMode();
-
-        robot.markerDropper.setPosition(0.9);
-    }
+        }
 
     @Override
     protected void onStart() throws InterruptedException {
@@ -100,6 +86,18 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
         switch (currentState) {
 
+            case LIFT_ARM_UP:
+                logStage();
+                robot.longArm.setPower(1.0);
+                sleep(1750);
+
+                robot.longArm.setPower(0.0);
+                sleep(500);
+
+                currentState = State.DETECT_GOLD_MINERAL;
+                targetReached = false;
+                break;
+
             case DETECT_GOLD_MINERAL:
                 logStage();
                 sleep(1000);
@@ -111,7 +109,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 telemetry.update();
 
                 currentState = State.HOOK;
-                targetReached = false;
 
                 robot.stopRobot();
                 sleep(500);
@@ -120,8 +117,8 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
             case HOOK:
                 logStage();
 
-                robot.hook.setPower(0.7);
-               sleep(3000);
+                robot.hook.setPower(1.0);
+               sleep(4500);
                 robot.hook.setPower(0.0);
                 targetReached = true;
 
@@ -136,12 +133,11 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case TURN_TO_UNHOOK:
                 logStage();
-                gyroMode.goLeftAngleCondition(25);
-                gyroMode.goLeftAngleCondition(20);
+                gyroMode.goRightToAngleDegree(-9);
                 sleep(750);
 
                 robot.hook.setPower(-0.9);
-                sleep(1500);
+                sleep(2000);
                 robot.hook.setPower(0.0);
 
                 robot.forwardRobot(0.3);
@@ -153,7 +149,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
                 //robot.forwardRobot(-0.1);
                 //robot.sleep(750);
-                gyroMode.goRightToAngleDegree(0);
+                gyroMode.goLeftAngleCondition(0);
 
                 currentState = State.KNOCK_GOLD_MINERAL;//COLOR_SENSOR_SELF_ADJUST; //KNOCK_GOLD_MINERAL;
                 targetReached = false;
@@ -193,20 +189,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 }
 
                 if(targetReached) {
-                    currentState = State.MOVE_TO_HOME_DEPOT;
-                    targetReached = false;
-
-                    robot.stopRobot();
-                    sleep(500);
-                }
-                break;
-
-            case COLOR_SENSOR_SELF_ADJUST:
-                logStage();
-                targetReached = colorSensorAdjustMode.startAdjustment();
-                if (targetReached) {
-                    currentState = State.MOVE_TO_HOME_DEPOT;
-                    //gyroMode.init();
+                    currentState = State.DONE;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -259,19 +242,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 }
                 break;
 
-                /*
-            case ULTRASONIC_DRIVE_TO_CRATER:
-                logStage();
-                targetReached = ultrasonicDriveToCrater.ultrasonicDriveToCrater();
-                if (targetReached) {
-                    currentState = State.GO_OVER_RAMP;
-                    targetReached = false;
 
-                    robot.stopRobot();
-                    sleep(500);
-                }
-                break;
-                */
             case GO_OVER_RAMP:
                 logStage();
                 targetReached = gyroMode.testElevationChange(15, 11);
@@ -286,6 +257,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case DONE: // When all operations are complete
                 logStage();
+                setOperationsCompleted();
                 break;
         }
 
