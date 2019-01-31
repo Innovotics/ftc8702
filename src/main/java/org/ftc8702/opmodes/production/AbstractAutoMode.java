@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+
 
 abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
@@ -29,6 +31,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
     protected State currentState;
 
+    //double odsReading = getOdsReading();
     protected Team8702ProdAuto robot = new Team8702ProdAuto();
     protected GyroAutoMode gyroMode;
     protected ObjectDetectionAutoMode objectDetectRoute;
@@ -68,7 +71,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().sendTelemetry();
 
         goldPosition = ObjectDetectionAutoMode.Position.CENTER; // for testing only
-        currentState = State.LIFT_ARM_UP;
+        currentState = State.HOOK;
         robot.stopRobot();
         robot.setRunMode();
         }
@@ -118,12 +121,15 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
 
                 robot.hook.setPower(1.0);
-               sleep(4500);
+                robot.shortArm.setPower(2.0);
+               sleep(7000);
+
                 robot.hook.setPower(0.0);
+                robot.shortArm.setPower(0.0);
                 targetReached = true;
 
                 if(targetReached) {
-                    currentState = State.TURN_TO_UNHOOK;
+                    currentState = State.DONE;
                     targetReached = false;
 
                     robot.stopRobot();
@@ -142,8 +148,10 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
                 robot.forwardRobot(0.3);
                 sleep(250);
+
                 robot.forwardRobot(0.2);
                 sleep(500);
+
                 robot.stopRobot();
                 sleep(750);
 
@@ -213,9 +221,14 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
                 // robot.markerDropper.setPosition(0.0);
                 // robot.sleep(1000);
-                robot.openClaw();
-                currentState = State.BACK_TO_CRATER;
-                robot.stopRobot();
+                robot.clawA.setPosition(1.0);
+                robot.clawB.setPosition(0.0);
+
+                robot.shortArm.setPower(2.0);
+                sleep(5000);
+
+                currentState = State.DONE;
+                robot.shortArm.setPower(0.0);
                 sleep(500);
                 break;
 
@@ -268,6 +281,12 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().addData("Stage", currentState.toString());
         getTelemetryUtil().sendTelemetry();
     }
+
+
+//    public double getOdsReading () {
+//        return  robot.ods.getLightDetected();
+//    }
+
 }
 
 
