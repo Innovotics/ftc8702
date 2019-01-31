@@ -14,6 +14,7 @@ public class InnovoticsRobotProperties {
     public static final String SHORT_ARM = "shortArm";
 
     public static final String GYRO_SENSOR = "imu";
+    public static final String OPTICAL_DISTANCE_SENSOR = "ods";
 
     //Servo
     public static final String MARKER_DROPPER = "markerDropper";
