@@ -15,6 +15,7 @@ import org.ftc8702.utils.InnovoticsRobotProperties;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
@@ -45,6 +46,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public ColorSensor colorSensorBackLeft;
     public ColorSensor colorSensorBackRight;
+  //  public OpticalDistanceSensor ods;
 
    // public ModernRoboticsI2cRangeSensor rangeSensor;
 
@@ -62,6 +64,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         initClawServos(hardwareMap);
 
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
+       //ods = hardwareMap.get(OpticalDistanceSensor.class, InnovoticsRobotProperties.OPTICAL_DISTANCE_SENSOR);
 
         hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
         hook.setDirection(DcMotor.Direction.FORWARD);
@@ -110,8 +113,8 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     }
 
     public void openClaw() {
-        clawA.setPosition(.9);
-        clawB.setPosition(.9);
+        clawA.setPosition(1.0);
+        clawB.setPosition(1.0);
     }
 
     public void closeClaw() {
@@ -133,14 +136,14 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public void forwardRobot(double speed)
     {
-        motorL.setPower(speed);
-        motorR.setPower(speed);
+        motorL.setPower(-speed);
+        motorR.setPower(-speed);
     }
 
     public void backwardRobot(double speed)
     {
-        motorL.setPower(-speed);
-        motorR.setPower(-speed);
+        motorL.setPower(speed);
+        motorR.setPower(speed);
     }
 
     public void sleep(long duration) throws InterruptedException {
