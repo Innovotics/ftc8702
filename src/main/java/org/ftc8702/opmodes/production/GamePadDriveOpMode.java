@@ -55,11 +55,11 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         //create the operation  to perform a tank drive using the gamepad joysticks.
         gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
         gamePadHookMotor = new GamePadMotor(this, gamepad2, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
-        gamePadShortArm = new GamePadMotor (this, gamepad2, robot.shortArm, GamePadMotor.Control.RIGHT_STICK_Y);
+        gamePadShortArm = new GamePadMotor (this, gamepad2, robot.shortArm, GamePadMotor.Control.RIGHT_STICK_Y, .95f);
         gamePadLongArm = new GamePadMotor (this, gamepad2, robot.longArm, GamePadMotor.Control.LEFT_STICK_Y);
 
         gamePadClawA = new GamePadServo(this, gamepad1, robot.clawA, GamePadServo.Control.Y_A, 0.0);
-        gamePadClawB = new GamePadServo(this, gamepad1, robot.clawB, GamePadServo.Control.X_B, 0.0);
+        gamePadClawB = new GamePadServo(this, gamepad1, robot.clawB, GamePadServo.Control.Y_A, 0.0, true);
     }
 
     /**
