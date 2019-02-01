@@ -65,7 +65,7 @@ public class GyroAutoMode {
                 return true;
             }
 
-            robot.turnLeft(.6);
+            robot.turnLeft(.2);
         }
         return isFinished;
     }
@@ -83,7 +83,7 @@ public class GyroAutoMode {
                 return true;
             }
 
-            robot.turnRight(.6);
+            robot.turnRight(.2);
         }
         return isFinished;
     }

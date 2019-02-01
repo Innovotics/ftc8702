@@ -35,11 +35,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
         super.onInit();
 
         goldPosition = ObjectDetectionAutoMode.Position.CENTER; // for testing only
-        currentState = State.DETECT_GOLD_MINERAL;
-        robot.stopRobot();
-        robot.setRunMode();
-
-        robot.markerDropper.setPosition(0.9);
+        currentState = State.LIFT_ARM_UP;
     }
 
     @Override
@@ -55,17 +51,29 @@ public class AutoModeSecondary extends AbstractAutoMode {
 
         switch (currentState) {
 
+            case LIFT_ARM_UP:
+                logStage();
+                robot.longArm.setPower(1.0);
+                sleep(1750);
+
+                robot.longArm.setPower(0.0);
+                sleep(500);
+
+                currentState = State.DETECT_GOLD_MINERAL;
+                targetReached = false;
+                break;
+
             case DETECT_GOLD_MINERAL:
                 logStage();
-                goldPosition = objectDetectRoute.detectGoldMineral();
                 sleep(1000);
+                goldPosition = objectDetectRoute.detectGoldMineral();
+                sleep(500);
 
-                getTelemetryUtil().addData("gold position: ", goldPosition + "");
+                getTelemetryUtil().addData("gold position: ", goldPosition+"");
                 getTelemetryUtil().sendTelemetry();
                 telemetry.update();
 
                 currentState = State.HOOK;
-                targetReached = false;
 
                 robot.stopRobot();
                 sleep(500);
@@ -73,20 +81,19 @@ public class AutoModeSecondary extends AbstractAutoMode {
 
             case INIT:
                 break;
+
             case HOOK:
                 logStage();
 
-                //targetReached = hookMotorToEncoder.runToTarget(0.5, LimitingEncoderValue, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.hook.setPower(0.7);
-                while (Math.abs(robot.hook.getCurrentPosition()) < LimitingEncoderValue) {
-                    getTelemetryUtil().addData("Encoder Value: ", robot.hook.getCurrentPosition());
-                    getTelemetryUtil().sendTelemetry();
-                }
+                robot.hook.setPower(1.0);
+                robot.shortArm.setPower(2.0);
+                sleep(7200);
 
                 robot.hook.setPower(0.0);
+                robot.shortArm.setPower(0.0);
                 targetReached = true;
 
-                if (targetReached) {
+                if(targetReached) {
                     currentState = State.TURN_TO_UNHOOK;
                     targetReached = false;
 
@@ -97,21 +104,25 @@ public class AutoModeSecondary extends AbstractAutoMode {
 
             case TURN_TO_UNHOOK:
                 logStage();
-                gyroMode.goLeftAngleCondition(15);
-                sleep(1000);
+                gyroMode.goRightToAngleDegree(-9);
+                sleep(750);
 
-                robot.hook.setPower(-0.7);
-                sleep(2500);
+                robot.hook.setPower(-0.9);
+                sleep(2000);
                 robot.hook.setPower(0.0);
 
                 robot.forwardRobot(0.3);
+                sleep(250);
+
+                robot.forwardRobot(0.2);
                 sleep(500);
+
                 robot.stopRobot();
-                sleep(1000);
+                sleep(750);
 
                 //robot.forwardRobot(-0.1);
                 //robot.sleep(750);
-                gyroMode.goRightToAngleDegree(0);
+                gyroMode.goLeftAngleCondition(0);
 
                 currentState = State.KNOCK_GOLD_MINERAL;//COLOR_SENSOR_SELF_ADJUST; //KNOCK_GOLD_MINERAL;
                 targetReached = false;
@@ -122,32 +133,43 @@ public class AutoModeSecondary extends AbstractAutoMode {
             case KNOCK_GOLD_MINERAL:
                 logStage();
 
-                getTelemetryUtil().addData("gold position: ", goldPosition + "");
+                getTelemetryUtil().addData("gold position: ", goldPosition+"");
                 getTelemetryUtil().sendTelemetry();
                 telemetry.update();
 
-                if (goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
-                    targetReached = gyroMode.goRightToAngleDegree((initialRightAngleToGold + 30));
+                if(goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
+                    targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold);
                     sleep(500);
-                    robot.forwardRobot(.3);
-                    sleep(3000);
+                    robot.forwardRobot(.5);
+                    sleep(2000);
                     robot.stopRobot();
-                    //targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
-                } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT) {
-                    targetReached = gyroMode.goLeftAngleCondition((initialLeftAngleToGold + 30));
                     sleep(500);
-                    robot.forwardRobot(.3);
-                    sleep(3000);
+                    targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
+                } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
+                    targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold);
+                    sleep(500);
+                    robot.forwardRobot(.5);
+                    sleep(2000);
                     robot.stopRobot();
-                    //targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
+                    sleep(500);
+                    targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
                 } else {
                     // center
-                    robot.forwardRobot(.3);
-                    sleep(1500);
+                    robot.forwardRobot(.4);
+                    sleep(1000);
                     robot.stopRobot();
                     targetReached = true;
                 }
+
+                if(targetReached) {
+                    currentState = State.DONE;
+                    targetReached = false;
+
+                    robot.stopRobot();
+                    sleep(500);
+                }
                 break;
+
             case SecondaryGetToCrater:
                 logStage();
 
