@@ -40,9 +40,9 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     protected boolean targetReached = false;
     protected int LimitingEncoderValue = 12000;//12400;
 
-    protected double initialLeftAngleToGold = 34;
+    protected double initialLeftAngleToGold = 39;
     protected double initialRightAngleToGold = -34;
-    protected double reverseLeftAngleToGold = -32; // -42;
+    protected double reverseLeftAngleToGold = -37; // -42;
 
     protected double reverseRightAngleToGold = 30; // -45
 
@@ -193,7 +193,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                     robot.stopRobot();
                 } else {
                     // center
-                    robot.forwardRobot(.3);
+                    robot.forwardRobot(.4);
                     sleep(1000);
                     robot.stopRobot();
                     targetReached = true;
@@ -205,18 +205,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
                     robot.stopRobot();
                     sleep(100);
-                }
-                break;
-
-            case MOVE_TO_HOME_DEPOT:
-                logStage();
-                targetReached = moveToHomeDepotMode.moveToHomeDepot();
-                if (targetReached) {
-                    currentState = State.DROP_MARKER;
-                    targetReached = false;
-
-                    robot.stopRobot();
-                    sleep(500);
                 }
                 break;
 

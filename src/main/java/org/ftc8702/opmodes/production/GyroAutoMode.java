@@ -15,6 +15,7 @@ import org.ftc8702.utilities.TelemetryUtil;
 
 public class GyroAutoMode {
 
+    private double defaultPower = 0.2;
 
     private Team8702ProdAuto robot;
     //private Telemetry telemetry;
@@ -51,6 +52,10 @@ public class GyroAutoMode {
     }
 
     public boolean goLeftAngleCondition(double angle){
+        return goLeftAngleCondition(angle, defaultPower);
+    }
+
+    public boolean goLeftAngleCondition(double angle, double power){
         boolean isFinished = false;
         while (!isFinished)
         {
@@ -65,12 +70,16 @@ public class GyroAutoMode {
                 return true;
             }
 
-            robot.turnLeft(.2);
+            robot.turnLeft(power);
         }
         return isFinished;
     }
 
-    public boolean goRightToAngleDegree(double angle){
+    public boolean goRightToAngleDegree(double angle) {
+        return goRightToAngleDegree(angle, defaultPower);
+    }
+
+    public boolean goRightToAngleDegree(double angle, double power){
         boolean isFinished = false;
         while (!isFinished) {
             readAngles(); // go right => angle decreases
@@ -83,7 +92,7 @@ public class GyroAutoMode {
                 return true;
             }
 
-            robot.turnRight(.2);
+            robot.turnRight(power);
         }
         return isFinished;
     }

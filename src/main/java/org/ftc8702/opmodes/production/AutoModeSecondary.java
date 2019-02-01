@@ -139,20 +139,16 @@ public class AutoModeSecondary extends AbstractAutoMode {
 
                 if(goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
                     targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold);
-                    sleep(500);
-                    robot.forwardRobot(.5);
-                    sleep(2000);
+                    sleep(250);
+                    robot.forwardRobot(.4);
+                    sleep(1000);
                     robot.stopRobot();
-                    sleep(500);
-                    targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
                 } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
                     targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold);
-                    sleep(500);
-                    robot.forwardRobot(.5);
-                    sleep(2000);
+                    sleep(250);
+                    robot.forwardRobot(.4);
+                    sleep(1000);
                     robot.stopRobot();
-                    sleep(500);
-                    targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
                 } else {
                     // center
                     robot.forwardRobot(.4);
@@ -166,7 +162,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
                     targetReached = false;
 
                     robot.stopRobot();
-                    sleep(500);
+                    sleep(100);
                 }
                 break;
 
