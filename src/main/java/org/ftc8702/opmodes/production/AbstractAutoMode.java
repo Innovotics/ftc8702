@@ -40,9 +40,9 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
     protected boolean targetReached = false;
     protected int LimitingEncoderValue = 12000;//12400;
 
-    protected double initialLeftAngleToGold = 29;
+    protected double initialLeftAngleToGold = 34;
     protected double initialRightAngleToGold = -34;
-    protected double reverseLeftAngleToGold = -27; // -42;
+    protected double reverseLeftAngleToGold = -32; // -42;
 
     protected double reverseRightAngleToGold = 30; // -45
 
@@ -70,7 +70,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
 
-        goldPosition = ObjectDetectionAutoMode.Position.CENTER; // for testing only
+        goldPosition = ObjectDetectionAutoMode.Position.LEFT; // for testing only
         currentState = State.LIFT_ARM_UP;
         robot.stopRobot();
         robot.setRunMode();
@@ -121,7 +121,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
 
                 robot.hook.setPower(1.0);
-                robot.shortArm.setPower(2.0);
+                robot.shortArm.setPower(0.3);
                 sleep(7500);
 
                 robot.hook.setPower(0.0);
@@ -173,22 +173,22 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                     targetReached = gyroMode.goRightToAngleDegree(initialRightAngleToGold);
                     sleep(250);
                     robot.forwardRobot(.4);
-                    sleep(2000);
+                    sleep(1500);
                     robot.stopRobot();
                     sleep(100);
                     targetReached = gyroMode.goLeftAngleCondition(reverseRightAngleToGold);
-                    robot.forwardRobot(.6);
+                    robot.forwardRobot(.4);
                     sleep(400);
                     robot.stopRobot();
                 } else if (goldPosition == ObjectDetectionAutoMode.Position.LEFT){
                     targetReached = gyroMode.goLeftAngleCondition(initialLeftAngleToGold);
                     sleep(250);
                     robot.forwardRobot(.4);
-                    sleep(2000);
+                    sleep(1500);
                     robot.stopRobot();
                     sleep(100);
                     targetReached = gyroMode.goRightToAngleDegree(reverseLeftAngleToGold);
-                    robot.forwardRobot(.6);
+                    robot.forwardRobot(.4);
                     sleep(400);
                     robot.stopRobot();
                 } else {
@@ -224,7 +224,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 logStage();
 
                 robot.shortArm.setPower(2.0);
-                sleep(2500);
+                sleep(4000);
 
                 currentState = State.BACK_TO_CRATER;
                 robot.shortArm.setPower(0.0);
