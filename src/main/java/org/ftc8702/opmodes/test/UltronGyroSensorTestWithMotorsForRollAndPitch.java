@@ -39,7 +39,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.ftc8702.configurations.test.Team8702TestAuto;
+import org.ftc8702.configurations.test.TestConfiguration;
 
 import java.util.Locale;
 
@@ -62,7 +62,7 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
     // State used for updating telemetry
     Orientation angles;
     Acceleration gravity;
-    Team8702TestAuto robot = new Team8702TestAuto();
+    TestConfiguration robot = new TestConfiguration();
     private double currentYawAngle;
     private double currentPitchAngle;
     private double currentRollAngle;

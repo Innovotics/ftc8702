@@ -69,28 +69,27 @@ public class MoveToHomeDepotAutoMode {
 
     protected boolean activeLoop() throws InterruptedException {
         // get color readings from both left and right sensors
-        ColorValue rightColor = getColor(robot.colorSensorBackRight);
-        telemetry.addData("Right Color: ", rightColor.name());
-        ColorValue leftColor = getColor(robot.colorSensorBackLeft);
-        telemetry.addData("Left Color: ", rightColor.name());
 
-        boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);
+        ColorValue leftColor = getColor(robot.colorSensorName);
+       // telemetry.addData("Left Color: ", rightColor.name());
+
+       // boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);
         boolean isColorDetectedByLeftSensor = isRedOrBlueDetected(leftColor);
 
         // Move both wheels until one of the color sensors detects the color
-        if (!isColorDetectedByRightSensor && !isColorDetectedByLeftSensor) {
-            robot.stopRobot(); // stop robot moving to slow down the momentum
-            moveForward();
-            telemetry.addData("Motor Both", "move forward");
-        }
-        // once a color sensor detects the color, we don't need that sensor to do more
-        // sensing since it's already inside the depot
-        if (!isRightSensorFoundColor && isColorDetectedByRightSensor)  {
-            isRightSensorFoundColor = true;
-        }
-        if (!isLeftSensorFoundColor && isColorDetectedByLeftSensor)  {
-            isLeftSensorFoundColor = true;
-        }
+//        if (!isColorDetectedByRightSensor && !isColorDetectedByLeftSensor) {
+//            robot.stopRobot(); // stop robot moving to slow down the momentum
+//            moveForward();
+//            telemetry.addData("Motor Both", "move forward");
+//        }
+//        // once a color sensor detects the color, we don't need that sensor to do more
+//        // sensing since it's already inside the depot
+//        if (!isRightSensorFoundColor && isColorDetectedByRightSensor)  {
+//            isRightSensorFoundColor = true;
+//        }
+//        if (!isLeftSensorFoundColor && isColorDetectedByLeftSensor)  {
+//            isLeftSensorFoundColor = true;
+//        }
 
         boolean isTimedOut = (System.currentTimeMillis() - startForwardTime) > TIMED_OUT;
 

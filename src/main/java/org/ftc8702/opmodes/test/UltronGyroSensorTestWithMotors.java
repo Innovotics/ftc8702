@@ -39,10 +39,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.ftc8702.configurations.test.Team8702TestAuto;
+import org.ftc8702.configurations.test.TestConfiguration;
 import org.ftc8702.utilities.OrientationUtils;
-
-import java.util.Locale;
 
 /**
  * {@link UltronGyroSensorTest} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
@@ -63,7 +61,7 @@ public class UltronGyroSensorTestWithMotors extends LinearOpMode
     // State used for updating telemetry
     Orientation angles;
     Acceleration gravity;
-    Team8702TestAuto robot = new Team8702TestAuto();
+    TestConfiguration robot = new TestConfiguration();
     private double initialAngle;
     private double currentAngle;
     private double finalAngle;

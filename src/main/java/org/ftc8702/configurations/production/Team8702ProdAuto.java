@@ -32,25 +32,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
-    public DcMotor motorR;
-    public DcMotor motorL;
-    public DcMotor hook;
-
-    public DcMotor longArm;
-    public DcMotor shortArm;
-
-    public Servo clawA;
-    public Servo clawB;
-
+    public DcMotor motorName;
     public BNO055IMU imu;
-
-    public ColorSensor colorSensorBackLeft;
-    public ColorSensor colorSensorBackRight;
-  //  public OpticalDistanceSensor ods;
-
-   // public ModernRoboticsI2cRangeSensor rangeSensor;
-
-    public Servo markerDropper;
+    public ColorSensor colorSensorName;
+    public OpticalDistanceSensor ods;
+    public Servo servoName;
 
     private HardwareMap hardwareMap;
 
@@ -58,16 +44,12 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
-        initWheels(hardwareMap);
-        // initServo(hardwareMap);
-        initArmWheels(hardwareMap);
-        initClawServos(hardwareMap);
+        initMotors(hardwareMap);
+        initServos(hardwareMap);
 
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
-       //ods = hardwareMap.get(OpticalDistanceSensor.class, InnovoticsRobotProperties.OPTICAL_DISTANCE_SENSOR);
+       ods = hardwareMap.get(OpticalDistanceSensor.class, InnovoticsRobotProperties.OPTICAL_DISTANCE_SENSOR);
 
-        hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
-        hook.setDirection(DcMotor.Direction.FORWARD);
 
     }
 
@@ -75,27 +57,15 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         return hardwareMap;
     }
 
-    private void initWheels(HardwareMap hardwareMap) {
+    private void initMotors(HardwareMap hardwareMap) {
 
-        motorR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_RIGHT);
-        motorL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_LEFT);
+        motorName = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_EXAMPLE);
+        motorName.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
 
-        motorL.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motorR.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
     }
 
-    private void initArmWheels(HardwareMap hardwareMap) {
-
-        shortArm = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.SHORT_ARM);
-        longArm = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.LONG_ARM);
-
-        shortArm.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        longArm.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-    }
-
-    private void initClawServos(HardwareMap hardwareMap) {
-        clawA = hardwareMap.get(Servo.class, InnovoticsRobotProperties.CLAW_A);
-        clawB = hardwareMap.get(Servo.class, InnovoticsRobotProperties.CLAW_B);
+    private void initServos(HardwareMap hardwareMap) {
+        servoName = hardwareMap.get(Servo.class, InnovoticsRobotProperties.SERVO);
     }
 
     public BNO055IMU getGyroSensor() {
@@ -103,47 +73,35 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     }
 
     public void stopRobot() {
-        motorR.setPower(0);
-        motorL.setPower(0);
+        motorName.setPower(0);
     }
 
     public void setRunMode() {
-        motorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        motorName.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
-    public void openClaw() {
-        clawA.setPosition(1.0);
-        clawB.setPosition(1.0);
-    }
-
-    public void closeClaw() {
-        clawA.setPosition(.2);
-        clawB.setPosition(.2);
+    public void moveClaw() {
+        servoName.setPosition(.2);
     }
 
     public void turnLeft(double speed) {
-        motorR.setPower(-speed);
-        // TODO: TEST THIS
-        motorL.setPower(speed);
+        motorName.setPower(-speed);
     }
 
     public void turnRight(double speed) {
-            // TODO: TEST THIS
-        motorR.setPower(speed);
-        motorL.setPower(-speed);
+        motorName.setPower(speed);
+
     }
 
     public void forwardRobot(double speed)
     {
-        motorL.setPower(-speed);
-        motorR.setPower(-speed);
+        motorName.setPower(-speed);
     }
 
     public void backwardRobot(double speed)
     {
-        motorL.setPower(speed);
-        motorR.setPower(speed);
+        motorName.setPower(speed);
     }
 
     public void sleep(long duration) throws InterruptedException {
