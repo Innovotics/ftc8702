@@ -54,11 +54,11 @@ import org.ftcTeam.utils.RobotProperties;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class Team8702TestAuto
+public class TestConfiguration
 {
     /* Public OpMode members. */
-    public DcMotor  leftMotor   = null;
-    public DcMotor  rightMotor  = null;
+    public DcMotor  Motor   = null;
+
     public BNO055IMU imu;
 
 
@@ -67,7 +67,7 @@ public class Team8702TestAuto
     private ElapsedTime period  = new ElapsedTime();
 
     /* Constructor */
-    public Team8702TestAuto(){
+    public TestConfiguration(){
 
     }
 
@@ -78,22 +78,16 @@ public class Team8702TestAuto
 
         imu = hwMap.get(BNO055IMU.class, "imu");
 
-
         // Define and Initialize Motors
-        leftMotor  = hwMap.get(DcMotor.class, RobotProperties.MOTOR_LEFT_FRONT);
-        rightMotor = hwMap.get(DcMotor.class, RobotProperties.MOTOR_RIGHT_FRONT);
-        leftMotor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightMotor.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        Motor  = hwMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_EXAMPLE);
+        Motor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
 
         // Set all motors to zero power
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
+        Motor.setPower(0);
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        Motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 }

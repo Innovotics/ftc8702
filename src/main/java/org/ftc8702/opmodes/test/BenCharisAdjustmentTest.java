@@ -4,7 +4,7 @@ import static org.ftc8702.utils.ColorUtil.*;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.ftc8702.configurations.test.BenCharisConfig;
+import org.ftc8702.configurations.test.ColorSensorTest;
 import org.ftc8702.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 
@@ -21,7 +21,7 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
     // reference.
     // private static final long SLEEP_TIME_MS = 250;
 
-    private BenCharisConfig robotConfig;
+    private ColorSensorTest robotConfig;
 
     private boolean isRightMotorStopped = false;
     private boolean isLeftMotorStopped = false;
@@ -29,7 +29,7 @@ public class BenCharisAdjustmentTest extends ActiveOpMode {
     @Override
     protected void onInit() {
         // do stuff at initialization stage
-        robotConfig = BenCharisConfig.newConfig(hardwareMap, getTelemetryUtil());
+        robotConfig = ColorSensorTest.newConfig(hardwareMap, getTelemetryUtil());
 
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();

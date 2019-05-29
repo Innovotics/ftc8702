@@ -4,7 +4,7 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.ftc8702.configurations.test.BenCharisRangeConfig;
+import org.ftc8702.configurations.test.UltrasonicSensorTest;
 import org.ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "Test: ChEnDriveToCrater Test", group = "Test")
@@ -16,7 +16,7 @@ public class ChEnDriveToCrater extends ActiveOpMode {
     private static final double FINAL_DISTANCE = 30;
     private static final long PAUSE_DURATION_MS = 500;
 
-    private BenCharisRangeConfig robotConfig;
+    private UltrasonicSensorTest robotConfig;
     private ModernRoboticsI2cRangeSensor rangeSensor;
 
     private double distanceToWallInCM;
@@ -24,7 +24,7 @@ public class ChEnDriveToCrater extends ActiveOpMode {
     @Override
     protected void onInit() {
         // do stuff at initialization stage
-        robotConfig = BenCharisRangeConfig.newConfig(hardwareMap, getTelemetryUtil());
+        robotConfig = UltrasonicSensorTest.newConfig(hardwareMap, getTelemetryUtil());
         rangeSensor = robotConfig.rangeSensor;
     }
 

@@ -7,18 +7,15 @@ package org.ftc8702.utils;
 public class InnovoticsRobotProperties {
 
     //Motor
-    public static final String MOTOR_RIGHT = "motorR";
-    public static final String MOTOR_LEFT = "motorL";
-    public static final String MOTOR_HOOK = "hook";
-    public static final String LONG_ARM = "longArm";
-    public static final String SHORT_ARM = "shortArm";
+    public static final String MOTOR_EXAMPLE = "motor name";
 
     public static final String GYRO_SENSOR = "imu";
     public static final String OPTICAL_DISTANCE_SENSOR = "ods";
+    public static final String COLOR_SENSOR = "colorSensorName";
+    public static final String ULTRASONIC_SENSOR = "ultrasonicSensor";
 
     //Servo
-    public static final String MARKER_DROPPER = "markerDropper";
-    public static final String CLAW_A = "clawA";
-    public static final String CLAW_B = "clawB";
+    public static final String SERVO = "servo name";
+
 
 }

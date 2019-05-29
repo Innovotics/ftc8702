@@ -5,7 +5,7 @@ import static org.ftc8702.utils.ColorUtil.isRedOrBlueDetected;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.ftc8702.configurations.test.BenCharisConfig;
+import org.ftc8702.configurations.test.ColorSensorTest;
 import org.ftc8702.utils.ColorValue;
 import org.ftcbootstrap.ActiveOpMode;
 
@@ -16,7 +16,7 @@ public class BenCharisMoveToHomeDepotTest extends ActiveOpMode {
     private static final long BACKWARD_DRURATION_MS = 1750;
     private static final double BACKWARD_SPEED = -0.15;
 
-    private BenCharisConfig robotConfig;
+    private ColorSensorTest robotConfig;
 
     private boolean isBothMotorsStopped = false;
 
@@ -28,7 +28,7 @@ public class BenCharisMoveToHomeDepotTest extends ActiveOpMode {
 
     @Override
     protected void onInit() {
-        robotConfig = BenCharisConfig.newConfig(hardwareMap, getTelemetryUtil());
+        robotConfig = ColorSensorTest.newConfig(hardwareMap, getTelemetryUtil());
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
     }
