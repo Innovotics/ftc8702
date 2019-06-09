@@ -50,137 +50,137 @@ import org.ftc8702.utilities.OrientationUtils;
  *
  * @see <a href="http://www.adafruit.com/products/2472">Adafruit IMU</a>
  */
-@Autonomous(name = "Ultron Gyro Sensos With Motor", group = "Sensors Test")
+//@Autonomous(name = "Ultron Gyro Sensos With Motor", group = "Sensors Test")
 // Comment this out to add to the opmode list
-public class UltronGyroSensorTestWithMotors extends LinearOpMode
-{
-
-    // The IMU sensor object
-    BNO055IMU imu;
-
-    // State used for updating telemetry
-    Orientation angles;
-    Acceleration gravity;
-    TestConfiguration robot = new TestConfiguration();
-    private double initialAngle;
-    private double currentAngle;
-    private double finalAngle;
-    private double yaw;
-    private double roll;
-    private double pitch;
+//public class UltronGyroSensorTestWithMotors extends LinearOpMode
+//{
+//
+//    // The IMU sensor object
+//    BNO055IMU imu;
+//
+//    // State used for updating telemetry
+//    Orientation angles;
+//    Acceleration gravity;
+//    TestConfiguration robot = new TestConfiguration();
+//    private double initialAngle;
+//    private double currentAngle;
+//    private double finalAngle;
+//    private double yaw;
+//    private double roll;
+//    private double pitch;
 
     //----------------------------------------------------------------------------------------------
     // Main logic
     //----------------------------------------------------------------------------------------------
 
-    @Override public void runOpMode() {
-
-        // Set up the parameters with which we will use our IMU. Note that integration
-        // algorithm here just reports accelerations to the logcat log; it doesn't actually
-        // provide positional information.
-
-        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
-        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
-        // and named "imu".
-
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
-
-        robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
-        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        robot.init(hardwareMap);
-
-
-        robot.imu.initialize(parameters);
-
-        // Set up our telemetry dashboard
-        composeTelemetry();
-
-        // Wait until we're told to go
-        waitForStart();
-
-        // Loop and update the dashboard
-        while (opModeIsActive()) {
-            yaw = angles.firstAngle;
-            roll = angles.secondAngle;
-            pitch = angles.thirdAngle;
-            boolean isCompleted = runWithAngleCondition(95);
-            if(isCompleted){
-                break;
-            }
-            telemetry.update();
-        }
-    }
-
-
-    void composeTelemetry() {
-
-        // At the beginning of each telemetry update, grab a bunch of data
-        // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() {
-            @Override
-            public void run() {
-                // Acquiring the angles is relatively expensive; we don't want
-                // to do that in each of the three items that need that info, as that's
-                // three times the necessary expense.
-                angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            }
-        });
-
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return robot.imu.getSystemStatus().toShortString();
-                    }
-                })
-                .addData("calib", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return robot.imu.getCalibrationStatus().toString();
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle);
-                    }
-                })
-                .addData("roll", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return OrientationUtils.formatAngle(angles.angleUnit, angles.secondAngle);
-                    }
-                })
-                .addData("pitch", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return OrientationUtils.formatAngle(angles.angleUnit, angles.thirdAngle);
-                    }
-                });
-
-    }
-
-    boolean runWithAngleCondition( double angle){
-        currentAngle = yaw;
-
-        if(currentAngle < 0) {
-            currentAngle = currentAngle * (-1);
-        }
-
-        if(currentAngle > angle) {
-            robot.leftMotor.setPower(0.0);
-            robot.rightMotor.setPower(0.0);
-            return true;
-        }
-            robot.leftMotor.setPower(-0.2);
-            robot.rightMotor.setPower(-0.2);
-            return false;
-
-    }
-}
+//    @Override public void runOpMode() {
+//
+//        // Set up the parameters with which we will use our IMU. Note that integration
+//        // algorithm here just reports accelerations to the logcat log; it doesn't actually
+//        // provide positional information.
+//
+//        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+//        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+//        // and named "imu".
+//
+////        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+////        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+////        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+////        parameters.loggingEnabled      = true;
+////        parameters.loggingTag          = "IMU";
+//
+////        robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
+////        angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+////        robot.init(hardwareMap);
+//
+//
+////        robot.imu.initialize(parameters);
+//
+//        // Set up our telemetry dashboard
+//    //    composeTelemetry();
+//
+//        // Wait until we're told to go
+////        waitForStart();
+//
+//        // Loop and update the dashboard
+////        while (opModeIsActive()) {
+////            yaw = angles.firstAngle;
+////            roll = angles.secondAngle;
+////            pitch = angles.thirdAngle;
+//          //  boolean isCompleted = runWithAngleCondition(95);
+////            if(isCompleted){
+////                break;
+////            }
+////            telemetry.update();
+////        }
+////    }
+//
+//
+////    void composeTelemetry() {
+////
+////        // At the beginning of each telemetry update, grab a bunch of data
+////        // from the IMU that we will then display in separate lines.
+////        telemetry.addAction(new Runnable() {
+////            @Override
+////            public void run() {
+////                // Acquiring the angles is relatively expensive; we don't want
+////                // to do that in each of the three items that need that info, as that's
+////                // three times the necessary expense.
+////                angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+////            }
+////        });
+////
+////        telemetry.addLine()
+////                .addData("status", new Func<String>() {
+////                    @Override
+////                    public String value() {
+////                        return robot.imu.getSystemStatus().toShortString();
+////                    }
+////                })
+////                .addData("calib", new Func<String>() {
+////                    @Override
+////                    public String value() {
+////                        return robot.imu.getCalibrationStatus().toString();
+////                    }
+////                });
+////
+////        telemetry.addLine()
+////                .addData("heading", new Func<String>() {
+////                    @Override
+////                    public String value() {
+////                        return OrientationUtils.formatAngle(angles.angleUnit, angles.firstAngle);
+////                    }
+////                })
+////                .addData("roll", new Func<String>() {
+////                    @Override
+////                    public String value() {
+////                        return OrientationUtils.formatAngle(angles.angleUnit, angles.secondAngle);
+////                    }
+////                })
+////                .addData("pitch", new Func<String>() {
+////                    @Override
+////                    public String value() {
+////                        return OrientationUtils.formatAngle(angles.angleUnit, angles.thirdAngle);
+////                    }
+////                });
+////
+////    }}
+//
+////    boolean runWithAngleCondition( double angle) {
+////        currentAngle = yaw;
+////
+////        if (currentAngle < 0) {
+////            currentAngle = currentAngle * (-1);
+////        }
+//
+////        if(currentAngle > angle) {
+////            robot.leftMotor.setPower(0.0);
+////            robot.rightMotor.setPower(0.0);
+////            return true;
+////        }
+////            robot.leftMotor.setPower(-0.2);
+////            robot.rightMotor.setPower(-0.2);
+////            return false;
+//
+//        //  }
+////}

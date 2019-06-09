@@ -67,16 +67,13 @@ public class ProdManualRobot extends RobotConfiguration {
         setTelemetry(telemetryUtil);
 
             // Motors
-            motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
-            motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
-            hook = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_HOOK, hardwareMap.dcMotor);
+            motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BL, hardwareMap.dcMotor);
             hook.setDirection(DcMotorSimple.Direction.REVERSE);
-            shortArm = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SHORT_ARM, hardwareMap.dcMotor);
-            longArm = (DcMotor) getHardwareOn(InnovoticsRobotProperties.LONG_ARM, hardwareMap.dcMotor);
+
 
             //Servo
-            clawA = (Servo) getHardwareOn(InnovoticsRobotProperties.CLAW_A, hardwareMap.servo);
-            clawB = (Servo) getHardwareOn(InnovoticsRobotProperties.CLAW_B, hardwareMap.servo);
+            clawA = (Servo) getHardwareOn(InnovoticsRobotProperties.SERVO, hardwareMap.servo);
+
 
             //gyro sensor
             gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");

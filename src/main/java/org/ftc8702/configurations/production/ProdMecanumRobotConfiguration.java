@@ -19,18 +19,13 @@ import org.ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class ProdManualTransformerRobot extends RobotConfiguration {
+public class ProdMecanumRobotConfiguration extends RobotConfiguration {
     //51.4 = 1 inch
-    //motors
-    public DcMotor motorR;
-    public DcMotor motorL;
-    public DcMotor primaryArm;
-    public DcMotor secondaryArm;
-
-    //Sensors
-    public BNO055IMU gyroSensor;
-
-
+    //mecanum motors
+    public DcMotor motorFR;
+    public DcMotor motorFL;
+    public DcMotor motorBR;
+    public DcMotor motorBL;
 
     /**
      * Factory method for this class
@@ -39,9 +34,9 @@ public class ProdManualTransformerRobot extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static ProdManualTransformerRobot newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static ProdMecanumRobotConfiguration newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        ProdManualTransformerRobot config = new ProdManualTransformerRobot();
+        ProdMecanumRobotConfiguration config = new ProdMecanumRobotConfiguration();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
@@ -57,11 +52,11 @@ public class ProdManualTransformerRobot extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-            // Front Motors
-            motorR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_RIGHT, hardwareMap.dcMotor);
-            motorL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_LEFT, hardwareMap.dcMotor);
-
-        primaryArm = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_HOOK, hardwareMap.dcMotor);
+            //Mecanum Motors
+            motorFR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FR, hardwareMap.dcMotor);
+            motorFL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FL, hardwareMap.dcMotor);
+            motorBR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BR, hardwareMap.dcMotor);
+            motorBL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BL, hardwareMap.dcMotor);
 
         getTelemetryUtil().sendTelemetry();
     }

@@ -7,7 +7,10 @@ package org.ftc8702.utils;
 public class InnovoticsRobotProperties {
 
     //Motor
-    public static final String MOTOR_EXAMPLE = "motor name";
+    public static final String MOTOR_FR = "wheelFR";
+    public static final String MOTOR_FL = "wheelFL";
+    public static final String MOTOR_BR = "wheelBR";
+    public static final String MOTOR_BL = "wheelBL";
 
     public static final String GYRO_SENSOR = "imu";
     public static final String OPTICAL_DISTANCE_SENSOR = "ods";

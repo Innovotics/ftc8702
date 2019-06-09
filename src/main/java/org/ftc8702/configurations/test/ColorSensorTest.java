@@ -22,7 +22,7 @@ public class ColorSensorTest extends RobotConfiguration {
         getTelemetryUtil().addData("Left Back Color component: ", colorSensorName.toString());
 
         // Front Motors
-        motorName = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_EXAMPLE, hardwareMap.dcMotor);
+        motorName = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FL, hardwareMap.dcMotor);
 
         getTelemetryUtil().sendTelemetry();
     }

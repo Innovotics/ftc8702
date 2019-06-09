@@ -1,16 +1,15 @@
 package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.ftc8702.components.motors.GamePadEncoderMotor;
-import org.ftc8702.components.servo.GamePadCRServo;
 import org.ftc8702.configurations.production.ProdManualRobot;
-import org.ftc8702.utils.InnovoticsRobotProperties;
+import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
+import org.ftc8702.opmodes.GamePadMecanumWheelDrive;
+import org.ftc8702.opmodes.GamePadOmniWheelDrive;
+import org.ftcTeam.utils.GamePadDuelServo;
 import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 import org.ftcbootstrap.components.operations.motors.GamePadMotor;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
+import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
 import org.ftcbootstrap.components.operations.servos.GamePadServo;
 
 
@@ -22,18 +21,12 @@ import org.ftcbootstrap.components.operations.servos.GamePadServo;
  * See: {@link GamePadTankDrive}
  */
 
-@TeleOp(name = "GamePadDriveOpMode", group = "production")
-public class GamePadDriveOpMode extends ActiveOpMode {
+@TeleOp(name = "GamePadMecanumOpMode", group = "production")
+public class GamePadDriveOpModeMecanum extends ActiveOpMode {
 
-    private ProdManualRobot robot;
-    private GamePadTankDrive gamePadTankDrive;
-    private GamePadMotor gamePadHookMotor;
-    private GamePadMotor gamePadShortArm;
-    private GamePadMotor gamePadLongArm;
+    private ProdMecanumRobotConfiguration robot;
+    private GamePadOmniWheelDrive mecanumGamePad;
 
-    private GamePadServo gamePadClawA;
-    private GamePadServo gamePadClawB;
-   private int encoderLimitingValue;
     //private int encoderLimitingValue = 16000;
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -41,7 +34,7 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = ProdManualRobot.newConfig(hardwareMap, getTelemetryUtil());
+        robot = ProdMecanumRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -53,38 +46,20 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
         //create the operation  to perform a tank drive using the gamepad joysticks.
-        gamePadTankDrive = new GamePadTankDrive(this, gamepad1, robot.motorR, robot.motorL);
-        gamePadHookMotor = new GamePadMotor(this, gamepad2, robot.hook, GamePadMotor.Control.UP_DOWN_BUTTONS);
-        gamePadShortArm = new GamePadMotor (this, gamepad2, robot.shortArm, GamePadMotor.Control.RIGHT_STICK_Y, .95f);
-        gamePadLongArm = new GamePadMotor (this, gamepad2, robot.longArm, GamePadMotor.Control.LEFT_STICK_Y);
-
-        gamePadClawA = new GamePadServo(this, gamepad1, robot.clawA, GamePadServo.Control.Y_A, 0.0);
-        gamePadClawB = new GamePadServo(this, gamepad1, robot.clawB, GamePadServo.Control.Y_A, 0.0, true);
+        mecanumGamePad = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
     }
-
     /**
      * Implement this method to define the code to run when the Start button is pressed on the Driver station.
      * This method will be called on each hardware cycle just as the loop() method is called for event based Opmodes
      *
-     * @throws InterruptedException
+     * @throws
      */
     @Override
     protected void activeLoop() throws InterruptedException {
         //update the motors with the gamepad joystick values
-       gamePadTankDrive.update();
-       gamePadHookMotor.update();
-       gamePadShortArm.update();
-       gamePadLongArm.update();
-
-       gamePadClawA.update();
-       gamePadClawB.update();
+        mecanumGamePad.update();
 
         //getTelemetryUtil().addData("Motor to Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
-
         getTelemetryUtil().addData("Joystick Power: ", gamepad2.right_stick_y);
-
-
-            getTelemetryUtil().sendTelemetry();
-            telemetry.update();
     }
 }

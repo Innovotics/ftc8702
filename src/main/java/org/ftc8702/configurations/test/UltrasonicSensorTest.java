@@ -23,7 +23,7 @@ public class UltrasonicSensorTest extends RobotConfiguration {
         getTelemetryUtil().addData("Left Ultrasonic Component: ", rangeSensor.toString());
 
 
-        motorName = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_EXAMPLE, hardwareMap.dcMotor);
+        motorName = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FL, hardwareMap.dcMotor);
 
         getTelemetryUtil().sendTelemetry();
     }

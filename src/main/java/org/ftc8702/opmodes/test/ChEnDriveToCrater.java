@@ -28,42 +28,42 @@ public class ChEnDriveToCrater extends ActiveOpMode {
         rangeSensor = robotConfig.rangeSensor;
     }
 
-    protected void ForwardandTurn() {
-        Forward();
-        stopRobot();
-        turn();
-        stopRobot();
-    }
+//    protected void ForwardandTurn() {
+//        Forward();
+//        stopRobot();
+//        turn();
+//        stopRobot();
+    //}
 
-    protected void stopRobot() {
-        robotConfig.motorR.setPower(0.0);
-        robotConfig.motorL.setPower(0.0);
-        sleep(PAUSE_DURATION_MS);
-    }
-
-    protected void turn() {
-        robotConfig.motorR.setPower(FORWARD_TURN_RIGHT_SPEED);
-        robotConfig.motorL.setPower(FORWARD_LEFT_SPEED);
-        sleep(PAUSE_DURATION_MS);
-    }
-
-    protected void Forward() {
-        robotConfig.motorR.setPower(FORWARD_SPEED);
-        robotConfig.motorL.setPower(FORWARD_SPEED);
-        sleep(PAUSE_DURATION_MS);
-    }
+//    protected void stopRobot() {
+//        robotConfig.motorR.setPower(0.0);
+//        robotConfig.motorL.setPower(0.0);
+//        sleep(PAUSE_DURATION_MS);
+//    }
+//
+//    protected void turn() {
+//        robotConfig.motorR.setPower(FORWARD_TURN_RIGHT_SPEED);
+//        robotConfig.motorL.setPower(FORWARD_LEFT_SPEED);
+//        sleep(PAUSE_DURATION_MS);
+//    }
+//
+//    protected void Forward() {
+//        robotConfig.motorR.setPower(FORWARD_SPEED);
+//        robotConfig.motorL.setPower(FORWARD_SPEED);
+//        sleep(PAUSE_DURATION_MS);
+//    }
     @Override
     protected void activeLoop() throws InterruptedException {
         distanceToWallInCM = rangeSensor.getDistance(DistanceUnit.CM);
 
-        if (distanceToWallInCM > FINAL_DISTANCE) {
-            telemetry.addLine("forward and turn");
-            ForwardandTurn();
-        }
-        else {
-            telemetry.addLine("forward only");
-            Forward();
-        }
+//        if (distanceToWallInCM > FINAL_DISTANCE) {
+//            telemetry.addLine("forward and turn");
+//            ForwardandTurn();
+//        }
+//        else {
+//            telemetry.addLine("forward only");
+//            Forward();
+//        }
 
         telemetry.addData("cm", "%.2f cm", distanceToWallInCM);
         telemetry.update();

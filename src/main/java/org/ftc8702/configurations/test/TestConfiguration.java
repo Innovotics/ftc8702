@@ -79,7 +79,7 @@ public class TestConfiguration
         imu = hwMap.get(BNO055IMU.class, "imu");
 
         // Define and Initialize Motors
-        Motor  = hwMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_EXAMPLE);
+        Motor  = hwMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_BL);
         Motor.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
 
         // Set all motors to zero power

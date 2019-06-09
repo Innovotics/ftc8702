@@ -82,10 +82,10 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
         // and named "imu".
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
 
         robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
         angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -95,11 +95,10 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
         robot.imu.initialize(parameters);
 
         // Set up our telemetry dashboard
-        composeTelemetry();
+       // composeTelemetry();
 
         // Wait until we're told to go
         waitForStart();
-
 
 
         // Loop and update the dashboard
@@ -107,116 +106,117 @@ public class UltronGyroSensorTestWithMotorsForRollAndPitch extends LinearOpMode
             yaw = angles.firstAngle;
             roll = angles.secondAngle;
             pitch = angles.thirdAngle;
-             boolean isCompleted = testElevationChange(15,11);
-            if(isCompleted){
-                break;
-            }
-            telemetry.update();
-        }
-    }
-
-
-    void composeTelemetry() {
-
-        // At the beginning of each telemetry update, grab a bunch of data
-        // from the IMU that we will then display in separate lines.
-        telemetry.addAction(new Runnable() {
-            @Override
-            public void run() {
-                // Acquiring the angles is relatively expensive; we don't want
-                // to do that in each of the three items that need that info, as that's
-                // three times the necessary expense.
-                angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            }
-        });
-
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return robot.imu.getSystemStatus().toShortString();
-                    }
-                })
-                .addData("calib", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return robot.imu.getCalibrationStatus().toString();
-                    }
-                });
-
-        telemetry.addLine()
-                .addData("heading", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.firstAngle);
-                    }
-                })
-                .addData("roll", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.secondAngle);
-                    }
-                })
-                .addData("pitch", new Func<String>() {
-                    @Override
-                    public String value() {
-                        return formatAngle(angles.angleUnit, angles.thirdAngle);
-                    }
-                });
-
-    }
-    String formatAngle (AngleUnit angleUnit,double angle){
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-    String formatDegrees ( double degrees){
-        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
-    }
-
-    boolean runWithAngleCondition( double angle){
-        currentYawAngle = yaw;
-
-        if(currentYawAngle < 0) {
-            currentYawAngle = currentYawAngle * (-1);
+            // boolean isCompleted = testElevationChange(15,11);
+//            if(isCompleted){
+//                break;
+//            }
+//            telemetry.update();
+//        }
         }
 
-        if(currentYawAngle > angle) {
-            robot.leftMotor.setPower(0.0);
-            robot.rightMotor.setPower(0.0);
-            return true;
-        }
-            robot.leftMotor.setPower(-0.2);
-            robot.rightMotor.setPower(-0.2);
-            return false;
 
-    }
-
-    boolean testElevationChange( double rollLimit, double pitchLimit) {
-        currentRollAngle = roll;
-        currentPitchAngle = pitch;
-
-        if (currentRollAngle < 0) {
-            currentRollAngle = currentRollAngle * (-1);
-        }
-
-        if (currentPitchAngle < 0) {
-            currentPitchAngle = currentPitchAngle * (-1);
-        }
-
-        if(currentPitchAngle > pitchLimit || currentRollAngle > rollLimit) {
-
-                    robot.leftMotor.setPower(0.7);
-                    robot.rightMotor.setPower(-0.7);
-                    sleep(200);
-                    robot.leftMotor.setPower(0);
-                    robot.rightMotor.setPower(0);
-
-            return true;
-        }
-
-        robot.leftMotor.setPower(0.2);
-        robot.rightMotor.setPower(-0.2);
-        return false;
-    }
-}
-
+//    void composeTelemetry() {
+//
+//        // At the beginning of each telemetry update, grab a bunch of data
+//        // from the IMU that we will then display in separate lines.
+//        telemetry.addAction(new Runnable() {
+//            @Override
+//            public void run() {
+//                // Acquiring the angles is relatively expensive; we don't want
+//                // to do that in each of the three items that need that info, as that's
+//                // three times the necessary expense.
+//                angles = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+//            }
+//        });
+//
+//        telemetry.addLine()
+//                .addData("status", new Func<String>() {
+//                    @Override
+//                    public String value() {
+//                        return robot.imu.getSystemStatus().toShortString();
+//                    }
+//                })
+//                .addData("calib", new Func<String>() {
+//                    @Override
+//                    public String value() {
+//                        return robot.imu.getCalibrationStatus().toString();
+//                    }
+//                });
+//
+//        telemetry.addLine()
+//                .addData("heading", new Func<String>() {
+//                    @Override
+//                    public String value() {
+//                        return formatAngle(angles.angleUnit, angles.firstAngle);
+//                    }
+//                })
+//                .addData("roll", new Func<String>() {
+//                    @Override
+//                    public String value() {
+//                        return formatAngle(angles.angleUnit, angles.secondAngle);
+//                    }
+//                })
+//                .addData("pitch", new Func<String>() {
+//                    @Override
+//                    public String value() {
+//                        return formatAngle(angles.angleUnit, angles.thirdAngle);
+//                    }
+//                });
+//
+//    }
+//    String formatAngle (AngleUnit angleUnit,double angle){
+//        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+//    }
+//
+//    String formatDegrees ( double degrees){
+//        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+//    }
+//
+////    boolean runWithAngleCondition( double angle) {
+////        currentYawAngle = yaw;
+////
+////        if (currentYawAngle < 0) {
+////            currentYawAngle = currentYawAngle * (-1);
+////        }
+//
+////        if(currentYawAngle > angle) {
+////            robot.leftMotor.setPower(0.0);
+////            robot.rightMotor.setPower(0.0);
+////            return true;
+////        }
+////            robot.leftMotor.setPower(-0.2);
+////            robot.rightMotor.setPower(-0.2);
+////            return false;
+////
+////    }
+//
+////    boolean testElevationChange( double rollLimit, double pitchLimit) {
+////        currentRollAngle = roll;
+////        currentPitchAngle = pitch;
+////
+////        if (currentRollAngle < 0) {
+////            currentRollAngle = currentRollAngle * (-1);
+////        }
+////
+////        if (currentPitchAngle < 0) {
+////            currentPitchAngle = currentPitchAngle * (-1);
+////        }
+////
+////        if(currentPitchAngle > pitchLimit || currentRollAngle > rollLimit) {
+////
+////                    robot.leftMotor.setPower(0.7);
+////                    robot.rightMotor.setPower(-0.7);
+////                    sleep(200);
+////                    robot.leftMotor.setPower(0);
+////                    robot.rightMotor.setPower(0);
+////
+////            return true;
+////        }
+////
+////        robot.leftMotor.setPower(0.2);
+////        robot.rightMotor.setPower(-0.2);
+////        return false;
+////    }
+//    }
+//
+    }}

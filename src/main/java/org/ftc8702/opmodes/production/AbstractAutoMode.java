@@ -63,10 +63,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
         objectDetectRoute.init();
         getTelemetryUtil().addData("gold position", goldPosition+"");
 
-        robot.hook.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.hook.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        getTelemetryUtil().addData("Motor Encoder Value: ", robot.hook.getCurrentPosition());
-
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
 
@@ -91,12 +87,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case LIFT_ARM_UP:
                 logStage();
-                robot.longArm.setPower(1.0);
-                sleep(1750);
-
-                robot.longArm.setPower(0.0);
-                sleep(100);
-
                 currentState = State.DETECT_GOLD_MINERAL;
                 targetReached = false;
                 break;
@@ -119,13 +109,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case HOOK:
                 logStage();
-
-                robot.hook.setPower(1.0);
-                robot.shortArm.setPower(0.3);
-                sleep(7500);
-
-                robot.hook.setPower(0.0);
-                robot.shortArm.setPower(0.0);
                 targetReached = true;
 
                 if(targetReached) {
@@ -142,18 +125,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
                 gyroMode.goRightToAngleDegree(-9);
                 sleep(750);
 
-                robot.hook.setPower(-0.9);
-                sleep(2000);
-                robot.hook.setPower(0.0);
-
-                robot.forwardRobot(0.2);
-                sleep(500);
-
-                robot.stopRobot();
-                sleep(250);
-
-                //robot.forwardRobot(-0.1);
-                //robot.sleep(750);
                 gyroMode.goLeftAngleCondition(0);
 
                 currentState = State.KNOCK_GOLD_MINERAL;//COLOR_SENSOR_SELF_ADJUST; //KNOCK_GOLD_MINERAL;
@@ -210,15 +181,6 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case DROP_MARKER:
                 logStage();
-
-                robot.shortArm.setPower(2.0);
-                sleep(4000);
-
-                currentState = State.BACK_TO_CRATER;
-                robot.shortArm.setPower(0.0);
-
-                robot.clawA.setPosition(1.0);
-                robot.clawB.setPosition(0.0);
 
                 sleep(100);
                 break;
