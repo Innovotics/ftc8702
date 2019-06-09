@@ -57,13 +57,13 @@ public class UltrasonicDriveToCraterAutoMode {
     }
 
     protected void turn() throws InterruptedException {
-        prodAutoConfig.motorName.setPower(FORWARD_TURN_RIGHT_SPEED);
+        prodAutoConfig.forwardRobot(1);
 
         sleep(PAUSE_DURATION_MS);
     }
 
     protected void Forward() throws InterruptedException {
-        prodAutoConfig.motorName.setPower(FORWARD_SPEED);
+        prodAutoConfig.forwardRobot(1);
         sleep(PAUSE_DURATION_MS);
     }
     public boolean ultrasonicDriveToCrater() throws InterruptedException {

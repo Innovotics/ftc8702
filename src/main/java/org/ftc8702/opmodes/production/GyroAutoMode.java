@@ -70,7 +70,7 @@ public class GyroAutoMode {
                 return true;
             }
 
-            robot.turnLeft(power);
+            robot.forwardRobot(power);
         }
         return isFinished;
     }
@@ -92,7 +92,7 @@ public class GyroAutoMode {
                 return true;
             }
 
-            robot.turnRight(power);
+            robot.forwardRobot(power);
         }
         return isFinished;
     }

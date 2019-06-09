@@ -34,7 +34,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
 
             case LIFT_ARM_UP:
                 logStage();
-                robot.motorName.setPower(1.0);
+                robot.wheelBL.setPower(1.0);
                 sleep(1750);
 
                 currentState = State.DETECT_GOLD_MINERAL;
@@ -63,8 +63,8 @@ public class AutoModeSecondary extends AbstractAutoMode {
             case HOOK:
                 logStage();
 
-                robot.motorName.setPower(1.0);
-                robot.motorName.setPower(2.0);
+                robot.wheelBR.setPower(1.0);
+                robot.wheelFR.setPower(2.0);
                 sleep(7200);
 
                 targetReached = true;
@@ -83,7 +83,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
                 gyroMode.goRightToAngleDegree(-9);
                 sleep(750);
 
-                robot.motorName.setPower(-0.9);
+                robot.wheelFR.setPower(-0.9);
                 sleep(2000);
 
                 robot.forwardRobot(0.3);
@@ -141,7 +141,7 @@ public class AutoModeSecondary extends AbstractAutoMode {
                     robot.sleep(500);
                     robot.forwardRobot(0.3);
                     robot.sleep(1000);
-                    robot.turnRight(0.7);
+                    robot.forwardRobot(0.7);
                     robot.sleep(1000);
                     robot.stopRobot();
                     if (goldPosition == ObjectDetectionAutoMode.Position.LEFT) {
@@ -149,13 +149,13 @@ public class AutoModeSecondary extends AbstractAutoMode {
                         robot.sleep(500);
                         robot.forwardRobot(0.3);
                         robot.sleep(1000);
-                        robot.turnLeft(0.7);
+                        robot.forwardRobot(0.7);
                         robot.sleep(1000);
                         robot.stopRobot();
                         if (goldPosition == ObjectDetectionAutoMode.Position.CENTER) {
                             robot.forwardRobot(0.3);
                             robot.sleep(1000);
-                            robot.turnLeft(0.7);
+                            robot.forwardRobot(0.7);
                             robot.sleep(1000);
                             robot.stopRobot();
                         }
