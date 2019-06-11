@@ -65,11 +65,11 @@ public class ColorSensorAdjustmentAutoMode {
     */
 
     private void turnLeft(double power) {
-        robot.turnLeft(power);
+        robot.forwardRobot(power);
     }
 
     private void turnRight(double power) {
-        robot.turnRight(power);
+        robot.forwardRobot(power);
     }
 
     private void moveBackward() {
