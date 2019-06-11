@@ -117,8 +117,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
         }
 
     }
-
-
+    
     public void turnLeft(double speed, double angle) {
 
         if(gyroMode.getAngles().secondAngle < angle) {
@@ -127,6 +126,20 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
             wheelBR.setPower(-speed);
             wheelBL.setPower(-speed);
         }
+    }
+
+    public void shiftRight(double speed) {
+        wheelFR.setPower(speed);
+        wheelFL.setPower(-speed);
+        wheelBR.setPower(speed);
+        wheelBL.setPower(-speed);
+    }
+
+    public void shiftLeft(double speed) {
+        wheelFR.setPower(-speed);
+        wheelFL.setPower(speed);
+        wheelBR.setPower(-speed);
+        wheelBL.setPower(speed);
     }
 
     public void sleep(long duration) throws InterruptedException {
