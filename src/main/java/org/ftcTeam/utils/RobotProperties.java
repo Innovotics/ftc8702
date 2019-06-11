@@ -8,8 +8,6 @@ public class RobotProperties {
 
     //Motor
     public static final String MOTOR_RIGHT_FRONT = "motorR";
-    public static final String MOTOR_LEFT_FRONT = "motorL";
-
     //Servos
     // Servo for testing
     public static final String SERVO_TEST = "servo1";
