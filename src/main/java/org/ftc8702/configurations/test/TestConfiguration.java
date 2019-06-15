@@ -36,7 +36,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
-import org.ftcTeam.utils.RobotProperties;
 
 /**
  * This is NOT an opmode.
