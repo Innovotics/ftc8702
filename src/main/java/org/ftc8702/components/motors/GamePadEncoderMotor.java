@@ -4,9 +4,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.OpModeComponent;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.OpModeComponent;
+import ftcbootstrap.components.operations.motors.MotorToEncoder;
 
 
 /**

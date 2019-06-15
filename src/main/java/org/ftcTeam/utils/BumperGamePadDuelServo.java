@@ -3,9 +3,9 @@ package org.ftcTeam.utils;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.OpModeComponent;
-import org.ftcbootstrap.components.ServoComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.OpModeComponent;
+import ftcbootstrap.components.ServoComponent;
 
 
 /**

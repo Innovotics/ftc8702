@@ -7,11 +7,11 @@ import org.ftc8702.components.motors.GamePadEncoderMotor;
 import org.ftc8702.components.servo.GamePadCRServo;
 import org.ftc8702.configurations.production.ProdManualRobot;
 import org.ftc8702.utils.InnovoticsRobotProperties;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
-import org.ftcbootstrap.components.operations.motors.GamePadMotor;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.operations.servos.GamePadServo;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.GamePadTankDrive;
+import ftcbootstrap.components.operations.motors.GamePadMotor;
+import ftcbootstrap.components.operations.motors.MotorToEncoder;
+import ftcbootstrap.components.operations.servos.GamePadServo;
 
 
 /**

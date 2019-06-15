@@ -2,9 +2,9 @@ package org.ftcTeam.opmodes.production;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.utils.MotorDirection;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.MotorToEncoder;
+import ftcbootstrap.components.utils.MotorDirection;
 
 /**
  * Created by dkim on 10/28/17.

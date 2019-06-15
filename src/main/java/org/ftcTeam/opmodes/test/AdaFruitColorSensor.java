@@ -7,9 +7,9 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
-import org.ftcbootstrap.components.ColorSensorComponent;
+import ftcbootstrap.components.ColorSensorComponent;
 import org.ftcTeam.utils.ColorValue;
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 public class AdaFruitColorSensor {
 

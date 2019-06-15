@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftcTeam.utils.RobotProperties;
-import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.utils.TelemetryUtil;
+import ftcbootstrap.RobotConfiguration;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 
 /**

@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.ftcTeam.utils.RobotProperties;
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "Sensor: MR range sensor", group = "Sensor")
 @Disabled

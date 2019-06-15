@@ -7,10 +7,10 @@ import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
 import org.ftc8702.opmodes.GamePadMecanumWheelDrive;
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcTeam.utils.GamePadDuelServo;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadMotor;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
-import org.ftcbootstrap.components.operations.servos.GamePadServo;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.GamePadMotor;
+import ftcbootstrap.components.operations.motors.GamePadTankDrive;
+import ftcbootstrap.components.operations.servos.GamePadServo;
 
 
 /**

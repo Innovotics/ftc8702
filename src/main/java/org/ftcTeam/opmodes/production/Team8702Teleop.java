@@ -8,9 +8,9 @@ import org.ftcTeam.configurations.production.Team8702Prod;
 import org.ftcTeam.configurations.production.Team8702RobotConfig;
 import org.ftcTeam.utils.BumperGamePadDuelServo;
 import org.ftcTeam.utils.GamePadDuelServo;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadMotor;
-import org.ftcbootstrap.components.operations.servos.GamePadServo;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.GamePadMotor;
+import ftcbootstrap.components.operations.servos.GamePadServo;
 
 @TeleOp(name = "Team8702Teleop", group = "production")
 @Disabled

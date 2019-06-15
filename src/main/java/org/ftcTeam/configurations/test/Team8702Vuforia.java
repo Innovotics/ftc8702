@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.ftcTeam.utils.RobotProperties;
-import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.utils.TelemetryUtil;
+import ftcbootstrap.RobotConfiguration;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 
 /**

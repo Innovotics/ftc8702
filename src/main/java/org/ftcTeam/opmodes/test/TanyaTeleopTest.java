@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.ftcTeam.configurations.test.Team8702Clapper;
 import org.ftcTeam.utils.GamePadDuelServo;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadMotor;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.GamePadMotor;
 
 @TeleOp(name="TanyaTeleopTest", group="test")
 @Disabled

@@ -3,6 +3,7 @@ package org.ftcTeam.opmodes.production;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 
 @Disabled
@@ -39,6 +40,11 @@ public class AutoModeRedAngle extends AutoModeRed {
         Thread.sleep(1000);
 
         return true;
+    }
+
+    @Override
+    public TelemetryUtil getTelemetryUtil() {
+        return null;
     }
 
     @Override

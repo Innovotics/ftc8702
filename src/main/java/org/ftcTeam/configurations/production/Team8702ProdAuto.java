@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftcTeam.utils.RobotProperties;
-import org.ftcbootstrap.RobotConfiguration;
+import ftcbootstrap.RobotConfiguration;
 
-import org.ftcbootstrap.components.utils.TelemetryUtil;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 

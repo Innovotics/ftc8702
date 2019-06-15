@@ -2,8 +2,8 @@ package org.ftcTeam.utils;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.utils.MotorDirection;
+import ftcbootstrap.components.operations.motors.MotorToEncoder;
+import ftcbootstrap.components.utils.MotorDirection;
 
 /**
  * Created by dkim on 1/11/17.

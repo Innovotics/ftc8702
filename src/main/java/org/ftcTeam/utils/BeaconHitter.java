@@ -2,10 +2,10 @@ package org.ftcTeam.utils;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.ftcbootstrap.components.ColorSensorComponent;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.utils.MotorDirection;
-import org.ftcbootstrap.components.utils.TelemetryUtil;
+import ftcbootstrap.components.ColorSensorComponent;
+import ftcbootstrap.components.operations.motors.MotorToEncoder;
+import ftcbootstrap.components.utils.MotorDirection;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 /**
  * Created by tylerkim on 12/21/16.

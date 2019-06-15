@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.ftcTeam.configurations.test.Team8702ParkingSensor;
 import org.ftcTeam.utils.ColorValue;
 import org.ftcTeam.utils.RobotProperties;
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 
 /**

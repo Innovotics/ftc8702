@@ -1,7 +1,7 @@
 package org.ftcTeam.utils;
 
 
-import org.ftcbootstrap.components.ColorSensorComponent;
+import ftcbootstrap.components.ColorSensorComponent;
 
 /**
  * Created by tylerkim on 12/21/16.

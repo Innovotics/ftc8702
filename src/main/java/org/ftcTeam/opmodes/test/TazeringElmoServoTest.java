@@ -3,7 +3,7 @@ package org.ftcTeam.opmodes.test;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftcTeam.configurations.test.Team8702Elmo;
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.Servo;

@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftcTeam.configurations.production.Team8702Prod;
 import org.ftcTeam.configurations.production.Team8702ProdAuto;
-import org.ftcbootstrap.components.utils.TelemetryUtil;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 /**
  * Created by dkim on 1/11/17.

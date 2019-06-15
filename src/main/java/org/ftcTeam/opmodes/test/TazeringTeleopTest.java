@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.ftcTeam.configurations.production.Team8702Prod;
 import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 import org.ftcTeam.utils.GamePadDuelServo;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadMotor;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.GamePadMotor;
 
 @TeleOp(name = "TazeringTeleopTest", group = "test")
 @Disabled

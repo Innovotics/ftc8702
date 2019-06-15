@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.ftcTeam.configurations.test.Team8702AdafruitSensor;
 import org.ftcTeam.utils.ColorValue;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.ColorSensorComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.ColorSensorComponent;
 
 
 /**

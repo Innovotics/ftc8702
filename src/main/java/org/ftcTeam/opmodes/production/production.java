@@ -1,6 +1,6 @@
 package org.ftcTeam.opmodes.production;
 
-import org.ftcbootstrap.BootstrapRegistrar;
+import ftcbootstrap.BootstrapRegistrar;
 
 /**
  * Created by tylerkim on 10/27/17.

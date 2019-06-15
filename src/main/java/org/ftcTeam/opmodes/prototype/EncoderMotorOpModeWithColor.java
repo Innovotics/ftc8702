@@ -4,11 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.ftcTeam.configurations.production.Team8702Prod;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.MotorToEncoder;
 import org.ftcTeam.utils.ColorValue;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
-import org.ftcbootstrap.components.ColorSensorComponent;
+import ftcbootstrap.components.operations.motors.GamePadTankDrive;
+import ftcbootstrap.components.ColorSensorComponent;
 
 
 /**

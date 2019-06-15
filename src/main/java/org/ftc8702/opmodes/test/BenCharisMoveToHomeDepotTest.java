@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftc8702.configurations.test.ColorSensorTest;
 import org.ftc8702.utils.ColorValue;
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "Test: BenCharisMoveToHomeDepotTest", group = "Test")
 public class BenCharisMoveToHomeDepotTest extends ActiveOpMode {

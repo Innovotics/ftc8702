@@ -3,8 +3,8 @@ package org.ftcTeam.opmodes.prototype;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.GamePadTankDrive;
 import org.ftcTeam.configurations.production.Team8702Prod;
 
 

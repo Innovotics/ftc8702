@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
-import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.ServoComponent;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.utils.TelemetryUtil;
+import ftcbootstrap.RobotConfiguration;
+import ftcbootstrap.components.ServoComponent;
+import ftcbootstrap.components.operations.motors.MotorToEncoder;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 
 /**

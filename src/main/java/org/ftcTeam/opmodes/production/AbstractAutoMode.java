@@ -22,13 +22,15 @@ import org.ftcTeam.configurations.production.Team8702ProdAuto;
 import org.ftcTeam.utils.ColorValue;
 import org.ftcTeam.utils.CryptoBoxLocation;
 import org.ftcTeam.utils.RobotAutonomousUtils;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.ColorSensorComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.ColorSensorComponent;
 
 import java.util.Locale;
 
 
 abstract class AbstractAutoMode extends ActiveOpMode {
+
+    public abstract ftcbootstrap.components.utils.TelemetryUtil getTelemetryUtil();
 
     //States for actual autonomous
     protected enum State {

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.ftc8702.configurations.test.UltrasonicSensorTest;
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "Test: ChEnDriveToCrater Test", group = "Test")
 public class ChEnDriveToCrater extends ActiveOpMode {

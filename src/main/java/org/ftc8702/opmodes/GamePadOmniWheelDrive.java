@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.ftc8702.components.motors.GamePadOmniWheelMotor;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.OpModeComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.OpModeComponent;
 
 /**
  * Operation to assist with basic tank drive using a gamepad
