@@ -75,8 +75,8 @@ public class ProdManualRobot extends RobotConfiguration {
             longArm = (DcMotor) getHardwareOn(InnovoticsRobotProperties.LONG_ARM, hardwareMap.dcMotor);
 
             //Servo
-            clawA = (Servo) getHardwareOn(InnovoticsRobotProperties.CLAW_A, hardwareMap.servo);
-            clawB = (Servo) getHardwareOn(InnovoticsRobotProperties.CLAW_B, hardwareMap.servo);
+            //clawA = (Servo) getHardwareOn(InnovoticsRobotProperties.CLAW_A, hardwareMap.servo);
+            // clawB = (Servo) getHardwareOn(InnovoticsRobotProperties.CLAW_B, hardwareMap.servo);
 
             //gyro sensor
             gyroSensor = hardwareMap.get(BNO055IMU.class, "imu");

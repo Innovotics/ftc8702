@@ -225,8 +225,7 @@ abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
 
             case BACK_TO_CRATER:
                 logStage();
-                if (goldPosition == ObjectDetectionAutoMode.Position.LEFT
-                        || goldPosition == ObjectDetectionAutoMode.Position.RIGHT) {
+                if (goldPosition == ObjectDetectionAutoMode.Position.LEFT) {
                     robot.backwardRobot(.8);
                     robot.sleep(1500);
                 }

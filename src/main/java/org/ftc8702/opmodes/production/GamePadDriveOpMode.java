@@ -31,8 +31,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
     private GamePadMotor gamePadShortArm;
     private GamePadMotor gamePadLongArm;
 
-    private GamePadServo gamePadClawA;
-    private GamePadServo gamePadClawB;
+    //private GamePadServo gamePadClawA;
+    //private GamePadServo gamePadClawB;
    private int encoderLimitingValue;
     //private int encoderLimitingValue = 16000;
     /**
@@ -58,8 +58,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
         gamePadShortArm = new GamePadMotor (this, gamepad2, robot.shortArm, GamePadMotor.Control.RIGHT_STICK_Y, .95f);
         gamePadLongArm = new GamePadMotor (this, gamepad2, robot.longArm, GamePadMotor.Control.LEFT_STICK_Y);
 
-        gamePadClawA = new GamePadServo(this, gamepad1, robot.clawA, GamePadServo.Control.Y_A, 0.0);
-        gamePadClawB = new GamePadServo(this, gamepad1, robot.clawB, GamePadServo.Control.Y_A, 0.0, true);
+        //gamePadClawA = new GamePadServo(this, gamepad1, robot.clawA, GamePadServo.Control.Y_A, 0.0);
+        //gamePadClawB = new GamePadServo(this, gamepad1, robot.clawB, GamePadServo.Control.Y_A, 0.0, true);
     }
 
     /**
@@ -76,8 +76,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
        gamePadShortArm.update();
        gamePadLongArm.update();
 
-       gamePadClawA.update();
-       gamePadClawB.update();
+       // gamePadClawA.update();
+       // gamePadClawB.update();
 
         //getTelemetryUtil().addData("Motor to Encoder Value: ", hookMotorToEncoder.motorCurrentPosition());
 
