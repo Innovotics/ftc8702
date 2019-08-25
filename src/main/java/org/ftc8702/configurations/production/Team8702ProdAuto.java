@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftc8702.components.ImuGyroSensor;
+import org.ftc8702.opmodes.production.GyroAutoMode;
 import org.ftc8702.utilities.TelemetryUtil;
 import org.ftc8702.utils.InnovoticsRobotProperties;
 
@@ -32,25 +33,16 @@ import java.util.concurrent.TimeUnit;
  */
 public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
-    public DcMotor motorR;
-    public DcMotor motorL;
-    public DcMotor hook;
+    public DcMotor wheelFR;
+    public DcMotor wheelFL;
+    public DcMotor wheelBR;
+    public DcMotor wheelBL;
 
-    public DcMotor longArm;
-    public DcMotor shortArm;
-
-    public Servo clawA;
-    public Servo clawB;
+    protected GyroAutoMode gyroMode;
 
     public BNO055IMU imu;
-
-    public ColorSensor colorSensorBackLeft;
-    public ColorSensor colorSensorBackRight;
-  //  public OpticalDistanceSensor ods;
-
-   // public ModernRoboticsI2cRangeSensor rangeSensor;
-
-    public Servo markerDropper;
+    public ColorSensor colorSensorName;
+    public OpticalDistanceSensor ods;
 
     private HardwareMap hardwareMap;
 
@@ -58,92 +50,96 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
-        initWheels(hardwareMap);
-        // initServo(hardwareMap);
-        initArmWheels(hardwareMap);
-        initClawServos(hardwareMap);
+
+        wheelFR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_FR);
+        wheelFL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_FL);
+        wheelBR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_BR);
+        wheelBL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_BL);
 
         imu = hardwareMap.get(BNO055IMU.class, InnovoticsRobotProperties.GYRO_SENSOR);
-       //ods = hardwareMap.get(OpticalDistanceSensor.class, InnovoticsRobotProperties.OPTICAL_DISTANCE_SENSOR);
+       ods = hardwareMap.get(OpticalDistanceSensor.class, InnovoticsRobotProperties.OPTICAL_DISTANCE_SENSOR);
 
-        hook = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_HOOK);
-        hook.setDirection(DcMotor.Direction.FORWARD);
 
     }
 
     public HardwareMap getHardwareMap() {
+
         return hardwareMap;
     }
 
-    private void initWheels(HardwareMap hardwareMap) {
-
-        motorR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_RIGHT);
-        motorL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_LEFT);
-
-        motorL.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        motorR.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-    }
-
-    private void initArmWheels(HardwareMap hardwareMap) {
-
-        shortArm = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.SHORT_ARM);
-        longArm = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.LONG_ARM);
-
-        shortArm.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        longArm.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
-    }
-
-    private void initClawServos(HardwareMap hardwareMap) {
-        clawA = hardwareMap.get(Servo.class, InnovoticsRobotProperties.CLAW_A);
-        clawB = hardwareMap.get(Servo.class, InnovoticsRobotProperties.CLAW_B);
-    }
-
     public BNO055IMU getGyroSensor() {
+
         return imu;
     }
 
+
     public void stopRobot() {
-        motorR.setPower(0);
-        motorL.setPower(0);
+
+        wheelFR.setPower(0);
+        wheelFL.setPower(0);
+        wheelBR.setPower(0);
+        wheelBL.setPower(0);
     }
+
 
     public void setRunMode() {
-        motorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-    }
+        wheelFR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        wheelFL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        wheelBR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        wheelBL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-    public void openClaw() {
-        clawA.setPosition(1.0);
-        clawB.setPosition(1.0);
-    }
-
-    public void closeClaw() {
-        clawA.setPosition(.2);
-        clawB.setPosition(.2);
-    }
-
-    public void turnLeft(double speed) {
-        motorR.setPower(-speed);
-        // TODO: TEST THIS
-        motorL.setPower(speed);
-    }
-
-    public void turnRight(double speed) {
-            // TODO: TEST THIS
-        motorR.setPower(speed);
-        motorL.setPower(-speed);
     }
 
     public void forwardRobot(double speed)
     {
-        motorL.setPower(-speed);
-        motorR.setPower(-speed);
+        wheelFR.setPower(speed);
+        wheelFL.setPower(speed);
+        wheelBR.setPower(-speed);
+        wheelBL.setPower(-speed);
     }
 
     public void backwardRobot(double speed)
     {
-        motorL.setPower(speed);
-        motorR.setPower(speed);
+
+        wheelBL.setPower(speed);
+        wheelBR.setPower(speed);
+        wheelFR.setPower(-speed);
+        wheelFL.setPower(-speed);
+    }
+
+    public void turnRight(double speed, double angle) {
+
+        if(gyroMode.getAngles().secondAngle > angle) {
+            wheelFR.setPower(speed);
+            wheelFL.setPower(speed);
+            wheelBR.setPower(speed);
+            wheelBL.setPower(speed);
+        }
+
+    }
+    
+    public void turnLeft(double speed, double angle) {
+
+        if(gyroMode.getAngles().secondAngle < angle) {
+            wheelFR.setPower(-speed);
+            wheelFL.setPower(-speed);
+            wheelBR.setPower(-speed);
+            wheelBL.setPower(-speed);
+        }
+    }
+
+    public void shiftRight(double speed) {
+        wheelFR.setPower(speed);
+        wheelFL.setPower(-speed);
+        wheelBR.setPower(speed);
+        wheelBL.setPower(-speed);
+    }
+
+    public void shiftLeft(double speed) {
+        wheelFR.setPower(-speed);
+        wheelFL.setPower(speed);
+        wheelBR.setPower(-speed);
+        wheelBL.setPower(speed);
     }
 
     public void sleep(long duration) throws InterruptedException {

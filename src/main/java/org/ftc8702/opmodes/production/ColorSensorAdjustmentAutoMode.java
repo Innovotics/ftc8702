@@ -65,11 +65,11 @@ public class ColorSensorAdjustmentAutoMode {
     */
 
     private void turnLeft(double power) {
-        robot.turnLeft(power);
+        robot.forwardRobot(power);
     }
 
     private void turnRight(double power) {
-        robot.turnRight(power);
+        robot.forwardRobot(power);
     }
 
     private void moveBackward() {
@@ -86,34 +86,49 @@ public class ColorSensorAdjustmentAutoMode {
     }
 
     private boolean newAdjustmentLoop() throws InterruptedException {
-        ColorValue rightColor = getColor(robot.colorSensorBackRight);
+        ColorValue rightColor = getColor(robot.colorSensorName);
         telemetry.addData("Right Color: ", rightColor.name());
         boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);
 
-        ColorValue leftColor = getColor(robot.colorSensorBackLeft);
         telemetry.addData("Left Color: ", rightColor.name());
-        boolean isColorDetectedByLeftSensor = isRedOrBlueDetected(leftColor);
+        // boolean isColorDetectedByLeftSensor = isRedOrBlueDetected(leftColor);
 
         boolean isTimedOut = (System.currentTimeMillis() - startTime) > TIME_OUT;
 
-        if ((isColorDetectedByRightSensor && isColorDetectedByLeftSensor) || isTimedOut) {
-            robot.stopRobot(); // stop robot moving to slow down the momentum
-            telemetry.addData("Exit", isTimedOut ? "TimedOut" : "Adjusted");
-            telemetry.sendTelemetry();
-            // end state - when both motors have stopped, return true to indicate we are done.
-            return true;
-        }
-        else if (!isColorDetectedByRightSensor && !isColorDetectedByLeftSensor) {
-            robot.forwardRobot(FORWARD_SPEED);
-        }
-        else if (isColorDetectedByLeftSensor && !isColorDetectedByRightSensor) {
-            telemetry.addData("Turning: ", "Left");
-            turnLeft(TURN_SPEED_LEFT);
-            boolean isRightSensorDetectColor = false;
-            while (!isRightSensorDetectColor) {
-                ColorValue rightSensorColor = getColor(robot.colorSensorBackRight);
-                isRightSensorDetectColor = isRedOrBlueDetected(rightSensorColor);
-            }
+//        if ((isColorDetectedByRightSensor && isColorDetectedByLeftSensor) || isTimedOut) {
+//            robot.stopRobot(); // stop robot moving to slow down the momentum
+//            telemetry.addData("Exit", isTimedOut ? "TimedOut" : "Adjusted");
+//            telemetry.sendTelemetry();
+//            // end state - when both motors have stopped, return true to indicate we are done.
+//            return true;
+//        }
+//        else if (!isColorDetectedByRightSensor && !isColorDetectedByLeftSensor) {
+//            robot.forwardRobot(FORWARD_SPEED);
+//        }
+//        else if (isColorDetectedByLeftSensor && !isColorDetectedByRightSensor) {
+//            telemetry.addData("Turning: ", "Left");
+//            turnLeft(TURN_SPEED_LEFT);
+//            boolean isRightSensorDetectColor = false;
+//            while (!isRightSensorDetectColor) {
+//                ColorValue rightSensorColor = getColor(robot.colorSensorName);
+//                isRightSensorDetectColor = isRedOrBlueDetected(rightSensorColor);
+//            }
+//            robot.stopRobot();
+//            robot.sleep(250);
+//
+//            telemetry.addData("Going: ", "Back");
+//            moveBackward();
+//            robot.sleep(BACKWARD_ADJUST_MILLIS);
+//            robot.stopRobot();
+//        }
+//        else if (!isColorDetectedByLeftSensor && isColorDetectedByRightSensor) {
+//            telemetry.addData("Turning: ", "Right");
+//            turnRight(TURN_SPEED_RIGHT);
+//            boolean isLeftSensorDetectColor = false;
+//            while (!isLeftSensorDetectColor) {
+//                ColorValue leftSensorColor = getColor(robot.colorSensorName);
+//                isLeftSensorDetectColor = isRedOrBlueDetected(leftSensorColor);
+//            }
             robot.stopRobot();
             robot.sleep(250);
 
@@ -121,24 +136,8 @@ public class ColorSensorAdjustmentAutoMode {
             moveBackward();
             robot.sleep(BACKWARD_ADJUST_MILLIS);
             robot.stopRobot();
-        }
-        else if (!isColorDetectedByLeftSensor && isColorDetectedByRightSensor) {
-            telemetry.addData("Turning: ", "Right");
-            turnRight(TURN_SPEED_RIGHT);
-            boolean isLeftSensorDetectColor = false;
-            while (!isLeftSensorDetectColor) {
-                ColorValue leftSensorColor = getColor(robot.colorSensorBackLeft);
-                isLeftSensorDetectColor = isRedOrBlueDetected(leftSensorColor);
-            }
-            robot.stopRobot();
-            robot.sleep(250);
-
-            telemetry.addData("Going: ", "Back");
-            moveBackward();
-            robot.sleep(BACKWARD_ADJUST_MILLIS);
-            robot.stopRobot();
-        }
-        telemetry.sendTelemetry();
+       // }
+        //telemetry.sendTelemetry();
 
         return false;
     }

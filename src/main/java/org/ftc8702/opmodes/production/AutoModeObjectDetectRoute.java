@@ -25,9 +25,7 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
     private Team8702ProdAuto robot = new Team8702ProdAuto();
 
     private GyroAutoMode gyroMode;
-    private ColorSensorAdjustmentAutoMode colorSensorAdjustMode;
     private MoveToHomeDepotAutoMode moveToHomeDepotMode;
-    private UltrasonicDriveToCraterAutoMode ultrasonicDriveToCrater;
     private ObjectDetectionAutoMode objectDetectRoute;
     private boolean targetReached = false;
 
@@ -50,24 +48,11 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
         moveToHomeDepotMode = new MoveToHomeDepotAutoMode(robot, getTelemetryUtil());
         moveToHomeDepotMode.setNeedMoveBeginingForward(false);
         moveToHomeDepotMode.init();
-/*
-        colorSensorAdjustMode = new ColorSensorAdjustmentAutoMode(robot, getTelemetryUtil());
-        colorSensorAdjustMode.init();
 
-
-
-        ultrasonicDriveToCrater = new UltrasonicDriveToCraterAutoMode(robot, getTelemetryUtil(), gyroMode);
-        ultrasonicDriveToCrater.init();
-*/
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
 
         currentState = State.OBJECT_DETECT;
-
-/*
-        robot.stopRobot();
-        robot.setRunMode();
-        */
     }
 
     @Override
@@ -119,7 +104,6 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
 
             case ULTRASONIC_DRIVE_TO_CRATER:
                 logStage();
-                targetReached = ultrasonicDriveToCrater.ultrasonicDriveToCrater();
                 if (targetReached) {
                     currentState = State.GO_OVER_RAMP;
                     targetReached = false;
@@ -145,20 +129,6 @@ public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
                 logStage();
                 break;
 
-/*
-            case COLOR_SENSOR_SELF_ADJUST:
-                logStage();
-                targetReached = colorSensorAdjustMode.startAdjustment();
-                if (targetReached) {
-                    currentState = State.MOVE_TO_HOME_DEPOT;
-                    gyroMode.init();
-                    targetReached = false;
-
-                    robot.stopRobot();
-                    sleep(500);
-                }
-                break;
-*/
         }
         telemetry.update();
     }

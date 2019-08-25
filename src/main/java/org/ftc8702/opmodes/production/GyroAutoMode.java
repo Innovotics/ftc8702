@@ -1,10 +1,7 @@
 package org.ftc8702.opmodes.production;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 
-import org.firstinspires.ftc.robotcore.external.Func;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -70,7 +67,7 @@ public class GyroAutoMode {
                 return true;
             }
 
-            robot.turnLeft(power);
+            robot.forwardRobot(power);
         }
         return isFinished;
     }
@@ -92,7 +89,7 @@ public class GyroAutoMode {
                 return true;
             }
 
-            robot.turnRight(power);
+            robot.forwardRobot(power);
         }
         return isFinished;
     }

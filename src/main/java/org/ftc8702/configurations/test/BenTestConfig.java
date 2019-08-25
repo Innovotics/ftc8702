@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
-import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.utils.TelemetryUtil;
+import ftcbootstrap.RobotConfiguration;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 public class BenTestConfig extends RobotConfiguration {
 

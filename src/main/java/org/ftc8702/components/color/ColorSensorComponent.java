@@ -5,8 +5,8 @@ import android.graphics.Color;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.OpModeComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.OpModeComponent;
 
 
 /**

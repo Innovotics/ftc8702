@@ -1,7 +1,7 @@
 package org.ftc8702.utilities;
 
 import org.ftc8702.opmodes.InnovoticsActiveOpMode;
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftc8702.configurations.test.BenTestConfig;
 import org.ftc8702.utils.ColorValue;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.ColorSensorComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.ColorSensorComponent;
 
 @Autonomous(name = "Test: BenColorSensor", group = "Test")
 public class BenColorSensorTest extends ActiveOpMode {

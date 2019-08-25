@@ -49,22 +49,4 @@ public class GyroSensorGetOffHook {
         robot.stopRobot();
         return true;
     }
-
-    //targetReached = hookMotorToEncoder.runToTarget(0.5, LimitingEncoderValue, MotorDirection.MOTOR_FORWARD, DcMotor.RunMode.RUN_USING_ENCODER);
-    public boolean Unhook() throws InterruptedException {
-        robot.hook.setPower(0.7);
-        while(robot.hook.getCurrentPosition() < LimitingEncoderValue) {
-
-            getTelemetryUtil().addData("Encoder Value: ", robot.hook.getCurrentPosition());
-
-            getTelemetryUtil().sendTelemetry();
-        }
-
-        robot.hook.setPower(0.0);
-
-        robot.stopRobot();
-        robot.sleep(500);
-        return true;
-    }
-
     }

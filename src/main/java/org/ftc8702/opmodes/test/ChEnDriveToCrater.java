@@ -4,8 +4,8 @@ import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.ftc8702.configurations.test.BenCharisRangeConfig;
-import org.ftcbootstrap.ActiveOpMode;
+import org.ftc8702.configurations.test.UltrasonicSensorTest;
+import ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "Test: ChEnDriveToCrater Test", group = "Test")
 public class ChEnDriveToCrater extends ActiveOpMode {
@@ -16,7 +16,7 @@ public class ChEnDriveToCrater extends ActiveOpMode {
     private static final double FINAL_DISTANCE = 30;
     private static final long PAUSE_DURATION_MS = 500;
 
-    private BenCharisRangeConfig robotConfig;
+    private UltrasonicSensorTest robotConfig;
     private ModernRoboticsI2cRangeSensor rangeSensor;
 
     private double distanceToWallInCM;
@@ -24,46 +24,46 @@ public class ChEnDriveToCrater extends ActiveOpMode {
     @Override
     protected void onInit() {
         // do stuff at initialization stage
-        robotConfig = BenCharisRangeConfig.newConfig(hardwareMap, getTelemetryUtil());
+        robotConfig = UltrasonicSensorTest.newConfig(hardwareMap, getTelemetryUtil());
         rangeSensor = robotConfig.rangeSensor;
     }
 
-    protected void ForwardandTurn() {
-        Forward();
-        stopRobot();
-        turn();
-        stopRobot();
-    }
+//    protected void ForwardandTurn() {
+//        Forward();
+//        stopRobot();
+//        turn();
+//        stopRobot();
+    //}
 
-    protected void stopRobot() {
-        robotConfig.motorR.setPower(0.0);
-        robotConfig.motorL.setPower(0.0);
-        sleep(PAUSE_DURATION_MS);
-    }
-
-    protected void turn() {
-        robotConfig.motorR.setPower(FORWARD_TURN_RIGHT_SPEED);
-        robotConfig.motorL.setPower(FORWARD_LEFT_SPEED);
-        sleep(PAUSE_DURATION_MS);
-    }
-
-    protected void Forward() {
-        robotConfig.motorR.setPower(FORWARD_SPEED);
-        robotConfig.motorL.setPower(FORWARD_SPEED);
-        sleep(PAUSE_DURATION_MS);
-    }
+//    protected void stopRobot() {
+//        robotConfig.motorR.setPower(0.0);
+//        robotConfig.motorL.setPower(0.0);
+//        sleep(PAUSE_DURATION_MS);
+//    }
+//
+//    protected void turn() {
+//        robotConfig.motorR.setPower(FORWARD_TURN_RIGHT_SPEED);
+//        robotConfig.motorL.setPower(FORWARD_LEFT_SPEED);
+//        sleep(PAUSE_DURATION_MS);
+//    }
+//
+//    protected void Forward() {
+//        robotConfig.motorR.setPower(FORWARD_SPEED);
+//        robotConfig.motorL.setPower(FORWARD_SPEED);
+//        sleep(PAUSE_DURATION_MS);
+//    }
     @Override
     protected void activeLoop() throws InterruptedException {
         distanceToWallInCM = rangeSensor.getDistance(DistanceUnit.CM);
 
-        if (distanceToWallInCM > FINAL_DISTANCE) {
-            telemetry.addLine("forward and turn");
-            ForwardandTurn();
-        }
-        else {
-            telemetry.addLine("forward only");
-            Forward();
-        }
+//        if (distanceToWallInCM > FINAL_DISTANCE) {
+//            telemetry.addLine("forward and turn");
+//            ForwardandTurn();
+//        }
+//        else {
+//            telemetry.addLine("forward only");
+//            Forward();
+//        }
 
         telemetry.addData("cm", "%.2f cm", distanceToWallInCM);
         telemetry.update();

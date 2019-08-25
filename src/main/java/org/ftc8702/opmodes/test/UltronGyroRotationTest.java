@@ -8,9 +8,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.components.ImuGyroSensor;
-import org.ftc8702.configurations.test.Team8702TestAuto;
+import org.ftc8702.configurations.test.TestConfiguration;
 import org.ftc8702.utilities.OrientationUtils;
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 
 /**
@@ -29,7 +29,7 @@ import org.ftcbootstrap.ActiveOpMode;
 @Autonomous(name = "UltronGyroRotationTest", group = "Sensors Test")
 public class UltronGyroRotationTest extends ActiveOpMode {
 
-    private Team8702TestAuto robot;
+    private TestConfiguration robot;
 
     private int step;
 

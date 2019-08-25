@@ -7,11 +7,11 @@ import org.ftc8702.components.motors.GamePadEncoderMotor;
 import org.ftc8702.components.servo.GamePadCRServo;
 import org.ftc8702.configurations.production.ProdManualRobot;
 import org.ftc8702.utils.InnovoticsRobotProperties;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.operations.motors.GamePadTankDrive;
-import org.ftcbootstrap.components.operations.motors.GamePadMotor;
-import org.ftcbootstrap.components.operations.motors.MotorToEncoder;
-import org.ftcbootstrap.components.operations.servos.GamePadServo;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.operations.motors.GamePadTankDrive;
+import ftcbootstrap.components.operations.motors.GamePadMotor;
+import ftcbootstrap.components.operations.motors.MotorToEncoder;
+import ftcbootstrap.components.operations.servos.GamePadServo;
 
 
 /**
@@ -83,30 +83,8 @@ public class GamePadDriveOpMode extends ActiveOpMode {
 
         getTelemetryUtil().addData("Joystick Power: ", gamepad2.right_stick_y);
 
-//       Runnable r = new Runnable() {
-//           @Override
-//           public void run() {
-//               stopOnEncoderValue();
-//           }
-//       };
-//       new Thread(r).start();
-//        getTelemetryUtil().sendTelemetry();
-//
-//    }
-//
-            // stopOnEncoderValue();
 
             getTelemetryUtil().sendTelemetry();
             telemetry.update();
     }
-
-//    private void stopOnEncoderValue() {
-//        if(hookMotorToEncoder.motorCurrentPosition() > encoderLimitingValue || hookMotorToEncoder.motorCurrentPosition() < 0) {
-//            robot.hook.setPower(0.0);
-//            getTelemetryUtil().addData("Robot Stopped", hookMotorToEncoder.motorCurrentPosition());
-//
-//        }
-//    }
-
-
 }

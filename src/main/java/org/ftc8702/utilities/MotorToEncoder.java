@@ -4,9 +4,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
 import org.firstinspires.ftc.robotcore.internal.hardware.DragonboardGPIOPin;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.OpModeComponent;
-import org.ftcbootstrap.components.utils.MotorDirection;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.OpModeComponent;
+import ftcbootstrap.components.utils.MotorDirection;
 import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 
 
