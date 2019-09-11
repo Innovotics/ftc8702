@@ -1,4 +1,7 @@
 apply from: '../build.common.gradle'
+/*
+comment out for now since we don't use ftc-utilities anymore
+should remove this onnce it's verified the apk is working
 android {
     buildToolsVersion '28.0.2'
     compileSdkVersion 23
@@ -11,3 +14,4 @@ repositories {
         dirs rootProject.file('libs')
     }
 }
+*/
