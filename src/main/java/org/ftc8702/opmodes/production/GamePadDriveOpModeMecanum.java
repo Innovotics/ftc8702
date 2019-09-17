@@ -45,7 +45,7 @@ public class GamePadDriveOpModeMecanum extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
         //create the operation  to perform a tank drive using the gamepad joysticks.
-        mecanumGamePad = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFR, robot.motorFL, robot.motorBR, robot.motorBL);
+        mecanumGamePad = new GamePadOmniWheelDrive(this, gamepad1, robot.motorFL, robot.motorFR, robot.motorBR, robot.motorBL);
     }
     /**
      * Implement this method to define the code to run when the Start button is pressed on the Driver station.
