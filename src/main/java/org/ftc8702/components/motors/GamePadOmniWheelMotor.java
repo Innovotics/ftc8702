@@ -141,6 +141,9 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         return powerToReturn;
     }
 
+    public void stop() {
+        motor.setPower(0);
+    }
 
     /**
      * Taken from FTC SDK PushBot example
