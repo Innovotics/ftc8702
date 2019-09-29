@@ -1,17 +1,9 @@
 package org.ftc8702.opmodes.production;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
-import org.ftc8702.utilities.OrientationUtils;
-import org.ftc8702.utilities.TelemetryUtil;
 
-import java.util.List;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 public class GyroSensorGetOffHook {
     private Team8702ProdAuto robot;

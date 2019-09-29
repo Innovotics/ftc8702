@@ -3,8 +3,8 @@ package org.ftc8702.configurations.production;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.ftc8702.opmodes.InnovoticsActiveOpMode;
-import org.ftc8702.utilities.TelemetryUtil;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 
 /**
@@ -54,7 +54,7 @@ public abstract class AbstractRobotConfiguration {
         catch (Throwable e)
         {
             try {
-                InnovoticsActiveOpMode.handleCatchAllException(e, getTelemetryUtil());
+                ActiveOpMode.handleCatchAllException(e, getTelemetryUtil());
             } catch (InterruptedException e1) {
                 //DbgLog.msg(e.getLocalizedMessage());
             }

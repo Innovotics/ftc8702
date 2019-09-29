@@ -8,7 +8,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
 import org.ftc8702.utilities.OrientationUtils;
-import org.ftc8702.utilities.TelemetryUtil;
+
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 public class GyroAutoMode {
 

@@ -1,11 +1,9 @@
 package org.ftc8702.opmodes.production;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
-import org.ftc8702.utilities.TelemetryUtil;
 import org.ftc8702.utils.ColorValue;
 
-import java.util.concurrent.TimeUnit;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 import static org.ftc8702.utils.ColorUtil.getColor;
 import static org.ftc8702.utils.ColorUtil.isRedOrBlueDetected;
@@ -86,7 +84,7 @@ public class ColorSensorAdjustmentAutoMode {
     }
 
     private boolean newAdjustmentLoop() throws InterruptedException {
-        ColorValue rightColor = getColor(robot.colorSensorName);
+        ColorValue rightColor = getColor(robot.colorSensor);
         telemetry.addData("Right Color: ", rightColor.name());
         boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);
 

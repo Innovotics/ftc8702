@@ -3,7 +3,6 @@ package ftcbootstrap.demos.beginner;
 import ftcbootstrap.BootstrapRegistrar;
 import ftcbootstrap.demos.TelemetryTest;
 import ftcbootstrap.demos.beginner.opmodes.OpMode1RunForTime;
-import ftcbootstrap.demos.beginner.opmodes.OpMode2RunForTime;
 import ftcbootstrap.demos.beginner.opmodes.OpMode3RunForTime;
 import ftcbootstrap.demos.beginner.opmodes.OpMode4RunUntilTouch;
 import ftcbootstrap.demos.beginner.opmodes.OpMode5StateMachine;
@@ -21,7 +20,6 @@ public class MyFirstBotRegistry extends BootstrapRegistrar {
     Class[] classes = {
 
             OpMode1RunForTime.class,
-            OpMode2RunForTime.class,
             OpMode3RunForTime.class,
             OpMode4RunUntilTouch.class,
             OpMode5StateMachine.class,

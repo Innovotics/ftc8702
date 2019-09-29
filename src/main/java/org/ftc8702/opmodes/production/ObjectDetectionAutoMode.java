@@ -6,10 +6,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
-import org.ftc8702.utilities.TelemetryUtil;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 public class ObjectDetectionAutoMode {
     public enum Position {

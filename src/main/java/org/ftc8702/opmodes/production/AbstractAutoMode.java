@@ -1,13 +1,11 @@
 package org.ftc8702.opmodes.production;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
-import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+
+import ftcbootstrap.ActiveOpMode;
 
 
-abstract class AbstractAutoMode extends InnovoticsActiveOpMode {
+abstract class AbstractAutoMode extends ActiveOpMode {
 
     //States for actual autonomous
     protected enum State {

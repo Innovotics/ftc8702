@@ -1,12 +1,9 @@
 package org.ftc8702.utilities;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 
 import ftcbootstrap.ActiveOpMode;
-import ftcbootstrap.components.OpModeComponent;
 import ftcbootstrap.components.utils.MotorDirection;
-import org.ftc8702.opmodes.InnovoticsActiveOpMode;
 
 
 /**
@@ -27,7 +24,7 @@ public class MotorToEncoder{
     private static double INITIAL_RAMP_UP_POWER = 0.1;
     private static double RAMP_UP_PERCENTAGE = 0.01;
 
-    private InnovoticsActiveOpMode opMode;
+    private ActiveOpMode opMode;
 
 
     /**
@@ -37,7 +34,7 @@ public class MotorToEncoder{
      * @param opMode
      * @param motor
      */
-    public MotorToEncoder(InnovoticsActiveOpMode opMode, DcMotor motor) {
+    public MotorToEncoder(ActiveOpMode opMode, DcMotor motor) {
 
         this.opMode = opMode;
         this.motor = motor;

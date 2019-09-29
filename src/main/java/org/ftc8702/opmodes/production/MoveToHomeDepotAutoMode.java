@@ -1,11 +1,9 @@
 package org.ftc8702.opmodes.production;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
-import org.ftc8702.utilities.TelemetryUtil;
 import org.ftc8702.utils.ColorValue;
 
-import java.util.concurrent.TimeUnit;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 import static org.ftc8702.utils.ColorUtil.getColor;
 import static org.ftc8702.utils.ColorUtil.isRedOrBlueDetected;
@@ -70,7 +68,7 @@ public class MoveToHomeDepotAutoMode {
     protected boolean activeLoop() throws InterruptedException {
         // get color readings from both left and right sensors
 
-        ColorValue leftColor = getColor(robot.colorSensorName);
+        ColorValue leftColor = getColor(robot.colorSensor);
        // telemetry.addData("Left Color: ", rightColor.name());
 
        // boolean isColorDetectedByRightSensor = isRedOrBlueDetected(rightColor);

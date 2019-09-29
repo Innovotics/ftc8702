@@ -2,25 +2,21 @@ package org.ftc8702.configurations.production;
 
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.ftc8702.components.ImuGyroSensor;
 import org.ftc8702.opmodes.production.GyroAutoMode;
-import org.ftc8702.utilities.TelemetryUtil;
 import org.ftc8702.utils.InnovoticsRobotProperties;
 
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 import java.util.concurrent.TimeUnit;
+
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 
 /**
@@ -41,7 +37,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     protected GyroAutoMode gyroMode;
 
     public BNO055IMU imu;
-    public ColorSensor colorSensorName;
+    public ColorSensor colorSensor;
     public OpticalDistanceSensor ods;
 
     private HardwareMap hardwareMap;

@@ -1,9 +1,9 @@
 package org.ftc8702.utils;
 
-import org.ftc8702.utilities.TelemetryUtil;
-
 import java.io.PrintWriter;
 import java.io.StringWriter;
+
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 /**
  * Util to prevent unhandled exceptions from crashing the app

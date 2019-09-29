@@ -2,8 +2,10 @@ package ftcbootstrap;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import ftcbootstrap.components.TimerComponent;
-import ftcbootstrap.components.utils.ErrorUtil;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+import ftcbootstrap.ActiveOpMode;
 import ftcbootstrap.components.utils.TelemetryUtil;
 
 /**
@@ -14,7 +16,7 @@ import ftcbootstrap.components.utils.TelemetryUtil;
  */
 public abstract class ActiveOpMode extends LinearOpMode {
 
-    private TimerComponent timerComponent;
+    //private TimerComponent timerComponent;
     private TelemetryUtil telemetryUtil = new TelemetryUtil(this);
     private boolean operationsCompleted;
 
@@ -58,23 +60,22 @@ public abstract class ActiveOpMode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         try {
-            setup();
+            //setup();
             onInit();
         } catch (Throwable e) {
-            ErrorUtil.handleCatchAllException(e,getTelemetryUtil());
+            handleCatchAllException(e,getTelemetryUtil());
         }
 
         waitForStart();
 
         onStart();
 
-
         while (opModeIsActive() && !operationsCompleted) {
 
             try {
                 activeLoop();
             } catch (Throwable e) {
-                ErrorUtil.handleCatchAllException(e, getTelemetryUtil());;
+               handleCatchAllException(e, getTelemetryUtil());;
             }
 
             idle();
@@ -88,11 +89,11 @@ public abstract class ActiveOpMode extends LinearOpMode {
 
     }
 
-    private void setup() {
-
-        timerComponent = new TimerComponent(this);
-
-    }
+    //private void setup() {
+    //
+    //       timerComponent = new TimerComponent(this);
+    //
+    //   }
 
 
     /**
@@ -131,9 +132,33 @@ public abstract class ActiveOpMode extends LinearOpMode {
         getTelemetryUtil().addData("Opmode Status", "Operations completed");
     }
 
-    public TimerComponent getTimer() {
-        return timerComponent;
+    public  static String stackTraceAsString(Throwable e) {
+
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        return sw.toString();
+
     }
 
+    public static void handleCatchAllException(Throwable e , TelemetryUtil telemetryUtil) throws InterruptedException {
+        telemetryUtil.addData("Opmode Exception", e.getMessage());
+        String stckTrace = stackTraceAsString(e);
+        telemetryUtil.addData("Opmode Stacktrace", stckTrace.substring(0, 200));
+        // DbgLog.msg(e.getLocalizedMessage());
+        //if( e instanceof Exception) {
+        //DbgLog.error(stckTrace);
+
+        //}
+
+
+        telemetryUtil.sendTelemetry();
+        if (e instanceof InterruptedException) {
+            throw (InterruptedException) e;
+        }
+    }
+ //   public TimerComponent getTimer() {
+ //       return timerComponent;
+ //   }
 
 }

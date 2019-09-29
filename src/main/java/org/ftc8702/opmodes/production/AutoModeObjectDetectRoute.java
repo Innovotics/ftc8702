@@ -3,10 +3,11 @@ package org.ftc8702.opmodes.production;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftc8702.configurations.production.Team8702ProdAuto;
-import org.ftc8702.opmodes.InnovoticsActiveOpMode;
+
+import ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "AutoModeObjectDetectRoute", group = "Ops")
-public class AutoModeObjectDetectRoute extends InnovoticsActiveOpMode {
+public class AutoModeObjectDetectRoute extends ActiveOpMode {
 
     //States for actual autonomous
     protected enum State {

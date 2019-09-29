@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
+import org.ftc8702.components.motors.MecanumWheelDriveTrain;
 import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
-import org.ftc8702.opmodes.GamePadOmniWheelDrive;
 
 import ftcbootstrap.ActiveOpMode;
 

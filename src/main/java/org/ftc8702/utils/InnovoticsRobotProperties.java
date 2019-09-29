@@ -14,7 +14,7 @@ public class InnovoticsRobotProperties {
 
     public static final String GYRO_SENSOR = "imu";
     public static final String OPTICAL_DISTANCE_SENSOR = "ods";
-    public static final String COLOR_SENSOR = "colorSensorName";
+    public static final String COLOR_SENSOR = "colorSensor";
     public static final String ULTRASONIC_SENSOR = "ultrasonicSensor";
 
     //Servo
