@@ -29,19 +29,6 @@
 
 package org.ftc8702.opmodes.test;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
-import org.firstinspires.ftc.robotcore.external.Func;
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.ftc8702.configurations.test.TestConfiguration;
-import org.ftc8702.utilities.OrientationUtils;
-
 /**
  * {@link UltronGyroSensorTest} gives a short demo on how to use the BNO055 Inertial Motion Unit (IMU) from AdaFruit.
  *

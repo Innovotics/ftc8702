@@ -1,7 +1,6 @@
 package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
@@ -9,10 +8,10 @@ import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
 
-@TeleOp(name = "TeleOpMecanumDrive", group = "production")
-public class TeleOpMecanumDrive extends ActiveOpMode {
+@TeleOp(name = "SkystoneTeleOp", group = "production")
+public class SkystoneTeleOp extends ActiveOpMode {
 
-    private ProdMecanumRobotConfiguration robot;
+    private ProdMecanumRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
 
     /**
@@ -21,7 +20,7 @@ public class TeleOpMecanumDrive extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        robot = ProdMecanumRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
+        driveTrainConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -32,11 +31,7 @@ public class TeleOpMecanumDrive extends ActiveOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-        driveTrain = new MecanumWheelDriveTrain(robot.motorFL, robot.motorFR, robot.motorBL, robot.motorBR);
-    }
-
-    private Gamepad getGamePad() {
-        return this.gamepad1;
+        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR);
     }
 
     /**
@@ -47,28 +42,31 @@ public class TeleOpMecanumDrive extends ActiveOpMode {
      */
     @Override
     protected void activeLoop() throws InterruptedException {
-        if (getGamePad().left_bumper || getGamePad().right_bumper) {
-            // rotate
-
-            if (getGamePad().right_bumper){
-                driveTrain.rotateRight(-1);
-            }
-            if (getGamePad().left_bumper){
-                driveTrain.rotateRight(1);
-            }
-
-        } else if (getGamePad().left_stick_y != 0) {
-            float scaledPower = scaleMotorPower(getGamePad().left_stick_y);
+        if (gamepad1.right_bumper)
+        {
+            driveTrain.rotateRight(1);
+        }
+        else if (gamepad1.left_bumper)
+        {
+            driveTrain.rotateLeft(1);
+        }
+        else if (gamepad1.left_stick_y != 0)
+        {
+            float scaledPower = scaleMotorPower(gamepad1.left_stick_y);
             driveTrain.goForward(scaledPower);
-        } else if (getGamePad().left_stick_x != 0) {
-            float scaledPower = scaleMotorPower(getGamePad().left_stick_x);
+        }
+        else if (gamepad1.left_stick_x != 0)
+        {
+            float scaledPower = scaleMotorPower(gamepad1.left_stick_x);
             driveTrain.strafeRight(scaledPower);
-        } else {
-            // stop
+        }
+        else
+        {
             driveTrain.stop();
         }
 
-        getTelemetryUtil().addData("Joystick Power: ", gamepad2.right_stick_y);
+        getTelemetryUtil().addData("Left Joystick Y-Power: ", gamepad1.left_stick_y);
+        getTelemetryUtil().sendTelemetry();
     }
 
     /**

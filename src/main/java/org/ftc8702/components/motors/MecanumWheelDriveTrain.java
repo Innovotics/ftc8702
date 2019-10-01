@@ -38,12 +38,14 @@ public class MecanumWheelDriveTrain {
         strafeRight(-power);
     }
 
-    public void rotateRight (float power) {
+    public void rotateLeft(float power) {
         frontLeftMotor.setPower(power);
         frontRightMotor.setPower(power);
         backLeftMotor.setPower(power);
         backRightMotor.setPower(power);
     }
+
+    public void rotateRight(float power) { rotateRight(-power);}
 
     public void stop() {
         goForward(0);

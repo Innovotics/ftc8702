@@ -11,12 +11,12 @@ import ftcbootstrap.ActiveOpMode;
 @Autonomous(name = "SkystoneSimpleAutoMode", group = "Ops")
 public class SkystoneSimpleAutoMode extends ActiveOpMode {
 
-    private SkystoneAutoConfig config = new SkystoneAutoConfig();
+    private SkystoneAutoConfig robot = new SkystoneAutoConfig();
     private SkystoneAutoModeState currentState;
 
     @Override
     protected void onInit() {
-        config.init(hardwareMap, getTelemetryUtil());
+        robot.init(hardwareMap, getTelemetryUtil());
         currentState = PARK;
     }
 
@@ -31,9 +31,9 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
             case PARK:
                 currentState = DONE;
                 logStage();
-                config.driveTrain.goForward(.8f);
+                robot.driveTrain.goForward(.8f);
                 sleep(1500);
-                config.driveTrain.stop();
+                robot.driveTrain.stop();
                 break;
 
             case DONE: // When all operations are complete
