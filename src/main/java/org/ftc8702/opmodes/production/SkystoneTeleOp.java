@@ -44,20 +44,28 @@ public class SkystoneTeleOp extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
         if (gamepad1.right_bumper)
         {
-            driveTrain.rotateRight(1);
+            float power = 1;
+            getTelemetryUtil().addData("Right bumper power:", power);
+            driveTrain.rotateRight(power);
         }
         else if (gamepad1.left_bumper)
         {
-            driveTrain.rotateLeft(1);
+            float power = 1;
+            getTelemetryUtil().addData("Left bumper power:", power);
+            driveTrain.rotateLeft(power);
         }
         else if (gamepad1.left_stick_y != 0)
         {
             float scaledPower = scaleMotorPower(gamepad1.left_stick_y);
+            getTelemetryUtil().addData("Left Joystick Y: ",
+                    "value=" + gamepad1.left_stick_y + ", scaledPower=" + scaledPower);
             driveTrain.goForward(scaledPower);
         }
         else if (gamepad1.left_stick_x != 0)
         {
             float scaledPower = scaleMotorPower(gamepad1.left_stick_x);
+            getTelemetryUtil().addData("Left Joystick X: ",
+                    "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
             driveTrain.strafeRight(scaledPower);
         }
         else
@@ -65,7 +73,6 @@ public class SkystoneTeleOp extends ActiveOpMode {
             driveTrain.stop();
         }
 
-        getTelemetryUtil().addData("Left Joystick Y-Power: ", gamepad1.left_stick_y);
         getTelemetryUtil().sendTelemetry();
     }
 
