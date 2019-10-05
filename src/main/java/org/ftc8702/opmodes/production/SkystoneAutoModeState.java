@@ -9,6 +9,7 @@ public enum SkystoneAutoModeState {
     MOVE_STONE_TO_BUIDER_ZONE,
     POSITION_TO_FOUNDATION,
     MOVE_FOUNDATION,
+    LOWER_FOUNDATION_GRABBER,
     PARK,
     DONE
 }
