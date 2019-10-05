@@ -16,6 +16,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
     public ColorSensor colorSensor;
     public MecanumWheelDriveTrain driveTrain;
     public CRServo foundationGrabberLeft;
+    public CRServo foundationGrabberRight;
     private HardwareMap hardwareMap;
 
     @Override
@@ -29,5 +30,6 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
         telemetryUtil.addData("Color Sensor", colorSensor+"");
         telemetryUtil.sendTelemetry();
         foundationGrabberLeft = hardwareMap.get(CRServo.class, "foundationGrabberL");
+        foundationGrabberRight = hardwareMap.get(CRServo.class, "foundationGrabberR");
     }
 }

@@ -34,6 +34,13 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
 
 
         switch (currentState) {
+            case MOVE_TO_FOUNDATION:
+                logStage();
+                robot.driveTrain.goForward(1);
+                sleep(3000);
+            {
+                currentState =LOWER_FOUNDATION_GRABBER;
+            }
             case LOWER_FOUNDATION_GRABBER:
                 logStage();
                 accomplishedTask = false;
@@ -45,6 +52,13 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
 
                 } else if(accomplishedTask == true) {
                     currentState = PARK;
+                }
+            case MOVE_FOR_TEST:
+                logStage();
+                robot.driveTrain.goForward(1);
+                sleep(2000);
+                 {
+                    currentState = DONE;
                 }
 
             case PARK:
