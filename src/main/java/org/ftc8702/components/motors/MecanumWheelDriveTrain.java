@@ -15,15 +15,15 @@ public class MecanumWheelDriveTrain {
         this.backRightMotor = backRightMotor;
     }
 
-    public void goForward(float power) {
-        frontLeftMotor.setPower(power);
-        frontRightMotor.setPower(-power); // because motor is on the opposite side
-        backLeftMotor.setPower(power);
-        backRightMotor.setPower(-power);
+    public void goBackward(float power) {
+        frontLeftMotor.setPower(-power);
+        frontRightMotor.setPower(power); // because motor is on the opposite side
+        backLeftMotor.setPower(-power);
+        backRightMotor.setPower(power);
     }
 
-    public void goBackward(float power) {
-        goForward(-power);
+    public void goForward(float power) {
+        goBackward(-power);
     }
 
     public void strafeRight(float power) {
