@@ -19,6 +19,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
     public CRServo foundationGrabberRight;
     private HardwareMap hardwareMap;
 
+
     @Override
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         this.hardwareMap = hardwareMap;
