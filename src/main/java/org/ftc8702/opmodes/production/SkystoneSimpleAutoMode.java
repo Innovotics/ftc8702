@@ -20,7 +20,7 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
     @Override
     protected void onInit() {
         robot.init(hardwareMap, getTelemetryUtil());
-        currentState = PARK;
+        currentState =MOVE_TO_FOUNDATION ;
     }
 
     @Override
@@ -31,13 +31,13 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
 
 
         switch (currentState) {
-            case MOVE_TO_FOUNDATION:
+            case MOVE_TO_FOUNDATION://not yet
                 logStage();
                 robot.driveTrain.goForward(1);
-                sleep(3000);
-            {
+                sleep(918);
                 currentState =LOWER_FOUNDATION_GRABBER;
-            }
+                break;
+
             case LOWER_FOUNDATION_GRABBER:
                 logStage();
                 accomplishedTask = false;
@@ -46,21 +46,34 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
                     sleep(5000);
                     robot.foundationGrabberLeft.setPower(0);
                     accomplishedTask = true;
+                    robot.foundationGrabberRight.setPower(.5);
+                    sleep(5000);
+                    robot.foundationGrabberRight.setPower(0);
+                    accomplishedTask = true;
 
                 } else if(accomplishedTask == true) {
-                    currentState = PARK;
+                    currentState = MOVE_FROM_FOUNDATION;
                 }
+                    break;
+            case MOVE_FROM_FOUNDATION:
+                logStage();
+                robot.driveTrain.goBackward(1);
+                sleep(2000);
+                currentState =DONE;//make this park after we fix everything
+                break;
+
             case MOVE_FOR_TEST:
                 logStage();
                 robot.driveTrain.goForward(1);
-                sleep(2000);
-                 {
+                sleep(818);
+                robot.driveTrain.stop();
+
                     currentState = DONE;
-                }
+                    break;
 
             case PARK:
                 logStage();
-                robot.driveTrain.goBackward(.3f);
+                robot.driveTrain.strafeRight(.3f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {

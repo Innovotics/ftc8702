@@ -56,7 +56,7 @@ public class SkystoneTeleOp extends ActiveOpMode {
         }
         else if (gamepad1.left_stick_y != 0)
         {
-            float scaledPower = scaleMotorPower(gamepad1.left_stick_y);
+            float scaledPower = scaleMotorPower(-gamepad1.left_stick_y);//negative because when the joystick goes up it gives a negative value
             getTelemetryUtil().addData("Left Joystick Y: ",
                     "value=" + gamepad1.left_stick_y + ", scaledPower=" + scaledPower);
             driveTrain.goForward(scaledPower);
