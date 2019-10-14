@@ -1,4 +1,4 @@
-package org.ftc8702.opmodes.production;
+package org.ftc8702.opmodes.Sensors;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -29,17 +29,17 @@ public class ObjectDetectionAutoMode {
 
     private TelemetryUtil telemetry;
     private Team8702ProdAuto robot;
-    private GyroAutoMode gyroMode;
+   // private GyroAutoMode gyroMode;
 
     private boolean isCompleted = false;
     private double angleToGoldMineral = 0;
 
 
-    public ObjectDetectionAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetry, GyroAutoMode gyroMode) {
-        this.telemetry = telemetry;
-        this.robot = robot;
-        this.gyroMode = gyroMode;
-    }
+//    public ObjectDetectionAutoMode(Team8702ProdAuto robot, TelemetryUtil telemetry, GyroAutoMode gyroMode) {
+//        this.telemetry = telemetry;
+//        this.robot = robot;
+//        this.gyroMode = gyroMode;
+//    }
 
     public void init() {
         initVuforia();
@@ -108,19 +108,19 @@ public class ObjectDetectionAutoMode {
         telemetry.addData("Turn robot to ", String.format("%.2f degree", goldAngle));
         telemetry.sendTelemetry();
 
-        if (goldAngle > 0) {
-            gyroMode.goRightToAngleDegree(goldAngle);
-        } else {
-            gyroMode.goLeftAngleCondition(goldAngle);
-        }
-        robot.forwardRobot(0.4);
-        robot.sleep(2000);
-        robot.stopRobot();
-        if (goldAngle > 0) {
-            gyroMode.goLeftAngleCondition(goldAngle);
-        } else {
-            gyroMode.goRightToAngleDegree(goldAngle);
-        }
+//        if (goldAngle > 0) {
+//            gyroMode.goRightToAngleDegree(goldAngle);
+//        } else {
+//            gyroMode.goLeftAngleCondition(goldAngle);
+//        }
+//        robot.forwardRobot(0.4);
+//        robot.sleep(2000);
+//        robot.stopRobot();
+//        if (goldAngle > 0) {
+//            gyroMode.goLeftAngleCondition(goldAngle);
+//        } else {
+//            gyroMode.goRightToAngleDegree(goldAngle);
+//        }
         robot.forwardRobot(0.4);
         robot.sleep(2000);
         robot.stopRobot();

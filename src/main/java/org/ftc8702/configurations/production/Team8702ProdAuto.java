@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.ftc8702.opmodes.production.GyroAutoMode;
+//import org.ftc8702.opmodes.production.GyroAutoMode;
 import org.ftc8702.utils.InnovoticsRobotProperties;
 
 
@@ -34,7 +34,7 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
     public DcMotor wheelBR;
     public DcMotor wheelBL;
 
-    protected GyroAutoMode gyroMode;
+   // protected GyroAutoMode gyroMode;
 
     public BNO055IMU imu;
     public ColorSensor colorSensor;
@@ -105,23 +105,23 @@ public class Team8702ProdAuto extends AbstractRobotConfiguration {
 
     public void turnRight(double speed, double angle) {
 
-        if(gyroMode.getAngles().secondAngle > angle) {
-            wheelFR.setPower(speed);
-            wheelFL.setPower(speed);
-            wheelBR.setPower(speed);
-            wheelBL.setPower(speed);
-        }
+//        if(gyroMode.getAngles().secondAngle > angle) {
+//            wheelFR.setPower(speed);
+//            wheelFL.setPower(speed);
+//            wheelBR.setPower(speed);
+//            wheelBL.setPower(speed);
+//        }
 
     }
     
     public void turnLeft(double speed, double angle) {
 
-        if(gyroMode.getAngles().secondAngle < angle) {
-            wheelFR.setPower(-speed);
-            wheelFL.setPower(-speed);
-            wheelBR.setPower(-speed);
-            wheelBL.setPower(-speed);
-        }
+//        if(gyroMode.getAngles().secondAngle < angle) {
+//            wheelFR.setPower(-speed);
+//            wheelFL.setPower(-speed);
+//            wheelBR.setPower(-speed);
+//            wheelBL.setPower(-speed);
+//        }
     }
 
     public void shiftRight(double speed) {

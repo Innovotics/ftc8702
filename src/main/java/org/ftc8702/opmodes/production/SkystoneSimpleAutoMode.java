@@ -1,7 +1,4 @@
 package org.ftc8702.opmodes.production;
-
-import android.graphics.Color;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.Servo;
 
