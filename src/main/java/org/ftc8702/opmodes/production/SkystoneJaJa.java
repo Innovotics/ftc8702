@@ -18,8 +18,8 @@ public class SkystoneJaJa {
     {
         foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
         foundationGrabberRight.setDirection (Servo.Direction.FORWARD);
-    foundationGrabberLeft.setPosition(power);
-    foundationGrabberRight.setPosition (power);
+        foundationGrabberLeft.setPosition(power);
+        foundationGrabberRight.setPosition (power);
 
 }
     void JaJaUp (float power)

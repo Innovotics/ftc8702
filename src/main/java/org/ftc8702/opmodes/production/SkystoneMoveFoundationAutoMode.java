@@ -32,9 +32,9 @@ public class SkystoneMoveFoundationAutoMode extends SkystoneAbstractAutoMode {
                 logStage();
                 accomplishedTask = false;
                 if(accomplishedTask == false) {
-                    getRobot().foundationGrabberLeft.setPower(.5);
+                    robot.jaja.foundationGrabberLeft.setPosition(0);
                     sleep(5000);
-                    getRobot().foundationGrabberLeft.setPower(0);
+                    robot.jaja.foundationGrabberLeft.setPosition(0);
                     accomplishedTask = true;
 
                 } else if(accomplishedTask == true) {
