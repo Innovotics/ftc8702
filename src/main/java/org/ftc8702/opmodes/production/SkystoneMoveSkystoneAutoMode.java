@@ -9,8 +9,8 @@ import org.ftc8702.utils.ColorValue;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.DONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
 
-@Autonomous(name = "SkystoneMoveFoundationAutoMode", group = "Ops")
-public class SkystoneMoveFoundationAutoMode extends SkystoneAbstractAutoMode {
+@Autonomous(name = "SkystoneMoveSkystoneAutoMode", group = "Ops")
+public class SkystoneMoveSkystoneAutoMode extends SkystoneAbstractAutoMode {
 
     private boolean accomplishedTask = false;
     private BenColorSensorTest colorSensorTester;

@@ -14,7 +14,7 @@ import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
 
 abstract class SkystoneAbstractAutoMode extends ActiveOpMode {
 
-    private SkystoneAutoConfig robot = new SkystoneAutoConfig();
+    public SkystoneAutoConfig robot = new SkystoneAutoConfig();
     private SkystoneAutoModeState currentState;
     private boolean accomplishedTask = false;
 
