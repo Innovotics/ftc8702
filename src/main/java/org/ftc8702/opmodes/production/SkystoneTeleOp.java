@@ -74,22 +74,22 @@ public class SkystoneTeleOp extends ActiveOpMode {
             driveTrain.strafeRight(scaledPower);
         }
         else if (gamepad1.a ) {
-            jaja.foundationGrabberLeft.setPosition(1);
             jaja.foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
-            jaja.foundationGrabberRight.setPosition(1);
             jaja.foundationGrabberRight.setDirection(Servo.Direction.REVERSE);
-            jaja.foundationGrabberLeft.setPosition(0);
-            jaja.foundationGrabberRight.setPosition(0);
+            jaja.foundationGrabberRight.setPosition(1);
+            jaja.foundationGrabberLeft.setPosition(1);
+            //jaja.foundationGrabberLeft.setPosition(0);
+            //jaja.foundationGrabberRight.setPosition(0);
 
             //jaja.JaJaDown(-1);
         }
         else if (gamepad1.y ) {
-            jaja.foundationGrabberRight.setPosition(1);
             jaja.foundationGrabberRight.setDirection(Servo.Direction.FORWARD);
-            jaja.foundationGrabberLeft.setPosition(1);
             jaja.foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
-            jaja.foundationGrabberLeft.setPosition(0);
-            jaja.foundationGrabberRight.setPosition(0);
+            jaja.foundationGrabberRight.setPosition(1);
+            jaja.foundationGrabberLeft.setPosition(1);
+            //jaja.foundationGrabberLeft.setPosition(0);
+            //jaja.foundationGrabberRight.setPosition(0);
 
             //jaja.JaJaUp(1);
         }
