@@ -1,12 +1,15 @@
 package org.ftc8702.components.motors;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class MecanumWheelDriveTrain {
     private DcMotor frontLeftMotor;
     private DcMotor frontRightMotor;
     private DcMotor backLeftMotor;
     private DcMotor backRightMotor;
+    private Servo foundationGrabberLeft;
+    private Servo foundationGrabberRight;
 
     public MecanumWheelDriveTrain(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor) {
         this.frontLeftMotor = frontLeftMotor;
@@ -50,5 +53,24 @@ public class MecanumWheelDriveTrain {
     public void stop() {
         goForward(0);
     }
+
+    public void grabbersDown(float power)
+    {
+        foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
+        foundationGrabberRight.setDirection (Servo.Direction.FORWARD);
+        foundationGrabberLeft.setPosition(power);
+        foundationGrabberRight.setPosition (power);
+
+    }
+
+    public void grabbersUp(float power)
+    {
+        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
+        foundationGrabberRight.setDirection (Servo.Direction.REVERSE);
+        foundationGrabberLeft.setPosition(power);
+        foundationGrabberRight.setPosition (power);
+
+    }
+
 
 }

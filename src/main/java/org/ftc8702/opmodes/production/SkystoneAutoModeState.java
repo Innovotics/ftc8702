@@ -4,6 +4,7 @@ public enum SkystoneAutoModeState {
     INIT,
     MOVE_TO_FIRST_ZONE,
     MOVE_FOR_TEST,
+    SPIN_TO_WIN,
     MOVE_TO_FOUNDATION,
     MOVE_FROM_FOUNDATION,
     MOVE_TO_SECOND_ZONE,
