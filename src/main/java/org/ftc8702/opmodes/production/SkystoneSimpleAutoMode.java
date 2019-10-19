@@ -44,11 +44,8 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
             case LOWER_FOUNDATION_GRABBER:
                 logStage();
                     robot.jaja.foundationGrabberRight.setPosition(1);
-                    //robot.jaja.foundationGrabberLeft.setPosition(1);
-                    //sleep(2000);
-                    //robot.jaja.foundationGrabberLeft.setPosition(1);
-                    // accpomplishedTask= true;
-                    sleep(1500);
+                    robot.jaja.foundationGrabberLeft.setPosition(0);
+                    sleep(100);
                     accomplishedTask = true;
                     currentState = MOVE_FROM_FOUNDATION;
 
@@ -56,7 +53,7 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
             case MOVE_FROM_FOUNDATION:
                 logStage();
                 robot.driveTrain.goBackward(1);
-                sleep(1500);
+                sleep(1200);
                 robot.driveTrain.stop();
                 currentState = RAISE_FOUNDATION_GRABBER;//make this park after we fix everything
                 break;
@@ -64,11 +61,8 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
             case RAISE_FOUNDATION_GRABBER:
                 logStage();
                     robot.jaja.foundationGrabberRight.setPosition(0.5);
-                    //robot.jaja.foundationGrabberLeft.setPosition(1);
+                    robot.jaja.foundationGrabberLeft.setPosition(0.5);
                     sleep(1500);
-                    //robot.jaja.foundationGrabberLeft.setPosition(1);
-                    //finishedJob = true;
-                    finishedJob = true;
                     currentState = PARK;
 
                     break;
@@ -80,8 +74,25 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
                     telemetry.addData("Touching ", currentColor);
-                    currentState = DONE;
+                    currentState = SPIN_TO_WIN;
                 }
+                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
+                    robot.driveTrain.strafeRight(.3f);
+                }
+                break;
+
+            case SPIN_TO_WIN:
+                logStage();
+                robot.driveTrain.rotateLeft(0.5f);
+                sleep(5000);
+                robot.jaja.foundationGrabberLeft.setPosition(1);
+                robot.jaja.foundationGrabberRight.setPosition(1);
+                sleep(1000);
+                robot.jaja.foundationGrabberRight.setPosition(0);
+                robot.jaja.foundationGrabberLeft.setPosition(0);
+                sleep(1000);
+                robot.driveTrain.stop();
+                currentState = DONE;
                 break;
 
             case DONE: // When all operations are complete

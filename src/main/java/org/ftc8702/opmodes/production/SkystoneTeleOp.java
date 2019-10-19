@@ -1,18 +1,22 @@
 package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
+import org.ftc8702.components.servo.GamePadCRServo;
 import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
+import org.ftc8702.opmodes.production.SkystoneJaJa;
 
 @TeleOp(name = "SkystoneTeleOp", group = "production")
 public class SkystoneTeleOp extends ActiveOpMode {
 
     private ProdMecanumRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
+    private SkystoneJaJa jaja;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -32,6 +36,7 @@ public class SkystoneTeleOp extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
         driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR);
+        jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
     }
 
     /**
@@ -67,6 +72,26 @@ public class SkystoneTeleOp extends ActiveOpMode {
             getTelemetryUtil().addData("Left Joystick X: ",
                     "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
             driveTrain.strafeRight(scaledPower);
+        }
+        else if (gamepad1.a ) {
+            jaja.foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
+            jaja.foundationGrabberRight.setDirection(Servo.Direction.REVERSE);
+            jaja.foundationGrabberRight.setPosition(1);
+            jaja.foundationGrabberLeft.setPosition(1);
+            //jaja.foundationGrabberLeft.setPosition(0);
+            //jaja.foundationGrabberRight.setPosition(0);
+
+            //jaja.JaJaDown(-1);
+        }
+        else if (gamepad1.y ) {
+            jaja.foundationGrabberRight.setDirection(Servo.Direction.FORWARD);
+            jaja.foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
+            jaja.foundationGrabberRight.setPosition(1);
+            jaja.foundationGrabberLeft.setPosition(1);
+            //jaja.foundationGrabberLeft.setPosition(0);
+            //jaja.foundationGrabberRight.setPosition(0);
+
+            //jaja.JaJaUp(1);
         }
         else
         {
