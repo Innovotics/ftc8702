@@ -52,6 +52,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
 
 public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
+
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -124,8 +125,8 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
     }
 
     // return 0 = skystone is at position 1, 1 = position 2, 2 = position 3, negative = unknown
-    public void detect()
-    {
+    public double detect(){
+
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -135,12 +136,41 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
                 for (Recognition recognition : updatedRecognitions) {
+                    double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
                     telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
+                    //find positions
+                    if(angle < -20) {
+                        telemetry.addData("Left", " Position");
+                        telemetry.addData("Angle: ", angle);
+                        telemetry.update();
+                        return 1;
+
+                    } else if(angle > -20 && angle < 10) {
+                        telemetry.addData("Center", " Position");
+                        telemetry.addData("Angle: ", angle);
+                        telemetry.update();
+                        return 2;
+
+                    } else if(angle >= 10) {
+                        telemetry.addData("Right", " Position");
+                        telemetry.addData("Angle: ", angle);
+                        telemetry.update();
+                        return 3;
+
+                    } else {
+                        return 0;
+                    }
                 }
+
                 telemetry.update();
+
+
             }
         }
+        return 0;
     }
+
+
 
     /**
      * Initialize the Vuforia localization engine.
@@ -170,5 +200,33 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+    }
+
+    //find adjustment vector
+    public int getPosition(double angle) {
+
+        //find positions
+        if(angle < -20) {
+            telemetry.addData("Right", " Position");
+            telemetry.addData("Angle: ", angle);
+            telemetry.update();
+            return 1;
+
+        } else if(angle > - 20 && angle < 10) {
+            telemetry.addData("Center", " Position");
+            telemetry.addData("Angle: ", angle);
+            telemetry.update();
+        return 2;
+
+        } else if(angle >= 10) {
+            telemetry.addData("Left", " Position");
+            telemetry.addData("Angle: ", angle);
+            telemetry.update();
+        return 3;
+
+        } else {
+            return 0;
+        }
+
     }
 }

@@ -4,23 +4,25 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.ftc8702.opmodes.production.SkystoneAutoModeState;
 import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
 
+import java.util.List;
 
 
 @Autonomous(name = "Detect and Grab Skystone", group = "Ops")
 public class SkystoneAutoModeDetection extends SkystoneAbstractAutoMode {
 
-    private VuforiaLocalizer vuforia;
     public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
-    private static final String VUFORIA_KEY = "ASVx607/////AAABmeYAtysWv0AXpZe726GhwxofjFOd04VMHXb225G3ekEFMyTp6Wb9dJcGjGpeDNyRQBzGLKn2BMDTmBb5fMFIUBrN/LdHRaR1XtWhBnAusAVpP5nhLPAAdNIT6duwXmcijvtNKrHg4Eh/dA8UPFBRdx/uFkWpRYwEntXDWYor3Fo03J02mLPUvic76qSUlNBWhDM3pe/V1I82oGRt/X4yEsXKRk3YiDFnAMbxziGnYAV2I5rX9oVPriZ9y+JB5YvfSZIIYgmp3GYxQVJjIqUNNYM5+PBaBxBy012laaKhqf40BYxX41QEfbCq+KNx76JSCOSvVRKEay39+czt1JAyaBMIWadXSHrrmPI12JRAG+57";
-
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
     private SkystoneAutoConfig robot = new SkystoneAutoConfig();
+
     @Override
     protected void onInit() {
         robot.init(hardwareMap, getTelemetryUtil());
@@ -38,6 +40,7 @@ public class SkystoneAutoModeDetection extends SkystoneAbstractAutoMode {
         switch (currentState) {
             case DETECT_SKYSTONE:
                 logStage();
+                webCamDetector.getPosition(webCamDetector.detect());
                 break;
 
             case HUG_STONE:
@@ -65,7 +68,6 @@ public class SkystoneAutoModeDetection extends SkystoneAbstractAutoMode {
         getTelemetryUtil().sendTelemetry();
     }
 
-
-
+    //Find Vector
 
 }

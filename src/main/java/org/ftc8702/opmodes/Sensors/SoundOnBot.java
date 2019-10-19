@@ -29,94 +29,90 @@
 
 package org.ftc8702.opmodes.Sensors;
 
-import android.content.Context;
-
 import com.qualcomm.ftccommon.SoundPlayer;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import java.io.File;
 
 /**
- * This file demonstrates how to play one of the several SKYSTONE/Star Wars sounds loaded into the SDK.
- * It does this by creating a simple "chooser" controlled by the gamepad Up Down buttons.
- * This code also prevents sounds from stacking up by setting a "playing" flag, which is cleared when the sound finishes playing.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * This file demonstrates how to play simple sounds on both the RC and DS phones.
+ * It illustrates how to play sound files that have been copied to the RC Phone
+ * This technique is best suited for use with OnBotJava since it does not require the app to be modified.
  *
  * Operation:
- *      Use the DPAD to change the selected sound, and the Right Bumper to play it.
+ *
+ * Gamepad X & B buttons are used to trigger sounds in this example, but any event can be used.
+ * Note: Time should be allowed for sounds to complete before playing other sounds.
+ *
+ *  To play a new sound, you will need to copy the .wav files to the phone, and then provide the full path to them as part of your OpMode.
+ *  This is done in this sample for the two sound files.  silver.wav and gold.wav
+ *
+ *  You can put the files in a variety of soundPaths, but we recommend you put them in the /FIRST/blocks/sounds folder.
+ *  Your OpModes will have guaranteed access to this folder, and you can transfer files into this folder using the BLOCKS web page.
+ *  --  There is a link called "sounds" on the right hand side of the color bar on the BLOCKS page that can be used to send sound files to this folder by default.
+ *  Or you can use Windows File Manager, or ADB to transfer the sound files
+ *
+ *  To get full use of THIS sample, you will need to copy two sound file called silver.wav and gold.wav to /FIRST/blocks/sounds on the RC phone.
+ *  They can be located here:
+ *      https://github.com/ftctechnh/ftc_app/tree/master/FtcRobotController/src/main/res/raw/gold.wav
+ *      https://github.com/ftctechnh/ftc_app/tree/master/FtcRobotController/src/main/res/raw/silver.wav
  */
 
-@TeleOp(name="SKYSTONE Sounds", group="Concept")
+@TeleOp(name="Concept: Sound Files", group="Concept")
 public class SoundOnBot extends LinearOpMode {
 
-    // List of available sound resources
-    String  sounds[] =  {"ss_alarm", "ss_bb8_down", "ss_bb8_up", "ss_darth_vader", "ss_fly_by",
-            "ss_mf_fail", "ss_laser", "ss_laser_burst", "ss_light_saber", "ss_light_saber_long", "ss_light_saber_short",
-            "ss_light_speed", "ss_mine", "ss_power_up", "ss_r2d2_up", "ss_roger_roger", "ss_siren", "ss_wookie" };
-    boolean soundPlaying = false;
+    // Point to sound files on the phone's drive
+    private String soundPath = "/FIRST/blocks/sounds";
+    private File goldFile   = new File("/sdcard" + soundPath + "/gold.wav");
+    private File silverFile = new File("/sdcard" + soundPath + "/silver.wav");
+
+    // Declare OpMode members.
+    private boolean isX = false;    // Gamepad button state variables
+    private boolean isB = false;
+
+    private boolean wasX = false;   // Gamepad button history variables
+    private boolean WasB = false;
 
     @Override
     public void runOpMode() {
 
-        // Variables for choosing from the available sounds
-        int     soundIndex      = 0;
-        int     soundID         = -1;
-        boolean was_dpad_up     = false;
-        boolean was_dpad_down   = false;
+        // Make sure that the sound files exist on the phone
+        boolean goldFound   = goldFile.exists();
+        boolean silverFound = silverFile.exists();
 
-        Context myApp = hardwareMap.appContext;
+        // Display sound status
+        telemetry.addData("gold sound",   goldFound ?   "Found" : "NOT Found \nCopy gold.wav to " + soundPath  );
+        telemetry.addData("silver sound", silverFound ? "Found" : "NOT Found \nCopy silver.wav to " + soundPath );
 
-        // create a sound parameter that holds the desired player parameters.
-        SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();
-        params.loopControl = 0;
-        params.waitForNonLoopingSoundsToFinish = true;
+        // Wait for the game to start (driver presses PLAY)
+        telemetry.addData(">", "Press Start to continue");
+        telemetry.update();
+        waitForStart();
 
-        // In this sample, we will skip waiting for the user to press play, and start displaying sound choices right away
-        while (!isStopRequested()) {
+        telemetry.addData(">", "Press X or B to play sounds.");
+        telemetry.update();
 
-            // Look for DPAD presses to change the selection
-            if (gamepad1.dpad_down && !was_dpad_down) {
-                // Go to next sound (with list wrap) and display it
-                soundIndex = (soundIndex + 1) % sounds.length;
+        // run until the end of the match (driver presses STOP)
+        while (opModeIsActive()) {
+
+            // say Silver each time gamepad X is pressed (This sound is a resource)
+            if (silverFound && (isX = gamepad1.x) && !wasX) {
+                SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, silverFile);
+                telemetry.addData("Playing", "Silver File");
+                telemetry.update();
             }
 
-            if (gamepad1.dpad_up && !was_dpad_up) {
-                // Go to previous sound (with list wrap) and display it
-                soundIndex = (soundIndex + sounds.length - 1) % sounds.length;
+            // say Gold each time gamepad B is pressed  (This sound is a resource)
+            if (goldFound && (isB = gamepad1.b) && !WasB) {
+                SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, goldFile);
+                telemetry.addData("Playing", "Gold File");
+                telemetry.update();
             }
 
-            // Look for trigger to see if we should play sound
-            // Only start a new sound if we are currently not playing one.
-            if (gamepad1.right_bumper && !soundPlaying) {
-
-                // Determine Resource IDs for the sounds you want to play, and make sure it's valid.
-                if ((soundID = myApp.getResources().getIdentifier(sounds[soundIndex], "raw", myApp.getPackageName())) != 0){
-
-                    // Signal that the sound is now playing.
-                    soundPlaying = true;
-
-                    // Start playing, and also Create a callback that will clear the playing flag when the sound is complete.
-                    SoundPlayer.getInstance().startPlaying(myApp, soundID, params, null,
-                            new Runnable() {
-                                public void run() {
-                                    soundPlaying = false;
-                                }} );
-                }
-            }
-
-            // Remember the last state of the dpad to detect changes.
-            was_dpad_up     = gamepad1.dpad_up;
-            was_dpad_down   = gamepad1.dpad_down;
-
-            // Display the current sound choice, and the playing status.
-            telemetry.addData("", "Use DPAD up/down to choose sound.");
-            telemetry.addData("", "Press Right Bumper to play sound.");
-            telemetry.addData("", "");
-            telemetry.addData("Sound >", sounds[soundIndex]);
-            telemetry.addData("Status >", soundPlaying ? "Playing" : "Stopped");
-            telemetry.update();
+            // Save last button states
+            wasX = isX;
+            WasB = isB;
         }
     }
 }
