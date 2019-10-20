@@ -20,6 +20,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
     public SkystoneJaJa jaja;
     private HardwareMap hardwareMap;
 
+
     @Override
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         this.hardwareMap = hardwareMap;

@@ -52,6 +52,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 @TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
 
 public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
+
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
@@ -82,8 +83,8 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
      */
     private TFObjectDetector tfod;
 
-    @Override
-    public void runOpMode() {
+    public void initialize()
+    {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
@@ -101,6 +102,11 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
         if (tfod != null) {
             tfod.activate();
         }
+    }
+
+    @Override
+    public void runOpMode() {
+        initialize();
 
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
@@ -109,25 +115,7 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
-                if (tfod != null) {
-                    // getUpdatedRecognitions() will return null if no new information is available since
-                    // the last time that call was made.
-                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if (updatedRecognitions != null) {
-                        telemetry.addData("# Object Detected", updatedRecognitions.size());
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-                            telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                            telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                    recognition.getLeft(), recognition.getTop());
-                            telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                    recognition.getRight(), recognition.getBottom());
-                            telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
-                        }
-                        telemetry.update();
-                    }
-                }
+                detect();
             }
         }
 
@@ -135,6 +123,61 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
             tfod.shutdown();
         }
     }
+
+    // return 0 = skystone is at position 1, 1 = position 2, 2 = position 3, negative = unknown
+    public double detect(){
+
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                if(updatedRecognitions.size() == 1) {
+                    Recognition recognition = updatedRecognitions.get(0);
+                    //for (Recognition recognition : updatedRecognitions) {
+                        if(recognition.getLabel().equals("Skystone") ) {
+                            double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                            telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
+                            //find positions
+                            if(angle < -20) {
+                                telemetry.addData("Left", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return 1;
+
+                            } else if(angle > -20 && angle < 10) {
+                                telemetry.addData("Center", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return 2;
+
+                            } else if(angle >= 10) {
+                                telemetry.addData("Right", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return 3;
+
+                            } else {
+                                return 0;
+                            }
+                        }
+
+                    //}
+                }
+
+
+                telemetry.update();
+
+
+            }
+        }
+        return 0;
+    }
+
+
 
     /**
      * Initialize the Vuforia localization engine.
@@ -164,5 +207,33 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+    }
+
+    //find adjustment vector
+    public int getPosition(double angle) {
+
+        //find positions
+        if(angle < -20) {
+            telemetry.addData("Right", " Position");
+            telemetry.addData("Angle: ", angle);
+            telemetry.update();
+            return 1;
+
+        } else if(angle > - 20 && angle < 10) {
+            telemetry.addData("Center", " Position");
+            telemetry.addData("Angle: ", angle);
+            telemetry.update();
+        return 2;
+
+        } else if(angle >= 10) {
+            telemetry.addData("Left", " Position");
+            telemetry.addData("Angle: ", angle);
+            telemetry.update();
+        return 3;
+
+        } else {
+            return 0;
+        }
+
     }
 }
