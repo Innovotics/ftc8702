@@ -135,32 +135,39 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
-                for (Recognition recognition : updatedRecognitions) {
-                    double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
-                    telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
-                    //find positions
-                    if(angle < -20) {
-                        telemetry.addData("Left", " Position");
-                        telemetry.addData("Angle: ", angle);
-                        telemetry.update();
-                        return 1;
+                if(updatedRecognitions.size() == 1) {
+                    Recognition recognition = updatedRecognitions.get(0);
+                    //for (Recognition recognition : updatedRecognitions) {
+                        if(recognition.getLabel().equals("Skystone") ) {
+                            double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                            telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
+                            //find positions
+                            if(angle < -20) {
+                                telemetry.addData("Left", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return 1;
 
-                    } else if(angle > -20 && angle < 10) {
-                        telemetry.addData("Center", " Position");
-                        telemetry.addData("Angle: ", angle);
-                        telemetry.update();
-                        return 2;
+                            } else if(angle > -20 && angle < 10) {
+                                telemetry.addData("Center", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return 2;
 
-                    } else if(angle >= 10) {
-                        telemetry.addData("Right", " Position");
-                        telemetry.addData("Angle: ", angle);
-                        telemetry.update();
-                        return 3;
+                            } else if(angle >= 10) {
+                                telemetry.addData("Right", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return 3;
 
-                    } else {
-                        return 0;
-                    }
+                            } else {
+                                return 0;
+                            }
+                        }
+
+                    //}
                 }
+
 
                 telemetry.update();
 
