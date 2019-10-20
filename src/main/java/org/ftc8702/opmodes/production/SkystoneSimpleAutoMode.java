@@ -37,6 +37,10 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
                 logStage();
                 robot.driveTrain.goForward(1);
                 sleep(968);
+                robot.driveTrain.strafeRight(0.3f);
+                sleep(1000);
+                robot.driveTrain.goForward(0.1f);
+                sleep(100);
                 robot.driveTrain.stop();
                 currentState = LOWER_FOUNDATION_GRABBER;
                 break;
@@ -63,21 +67,23 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
                     robot.jaja.foundationGrabberRight.setPosition(0.5);
                     robot.jaja.foundationGrabberLeft.setPosition(0.5);
                     sleep(1500);
+                    robot.driveTrain.strafeLeft(.5f);
+                    sleep(3000);
                     currentState = PARK;
 
                     break;
 
             case PARK:
                 logStage();
-                robot.driveTrain.strafeRight(.3f);
+                robot.driveTrain.strafeLeft(.3f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
                     telemetry.addData("Touching ", currentColor);
-                    currentState = SPIN_TO_WIN;
+                    currentState = DONE;
                 }
                 else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.strafeRight(.3f);
+                    robot.driveTrain.strafeLeft(.3f);
                 }
                 break;
 

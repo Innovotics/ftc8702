@@ -76,8 +76,8 @@ public class SkystoneTeleOp extends ActiveOpMode {
         else if (gamepad1.a ) {
             jaja.foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
             jaja.foundationGrabberRight.setDirection(Servo.Direction.REVERSE);
-            jaja.foundationGrabberRight.setPosition(1);
-            jaja.foundationGrabberLeft.setPosition(1);
+            jaja.foundationGrabberRight.setPosition(0.5);
+            jaja.foundationGrabberLeft.setPosition(0.5);
             //jaja.foundationGrabberLeft.setPosition(0);
             //jaja.foundationGrabberRight.setPosition(0);
 
