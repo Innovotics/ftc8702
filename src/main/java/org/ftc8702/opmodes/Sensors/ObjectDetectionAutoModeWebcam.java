@@ -49,7 +49,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
+@TeleOp(name = "Skystone Detector", group = "Autonomous")
 
 public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
 
@@ -135,38 +135,35 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
-                if(updatedRecognitions.size() == 1) {
-                    Recognition recognition = updatedRecognitions.get(0);
-                    //for (Recognition recognition : updatedRecognitions) {
-                        if(recognition.getLabel().equals("Skystone") ) {
+
+                    for (Recognition recognition : updatedRecognitions) {
+                        if (recognition.getLabel().equals("Skystone")) {
                             double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
                             telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
                             //find positions
-                            if(angle < -20) {
+                            if (angle < -20) {
                                 telemetry.addData("Left", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
                                 return 1;
 
-                            } else if(angle > -20 && angle < 10) {
+                            } else if (angle >= -20 && angle < 10) {
                                 telemetry.addData("Center", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
                                 return 2;
 
-                            } else if(angle >= 10) {
+                            } else if (angle >= 10) {
                                 telemetry.addData("Right", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
                                 return 3;
 
-                            } else {
-                                return 0;
                             }
                         }
+                    }
 
-                    //}
-                }
+
 
 
                 telemetry.update();
