@@ -17,6 +17,7 @@ public class SkystoneTeleOp extends ActiveOpMode {
     private ProdMecanumRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
     private SkystoneJaJa jaja;
+    private SkystoneFlexArm flexArm;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -73,6 +74,13 @@ public class SkystoneTeleOp extends ActiveOpMode {
                     "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
             driveTrain.strafeRight(scaledPower);
         }
+        else if (gamepad2.left_stick_y != 0)
+        {
+            float scaledPower = scaleMotorPower(gamepad1.left_stick_x);
+            getTelemetryUtil().addData("Left Joystick y: ",
+                    "value=" + gamepad2.left_stick_y + ", scaledPower=" + scaledPower);
+            flexArm.ArmUp(scaledPower);
+        }
         else if (gamepad1.a ) {
             jaja.foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
             jaja.foundationGrabberRight.setDirection(Servo.Direction.REVERSE);
@@ -88,10 +96,7 @@ public class SkystoneTeleOp extends ActiveOpMode {
             jaja.foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
             jaja.foundationGrabberRight.setPosition(1);
             jaja.foundationGrabberLeft.setPosition(1);
-            //jaja.foundationGrabberLeft.setPosition(0);
-            //jaja.foundationGrabberRight.setPosition(0);
 
-            //jaja.JaJaUp(1);
         }
         else
         {

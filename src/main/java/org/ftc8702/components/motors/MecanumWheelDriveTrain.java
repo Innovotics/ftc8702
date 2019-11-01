@@ -48,7 +48,30 @@ public class MecanumWheelDriveTrain {
         backRightMotor.setPower(power);
     }
 
-    public void rotateRight(float power) { rotateRight(-power);}
+    // when power = 1
+    private double speedForwardInFtPerSecond = (1.3 * 2) / 0.968;// speed = distance / time
+
+    public void goForwardFullSpeedInFeet(double feet, boolean stopWhenFinished)
+    {
+        goForward(1);
+        double time = feet / speedForwardInFtPerSecond;
+        sleep(time);
+        if (stopWhenFinished)
+        {
+            stop();
+        }
+    }
+
+    private void sleep(double seconds)
+    {
+        try {
+            Thread.sleep((long) seconds * 1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void rotateRight(float power) { rotateLeft(-power);}//Used to be rotate Right
 
     public void stop() {
         goForward(0);

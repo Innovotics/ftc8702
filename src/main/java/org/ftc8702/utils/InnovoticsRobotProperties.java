@@ -11,6 +11,9 @@ public class InnovoticsRobotProperties {
     public static final String MOTOR_FL = "wheelFL";
     public static final String MOTOR_BR = "wheelBR";
     public static final String MOTOR_BL = "wheelBL";
+    public static final String SLIDER_ARM_LEFT = "SliderArmLeft";
+    public static final String SLIDER_ARM_RIGHT = "SliderArmRight";
+
 
     public static final String GYRO_SENSOR = "imu";
     public static final String OPTICAL_DISTANCE_SENSOR = "ods";

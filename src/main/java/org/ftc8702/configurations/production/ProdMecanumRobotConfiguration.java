@@ -1,10 +1,14 @@
 package org.ftc8702.configurations.production;
 
+import com.qualcomm.hardware.HardwareDeviceManager;
+import com.qualcomm.hardware.HardwareFactory;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.hardware.motors.TetrixMotor;
+import com.qualcomm.robotcore.util.Hardware;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
 import ftcbootstrap.RobotConfiguration;
@@ -26,6 +30,8 @@ public class ProdMecanumRobotConfiguration extends RobotConfiguration {
     public DcMotor motorFL;
     public DcMotor motorBR;
     public DcMotor motorBL;
+    public DcMotor SliderArmLeft;
+    public DcMotor SliderArmRight;
 
     /**
      * Factory method for this class
@@ -52,12 +58,14 @@ public class ProdMecanumRobotConfiguration extends RobotConfiguration {
 
         setTelemetry(telemetryUtil);
 
-            //Mecanum Motors
-            motorFR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FR, hardwareMap.dcMotor);
-            motorFL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FL, hardwareMap.dcMotor);
-            motorBR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BR, hardwareMap.dcMotor);
-            motorBL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BL, hardwareMap.dcMotor);
+        //Mecanum Motors
+        motorFR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FR, hardwareMap.dcMotor);
+        motorFL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FL, hardwareMap.dcMotor);
+        motorBR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BR, hardwareMap.dcMotor);
+        motorBL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BL, hardwareMap.dcMotor);
 
-        getTelemetryUtil().sendTelemetry();
+        //Arm Motors
+        SliderArmRight = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SLIDER_ARM_RIGHT, hardwareMap.dcMotor);
+        SliderArmLeft = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SLIDER_ARM_LEFT, hardwareMap.dcMotor);
     }
 }
