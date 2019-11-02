@@ -29,7 +29,7 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
         telemetry.update();
-        getTelemetryUtil().addData("Color: ", ColorUtil.getColor(robot.colorSensor).name());
+      //  getTelemetryUtil().addData("Color: ", ColorUtil.getColor(robot.colorSensor).name());
 
 
         switch (currentState) {
@@ -76,15 +76,15 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
             case PARK:
                 logStage();
                 robot.driveTrain.strafeLeft(.3f);
-                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
-
-                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-                    telemetry.addData("Touching ", currentColor);
-                    currentState = DONE;
-                }
-                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.strafeLeft(.3f);
-                }
+//                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
+//
+//                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+//                    telemetry.addData("Touching ", currentColor);
+//                    currentState = DONE;
+//                }
+//                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
+//                    robot.driveTrain.strafeLeft(.3f);
+//                }
                 break;
 
             case SPIN_TO_WIN:
