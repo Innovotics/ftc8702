@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
 import org.ftc8702.opmodes.production.SkystoneFlexArm;
 import org.ftc8702.opmodes.production.SkystoneHugger;
+import org.ftc8702.opmodes.production.SkystoneIntake;
 import org.ftc8702.opmodes.production.SkystoneJaJa;
 
 import ftcbootstrap.components.utils.TelemetryUtil;
@@ -24,6 +25,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
     public SkystoneJaJa jaja;
     public SkystoneHugger hugger;
     public SkystoneFlexArm FlexArm;
+    public SkystoneIntake Intake;
     private HardwareMap hardwareMap;
 
 
@@ -36,6 +38,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
         driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR);
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
         FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
+        Intake = new SkystoneIntake(mecanumConfig.IntakeWheelLeft, mecanumConfig.IntakeWheelRight);
         colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
         hugger = new SkystoneHugger(hardwareMap.get(Servo.class, "huggerTop"),hardwareMap.get(Servo.class, "huggerBottom"));
         telemetryUtil.addData("Color Sensor", colorSensor+"");

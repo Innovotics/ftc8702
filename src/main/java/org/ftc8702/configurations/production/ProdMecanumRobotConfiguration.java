@@ -32,6 +32,8 @@ public class ProdMecanumRobotConfiguration extends RobotConfiguration {
     public DcMotor motorBL;
     public DcMotor SliderArmLeft;
     public DcMotor SliderArmRight;
+    public DcMotor IntakeWheelLeft;
+    public DcMotor IntakeWheelRight;
 
     /**
      * Factory method for this class
@@ -67,5 +69,9 @@ public class ProdMecanumRobotConfiguration extends RobotConfiguration {
         //Arm Motors
         SliderArmRight = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SLIDER_ARM_RIGHT, hardwareMap.dcMotor);
         SliderArmLeft = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SLIDER_ARM_LEFT, hardwareMap.dcMotor);
+
+        //Intake Motors
+        IntakeWheelLeft = (DcMotor) getHardwareOn(InnovoticsRobotProperties.INTAKE_WHEEL_LEFT, hardwareMap.dcMotor);
+        IntakeWheelRight = (DcMotor) getHardwareOn(InnovoticsRobotProperties.INTAKE_WHEEL_RIGHT, hardwareMap.dcMotor);
     }
 }

@@ -18,6 +18,7 @@ public class SkystoneTeleOp extends ActiveOpMode {
     private MecanumWheelDriveTrain driveTrain;
     private SkystoneJaJa jaja;
     private SkystoneFlexArm flexArm;
+    private SkystoneIntake Intake;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -38,6 +39,8 @@ public class SkystoneTeleOp extends ActiveOpMode {
         super.onStart();
         driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR);
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
+        flexArm = new SkystoneFlexArm(driveTrainConfig.SliderArmLeft, driveTrainConfig.SliderArmRight);
+        Intake = new SkystoneIntake(driveTrainConfig.IntakeWheelLeft, driveTrainConfig.IntakeWheelRight);
     }
 
     /**
@@ -74,12 +77,21 @@ public class SkystoneTeleOp extends ActiveOpMode {
                     "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
             driveTrain.strafeRight(scaledPower);
         }
-        else if (gamepad2.left_stick_y != 0)
+        else if (gamepad2.a)
         {
-            float scaledPower = scaleMotorPower(gamepad1.left_stick_x);
-            getTelemetryUtil().addData("Left Joystick y: ",
-                    "value=" + gamepad2.left_stick_y + ", scaledPower=" + scaledPower);
-            flexArm.ArmUp(scaledPower);
+            flexArm.ArmUp(1);
+        }
+        else if (gamepad2.y)
+        {
+            flexArm.ArmDown(1);
+        }
+        else if (gamepad2.right_bumper)
+        {
+            Intake.Intake(1);
+        }
+        else if (gamepad2.left_bumper)
+        {
+            Intake.Output(1);
         }
         else if (gamepad1.a ) {
             jaja.foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
@@ -101,6 +113,8 @@ public class SkystoneTeleOp extends ActiveOpMode {
         else
         {
             driveTrain.stop();
+            flexArm.stop(0);
+            Intake.stop(0);
         }
 
         getTelemetryUtil().sendTelemetry();

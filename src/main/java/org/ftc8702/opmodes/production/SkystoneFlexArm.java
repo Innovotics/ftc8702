@@ -23,6 +23,10 @@ public class SkystoneFlexArm {
         SliderArmRight.setPower(-1);
         SliderArmLeft.setPower(-1);
     }
-
+    public void stop(float scaledpower)
+    {
+        SliderArmLeft.setPower(0);
+        SliderArmRight.setPower(0);
+    }
 
 }
