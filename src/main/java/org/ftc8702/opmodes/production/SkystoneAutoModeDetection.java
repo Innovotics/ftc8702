@@ -2,8 +2,14 @@ package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+
+
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 
@@ -20,16 +26,19 @@ import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
 
 @Autonomous(name = "Detect and Grab Skystone", group = "Ops")
 public class SkystoneAutoModeDetection extends ActiveOpMode {
+    Recognition recognition;
 
     public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
+
     private SkystoneAutoConfig robot = new SkystoneAutoConfig();
 
     @Override
     protected void onInit() {
-        robot.init(hardwareMap, getTelemetryUtil());
-        //webCamDetector.initialize();
+
+        robot.init(super.hardwareMap, getTelemetryUtil());
+        webCamDetector.initialize(hardwareMap, telemetry);
         currentState = SkystoneAutoModeState.DETECT_SKYSTONE;
 
     }
@@ -53,12 +62,41 @@ public class SkystoneAutoModeDetection extends ActiveOpMode {
         switch (currentState) {
             case DETECT_SKYSTONE:
                 logStage();
-                //webCamDetector.getPosition(webCamDetector.detect()); Put this back in after object detection code is done
-                robot.driveTrain.strafeRight(1);
-                sleep(1050);
-                robot.driveTrain.stop();
-                currentState = HUG_STONE;
+
+                //Detect Webcam and Move robot
+                if(webCamDetector.detect() == 2) {
+                    telemetry.addData("Center", " Position");
+                    telemetry.addData("Angle:  ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
+                    telemetry.update();
+                    accomplishedTask = true;
+
+                } else if(webCamDetector.detect() == 1) {
+                    while(webCamDetector.detect() == 1) {
+                        robot.driveTrain.goBackward(.5f);
+                        telemetry.addData("Left", " Position");
+                        telemetry.addData("Angle:  ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
+                        telemetry.update();
+                        }
+                        accomplishedTask = true;
+
+                } else if(webCamDetector.detect() == 3) {
+                    while(webCamDetector.detect() == 3) {
+                        robot.driveTrain.goForward(.5f);
+                        telemetry.addData("Right", " Position");
+                        telemetry.addData("Angle:  ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
+                        telemetry.update();
+                    }
+                    accomplishedTask = true;
+
+                }
+
+                if(accomplishedTask) {
+                    currentState = SkystoneAutoModeState.DONE;
+                }
                 break;
+
+
+
 
             case HUG_STONE:
                 logStage();
@@ -112,15 +150,15 @@ public class SkystoneAutoModeDetection extends ActiveOpMode {
             case PARK:
                 logStage();
                 robot.driveTrain.goForward(.3f);
-                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
+              //  ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
-                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-                    telemetry.addData("Touching ", currentColor);
-                    currentState = DONE;
-                }
-                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.goForward(.3f);
-                }
+//                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+//                    telemetry.addData("Touching ", currentColor);
+//                    currentState = DONE;
+//                }
+//                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
+//                    robot.driveTrain.goForward(.3f);
+//                }
                 break;
 
             case DONE:

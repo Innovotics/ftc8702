@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.CRServoImplEx;
 
 public class SkystoneAutoConfig extends AbstractRobotConfiguration {
 
-    public ColorSensor colorSensor;
+    //public ColorSensor colorSensor;
     public MecanumWheelDriveTrain driveTrain;
     public SkystoneJaJa jaja;
     public SkystoneHugger hugger;
@@ -38,10 +38,14 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
         driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR);
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
         FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
+<<<<<<< HEAD
         Intake = new SkystoneIntake(mecanumConfig.IntakeWheelLeft, mecanumConfig.IntakeWheelRight);
         colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+=======
+//        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+>>>>>>> 63db1ff58aa9cedd61bf49c8d4ff08b002b92506
         hugger = new SkystoneHugger(hardwareMap.get(Servo.class, "huggerTop"),hardwareMap.get(Servo.class, "huggerBottom"));
-        telemetryUtil.addData("Color Sensor", colorSensor+"");
+      //  telemetryUtil.addData("Color Sensor", colorSensor+"");
         telemetryUtil.sendTelemetry();
     }
 }

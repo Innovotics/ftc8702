@@ -31,8 +31,11 @@ package org.ftc8702.opmodes.Sensors;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -49,7 +52,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
+@TeleOp(name = "Skystone Detector", group = "Autonomous")
 
 public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
 
@@ -83,16 +86,25 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
      */
     private TFObjectDetector tfod;
 
-    public void initialize()
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry)
     {
+        super.hardwareMap = hardwareMap;
+        super.telemetry = telemetry;
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
+        telemetry.addData("Init Vuforia Working?  ", "Ok");
+        telemetry.update();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
+            telemetry.addData("TFOD Initialization Working?   ", "OK");
+            telemetry.update();
+
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+            telemetry.update();
+
         }
 
         /**
@@ -101,12 +113,16 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
          **/
         if (tfod != null) {
             tfod.activate();
+            telemetry.addData("TFOD Activision Working?   ", "OK");
+            telemetry.update();
+
         }
+
+        telemetry.update();
     }
 
     @Override
     public void runOpMode() {
-        initialize();
 
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
@@ -135,38 +151,35 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
                 telemetry.addData("# Object Detected", updatedRecognitions.size());
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
-                if(updatedRecognitions.size() == 1) {
-                    Recognition recognition = updatedRecognitions.get(0);
-                    //for (Recognition recognition : updatedRecognitions) {
-                        if(recognition.getLabel().equals("Skystone") ) {
+
+                    for (Recognition recognition : updatedRecognitions) {
+                        if (recognition.getLabel().equals("Skystone")) {
                             double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
                             telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
                             //find positions
-                            if(angle < -20) {
+                            if (angle < -20) {
                                 telemetry.addData("Left", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
                                 return 1;
 
-                            } else if(angle > -20 && angle < 10) {
+                            } else if (angle >= -20 && angle < 10) {
                                 telemetry.addData("Center", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
                                 return 2;
 
-                            } else if(angle >= 10) {
+                            } else if (angle >= 10) {
                                 telemetry.addData("Right", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
                                 return 3;
 
-                            } else {
-                                return 0;
                             }
                         }
+                    }
 
-                    //}
-                }
+
 
 
                 telemetry.update();

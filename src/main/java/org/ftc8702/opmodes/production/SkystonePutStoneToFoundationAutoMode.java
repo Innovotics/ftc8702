@@ -24,7 +24,7 @@ public class SkystonePutStoneToFoundationAutoMode extends SkystoneAbstractAutoMo
     protected void activeLoop() throws InterruptedException {
         getTelemetryUtil().addData("activeLoop current state", getCurrentState().toString());
         telemetry.update();
-        getTelemetryUtil().addData("Color: ", ColorUtil.getColor(super.getRobot().colorSensor).name());
+       // getTelemetryUtil().addData("Color: ", ColorUtil.getColor(super.getRobot().colorSensor).name());
 
 
         switch (getCurrentState()) {
@@ -44,12 +44,12 @@ public class SkystonePutStoneToFoundationAutoMode extends SkystoneAbstractAutoMo
             case PARK:
                 logStage();
                 getRobot().driveTrain.goBackward(.3f);
-                ColorValue currentColor = ColorUtil.getColor(getRobot().colorSensor);
-
-                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-                    telemetry.addData("Touching ", currentColor);
-                    setCurrentState(DONE);
-                }
+//                ColorValue currentColor = ColorUtil.getColor(getRobot().colorSensor);
+//
+//                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+//                    telemetry.addData("Touching ", currentColor);
+//                    setCurrentState(DONE);
+//                }
                 break;
 
             case DONE: // When all operations are complete
