@@ -7,7 +7,6 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 
 import org.ftc8702.utils.ColorUtil;
@@ -26,7 +25,7 @@ import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
 
 @Autonomous(name = "Detect and Grab Skystone", group = "Ops")
 public class SkystoneAutoModeDetection extends ActiveOpMode {
-    Recognition recognition;
+    private Recognition recognition;
 
     public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
     private boolean accomplishedTask = false;
@@ -59,6 +58,7 @@ public class SkystoneAutoModeDetection extends ActiveOpMode {
         //And
         //Calculate
         //Distance
+        
         switch (currentState) {
             case DETECT_SKYSTONE:
                 logStage();
