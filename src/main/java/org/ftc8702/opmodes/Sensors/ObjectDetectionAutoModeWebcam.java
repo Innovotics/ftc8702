@@ -60,6 +60,17 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
 
+    public static class RecognitionResult
+    {
+        public int position; // 1, 2 or 3
+        public double angleToPosition;
+
+        public RecognitionResult(int position, double angleToPosition) {
+            this.position = position;
+            this.angleToPosition = angleToPosition;
+        }
+    }
+
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
@@ -93,13 +104,9 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
-        telemetry.addData("Init Vuforia Working?  ", "Ok");
-        telemetry.update();
 
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
-            telemetry.addData("TFOD Initialization Working?   ", "OK");
-            telemetry.update();
 
         } else {
             telemetry.addData("Sorry!", "This device is not compatible with TFOD");
@@ -113,8 +120,6 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
          **/
         if (tfod != null) {
             tfod.activate();
-            telemetry.addData("TFOD Activision Working?   ", "OK");
-            telemetry.update();
 
         }
 
@@ -141,7 +146,7 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
     }
 
     // return 0 = skystone is at position 1, 1 = position 2, 2 = position 3, negative = unknown
-    public double detect(){
+    public RecognitionResult detect(){
 
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
@@ -161,19 +166,19 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
                                 telemetry.addData("Left", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
-                                return 1;
+                                return new RecognitionResult(1, angle);
 
                             } else if (angle >= -20 && angle < 10) {
                                 telemetry.addData("Center", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
-                                return 2;
+                                return new RecognitionResult(2, angle);
 
                             } else if (angle >= 10) {
                                 telemetry.addData("Right", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
-                                return 3;
+                                return new RecognitionResult(3, angle);
 
                             }
                         }
@@ -187,7 +192,7 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
 
             }
         }
-        return 0;
+        return null;
     }
 
 
