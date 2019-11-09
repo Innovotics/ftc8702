@@ -35,9 +35,9 @@ public class SkystoneCompleteAutoMode extends SkystoneAbstractAutoMode {
                 logStage();
                 accomplishedTask = false;
                 if(accomplishedTask == false) {
-                    robot.jaja.foundationGrabberLeft.setPosition(0);
-                    sleep(5000);
-                    robot.jaja.foundationGrabberLeft.setPosition(0);
+//                    robot.jaja.foundationGrabberLeft.setPosition(0);
+//                    sleep(5000);
+//                    robot.jaja.foundationGrabberLeft.setPosition(0);
                     accomplishedTask = true;
 
                 } else if(accomplishedTask == true) {

@@ -24,11 +24,11 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
 
     //public ColorSensor colorSensor;
     public MecanumWheelDriveTrain driveTrain;
-    public SkystoneJaJa jaja;
-    public SkystoneHugger hugger;
-    public SkystoneFlexArm FlexArm;
-    public SkystoneIntake Intake;
-    public TFObjectDetector tfod;
+//    public SkystoneJaJa jaja;
+//    public SkystoneHugger hugger;
+//    public SkystoneFlexArm FlexArm;
+//    public SkystoneIntake Intake;
+//    public TFObjectDetector tfod;
 
     private HardwareMap hardwareMap;
 
@@ -40,15 +40,15 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
 
         ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
         driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR);
-        jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
-        FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
-
-        Intake = new SkystoneIntake(mecanumConfig.IntakeWheelLeft, mecanumConfig.IntakeWheelRight);
-        //colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
-
-//        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
-
-        hugger = new SkystoneHugger(hardwareMap.get(Servo.class, "huggerTop"),hardwareMap.get(Servo.class, "huggerBottom"));
+//        jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
+//        FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
+//
+//        Intake = new SkystoneIntake(mecanumConfig.IntakeWheelLeft, mecanumConfig.IntakeWheelRight);
+//        //colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+//
+////        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+//
+//        hugger = new SkystoneHugger(hardwareMap.get(Servo.class, "huggerTop"),hardwareMap.get(Servo.class, "huggerBottom"));
       //  telemetryUtil.addData("Color Sensor", colorSensor+"");
         telemetryUtil.sendTelemetry();
     }

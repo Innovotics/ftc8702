@@ -47,8 +47,8 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
 
             case LOWER_FOUNDATION_GRABBER:
                 logStage();
-                    robot.jaja.foundationGrabberRight.setPosition(1);
-                    robot.jaja.foundationGrabberLeft.setPosition(0);
+//                    robot.jaja.foundationGrabberRight.setPosition(1);
+//                    robot.jaja.foundationGrabberLeft.setPosition(0);
                     sleep(100);
                     accomplishedTask = true;
                     currentState = MOVE_FROM_FOUNDATION;
@@ -64,8 +64,8 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
 
             case RAISE_FOUNDATION_GRABBER:
                 logStage();
-                    robot.jaja.foundationGrabberRight.setPosition(0.5);
-                    robot.jaja.foundationGrabberLeft.setPosition(0.5);
+//                    robot.jaja.foundationGrabberRight.setPosition(0.5);
+//                    robot.jaja.foundationGrabberLeft.setPosition(0.5);
                     sleep(1500);
                     robot.driveTrain.strafeLeft(.5f);
                     sleep(3000);
@@ -91,11 +91,11 @@ public class SkystoneSimpleAutoMode extends ActiveOpMode {
                 logStage();
                 robot.driveTrain.rotateLeft(0.5f);
                 sleep(5000);
-                robot.jaja.foundationGrabberLeft.setPosition(1);
-                robot.jaja.foundationGrabberRight.setPosition(1);
-                sleep(1000);
-                robot.jaja.foundationGrabberRight.setPosition(0);
-                robot.jaja.foundationGrabberLeft.setPosition(0);
+//                robot.jaja.foundationGrabberLeft.setPosition(1);
+//                robot.jaja.foundationGrabberRight.setPosition(1);
+//                sleep(1000);
+//                robot.jaja.foundationGrabberRight.setPosition(0);
+//                robot.jaja.foundationGrabberLeft.setPosition(0);
                 sleep(1000);
                 robot.driveTrain.stop();
                 currentState = DONE;
