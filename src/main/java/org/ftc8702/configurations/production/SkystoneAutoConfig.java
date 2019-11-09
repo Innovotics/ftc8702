@@ -22,7 +22,7 @@ import com.qualcomm.robotcore.hardware.CRServoImplEx;
 
 public class SkystoneAutoConfig extends AbstractRobotConfiguration {
 
-    //public ColorSensor colorSensor;
+    public ColorSensor colorSensor;
     public MecanumWheelDriveTrain driveTrain;
 //    public SkystoneJaJa jaja;
 //    public SkystoneHugger hugger;
@@ -40,6 +40,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
 
         ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
         driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR);
+<<<<<<< HEAD
 //        jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
 //        FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
 //
@@ -49,6 +50,15 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
 ////        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
 //
 //        hugger = new SkystoneHugger(hardwareMap.get(Servo.class, "huggerTop"),hardwareMap.get(Servo.class, "huggerBottom"));
+=======
+        jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
+        FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
+
+        Intake = new SkystoneIntake(mecanumConfig.IntakeWheelLeft, mecanumConfig.IntakeWheelRight);
+        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+
+        hugger = new SkystoneHugger(hardwareMap.get(Servo.class, "huggerTop"),hardwareMap.get(Servo.class, "huggerBottom"));
+>>>>>>> 4e5e57d00e201b2a7bbbf723dde11cbef6288f02
       //  telemetryUtil.addData("Color Sensor", colorSensor+"");
         telemetryUtil.sendTelemetry();
     }
