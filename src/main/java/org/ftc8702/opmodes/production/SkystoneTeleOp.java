@@ -17,6 +17,7 @@ public class SkystoneTeleOp extends ActiveOpMode {
     private ProdMecanumRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
     private SkystoneJaJa jaja;
+    private SkystoneSlideAndBrickPicker slideAndBrickPicker;
     private SkystoneFlexArm flexArm;
     private SkystoneIntake Intake;
 
@@ -41,6 +42,7 @@ public class SkystoneTeleOp extends ActiveOpMode {
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
         flexArm = new SkystoneFlexArm(driveTrainConfig.SliderArmLeft, driveTrainConfig.SliderArmRight);
         Intake = new SkystoneIntake(driveTrainConfig.IntakeWheelLeft, driveTrainConfig.IntakeWheelRight);
+        slideAndBrickPicker = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "linearSlide"), hardwareMap.get(Servo.class, "brickPicker"));
     }
 
     /**
@@ -77,7 +79,12 @@ public class SkystoneTeleOp extends ActiveOpMode {
                     "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
             driveTrain.strafeRight(scaledPower);
         }
-        else if (gamepad2.a)
+        else
+        {
+            driveTrain.stop();
+        }
+//for visual purposes
+        if (gamepad2.a)
         {
             flexArm.ArmUp(1);
         }
@@ -85,7 +92,12 @@ public class SkystoneTeleOp extends ActiveOpMode {
         {
             flexArm.ArmDown(1);
         }
-        else if (gamepad2.right_bumper)
+        else
+        {
+            flexArm.stop(0);
+        }
+        //For Visual Purposes
+        if (gamepad2.right_bumper)
         {
             Intake.Intake(1);
         }
@@ -93,7 +105,12 @@ public class SkystoneTeleOp extends ActiveOpMode {
         {
             Intake.Output(1);
         }
-        else if (gamepad1.a ) {
+        else
+        {
+            Intake.stop(0);
+        }
+        //For visual purposes
+        if (gamepad1.a ) {
             jaja.foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
             jaja.foundationGrabberRight.setDirection(Servo.Direction.REVERSE);
             jaja.foundationGrabberRight.setPosition(0.5);
@@ -108,13 +125,27 @@ public class SkystoneTeleOp extends ActiveOpMode {
             jaja.foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
             jaja.foundationGrabberRight.setPosition(1);
             jaja.foundationGrabberLeft.setPosition(1);
-
         }
         else
         {
-            driveTrain.stop();
-            flexArm.stop(0);
-            Intake.stop(0);
+            jaja.JaJaStop(0);
+        }
+        //For Visual Purposes
+        if (gamepad2.dpad_up){
+            slideAndBrickPicker.LinearSliderOut(1);
+        }
+        else if (gamepad2.dpad_down) {
+            slideAndBrickPicker.LinearSliderIn(1);
+        }
+        else if (gamepad2.dpad_left) {
+            slideAndBrickPicker.BrickPickerPickUp(1);
+        }
+        else if (gamepad2.dpad_right) {
+            slideAndBrickPicker.BrickPickerRelease(1);
+        }
+        else
+        {
+            slideAndBrickPicker.Stop(0);
         }
 
         getTelemetryUtil().sendTelemetry();
