@@ -7,6 +7,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoMode;
 import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
+import org.ftc8702.utils.ColorUtil;
+import org.ftc8702.utils.ColorValue;
 
 import ftcbootstrap.ActiveOpMode;
 
@@ -65,46 +67,61 @@ public class SkystoneAutoModeDetection extends ActiveOpMode {
 
                 if (result != null) {
                     //Detect Webcam and Move robot
-                    if(result.position == 1) {
-                        robot.driveTrain.goBackward(.2f);
+                    if(result.position == 2) {
+                        robot.driveTrain.strafeLeft(.2f);
+                        telemetry.addData("Position", "Center");
+                        telemetry.addData("Angle: ", result.angleToPosition);
+                        telemetry.update();
+
+                    }
+                    else if (result.position == 1) {
                         telemetry.addData("Position", "Left");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
-
-                    }
-                    else if (result.position == 2) {
-                        accomplishedTask = true;
                         robot.driveTrain.stop();
-                        currentState = SkystoneAutoModeState.DONE;
+                        sleep(1000);
+                        robot.driveTrain.goBackward(.1f);
+                        sleep(1000);
+                        robot.jaja.foundationGrabberLeft.setPosition(0);
+                        //Next Step
+                        currentState = MOVE_STONE_TO_BUIDER_ZONE;
                     }
 
                     else if(result.position == 3) {
-                        robot.driveTrain.goForward(.2f);
                         telemetry.addData("Position", "Right");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
+                        robot.driveTrain.stop();
+                        sleep(1000);
+
+                        robot.driveTrain.goBackward(.1f);
+                        sleep(1000);
+                        robot.jaja.foundationGrabberRight.setPosition(1.0);
+                        //Next Step
+                        currentState = MOVE_STONE_TO_BUIDER_ZONE;
                     }
                 }
                 break;
 
-            case HUG_STONE:
-                logStage();
-                // robot.hugger.HuggerTopDown(1); //we need to decide wether to use the top hugger or bottom one
-                sleep(1000);
-                currentState = MOVE_STONE_TO_BUIDER_ZONE;
-                break;
+//            case HUG_STONE:
+//                logStage();
+//
+//                robot.hugger.HuggerTopDown(1); //we need to decide whether to use the top hugger or bottom one
+//                sleep(1000);
+//                currentState = MOVE_STONE_TO_BUIDER_ZONE;
+//                break;
 
 
             case MOVE_STONE_TO_BUIDER_ZONE: // When all operations are complete
                 logStage();
-                robot.driveTrain.strafeLeft(1);
+                robot.driveTrain.goBackward(1);
                 sleep(500);
-                robot.driveTrain.goBackward(0.7f);
+                robot.driveTrain.strafeRight(0.7f);
                 sleep(2500);
                 robot.driveTrain.stop();
                 //robot.hugger.HuggerTopUp(1);//we need to decide wether to use the top hugger or the bottom one
                 sleep(1000);
-                robot.driveTrain.rotateRight(0.7f);
+                robot.driveTrain.rotateLeft(0.7f);
                 sleep(300);
                 robot.driveTrain.stop();
                 currentState = MOVE_TO_SECOND_SKYSTONE;
@@ -121,7 +138,7 @@ public class SkystoneAutoModeDetection extends ActiveOpMode {
 
             case HUG_STONE2:
                 logStage();
-                //  robot.hugger.HuggerTopDown(1);
+                robot.jaja.foundationGrabberLeft.setPosition(1);
                 sleep(1000);
                 currentState = MOVE_STONE_TO_BUILDER_ZONE2;
                 break;
@@ -136,18 +153,30 @@ public class SkystoneAutoModeDetection extends ActiveOpMode {
                 currentState = PARK;
                 break;
 
+            case MOVE_FOUNDATION:
+                if(accomplishedTask == false) {
+                    robot.jaja.foundationGrabberLeft.setPosition(0);
+                    sleep(5000);
+                    robot.jaja.foundationGrabberLeft.setPosition(0);
+                    accomplishedTask = true;
+
+                } else if(accomplishedTask == true) {
+                    currentState = PARK;
+                }
+
+
             case PARK:
                 logStage();
                 robot.driveTrain.goForward(.3f);
-                //  ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
+                  ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
-//                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-//                    telemetry.addData("Touching ", currentColor);
-//                    currentState = DONE;
-//                }
-//                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-//                    robot.driveTrain.goForward(.3f);
-//                }
+                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+                    telemetry.addData("Touching ", currentColor);
+                    currentState = DONE;
+                }
+                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
+                    robot.driveTrain.goForward(.3f);
+                }
                 break;
 
             case DONE:
