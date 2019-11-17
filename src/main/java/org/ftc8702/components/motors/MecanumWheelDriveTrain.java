@@ -8,8 +8,6 @@ public class MecanumWheelDriveTrain {
     private DcMotor frontRightMotor;
     private DcMotor backLeftMotor;
     private DcMotor backRightMotor;
-    private Servo foundationGrabberLeft;
-    private Servo foundationGrabberRight;
 
     public MecanumWheelDriveTrain(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor) {
         this.frontLeftMotor = frontLeftMotor;
@@ -48,6 +46,13 @@ public class MecanumWheelDriveTrain {
         backRightMotor.setPower(power);
     }
 
+    public void rotateRight(float power) {
+        frontLeftMotor.setPower(-power);
+        frontRightMotor.setPower(-power);
+        backLeftMotor.setPower(-power);
+        backRightMotor.setPower(-power);
+    }//Used to be rotate Right
+
     // when power = 1
     private double speedForwardInFtPerSecond = (1.3 * 2) / 0.968;// speed = distance / time
 
@@ -71,29 +76,7 @@ public class MecanumWheelDriveTrain {
         }
     }
 
-    public void rotateRight(float power) { rotateLeft(-power);}//Used to be rotate Right
-
     public void stop() {
         goForward(0);
     }
-
-    public void grabbersDown(float power)
-    {
-        foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
-        foundationGrabberRight.setDirection (Servo.Direction.FORWARD);
-        foundationGrabberLeft.setPosition(power);
-        foundationGrabberRight.setPosition (power);
-
-    }
-
-    public void grabbersUp(float power)
-    {
-        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
-        foundationGrabberRight.setDirection (Servo.Direction.REVERSE);
-        foundationGrabberLeft.setPosition(power);
-        foundationGrabberRight.setPosition (power);
-
-    }
-
-
 }

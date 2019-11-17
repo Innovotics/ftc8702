@@ -15,15 +15,15 @@ public class SkystoneFlexArm {
 
     public void ArmUp(float scaledpower)
     {
-        SliderArmRight.setPower(1);
-        SliderArmLeft.setPower(1);
+        SliderArmRight.setPower(scaledpower);
+        SliderArmLeft.setPower(-scaledpower);
     }
     public void ArmDown(float scaledpower)
     {
-        SliderArmRight.setPower(-1);
-        SliderArmLeft.setPower(-1);
+        SliderArmRight.setPower(-scaledpower);
+        SliderArmLeft.setPower(scaledpower);
     }
-    public void stop(float scaledpower)
+    public void stop()
     {
         SliderArmLeft.setPower(0);
         SliderArmRight.setPower(0);

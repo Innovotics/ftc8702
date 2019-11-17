@@ -2,6 +2,7 @@ package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
@@ -42,8 +43,10 @@ public class SkystoneTeleOp extends ActiveOpMode {
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
         flexArm = new SkystoneFlexArm(driveTrainConfig.SliderArmLeft, driveTrainConfig.SliderArmRight);
         Intake = new SkystoneIntake(driveTrainConfig.IntakeWheelLeft, driveTrainConfig.IntakeWheelRight);
-        slideAndBrickPicker = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "linearSlide"), hardwareMap.get(Servo.class, "brickPicker"));
+        slideAndBrickPicker = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "brickPicker"), hardwareMap.get(Servo.class, "linearSlide"));
+        slideAndBrickPicker.armPosition = 0.01;//slideAndBrickPicker.MAX_POSITION;
     }
+
 
     /**
      * Implement this method to define the code to run when the Start button is pressed on the Driver station.
@@ -53,6 +56,12 @@ public class SkystoneTeleOp extends ActiveOpMode {
      */
     @Override
     protected void activeLoop() throws InterruptedException {
+        gamepad2Control();
+        gamepad1Control();
+    }
+
+    private void gamepad1Control()
+    {
         if (gamepad1.right_bumper)
         {
             float power = 1;
@@ -83,7 +92,24 @@ public class SkystoneTeleOp extends ActiveOpMode {
         {
             driveTrain.stop();
         }
-//for visual purposes
+
+        //For visual purposes
+        if (gamepad1.a ) {
+            jaja.JaJaDown(1);
+        }
+        else if (gamepad1.y ) {
+            jaja.JaJaUp(1);
+        }
+        else
+        {
+            jaja.JaJaUp(1);
+        }
+
+        getTelemetryUtil().sendTelemetry();
+    }
+
+    private void gamepad2Control()
+    {
         if (gamepad2.a)
         {
             flexArm.ArmUp(1);
@@ -94,8 +120,9 @@ public class SkystoneTeleOp extends ActiveOpMode {
         }
         else
         {
-            flexArm.stop(0);
+            flexArm.stop();
         }
+
         //For Visual Purposes
         if (gamepad2.right_bumper)
         {
@@ -109,47 +136,39 @@ public class SkystoneTeleOp extends ActiveOpMode {
         {
             Intake.stop(0);
         }
-        //For visual purposes
-        if (gamepad1.a ) {
-            jaja.foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
-            jaja.foundationGrabberRight.setDirection(Servo.Direction.REVERSE);
-            jaja.foundationGrabberRight.setPosition(0.5);
-            jaja.foundationGrabberLeft.setPosition(0.5);
-            //jaja.foundationGrabberLeft.setPosition(0);
-            //jaja.foundationGrabberRight.setPosition(0);
 
-            //jaja.JaJaDown(-1);
+        //For Visual Purposes
+        if (gamepad2.dpad_up && slideAndBrickPicker.armPosition > slideAndBrickPicker.MIN_POSITION)
+        {
+            slideAndBrickPicker.armPosition -= 0.01;
+            getTelemetryUtil().addData("dpad up slideOut: ", slideAndBrickPicker.armPosition);
+            slideAndBrickPicker.slide(slideAndBrickPicker.armPosition);
         }
-        else if (gamepad1.y ) {
-            jaja.foundationGrabberRight.setDirection(Servo.Direction.FORWARD);
-            jaja.foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
-            jaja.foundationGrabberRight.setPosition(1);
-            jaja.foundationGrabberLeft.setPosition(1);
+        else if (gamepad2.dpad_down && slideAndBrickPicker.armPosition < slideAndBrickPicker.MAX_POSITION)
+        {
+            slideAndBrickPicker.armPosition += 0.01;
+            getTelemetryUtil().addData("dpad down slideIn:", slideAndBrickPicker.armPosition);
+            slideAndBrickPicker.slide(slideAndBrickPicker.armPosition);
+            //slideAndBrickPicker.LinearSliderIn();//slideAndBrickPicker.armPosition);
         }
         else
         {
-            jaja.JaJaStop(0);
+            getTelemetryUtil().addData("dpad up & down:", " stopped");
+            //slideAndBrickPicker.linearSliderStop();
         }
+
         //For Visual Purposes
-        if (gamepad2.dpad_up){
-            slideAndBrickPicker.LinearSliderOut(1);
-        }
-        else if (gamepad2.dpad_down) {
-            slideAndBrickPicker.LinearSliderIn(1);
-        }
-        else if (gamepad2.dpad_left) {
+        if (gamepad2.dpad_left) {
+            getTelemetryUtil().addData("dpad left:", " pickerUp");
             slideAndBrickPicker.BrickPickerPickUp(1);
         }
         else if (gamepad2.dpad_right) {
+            getTelemetryUtil().addData("dpad right:", " pickerDown");
             slideAndBrickPicker.BrickPickerRelease(1);
         }
-        else
-        {
-            slideAndBrickPicker.Stop(0);
-        }
-
         getTelemetryUtil().sendTelemetry();
     }
+
 
     /**
      * Taken from FTC SDK PushBot example

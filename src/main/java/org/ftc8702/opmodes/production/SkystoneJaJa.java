@@ -16,17 +16,17 @@ public class SkystoneJaJa {
 
     void JaJaDown(float power)
     {
-        foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
+        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
         foundationGrabberRight.setDirection (Servo.Direction.FORWARD);
-        foundationGrabberLeft.setPosition(power);
+        foundationGrabberLeft.setPosition(-power);
         foundationGrabberRight.setPosition (power);
 
 }
     void JaJaUp (float power)
     {
-        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
+        foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
         foundationGrabberRight.setDirection (Servo.Direction.REVERSE);
-        foundationGrabberLeft.setPosition (-power);
+        foundationGrabberLeft.setPosition (power);
         foundationGrabberRight.setPosition (-power);
 
     }
