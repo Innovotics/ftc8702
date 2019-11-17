@@ -32,9 +32,9 @@ public class SkystoneMoveFoundationAutoMode extends SkystoneAbstractAutoMode {
                 logStage();
                 accomplishedTask = false;
                 if(accomplishedTask == false) {
-//                    robot.jaja.foundationGrabberLeft.setPosition(0);
+                    robot.jaja.foundationGrabberLeft.setPosition(0);
                     sleep(5000);
-//                    robot.jaja.foundationGrabberLeft.setPosition(0);
+                    robot.jaja.foundationGrabberLeft.setPosition(0);
                     accomplishedTask = true;
 
                 } else if(accomplishedTask == true) {
@@ -44,12 +44,12 @@ public class SkystoneMoveFoundationAutoMode extends SkystoneAbstractAutoMode {
             case PARK:
                 logStage();
                 getRobot().driveTrain.goBackward(.3f);
-             //   ColorValue currentColor = ColorUtil.getColor(getRobot().colorSensor);
+                ColorValue currentColor = ColorUtil.getColor(getRobot().colorSensor);
 
-//                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-//                    telemetry.addData("Touching ", currentColor);
-//                    setCurrentState(DONE);
-//                }
+                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+                    telemetry.addData("Touching ", currentColor);
+                    setCurrentState(DONE);
+                }
                 break;
 
             case DONE: // When all operations are complete
