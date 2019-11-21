@@ -13,7 +13,7 @@ public class ServoTest extends ActiveOpMode {
     private Servo multiRevServo;
     private CRServo crServo;
 
-    private double position = 0;
+    private double position = 1;
     private double increment = 0.00025;
     private double power = 1;
 

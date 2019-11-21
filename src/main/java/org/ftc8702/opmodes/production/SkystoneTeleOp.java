@@ -44,7 +44,7 @@ public class SkystoneTeleOp extends ActiveOpMode {
         flexArm = new SkystoneFlexArm(driveTrainConfig.SliderArmLeft, driveTrainConfig.SliderArmRight);
         Intake = new SkystoneIntake(driveTrainConfig.IntakeWheelLeft, driveTrainConfig.IntakeWheelRight);
         slideAndBrickPicker = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "brickPicker"), hardwareMap.get(Servo.class, "linearSlide"));
-        slideAndBrickPicker.armPosition = 0.01;//slideAndBrickPicker.MAX_POSITION;
+        //slideAndBrickPicker.armPosition = 0.01;//slideAndBrickPicker.MAX_POSITION;
     }
 
 
@@ -94,17 +94,14 @@ public class SkystoneTeleOp extends ActiveOpMode {
         }
 
         //For visual purposes
-        if (gamepad1.a ) {
-            jaja.JaJaDown(1);
+        if (gamepad1.x ) {
+            jaja.JaJaDown(0.5f);
+            getTelemetryUtil().addData("Button Xfqv", " Pressed");
         }
         else if (gamepad1.y ) {
-            jaja.JaJaUp(1);
+            jaja.JaJaUp(0);
+            getTelemetryUtil().addData("Button Y", " Pressed");
         }
-        else
-        {
-            jaja.JaJaUp(1);
-        }
-
         getTelemetryUtil().sendTelemetry();
     }
 
@@ -138,23 +135,18 @@ public class SkystoneTeleOp extends ActiveOpMode {
         }
 
         //For Visual Purposes
-        if (gamepad2.dpad_up && slideAndBrickPicker.armPosition > slideAndBrickPicker.MIN_POSITION)
+        if (gamepad2.dpad_down && slideAndBrickPicker.armPosition > slideAndBrickPicker.MIN_POSITION)
         {
-            slideAndBrickPicker.armPosition -= 0.01;
+            slideAndBrickPicker.armPosition -= 0.00025;
             getTelemetryUtil().addData("dpad up slideOut: ", slideAndBrickPicker.armPosition);
             slideAndBrickPicker.slide(slideAndBrickPicker.armPosition);
         }
-        else if (gamepad2.dpad_down && slideAndBrickPicker.armPosition < slideAndBrickPicker.MAX_POSITION)
+        else if (gamepad2.dpad_up && slideAndBrickPicker.armPosition < slideAndBrickPicker.MAX_POSITION)
         {
-            slideAndBrickPicker.armPosition += 0.01;
+            slideAndBrickPicker.armPosition += 0.00025;
             getTelemetryUtil().addData("dpad down slideIn:", slideAndBrickPicker.armPosition);
             slideAndBrickPicker.slide(slideAndBrickPicker.armPosition);
             //slideAndBrickPicker.LinearSliderIn();//slideAndBrickPicker.armPosition);
-        }
-        else
-        {
-            getTelemetryUtil().addData("dpad up & down:", " stopped");
-            //slideAndBrickPicker.linearSliderStop();
         }
 
         //For Visual Purposes

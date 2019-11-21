@@ -10,9 +10,8 @@ public class SkystoneSlideAndBrickPicker {
     public Servo brickPicker;
     public Servo linearSlide;
 
-    double  armPosition = 0;
-    //        double gripPosition, contPower;
-    double  MIN_POSITION = 0, MAX_POSITION = 1;
+    double  armPosition = 1;
+    double  MIN_POSITION = 0.54, MAX_POSITION = 1;
 
     // constructor - special method there is no return type, 2)
     public SkystoneSlideAndBrickPicker(Servo brickPicker, Servo linearSlide) {
@@ -21,18 +20,6 @@ public class SkystoneSlideAndBrickPicker {
     }
 
     // methods
-    void LinearSliderOut()
-    {
-        //linearSlide.setDirection(DcMotorSimple.Direction.FORWARD);
-        linearSlide.setPosition(0.2);
-    }
-
-    void LinearSliderIn()
-    {
-        //linearSlide.setDirection(DcMotorSimple.Direction.REVERSE);
-        linearSlide.setPosition(-0.2);
-    }
-
     void slide(double position )
     {
         linearSlide.setPosition(position);
@@ -48,13 +35,5 @@ public class SkystoneSlideAndBrickPicker {
     {
         brickPicker.setDirection(Servo.Direction.REVERSE);
         brickPicker.setPosition(power);
-    }
-
-    void linearSliderStop()
-    {
-        linearSlide.setPosition(0.5);
-        //linearSlide.setDirection(Direction.REVERSE);
-        //brickPicker.setDirection(Servo.Direction.REVERSE);
-        //brickPicker.setPosition(0);
     }
 }
