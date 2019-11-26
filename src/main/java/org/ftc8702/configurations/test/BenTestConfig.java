@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
-import org.ftcbootstrap.RobotConfiguration;
-import org.ftcbootstrap.components.utils.TelemetryUtil;
+import ftcbootstrap.RobotConfiguration;
+import ftcbootstrap.components.utils.TelemetryUtil;
 
 public class BenTestConfig extends RobotConfiguration {
 
@@ -15,7 +15,7 @@ public class BenTestConfig extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
 
-       // colorSensor = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR_BACK_LEFT, hardwareMap.colorSensor);
+        colorSensor = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR, hardwareMap.colorSensor);
         getTelemetryUtil().addData("Color component: ", colorSensor.toString());
 
         getTelemetryUtil().sendTelemetry();

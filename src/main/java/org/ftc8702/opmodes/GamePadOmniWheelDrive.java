@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.ftc8702.components.motors.GamePadOmniWheelMotor;
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.OpModeComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.OpModeComponent;
 
 /**
  * Operation to assist with basic tank drive using a gamepad
@@ -27,11 +27,6 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
     private GamePadOmniWheelMotor spin_leftMotorStickBack;
     private GamePadOmniWheelMotor spin_rightMotorStickBack;
 
-    private GamePadOmniWheelMotor spinr_leftMotorStick;
-    private GamePadOmniWheelMotor spinr_rightMotorStick;
-    private GamePadOmniWheelMotor spinr_leftMotorStickBack;
-    private GamePadOmniWheelMotor spinr_rightMotorStickBack;
-
     Gamepad gamePad;
 
     /**
@@ -46,20 +41,23 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
         super(opMode);
         this.gamePad = gamepad;
 
-        yleftMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, leftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_Y, false);
-        yrightMotorStick = new GamePadOmniWheelMotor(opMode,gamepad, rightMotor,  GamePadOmniWheelMotor.Control.LEFT_STICK_Y, true);
-        yrightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_Y, true);
-        yleftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_Y, false);
-
-        xleftMotorStick = new GamePadOmniWheelMotor(opMode,  gamepad, leftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_X, true);
+        //This is strafing code
+        xleftMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, leftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_X, true);
         xrightMotorStick = new GamePadOmniWheelMotor(opMode,gamepad, rightMotor,  GamePadOmniWheelMotor.Control.LEFT_STICK_X, true);
         xrightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_X, false);
         xleftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_X, false);
 
-        spin_leftMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, leftMotor, GamePadOmniWheelMotor.Control.RIGHT_STICK_X, true);
-        spin_rightMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, rightMotor, GamePadOmniWheelMotor.Control.RIGHT_STICK_X, true);
-        spin_leftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.RIGHT_STICK_X,true);
-        spin_rightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.RIGHT_STICK_X, true);
+        //This is moving up and down code
+        yleftMotorStick = new GamePadOmniWheelMotor(opMode,  gamepad, leftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_Y, true);
+        yrightMotorStick = new GamePadOmniWheelMotor(opMode,gamepad, rightMotor,  GamePadOmniWheelMotor.Control.LEFT_STICK_Y, false);
+        yrightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_Y, false);
+        yleftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.LEFT_STICK_Y, true);
+
+        //This is spinning code
+        spin_leftMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, leftMotor, GamePadOmniWheelMotor.Control.LB_RB_BUTTONS, true);
+        spin_rightMotorStick = new GamePadOmniWheelMotor(opMode, gamepad, rightMotor, GamePadOmniWheelMotor.Control.LB_RB_BUTTONS, true);
+        spin_leftMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backLeftMotor, GamePadOmniWheelMotor.Control.LB_RB_BUTTONS,true);
+        spin_rightMotorStickBack = new GamePadOmniWheelMotor(opMode, gamepad, backRightMotor, GamePadOmniWheelMotor.Control.LB_RB_BUTTONS, true);
 
     }
 
@@ -67,30 +65,26 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
      * Update motors with current gamepad state
      */
     public void update() {
-
-        if (gamePad.left_bumper) {
+        if (gamePad.left_bumper || gamePad.right_bumper) {
             spin_rightMotorStickBack.update();
             spin_rightMotorStick.update();
             spin_leftMotorStickBack.update();
             spin_leftMotorStick.update();
-        }
-//        else if (gamePad.right_bumper) {
-//
-//            spinr_rightMotorStickBack.update();
-//            spinr_rightMotorStick.update();
-//            spinr_leftMotorStickBack.update();
-//            spinr_leftMotorStick.update();
-  //      }
-        else {
+        } else if (gamePad.left_stick_y != 0) {
             yleftMotorStick.update();
             yrightMotorStick.update();
             yleftMotorStickBack.update();
             yrightMotorStickBack.update();
-
+        } else if (gamePad.left_stick_x != 0) {
             xleftMotorStick.update();
             xrightMotorStick.update();
             xleftMotorStickBack.update();
             xrightMotorStickBack.update();
+        } else {
+            yleftMotorStick.stop();
+            yrightMotorStick.stop();
+            yleftMotorStickBack.stop();
+            yrightMotorStickBack.stop();
         }
     }
 
@@ -111,10 +105,6 @@ public class GamePadOmniWheelDrive extends OpModeComponent {
         spin_rightMotorStick.startRunMode( runMode);
         spin_rightMotorStickBack.startRunMode( runMode);
 
-//        spinr_leftMotorStickBack.startRunMode( runMode);
-//        spinr_leftMotorStick.startRunMode( runMode);
-//        spinr_rightMotorStick.startRunMode( runMode);
-//        spinr_rightMotorStickBack.startRunMode( runMode);
     }
 
 }

@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.OpModeComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.OpModeComponent;
 
 
 /**
@@ -141,6 +141,9 @@ public class GamePadOmniWheelMotor extends OpModeComponent {
         return powerToReturn;
     }
 
+    public void stop() {
+        motor.setPower(0);
+    }
 
     /**
      * Taken from FTC SDK PushBot example

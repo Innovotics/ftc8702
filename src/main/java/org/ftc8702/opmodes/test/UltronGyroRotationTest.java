@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.components.ImuGyroSensor;
 import org.ftc8702.configurations.test.TestConfiguration;
-import org.ftc8702.utilities.OrientationUtils;
-import org.ftcbootstrap.ActiveOpMode;
+import org.ftc8702.utils.OrientationUtils;
+import ftcbootstrap.ActiveOpMode;
 
 
 /**

@@ -2,11 +2,11 @@ package org.ftc8702.opmodes.test;
 
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-import org.ftcbootstrap.ActiveOpMode;
-import org.ftcbootstrap.components.OpModeComponent;
+import ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.components.OpModeComponent;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
-import org.ftcbootstrap.ActiveOpMode;
+import ftcbootstrap.ActiveOpMode;
 
 /**
  * OpMode Component for reading and data from the Optical distance sensor
