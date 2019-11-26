@@ -13,7 +13,7 @@ import org.ftc8702.utils.ColorValue;
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "SkystoneSimpleAutoMode", group = "Ops")
+@Autonomous(name = "LEFTBLUESimpleAutoMode", group = "Ops")
 public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
 
     public SkystoneAutoConfig robot = new SkystoneAutoConfig();
@@ -41,7 +41,7 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
             robot.driveTrain.goBackward(1);
             sleep(968);
             robot.driveTrain.strafeRight(0.3f);
-            sleep(1000);
+            sleep(1500);
             robot.driveTrain.goBackward(0.1f);
             sleep(100);
             robot.driveTrain.stop();
@@ -50,7 +50,7 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
 
         case LOWER_FOUNDATION_GRABBER:
             logStage();
-            robot.jaja.JaJaDown(1);
+            robot.jaja.JaJaDown();
             sleep(100);
             accomplishedTask = true;
             currentState = MOVE_FROM_FOUNDATION;
@@ -58,34 +58,38 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
             break;
         case MOVE_FROM_FOUNDATION:
             logStage();
-            robot.driveTrain.goForward(1);
-            sleep(1200);
+            robot.driveTrain.goForward(0.4f);
+            sleep(2300);
+            robot.driveTrain.rotateLeft(0.4f);
+            sleep(3000);
             robot.driveTrain.stop();
+            robot.jaja.JaJaUp();
+            sleep(1000);
             currentState = RAISE_FOUNDATION_GRABBER;//make this park after we fix everything
             break;
 
         case RAISE_FOUNDATION_GRABBER:
             logStage();
-            robot.jaja.JaJaUp(1);
-            sleep(1500);
-            robot.driveTrain.strafeLeft(.5f);
-            sleep(3000);
+            robot.jaja.JaJaUp();
+            sleep(2000);
+            robot.driveTrain.goForward(.5f);
+            sleep(1000);
             currentState = PARK;
 
             break;
 
         case PARK:
             logStage();
-            robot.driveTrain.strafeLeft(.3f);
-//                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
-//
-//                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-//                    telemetry.addData("Touching ", currentColor);
+            robot.driveTrain.goForward(.3f);
+                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
+
+                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+                    telemetry.addData("Touching ", currentColor);
             currentState = DONE;
-//                }
-//                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-//                    robot.driveTrain.strafeLeft(.3f);
-//                }
+                }
+                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
+                    robot.driveTrain.strafeLeft(.3f);
+                }
             break;
 
         case SPIN_TO_WIN:

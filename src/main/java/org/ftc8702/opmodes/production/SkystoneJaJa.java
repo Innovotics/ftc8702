@@ -14,29 +14,36 @@ public class SkystoneJaJa {
         this.foundationGrabberRight = foundationGrabberRight;
     }
 
-    void JaJaDown(float power)
+    void JaJaLeftDown()
     {
         foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
-        foundationGrabberRight.setDirection (Servo.Direction.FORWARD);
-        foundationGrabberLeft.setPosition(-power);
-        foundationGrabberRight.setPosition (-power);
+        foundationGrabberLeft.setPosition(-0.5);
+    }
 
-}
-    void JaJaUp (float power)
+    void JaJaRightDown()
+    {
+        foundationGrabberRight.setDirection (Servo.Direction.FORWARD);
+        foundationGrabberRight.setPosition (-0.5);
+    }
+
+    void JaJaDown()
+    {
+        JaJaLeftDown();
+        JaJaRightDown();
+        /*
+        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
+        foundationGrabberRight.setDirection (Servo.Direction.FORWARD);
+        foundationGrabberLeft.setPosition(-0.5);
+        foundationGrabberRight.setPosition (-0.5);
+        */
+    }
+
+    void JaJaUp()
     {
         foundationGrabberLeft.setDirection(Servo.Direction.FORWARD);
         foundationGrabberRight.setDirection (Servo.Direction.REVERSE);
-        foundationGrabberLeft.setPosition (power);
-        foundationGrabberRight.setPosition (power);
-
-    }
-    void JaJaStop (float power)
-    {
-        foundationGrabberLeft.setDirection(Servo.Direction.REVERSE);
-        foundationGrabberRight.setDirection (Servo.Direction.REVERSE);
-        foundationGrabberLeft.setPosition (-power);
-        foundationGrabberRight.setPosition (-power);
-
+        foundationGrabberLeft.setPosition (0);
+        foundationGrabberRight.setPosition (0);
     }
 
 }

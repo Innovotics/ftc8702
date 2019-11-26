@@ -89,7 +89,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode{
                 robot.driveTrain.strafeRight(0.7f);
                 sleep(2500);
                 robot.driveTrain.stop();
-                robot.jaja.JaJaUp(1);
+                robot.jaja.JaJaUp();
                 currentState = PARK;
                 break;
 

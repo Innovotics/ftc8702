@@ -64,13 +64,13 @@ public class SkystoneTeleOp extends ActiveOpMode {
     {
         if (gamepad1.right_bumper)
         {
-            float power = 1;
+            float power = 0.4f;
             getTelemetryUtil().addData("Right bumper power:", power);
             driveTrain.rotateRight(power);
         }
         else if (gamepad1.left_bumper)
         {
-            float power = 1;
+            float power = 0.4f;
             getTelemetryUtil().addData("Left bumper power:", power);
             driveTrain.rotateLeft(power);
         }
@@ -93,25 +93,26 @@ public class SkystoneTeleOp extends ActiveOpMode {
             driveTrain.stop();
         }
 
-        //For visual purposes
-        if (gamepad1.x ) {
-            jaja.JaJaDown(0.5f);
-            getTelemetryUtil().addData("Button Xfqv", " Pressed");
-        }
-        else if (gamepad1.y ) {
-            jaja.JaJaUp(0);
-            getTelemetryUtil().addData("Button Y", " Pressed");
-        }
         getTelemetryUtil().sendTelemetry();
     }
 
     private void gamepad2Control()
     {
-        if (gamepad2.a)
+        //For visual purposes
+        if (gamepad2.x ) {
+            jaja.JaJaDown();
+            getTelemetryUtil().addData("Button Xfqv", " Pressed");
+        }
+        else if (gamepad2.b ) {
+            jaja.JaJaUp();
+            getTelemetryUtil().addData("Button Y", " Pressed");
+        }
+
+        if (gamepad2.y)
         {
             flexArm.ArmUp(1);
         }
-        else if (gamepad2.y)
+        else if (gamepad2.a)
         {
             flexArm.ArmDown(1);
         }

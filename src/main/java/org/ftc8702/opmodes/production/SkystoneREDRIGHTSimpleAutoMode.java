@@ -10,7 +10,7 @@ import org.ftc8702.opmodes.test.BenColorSensorTest;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 
-@Autonomous(name = "SkystoneSimpleAutoMode", group = "Ops")
+@Autonomous(name = "RIGHTREDSimpleAutoMode", group = "Ops")
 public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
     public SkystoneAutoConfig robot = new SkystoneAutoConfig();
@@ -27,6 +27,10 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
     @Override
     protected void activeLoop() throws InterruptedException {
+
+    }
+
+    protected void activeq22Loop() throws InterruptedException {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
         telemetry.update();
       //  getTelemetryUtil().addData("Color: ", ColorUtil.getColor(robot.colorSensor).name());
@@ -47,7 +51,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
             case LOWER_FOUNDATION_GRABBER:
                 logStage();
-                    robot.jaja.JaJaDown(1);
+                    robot.jaja.JaJaDown();
                     sleep(100);
                     accomplishedTask = true;
                     currentState = MOVE_FROM_FOUNDATION;
@@ -63,7 +67,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
             case RAISE_FOUNDATION_GRABBER:
                 logStage();
-                   robot.jaja.JaJaUp(1);
+                   robot.jaja.JaJaUp();
                     sleep(1500);
                     robot.driveTrain.strafeRight(.5f);
                     sleep(3000);
