@@ -1,13 +1,19 @@
 package org.ftc8702.opmodes.production;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 
 import java.util.Locale;
 
@@ -27,6 +33,10 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
     private int detectCount = 0;
+    Orientation angle;
+    double currentYawAngle;
+    double currentPitchAngle;
+    double currentRollAngle;
 
     private SkystoneAutoConfig robot = new SkystoneAutoConfig();
 
@@ -37,7 +47,18 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         webCamDetector.initialize(hardwareMap, telemetry);
         currentState = SkystoneAutoModeState.DETECT_SKYSTONE;
 
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        robot.imu = hardwareMap.get(BNO055IMU.class, "imu");
+        robot.imu.initialize(parameters);
 
+        telemetry.addData("Angle: ", angle);
+        telemetry.update();
     }
 
     @Override
@@ -53,6 +74,8 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 detectCount++;
 
                 if (result != null) {
+
+
                     //Detect Webcam and Move robot
                     if(result.position == 2) {
                         robot.driveTrain.strafeRight(.3f);
@@ -67,8 +90,8 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                         telemetry.update();
                         robot.driveTrain.stop();
                         sleep(1000);
-                        robot.driveTrain.goBackward(.5f);
-                        sleep(1700);
+                        robot.driveTrain.goBackward(.6f);
+                        sleep(1800);
                         robot.jaja.foundationGrabberLeft.setPosition(0);
                         robot.driveTrain.stop();
                         sleep(1000);
@@ -83,8 +106,8 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                         robot.driveTrain.stop();
                         sleep(1000);
 
-                        robot.driveTrain.goBackward(.5f);
-                        sleep(1700);
+                        robot.driveTrain.goBackward(.6f);
+                        sleep(1800);
                         robot.jaja.foundationGrabberRight.setPosition(1.0);
                         robot.driveTrain.stop();
                         sleep(1000);
@@ -188,4 +211,6 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
+
 }
+
