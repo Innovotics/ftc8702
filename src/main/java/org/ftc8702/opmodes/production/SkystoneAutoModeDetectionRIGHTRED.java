@@ -9,6 +9,8 @@ import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 
+import java.util.Locale;
+
 import ftcbootstrap.ActiveOpMode;
 
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.DONE;
@@ -179,6 +181,11 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         getTelemetryUtil().sendTelemetry();
     }
 
-    //Find Vector
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
 
+    String formatDegrees(double degrees){
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
 }

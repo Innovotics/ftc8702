@@ -1,5 +1,7 @@
 package org.ftc8702.configurations.production;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -21,6 +23,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
     public SkystoneFlexArm FlexArm;
     public SkystoneSlideAndBrickPicker Slider;
     public SkystoneIntake Intake;
+    public BNO055IMU imu;
 
     private HardwareMap hardwareMap;
 
@@ -29,6 +32,16 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
 
         ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
         driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR);
