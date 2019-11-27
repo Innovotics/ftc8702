@@ -53,7 +53,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 if (result != null) {
                     //Detect Webcam and Move robot
                     if(result.position == 2) {
-                        robot.driveTrain.strafeRight(.2f);
+                        robot.driveTrain.strafeRight(.3f);
                         telemetry.addData("Position", "Center");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
@@ -65,9 +65,11 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                         telemetry.update();
                         robot.driveTrain.stop();
                         sleep(1000);
-                        robot.driveTrain.goBackward(.1f);
-                        sleep(1000);
+                        robot.driveTrain.goBackward(.5f);
+                        sleep(1700);
                         robot.jaja.foundationGrabberLeft.setPosition(0);
+                        robot.driveTrain.stop();
+                        sleep(1000);
                         //Next Step
                         currentState = MOVE_STONE_TO_BUIDER_ZONE;
                     }
@@ -79,9 +81,11 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                         robot.driveTrain.stop();
                         sleep(1000);
 
-                        robot.driveTrain.goForward(.1f);
-                        sleep(1000);
+                        robot.driveTrain.goBackward(.5f);
+                        sleep(1700);
                         robot.jaja.foundationGrabberRight.setPosition(1.0);
+                        robot.driveTrain.stop();
+                        sleep(1000);
                         //Next Step
                         currentState = MOVE_STONE_TO_BUIDER_ZONE;
                     }
@@ -105,7 +109,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 sleep(2500);
                 robot.driveTrain.stop();
                 robot.jaja.JaJaUp();
-                currentState = PARK;
+                currentState = DONE;
                 break;
 
             case MOVE_TO_SECOND_SKYSTONE:
