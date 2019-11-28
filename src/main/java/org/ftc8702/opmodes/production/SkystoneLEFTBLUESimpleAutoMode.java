@@ -10,8 +10,6 @@ import ftcbootstrap.ActiveOpMode;
 import org.ftc8702.opmodes.test.BenColorSensorTest;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
-import org.ftc8702.configurations.production.SkystoneAutoConfig;
-import ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "LEFTBLUESimpleAutoMode", group = "Ops")
 public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
@@ -32,8 +30,6 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
         telemetry.update();
-        //  getTelemetryUtil().addData("Color: ", ColorUtil.getColor(robot.colorSensor).name());
-
 
     switch (currentState) {
         case MOVE_TO_FOUNDATION:
@@ -61,7 +57,7 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
             robot.driveTrain.goForward(0.4f);
             sleep(2300);
             robot.driveTrain.rotateLeft(0.4f);
-            sleep(3000);
+            sleep(4000);
             robot.driveTrain.stop();
             robot.jaja.JaJaUp();
             sleep(1000);
@@ -70,8 +66,6 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
 
         case RAISE_FOUNDATION_GRABBER:
             logStage();
-            robot.jaja.JaJaUp();
-            sleep(2000);
             robot.driveTrain.goForward(.5f);
             sleep(1000);
             currentState = PARK;

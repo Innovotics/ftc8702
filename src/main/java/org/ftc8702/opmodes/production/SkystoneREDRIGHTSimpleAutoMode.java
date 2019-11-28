@@ -42,7 +42,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                 robot.driveTrain.goBackward(1);
                 sleep(968);
                 robot.driveTrain.strafeLeft(0.3f);
-                sleep(1000);
+                sleep(1500);
                 robot.driveTrain.goBackward(0.1f);
                 sleep(100);
                 robot.driveTrain.stop();
@@ -59,34 +59,36 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                     break;
             case MOVE_FROM_FOUNDATION:
                 logStage();
-                robot.driveTrain.goForward(1);
-                sleep(1200);
+                robot.driveTrain.goForward(0.4f);
+                sleep(2300);
+                robot.driveTrain.rotateRight(0.4f);
+                sleep(4000);
                 robot.driveTrain.stop();
+                robot.jaja.JaJaUp();
+                sleep(1000);
                 currentState = RAISE_FOUNDATION_GRABBER;//make this park after we fix everything
                 break;
 
             case RAISE_FOUNDATION_GRABBER:
                 logStage();
-                   robot.jaja.JaJaUp();
-                    sleep(1500);
-                    robot.driveTrain.strafeRight(.5f);
-                    sleep(3000);
+                robot.driveTrain.goForward(.5f);
+                sleep(1000);
                     currentState = PARK;
 
                     break;
 
             case PARK:
                 logStage();
-                robot.driveTrain.strafeRight(.3f);
-//                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
-//
-//                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-//                    telemetry.addData("Touching ", currentColor);
+                robot.driveTrain.goForward(.3f);
+                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
+
+                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+                    telemetry.addData("Touching ", currentColor);
                      currentState = DONE;
-//                }
-//                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-//                    robot.driveTrain.strafeLeft(.3f);
-//                }
+                }
+                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
+                    robot.driveTrain.strafeLeft(.3f);
+                }
                 break;
 
             case SPIN_TO_WIN:
