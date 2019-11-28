@@ -1,5 +1,7 @@
 package org.ftc8702.configurations.production;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -21,6 +23,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
     public SkystoneFlexArm FlexArm;
     public SkystoneSlideAndBrickPicker Slider;
     public SkystoneIntake Intake;
+    public BNO055IMU imu;
 
     private HardwareMap hardwareMap;
 
@@ -29,6 +32,8 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
     public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
+
+
 
         ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
         driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR);

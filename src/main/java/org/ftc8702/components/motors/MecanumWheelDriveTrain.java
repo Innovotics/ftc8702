@@ -27,6 +27,16 @@ public class MecanumWheelDriveTrain {
         goForward(-power);
     }
 
+    public void goRightDiagonal(float power) {
+        frontLeftMotor.setPower(power);
+        backRightMotor.setPower(power);
+    }
+
+    public void goLeftDiagonal(float power) {
+        frontRightMotor.setPower(power);
+        backLeftMotor.setPower(power);
+    }
+
     public void strafeRight(float power) {
         // right wheels rotate inward, left wheels rotate outward
         frontLeftMotor.setPower(-power);

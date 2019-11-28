@@ -13,7 +13,7 @@ import ftcbootstrap.ActiveOpMode;
 import org.ftc8702.opmodes.production.SkystoneJaJa;
 
 @TeleOp(name = "SkystoneTeleOp", group = "production")
-public class SkystoneTeleOp extends ActiveOpMode {
+public class  SkystoneTeleOp extends ActiveOpMode {
 
     private ProdMecanumRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
@@ -64,13 +64,13 @@ public class SkystoneTeleOp extends ActiveOpMode {
     {
         if (gamepad1.right_bumper)
         {
-            float power = 0.4f;
+            float power = 1.0f;
             getTelemetryUtil().addData("Right bumper power:", power);
             driveTrain.rotateRight(power);
         }
         else if (gamepad1.left_bumper)
         {
-            float power = 0.4f;
+            float power = 1.0f;
             getTelemetryUtil().addData("Left bumper power:", power);
             driveTrain.rotateLeft(power);
         }
@@ -86,7 +86,16 @@ public class SkystoneTeleOp extends ActiveOpMode {
             float scaledPower = scaleMotorPower(gamepad1.left_stick_x);
             getTelemetryUtil().addData("Left Joystick X: ",
                     "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
-            driveTrain.strafeRight(scaledPower);
+            driveTrain.strafeRight(-scaledPower);
+        }
+        else if (gamepad1.right_stick_y != 0) {
+            float scaledPower = scaleMotorPower(gamepad1.right_stick_y);
+            driveTrain.goRightDiagonal(scaledPower);
+        }
+
+        else if (gamepad1.right_stick_x != 0) {
+            float scaledPower = scaleMotorPower(gamepad1.right_stick_x) ;
+            driveTrain.goLeftDiagonal(scaledPower);
         }
         else
         {
