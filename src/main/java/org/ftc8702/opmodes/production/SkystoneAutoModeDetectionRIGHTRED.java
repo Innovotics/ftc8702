@@ -5,7 +5,10 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
+import org.ftc8702.configurations.production.SkystoneAutonousConfig;
 import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcamOLD;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
@@ -31,7 +34,12 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
     Orientation angle;
     StonePosition currentStonePosition;
 
-    private SkystoneAutoConfig robot = new SkystoneAutoConfig();
+    private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();
+
+    double currentYawAngle;
+    double currentPitchAngle;
+    double currentRollAngle;
+    double initialYawAngle;
 
     @Override
     protected void onInit() {
@@ -51,6 +59,10 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
         telemetry.addData("Angle: ", angle);
         telemetry.update();
+        readAngles();
+        initialYawAngle = angle.firstAngle;
+        Orientation angles;
+
     }
 
     @Override
@@ -61,6 +73,8 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         switch (currentState) {
             case DETECT_SKYSTONE:
                 logStage();
+                readAngles();
+                currentYawAngle = angle.firstAngle;
 
                 ObjectDetectionAutoModeWebcamOLD.RecognitionResult result = webCamDetector.detect();
                 detectCount++;
@@ -68,7 +82,41 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 if (result != null) {
                     //Detect Webcam and Move robot
                     if(result.position == StonePosition.CENTER) {
-                        robot.driveTrain.strafeRight(.3f);
+                        float power = .3f;
+
+                        if(currentYawAngle <= initialYawAngle + 3 && currentYawAngle >= initialYawAngle - 3) {
+                            robot.motorFL.setPower(-power);
+                            robot.motorFR.setPower(-power);
+                            robot.motorBL.setPower(power);
+                            robot.motorBR.setPower(power);
+
+                        } else if(currentYawAngle > initialYawAngle + 3) {
+                            robot.motorFL.setPower(0);
+                            robot.motorFR.setPower(0);
+                            robot.motorBL.setPower(0);
+                            robot.motorBR.setPower(0);
+
+                            sleep(1000);
+
+                            robot.motorFL.setPower(power);
+                            robot.motorFR.setPower(power);
+                            robot.motorBL.setPower(power);
+                            robot.motorBR.setPower(power);
+
+                        } else if(currentYawAngle < initialYawAngle - 3) {
+                            robot.motorFL.setPower(0);
+                            robot.motorFR.setPower(0);
+                            robot.motorBL.setPower(0);
+                            robot.motorBR.setPower(0);
+
+                            sleep(1000);
+
+                            robot.motorFL.setPower(-power);
+                            robot.motorFR.setPower(-power);
+                            robot.motorBL.setPower(-power);
+                            robot.motorBR.setPower(-power);
+
+                        }
 
                         currentStonePosition = StonePosition.CENTER;
                         telemetry.addData("Position", "Center");
@@ -208,5 +256,16 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
+    public Orientation getAngles() {
+
+        return angle;
+    }
+
+    public void readAngles(){
+        angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        currentYawAngle = angle.firstAngle;
+        currentPitchAngle = angle.thirdAngle;
+        currentRollAngle = angle.secondAngle;
+    }
 }
 
