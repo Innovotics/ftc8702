@@ -14,6 +14,7 @@ import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.utils.StonePosition;
+import org.ftc8702.utils.SkyStoneProperties;
 
 
 import java.util.Locale;
@@ -111,7 +112,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
             case GRAB_SKY_STONE:
                 sleep(1000);
                 robot.driveTrain.goBackward(.6f);
-                sleep(1800);
+                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_BF_GRAB);
                 if(currentStonePosition == StonePosition.LEFT) {
                     robot.jaja.foundationGrabberLeft.setPosition(0);
                 }
@@ -120,6 +121,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 }
                 robot.driveTrain.stop();
                 sleep(1000);
+                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITIION_AF_GRAB);
 
                 currentState = MOVE_STONE_TO_BUILDER_ZONE;
                 break;
@@ -135,7 +137,8 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
                 robot.driveTrain.goForward(1);//Pulls the skystone out a little bit
-                sleep(500);
+                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITIION_AF_GRAB);
+                // TODO: Drive until detect color
                 robot.driveTrain.strafeLeft(0.7f);
                 sleep(2500);
                 robot.driveTrain.stop();
