@@ -21,13 +21,7 @@ import java.util.Locale;
 
 import ftcbootstrap.ActiveOpMode;
 
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.DONE;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.GRAB_SKY_STONE;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.HUG_STONE2;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUILDER_ZONE;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUILDER_ZONE2;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_TO_SECOND_SKYSTONE;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
+import static org.ftc8702.opmodes.production.SkystoneAutoModeState.*;
 
 @Autonomous(name = "RIGHT RED Auto Detect", group = "Ops")
 public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
@@ -78,8 +72,6 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 detectCount++;
 
                 if (result != null) {
-
-
                     //Detect Webcam and Move robot
                     if(result.position == StonePosition.CENTER) {
                         robot.driveTrain.strafeRight(.3f);
@@ -121,7 +113,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 }
                 robot.driveTrain.stop();
                 sleep(1000);
-                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITIION_AF_GRAB);
+                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
 
                 currentState = MOVE_STONE_TO_BUILDER_ZONE;
                 break;
@@ -137,7 +129,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
                 robot.driveTrain.goForward(1);//Pulls the skystone out a little bit
-                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITIION_AF_GRAB);
+                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
                 // TODO: Drive until detect color
                 robot.driveTrain.strafeLeft(0.7f);
                 sleep(2500);
