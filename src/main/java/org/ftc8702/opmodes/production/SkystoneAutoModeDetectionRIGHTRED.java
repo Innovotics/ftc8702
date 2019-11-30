@@ -13,6 +13,7 @@ import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.ftc8702.utils.StonePosition;
 
 
 import java.util.Locale;
@@ -20,8 +21,9 @@ import java.util.Locale;
 import ftcbootstrap.ActiveOpMode;
 
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.DONE;
+import static org.ftc8702.opmodes.production.SkystoneAutoModeState.GRAB_SKY_STONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.HUG_STONE2;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUIDER_ZONE;
+import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUILDER_ZONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUILDER_ZONE2;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_TO_SECOND_SKYSTONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
@@ -37,6 +39,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
     double currentYawAngle;
     double currentPitchAngle;
     double currentRollAngle;
+    StonePosition currentStonePosition;
 
     private SkystoneAutoConfig robot = new SkystoneAutoConfig();
 
@@ -77,46 +80,49 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
 
                     //Detect Webcam and Move robot
-                    if(result.position == 2) {
+                    if(result.position == StonePosition.CENTER) {
                         robot.driveTrain.strafeRight(.3f);
+                        currentStonePosition = StonePosition.CENTER;
                         telemetry.addData("Position", "Center");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
 
                     }
-                    else if (result.position == 1) {
+                    else if (result.position == StonePosition.LEFT) {
                         telemetry.addData("Position", "Left");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
                         robot.driveTrain.stop();
-                        sleep(1000);
-                        robot.driveTrain.goBackward(.6f);
-                        sleep(1800);
-                        robot.jaja.foundationGrabberLeft.setPosition(0);
-                        robot.driveTrain.stop();
-                        sleep(1000);
+                        currentStonePosition = StonePosition.LEFT;
                         //Next Step
-                        currentState = MOVE_STONE_TO_BUIDER_ZONE;
+                        currentState = GRAB_SKY_STONE;
                     }
-
-                    else if(result.position == 3) {
+                    else if(result.position == StonePosition.RIGHT) {
                         telemetry.addData("Position", "Right");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
                         robot.driveTrain.stop();
-                        sleep(1000);
-
-                        robot.driveTrain.goBackward(.6f);
-                        sleep(1800);
-                        robot.jaja.foundationGrabberRight.setPosition(1.0);
-                        robot.driveTrain.stop();
-                        sleep(1000);
+                        currentStonePosition = StonePosition.RIGHT;
                         //Next Step
-                        currentState = MOVE_STONE_TO_BUIDER_ZONE;
+                        currentState = GRAB_SKY_STONE;
                     }
                 }
                 break;
+            case GRAB_SKY_STONE:
+                sleep(1000);
+                robot.driveTrain.goBackward(.6f);
+                sleep(1800);
+                if(currentStonePosition == StonePosition.LEFT) {
+                    robot.jaja.foundationGrabberLeft.setPosition(0);
+                }
+                else if(currentStonePosition == StonePosition.LEFT) {
+                    robot.jaja.foundationGrabberRight.setPosition(1.0);
+                }
+                robot.driveTrain.stop();
+                sleep(1000);
 
+                currentState = MOVE_STONE_TO_BUILDER_ZONE;
+                break;
 //            case HUG_STONE:
 //                logStage();
 //
@@ -126,7 +132,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 //                break;
 
 
-            case MOVE_STONE_TO_BUIDER_ZONE: // When all operations are complete
+            case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
                 robot.driveTrain.goForward(1);//Pulls the skystone out a little bit
                 sleep(500);

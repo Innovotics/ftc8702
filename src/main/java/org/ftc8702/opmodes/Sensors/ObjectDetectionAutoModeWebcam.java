@@ -33,14 +33,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.ftc8702.utils.StonePosition;
+
+import java.util.List;
+
 
 /**
  * This 2019-2020 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -62,10 +65,10 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
 
     public static class RecognitionResult
     {
-        public int position; // 1, 2 or 3
+        public StonePosition position; // 1, 2 or 3
         public double angleToPosition;
 
-        public RecognitionResult(int position, double angleToPosition) {
+        public RecognitionResult(StonePosition position, double angleToPosition) {
             this.position = position;
             this.angleToPosition = angleToPosition;
         }
@@ -166,19 +169,19 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
                                 telemetry.addData("Left", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
-                                return new RecognitionResult(1, angle);
+                                return new RecognitionResult(StonePosition.LEFT, angle);
 
                             } else if (angle >= -15 && angle < 23) {
                                 telemetry.addData("Center", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
-                                return new RecognitionResult(2, angle);
+                                return new RecognitionResult(StonePosition.CENTER, angle);
 
                             } else if (angle >= 23) {
                                 telemetry.addData("Right", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
-                                return new RecognitionResult(3, angle);
+                                return new RecognitionResult(StonePosition.RIGHT, angle);
 
                             }
                         }
