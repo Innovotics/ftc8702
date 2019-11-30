@@ -22,6 +22,7 @@ import java.util.Locale;
 import ftcbootstrap.ActiveOpMode;
 
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.*;
+import static org.ftc8702.utils.ColorUtil.getColor;
 
 @Autonomous(name = "RIGHT RED Auto Detect", group = "Ops")
 public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
@@ -130,10 +131,13 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 logStage();
                 robot.driveTrain.goForward(1);//Pulls the skystone out a little bit
                 sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
-                // TODO: Drive until detect color
-                robot.driveTrain.strafeLeft(0.7f);
-                sleep(2500);
+                ColorValue stoppingColor = getColor(robot.colorSensor);
+                while(stoppingColor != ColorValue.BLUE && stoppingColor != ColorValue.RED) {
+                    robot.driveTrain.strafeLeft(0.3f);
+                }
+                sleep(SkyStoneProperties.SLEEP_AFTER_DETECT_COLOR);
                 robot.driveTrain.stop();
+
                 robot.jaja.JaJaUp();
                 currentState = DONE;
                 break;
