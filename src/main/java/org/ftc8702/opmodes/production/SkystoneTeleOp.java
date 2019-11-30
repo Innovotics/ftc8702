@@ -169,6 +169,7 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         else {
             slideAndBrickPicker.LinearSlideStop();
         }
+
         //For Visual Purposes
         if (gamepad2.dpad_left) {
             getTelemetryUtil().addData("dpad left:", " pickerUp");

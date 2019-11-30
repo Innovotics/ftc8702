@@ -1,4 +1,5 @@
 package org.ftc8702.opmodes.production;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -22,7 +23,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
     @Override
     protected void onInit() {
         robot.init(hardwareMap, getTelemetryUtil());
-        currentState = MOVE_TO_FOUNDATION ;
+        currentState = MOVE_TO_FOUNDATION;
     }
 
     @Override
