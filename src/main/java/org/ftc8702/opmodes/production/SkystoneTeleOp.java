@@ -43,7 +43,7 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
         flexArm = new SkystoneFlexArm(driveTrainConfig.SliderArmLeft, driveTrainConfig.SliderArmRight);
         Intake = new SkystoneIntake(driveTrainConfig.IntakeWheelLeft, driveTrainConfig.IntakeWheelRight);
-        slideAndBrickPicker = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "brickPicker"), hardwareMap.get(Servo.class, "linearSlide"));
+        slideAndBrickPicker = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "brickPicker"), hardwareMap.get(CRServo.class, "linearSlide"));
         //slideAndBrickPicker.armPosition = 0.01;//slideAndBrickPicker.MAX_POSITION;
     }
 
@@ -145,7 +145,7 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         }
 
         //For Visual Purposes
-        if (gamepad2.dpad_down && slideAndBrickPicker.armPosition > slideAndBrickPicker.MIN_POSITION)
+ /*       if (gamepad2.dpad_down && slideAndBrickPicker.armPosition > slideAndBrickPicker.MIN_POSITION)
         {
             slideAndBrickPicker.armPosition -= 0.00025;
             getTelemetryUtil().addData("dpad up slideOut: ", slideAndBrickPicker.armPosition);
@@ -158,7 +158,17 @@ public class  SkystoneTeleOp extends ActiveOpMode {
             slideAndBrickPicker.slide(slideAndBrickPicker.armPosition);
             //slideAndBrickPicker.LinearSliderIn();//slideAndBrickPicker.armPosition);
         }
-
+*/
+        if (gamepad2.dpad_down)
+        {
+            slideAndBrickPicker.LinearSlideIn();
+        }
+        else if (gamepad2.dpad_up) {
+            slideAndBrickPicker.LinearSlideOut();
+        }
+        else {
+            slideAndBrickPicker.LinearSlideStop();
+        }
         //For Visual Purposes
         if (gamepad2.dpad_left) {
             getTelemetryUtil().addData("dpad left:", " pickerUp");
