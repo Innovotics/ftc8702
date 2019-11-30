@@ -55,9 +55,9 @@ import java.util.List;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Skystone Detector", group = "Autonomous")
+@TeleOp(name = "Skystone Detector OLD", group = "Autonomous")
 
-public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
+public class ObjectDetectionAutoModeWebcamOLD extends LinearOpMode {
 
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Stone";
@@ -160,32 +160,32 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
                 // step through the list of recognitions and display boundary info.
                 int i = 0;
 
-                for (Recognition recognition : updatedRecognitions) {
-                    if (recognition.getLabel().equals("Skystone")) {
-                        double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
-                        telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
-                        //find positions
-                        if (angle < -15) {
-                            telemetry.addData("Left", " Position");
-                            telemetry.addData("Angle: ", angle);
-                            telemetry.update();
-                            return new RecognitionResult(StonePosition.LEFT, angle);
+                    for (Recognition recognition : updatedRecognitions) {
+                        if (recognition.getLabel().equals("Skystone")) {
+                            double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
+                            telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
+                            //find positions
+                            if (angle < -15) {
+                                telemetry.addData("Left", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return new RecognitionResult(StonePosition.LEFT, angle);
 
-                        } else if (angle >= -15 && angle < 23) {
-                            telemetry.addData("Center", " Position");
-                            telemetry.addData("Angle: ", angle);
-                            telemetry.update();
-                            return new RecognitionResult(StonePosition.CENTER, angle);
+                            } else if (angle >= -15 && angle < 23) {
+                                telemetry.addData("Center", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return new RecognitionResult(StonePosition.CENTER, angle);
 
-                        } else if (angle >= 23) {
-                            telemetry.addData("Right", " Position");
-                            telemetry.addData("Angle: ", angle);
-                            telemetry.update();
-                            return new RecognitionResult(StonePosition.RIGHT, angle);
+                            } else if (angle >= 23) {
+                                telemetry.addData("Right", " Position");
+                                telemetry.addData("Angle: ", angle);
+                                telemetry.update();
+                                return new RecognitionResult(StonePosition.RIGHT, angle);
 
+                            }
                         }
                     }
-                }
 
 
 
@@ -244,13 +244,13 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
             telemetry.addData("Center", " Position");
             telemetry.addData("Angle: ", angle);
             telemetry.update();
-            return 2;
+        return 2;
 
         } else if(angle >= 10) {
             telemetry.addData("Left", " Position");
             telemetry.addData("Angle: ", angle);
             telemetry.update();
-            return 3;
+        return 3;
 
         } else {
             return 0;

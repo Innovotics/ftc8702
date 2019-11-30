@@ -3,7 +3,7 @@ package org.ftc8702.opmodes.production;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
-import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
+import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcamOLD;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 import org.ftc8702.utils.StonePosition;
@@ -12,13 +12,12 @@ import ftcbootstrap.ActiveOpMode;
 
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.DONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUILDER_ZONE;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUILDER_ZONE2;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
 
 @Autonomous(name = " LEFT BLUE Auto Detect", group = "Ops")
 public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode{
 
-    public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
+    public ObjectDetectionAutoModeWebcamOLD webCamDetector = new ObjectDetectionAutoModeWebcamOLD();
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
     private int detectCount = 0;
@@ -44,7 +43,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode{
             case DETECT_SKYSTONE:
                 logStage();
 
-                ObjectDetectionAutoModeWebcam.RecognitionResult result = webCamDetector.detect();
+                ObjectDetectionAutoModeWebcamOLD.RecognitionResult result = webCamDetector.detect();
                 detectCount++;
 
                 if (result != null) {

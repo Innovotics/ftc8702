@@ -34,8 +34,6 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
         this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
 
-
-
         ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
         driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR);
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
@@ -45,5 +43,6 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
         colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
         telemetryUtil.addData("Color Sensor", colorSensor+"");
         telemetryUtil.sendTelemetry();
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
     }
 }
