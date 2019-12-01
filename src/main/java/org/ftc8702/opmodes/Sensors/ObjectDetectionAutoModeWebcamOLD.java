@@ -165,19 +165,19 @@ public class ObjectDetectionAutoModeWebcamOLD extends LinearOpMode {
                             double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
                             telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
                             //find positions
-                            if (angle < -15) {
+                            if (angle < -10) {
                                 telemetry.addData("Left", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
                                 return new RecognitionResult(StonePosition.LEFT, angle);
 
-                            } else if (angle >= -15 && angle < 23) {
+                            } else if (angle >= -10 && angle < 20) {
                                 telemetry.addData("Center", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();
                                 return new RecognitionResult(StonePosition.CENTER, angle);
 
-                            } else if (angle >= 23) {
+                            } else if (angle >= 20) {
                                 telemetry.addData("Right", " Position");
                                 telemetry.addData("Angle: ", angle);
                                 telemetry.update();

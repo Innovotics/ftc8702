@@ -43,6 +43,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.ftc8702.utils.StonePosition;
 
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -165,31 +166,27 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
                         double angle = recognition.estimateAngleToObject(AngleUnit.DEGREES);
                         telemetry.addData("Angle: ", recognition.estimateAngleToObject(AngleUnit.DEGREES));
                         //find positions
-                        if (angle < -15) {
+                        if (angle < -10 ) { //-10
                             telemetry.addData("Left", " Position");
                             telemetry.addData("Angle: ", angle);
                             telemetry.update();
                             return new RecognitionResult(StonePosition.LEFT, angle);
 
-                        } else if (angle >= -15 && angle < 23) {
+                        } else if (angle >= -10 && angle < 10) {
                             telemetry.addData("Center", " Position");
                             telemetry.addData("Angle: ", angle);
                             telemetry.update();
                             return new RecognitionResult(StonePosition.CENTER, angle);
 
-                        } else if (angle >= 23) {
+                        } else if (angle >= 10) {
                             telemetry.addData("Right", " Position");
-                            telemetry.addData("Angle: ", angle);
+                            telemetry.addData("Angle: ", formatAngle(AngleUnit.DEGREES, angle));
                             telemetry.update();
                             return new RecognitionResult(StonePosition.RIGHT, angle);
 
                         }
                     }
                 }
-
-
-
-
                 telemetry.update();
 
 
@@ -229,32 +226,12 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
-
-    //find adjustment vector
-    public int getPosition(double angle) {
-
-        //find positions
-        if(angle < -20) {
-            telemetry.addData("Right", " Position");
-            telemetry.addData("Angle: ", angle);
-            telemetry.update();
-            return 1;
-
-        } else if(angle > - 20 && angle < 10) {
-            telemetry.addData("Center", " Position");
-            telemetry.addData("Angle: ", angle);
-            telemetry.update();
-            return 2;
-
-        } else if(angle >= 10) {
-            telemetry.addData("Left", " Position");
-            telemetry.addData("Angle: ", angle);
-            telemetry.update();
-            return 3;
-
-        } else {
-            return 0;
-        }
-
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+    String formatDegrees(double degrees) {
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
+
+

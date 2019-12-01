@@ -34,14 +34,14 @@ public class MecanumWheelDriveTrainPIDBased {
 
     }
 
-    public void goForward(float power, double deviatingValue, int time) {
+    public void goForward(float power, double deviatingValue, int timeInMillisecond, int coMill) {
 
         Orientation initialAngle = readAngles();
         String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
         float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
 
         //if the imu degrees is correct
-        for(int i = 0; i < time; i++) {
+        for(int i = 0; i < timeInMillisecond; i = i + coMill) {
             Orientation angle = readAngles();
             String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
             float yawAngle = Float.parseFloat(rawYawAngle);
@@ -65,19 +65,20 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(power);
             }
 
-            sleep(1);
+            sleep(coMill);
         }
+        stop();
 
     }
 
-    public void goBackward(float power, double deviatingValue, int time) {
+    public void goBackward(float power, double deviatingValue, int timeInMilliseconds, int coMill) {
 
         Orientation initialAngle = readAngles();
         String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
         float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
 
         //if the imu degrees is correct
-        for(int i = 0; i < time; i++) {
+        for(int i = 0; i < timeInMilliseconds; i = i + coMill) {
             Orientation angle = readAngles();
             String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
             float yawAngle = Float.parseFloat(rawYawAngle);
@@ -105,21 +106,21 @@ public class MecanumWheelDriveTrainPIDBased {
 
             }
 
-            sleep(1);
+            sleep(coMill);
         }
+        stop();
 
     }
 
 
-    public void strafeRight(float power, double deviatingValue, int time) {
-        double currentAngle;
+    public void strafeRight(float power, double deviatingValue, int timeInMilliseconds, int coMill) {
 
         Orientation initialAngle = readAngles();
         String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
         float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
 
         //if the imu degrees is correct
-        for(int i = 0; i < time; i++) {
+        for(int i = 0; i < timeInMilliseconds; i = i + coMill) {
             Orientation angle = readAngles();
             String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
             float yawAngle = Float.parseFloat(rawYawAngle);
@@ -130,27 +131,27 @@ public class MecanumWheelDriveTrainPIDBased {
                 backLeftMotor.setPower(power);
                 backRightMotor.setPower(power);
 
-            } else if(yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
+            } else if(yawAngle < yawInitialAngle - deviatingValue) { //if turn right too much
                 frontLeftMotor.setPower(-power);
                 frontRightMotor.setPower(-power);
                 backLeftMotor.setPower(power - (.1));
                 backRightMotor.setPower(power - (.1));
 
-            } else if(yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+            } else if(yawAngle > yawInitialAngle + deviatingValue) { // if turn left too much
                 frontLeftMotor.setPower(-power + (.1));
                 frontRightMotor.setPower(-power + (.1));
                 backLeftMotor.setPower(power);
                 backRightMotor.setPower(power);
             }
 
-            sleep(1);
+            sleep(coMill/1000);
         }
 
     }
 
 
 
-    public void strafeLeft(float power, double deviatingValue, int time) {
+    public void strafeLeft(float power, double deviatingValue, int timeInMilliseconds, int coMill) {
         double currentAngle;
 
         Orientation initialAngle = readAngles();
@@ -158,7 +159,7 @@ public class MecanumWheelDriveTrainPIDBased {
         float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
 
         //if the imu degrees is correct
-        for(int i = 0; i < time; i++) {
+        for(int i = 0; i < timeInMilliseconds; i = i + coMill) {
             Orientation angle = readAngles();
             String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
             float yawAngle = Float.parseFloat(rawYawAngle);
@@ -183,7 +184,7 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(-power + (.1));
             }
 
-            sleep(1);
+            sleep(coMill);
         }
 
     }
@@ -214,7 +215,13 @@ public class MecanumWheelDriveTrainPIDBased {
             Thread.currentThread().interrupt();
         }
     }
-
+    public final void sleep(long milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
     public void stop() {
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
