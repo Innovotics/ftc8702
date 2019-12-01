@@ -45,24 +45,22 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
     protected void onInit() {
 
         robot.init(super.hardwareMap, getTelemetryUtil());
+        robot.driveTrain.setTelemetry(telemetry);
         webCamDetector.initialize(hardwareMap, telemetry);
-        currentState = SkystoneAutoModeState.DETECT_SKYSTONE;
+        currentState = MOVE_STONE_TO_BUILDER_ZONE;
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled      = true;
-        parameters.loggingTag          = "IMU";
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         robot.imu.initialize(parameters);
+        readAngles();
 
         telemetry.addData("Angle: ", angle);
         telemetry.update();
-        readAngles();
-        initialYawAngle = angle.firstAngle;
-        Orientation angles;
-
     }
 
     @Override
@@ -74,58 +72,23 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
             case DETECT_SKYSTONE:
                 logStage();
                 readAngles();
-                currentYawAngle = angle.firstAngle;
+                currentYawAngle = angle.thirdAngle;
 
                 ObjectDetectionAutoModeWebcamOLD.RecognitionResult result = webCamDetector.detect();
                 detectCount++;
 
                 if (result != null) {
                     //Detect Webcam and Move robot
-                    if(result.position == StonePosition.CENTER) {
+                    if (result.position == StonePosition.CENTER) {
                         float power = .3f;
 
-                        if(currentYawAngle <= initialYawAngle + 3 && currentYawAngle >= initialYawAngle - 3) {
-                            robot.motorFL.setPower(-power);
-                            robot.motorFR.setPower(-power);
-                            robot.motorBL.setPower(power);
-                            robot.motorBR.setPower(power);
-
-                        } else if(currentYawAngle > initialYawAngle + 3) {
-                            robot.motorFL.setPower(0);
-                            robot.motorFR.setPower(0);
-                            robot.motorBL.setPower(0);
-                            robot.motorBR.setPower(0);
-
-                            sleep(1000);
-
-                            robot.motorFL.setPower(power);
-                            robot.motorFR.setPower(power);
-                            robot.motorBL.setPower(power);
-                            robot.motorBR.setPower(power);
-
-                        } else if(currentYawAngle < initialYawAngle - 3) {
-                            robot.motorFL.setPower(0);
-                            robot.motorFR.setPower(0);
-                            robot.motorBL.setPower(0);
-                            robot.motorBR.setPower(0);
-
-                            sleep(1000);
-
-                            robot.motorFL.setPower(-power);
-                            robot.motorFR.setPower(-power);
-                            robot.motorBL.setPower(-power);
-                            robot.motorBR.setPower(-power);
-
-                        }
-
+                        //TODO add the strafing PID code
                         currentStonePosition = StonePosition.CENTER;
                         telemetry.addData("Position", "Center");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
 
-                    }
-
-                    else if (result.position == StonePosition.LEFT) {
+                    } else if (result.position == StonePosition.LEFT) {
                         telemetry.addData("Position", "Left");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
@@ -133,9 +96,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                         currentStonePosition = StonePosition.LEFT;
                         //Next Step
                         currentState = GRAB_SKY_STONE;
-                    }
-
-                    else if(result.position == StonePosition.RIGHT) {
+                    } else if (result.position == StonePosition.RIGHT) {
                         telemetry.addData("Position", "Right");
                         telemetry.addData("Angle: ", result.angleToPosition);
                         telemetry.update();
@@ -149,14 +110,12 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case GRAB_SKY_STONE:
                 sleep(1000);
-                robot.driveTrain.goBackward(.6f);
+                //robot.driveTrain.goBackward(.6f);
                 sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_BF_GRAB);
 
-                if(currentStonePosition == StonePosition.LEFT) {
+                if (currentStonePosition == StonePosition.LEFT) {
                     robot.jaja.foundationGrabberLeft.setPosition(0.2);
-                }
-
-                else if(currentStonePosition == StonePosition.LEFT) {
+                } else if (currentStonePosition == StonePosition.LEFT) {
                     robot.jaja.foundationGrabberRight.setPosition(.8);
                 }
                 robot.driveTrain.stop();
@@ -168,11 +127,13 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
-                robot.driveTrain.goForward(1);//Pulls the skystone out a little bit
+//                robot.driveTrain.strafeRight(.8f, .9, 5);  //Example of proper strafing calibrations
+
+
                 sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
                 ColorValue stoppingColor = getColor(robot.colorSensor);
                 while(stoppingColor != ColorValue.BLUE && stoppingColor != ColorValue.RED) {
-                    robot.driveTrain.strafeLeft(0.3f);
+                    robot.driveTrain.strafeLeft(0.8f, .9, 5);
                 }
                 sleep(SkyStoneProperties.SLEEP_AFTER_DETECT_COLOR);
                 robot.driveTrain.stop();
@@ -183,8 +144,12 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case MOVE_TO_SECOND_SKYSTONE:
                 logStage();
+
+                telemetry.addData("Initial Angle: ", +initialYawAngle);
+                telemetry.addData("Current Yaw Angle: ", +currentYawAngle);
+
                 robot.driveTrain.goForwardFullSpeedInFeet(0.3, false);
-                robot.driveTrain.strafeRight(1);
+                // robot.driveTrain.strafeRight(1);
                 sleep(4000);
                 robot.driveTrain.stop();
                 currentState = HUG_STONE2;
@@ -199,42 +164,43 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case MOVE_STONE_TO_BUILDER_ZONE2:
                 logStage();
-                robot.driveTrain.strafeRight(1);
+                // robot.driveTrain.strafeRight(1);
                 sleep(1000);
-                robot.driveTrain.goForward(1);
+               // robot.driveTrain.goForward(1);
                 sleep(4000);
                 robot.driveTrain.stop();
                 currentState = PARK;
                 break;
 
             case MOVE_FOUNDATION:
-                if(accomplishedTask == false) {
+                if (accomplishedTask == false) {
                     robot.jaja.foundationGrabberLeft.setPosition(0);
                     sleep(5000);
                     robot.jaja.foundationGrabberLeft.setPosition(0);
                     accomplishedTask = true;
 
-                } else if(accomplishedTask == true) {
+                } else if (accomplishedTask == true) {
                     currentState = PARK;
                 }
 
 
             case PARK:
                 logStage();
-                robot.driveTrain.strafeRight(.3f);
-                  ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
+                // robot.driveTrain.strafeRight(.3f);
+                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
-                if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+                if (currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
                     telemetry.addData("Touching ", currentColor);
                     currentState = DONE;
-                }
-                else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.strafeRight(.3f);
+                } else if (currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN) {
+                    // robot.driveTrain.strafeRight(.3f);
                 }
                 break;
 
             case DONE:
                 logStage();
+                robot.driveTrain.stop();
+                setOperationsCompleted();
                 break;
         }
         getTelemetryUtil().sendTelemetry();
@@ -248,11 +214,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         getTelemetryUtil().sendTelemetry();
     }
 
-    String formatAngle(AngleUnit angleUnit, double angle) {
-        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
-    }
-
-    String formatDegrees(double degrees){
+    String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
@@ -261,11 +223,15 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         return angle;
     }
 
-    public void readAngles(){
+    public void readAngles() {
         angle = robot.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         currentYawAngle = angle.firstAngle;
         currentPitchAngle = angle.thirdAngle;
         currentRollAngle = angle.secondAngle;
     }
-}
 
+
+    String formatAngle(AngleUnit angleUnit, double angle) {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+}
