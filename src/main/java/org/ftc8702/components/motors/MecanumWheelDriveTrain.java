@@ -39,8 +39,8 @@ public class MecanumWheelDriveTrain {
 
     public void strafeRight(float power) {
         // right wheels rotate inward, left wheels rotate outward
-        frontLeftMotor.setPower(-power);
-        frontRightMotor.setPower(-power);
+        frontLeftMotor.setPower(-power + (power *.1));
+        frontRightMotor.setPower(-power + (power*.1));
         backLeftMotor.setPower(power);
         backRightMotor.setPower(power);
     }

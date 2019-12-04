@@ -98,7 +98,7 @@ public class  SkystoneTeleOp extends ActiveOpMode {
             float scaledPower = scaleMotorPower(gamepad1.left_stick_x);
             getTelemetryUtil().addData("Left Joystick X: ",
                     "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
-            driveTrain.strafeRight(-scaledPower);
+            driveTrain.strafeRight(scaledPower);
         }
         else if (gamepad1.right_stick_y != 0) {
             float scaledPower = scaleMotorPower(gamepad1.right_stick_y);
