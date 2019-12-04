@@ -74,6 +74,18 @@ public class  SkystoneTeleOp extends ActiveOpMode {
             getTelemetryUtil().addData("Left bumper power:", power);
             driveTrain.rotateLeft(power);
         }
+        else if (gamepad1.right_trigger !=0)
+        {
+            float power = 0.5f;
+            getTelemetryUtil().addData("Right Trigger", power);
+            driveTrain.rotateRight(0.5f);
+        }
+        else if (gamepad1.left_trigger !=0)
+        {
+            float power = 0.5f;
+            getTelemetryUtil().addData("Left Trigger", power);
+            driveTrain.rotateLeft(0.5f);
+        }
         else if (gamepad1.left_stick_y != 0)
         {
             float scaledPower = scaleMotorPower(-gamepad1.left_stick_y);//negative because when the joystick goes up it gives a negative value
@@ -162,9 +174,11 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         if (gamepad2.dpad_down)
         {
             slideAndBrickPicker.LinearSlideIn();
+            getTelemetryUtil().addData("dpad down slideIn:", slideAndBrickPicker.armPosition);
         }
         else if (gamepad2.dpad_up) {
             slideAndBrickPicker.LinearSlideOut();
+            getTelemetryUtil().addData("dpad up slideOut: ", slideAndBrickPicker.armPosition);
         }
         else {
             slideAndBrickPicker.LinearSlideStop();
