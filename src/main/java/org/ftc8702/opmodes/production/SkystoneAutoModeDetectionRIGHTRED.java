@@ -138,7 +138,14 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
-                robot.driveTrain.strafeLeftWithSensor(.8f, .9, robot.colorSensor);  //Example of proper strafing calibrations
+                robot.driveTrain.strafeLeftWithSensor(.8f, .9, robot.colorSensor);
+                sleep(500);
+                robot.driveTrain.strafeLeft(.5f, .9, 1000, 500);
+                sleep(500);
+                robot.jaja.JaJaUp();
+                sleep(500);
+                robot.driveTrain.strafeRight(.5f, .9, 1000, 500);
+                //Example of proper strafing calibrations
                 // do what you need to do after initialized
                 getTelemetryUtil().sendTelemetry();
                 getTelemetryUtil().addData("red", Integer.toString(robot.colorSensor.red()));

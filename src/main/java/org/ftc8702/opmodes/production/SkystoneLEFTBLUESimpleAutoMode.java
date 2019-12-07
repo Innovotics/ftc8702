@@ -37,9 +37,9 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
             robot.driveTrain.goBackward(1);
             sleep(968);
             robot.driveTrain.strafeRight(0.3f);
-            sleep(2000);
-            robot.driveTrain.goBackward(0.2f);
-            sleep(1000);
+            sleep(1200);
+            robot.driveTrain.goBackward(0.3f);
+            sleep(500);
             robot.driveTrain.stop();
             currentState = LOWER_FOUNDATION_GRABBER;
             break;
@@ -57,7 +57,9 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
         case MOVE_FROM_FOUNDATION:
             logStage();
             robot.driveTrain.goForward(0.3f);
-            sleep(4000);
+            sleep(4300);
+            robot.driveTrain.rotateLeft(0.5f);
+            sleep(500);
             robot.driveTrain.stop();
             robot.jaja.JaJaUp();
             sleep(1000);
@@ -76,7 +78,7 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
 
         case PARK:
             logStage();
-            robot.driveTrain.strafeLeft(.3f);
+            robot.driveTrain.strafeLeft(.7f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
@@ -84,7 +86,7 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
             currentState = DONE;
                 }
                 else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.strafeLeft(.3f);
+                    robot.driveTrain.strafeLeft(.7f);
                 }
             break;
 

@@ -233,6 +233,48 @@ public class MecanumWheelDriveTrainPIDBased {
 
     }
 
+    public void strafeRightWithSensor(float power, double deviatingValue, ColorSensor colorSensor) {
+
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+
+        boolean colorDetected = false;
+
+        //if the imu degrees is correct
+        while(!colorDetected) {
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if(yawAngle >= yawInitialAngle - deviatingValue && yawAngle<= yawInitialAngle + deviatingValue) {
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(-power);
+                backLeftMotor.setPower(power);
+                backRightMotor.setPower(power);
+
+            } else if(yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
+                frontLeftMotor.setPower(-power - (.1));
+                frontRightMotor.setPower(-power - (.1));
+                backLeftMotor.setPower(power);
+                backRightMotor.setPower(power);
+
+
+            } else if(yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(-power);
+                backLeftMotor.setPower(power + (.1));
+                backRightMotor.setPower(power + (.1));
+            }
+            ColorValue colorValue = getColor(colorSensor);
+            if(colorValue == ColorValue.RED || colorValue == ColorValue.BLUE) {
+                colorDetected = true;
+            }
+        }
+
+        stop();
+
+    }
 
     public void rotateLeft(float power) {
         frontLeftMotor.setPower(power);
