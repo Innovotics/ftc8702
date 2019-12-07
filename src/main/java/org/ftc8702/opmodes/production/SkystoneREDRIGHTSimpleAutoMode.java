@@ -28,14 +28,8 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
     @Override
     protected void activeLoop() throws InterruptedException {
-
-    }
-
-    protected void activeq2Loop() throws InterruptedException {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
         telemetry.update();
-      //  getTelemetryUtil().addData("Color: ", ColorUtil.getColor(robot.colorSensor).name());
-
 
         switch (currentState) {
             case MOVE_TO_FOUNDATION:
@@ -43,9 +37,9 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                 robot.driveTrain.goBackward(1);
                 sleep(968);
                 robot.driveTrain.strafeLeft(0.3f);
-                sleep(2000);
-                robot.driveTrain.goBackward(0.2f);
-                sleep(1000);
+                sleep(1200);
+                robot.driveTrain.goBackward(0.3f);
+                sleep(500);
                 robot.driveTrain.stop();
                 currentState = LOWER_FOUNDATION_GRABBER;
                 break;
@@ -62,7 +56,9 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
             case MOVE_FROM_FOUNDATION:
                 logStage();
                 robot.driveTrain.goForward(0.3f);
-                sleep(4000);
+                sleep(4300);
+                robot.driveTrain.rotateRight(0.5f);
+                sleep(500);
                 robot.driveTrain.stop();
                 robot.jaja.JaJaUp();
                 sleep(1000);
@@ -73,13 +69,15 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                 logStage();
                 robot.driveTrain.goForward(.5f);
                 sleep(1000);
-                    currentState = PARK;
+                robot.driveTrain.rotateLeft(0.3f);
+                sleep(500);
+                currentState = PARK;
 
                     break;
 
             case PARK:
                 logStage();
-                robot.driveTrain.strafeLeft(.3f);
+                robot.driveTrain.strafeRight(.7f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
@@ -87,7 +85,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                      currentState = DONE;
                 }
                 else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.strafeLeft(.3f);
+                    robot.driveTrain.strafeRight(.7f);
                 }
                 break;
 

@@ -141,7 +141,20 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         {
             flexArm.stop();
         }
-
+        //TESTING CODE FORM HERE DOWN TO THE NEXT COMMENT
+        if (gamepad2.left_trigger !=0)
+        {
+            flexArm.ArmDown(0.5f);
+        }
+        else if (gamepad2.right_trigger !=0)
+        {
+            flexArm.ArmUp(0.5f);
+        }
+        else
+        {
+            flexArm.stop();
+        }
+        //TESTING CODE END LINE
         //For Visual Purposes
         if (gamepad2.right_bumper)
         {
