@@ -29,11 +29,11 @@ public class MecanumWheelDriveTrain {
 
     public void goRightDiagonal(float power) {
         frontLeftMotor.setPower(power);
-        backRightMotor.setPower(power);
+        backRightMotor.setPower(-power);
     }
 
     public void goLeftDiagonal(float power) {
-        frontRightMotor.setPower(power);
+        frontRightMotor.setPower(-power);
         backLeftMotor.setPower(power);
     }
 

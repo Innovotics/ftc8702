@@ -31,7 +31,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
     }
 
-    protected void activeq22Loop() throws InterruptedException {
+    protected void activeq2Loop() throws InterruptedException {
         getTelemetryUtil().addData("activeLoop current state", currentState.toString());
         telemetry.update();
       //  getTelemetryUtil().addData("Color: ", ColorUtil.getColor(robot.colorSensor).name());
@@ -43,31 +43,30 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                 robot.driveTrain.goBackward(1);
                 sleep(968);
                 robot.driveTrain.strafeLeft(0.3f);
-                sleep(1500);
-                robot.driveTrain.goBackward(0.1f);
-                sleep(100);
+                sleep(2000);
+                robot.driveTrain.goBackward(0.2f);
+                sleep(1000);
                 robot.driveTrain.stop();
                 currentState = LOWER_FOUNDATION_GRABBER;
                 break;
 
             case LOWER_FOUNDATION_GRABBER:
                 logStage();
-                    robot.jaja.JaJaDown();
-                    sleep(100);
+                robot.jaja.JaJaLeftDown();
+                robot.jaja.JaJaRightDown();
+                    sleep(1000);
                     accomplishedTask = true;
                     currentState = MOVE_FROM_FOUNDATION;
 
                     break;
             case MOVE_FROM_FOUNDATION:
                 logStage();
-                robot.driveTrain.goForward(0.4f);
-                sleep(2300);
-                robot.driveTrain.rotateRight(0.4f);
+                robot.driveTrain.goForward(0.3f);
                 sleep(4000);
                 robot.driveTrain.stop();
                 robot.jaja.JaJaUp();
                 sleep(1000);
-                currentState = RAISE_FOUNDATION_GRABBER;//make this park after we fix everything
+                currentState = PARK;//make this park after we fix everything
                 break;
 
             case RAISE_FOUNDATION_GRABBER:
@@ -80,7 +79,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
             case PARK:
                 logStage();
-                robot.driveTrain.goForward(.3f);
+                robot.driveTrain.strafeLeft(.3f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
