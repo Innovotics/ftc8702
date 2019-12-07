@@ -1,6 +1,7 @@
 package org.ftc8702.components.motors;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import org.ftc8702.configurations.production.SkystoneAutonousConfig;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.ftc8702.utils.ColorValue;
 
 import java.util.Locale;
 
@@ -24,6 +26,7 @@ public class MecanumWheelDriveTrainPIDBased {
     private BNO055IMU imu;
     private Telemetry telemetry;
     private SkystoneAutoConfig robot;
+
 
     public MecanumWheelDriveTrainPIDBased(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor, BNO055IMU imu) {
         this.frontLeftMotor = frontLeftMotor;
@@ -144,7 +147,7 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(power);
             }
 
-            sleep(coMill/1000);
+            sleep(coMill);
         }
 
     }
@@ -152,7 +155,6 @@ public class MecanumWheelDriveTrainPIDBased {
 
 
     public void strafeLeft(float power, double deviatingValue, int timeInMilliseconds, int coMill) {
-        double currentAngle;
 
         Orientation initialAngle = readAngles();
         String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
@@ -186,6 +188,48 @@ public class MecanumWheelDriveTrainPIDBased {
 
             sleep(coMill);
         }
+
+    }
+    public void strafeLeftWithSensor(float power, double deviatingValue, ColorSensor colorSensor) {
+
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+
+        boolean colorDetected = false;
+
+        //if the imu degrees is correct
+        while(!colorDetected) {
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if(yawAngle >= yawInitialAngle - deviatingValue && yawAngle<= yawInitialAngle + deviatingValue) {
+                frontLeftMotor.setPower(power);
+                frontRightMotor.setPower(power);
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(-power);
+
+            } else if(yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
+                frontLeftMotor.setPower(power - (.1));
+                frontRightMotor.setPower(power - (.1));
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(-power);
+
+
+            } else if(yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+                frontLeftMotor.setPower(power);
+                frontRightMotor.setPower(power);
+                backLeftMotor.setPower(-power + (.1));
+                backRightMotor.setPower(-power + (.1));
+            }
+            ColorValue colorValue = getColor(colorSensor);
+            if(colorValue == ColorValue.RED || colorValue == ColorValue.BLUE) {
+                colorDetected = true;
+            }
+        }
+
+        stop();
 
     }
 
@@ -254,5 +298,26 @@ public class MecanumWheelDriveTrainPIDBased {
 
     String formatDegrees(double degrees){
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
+
+    public ColorValue getColor(ColorSensor colorSensor) {
+        //Helping fix the red color sense correctly, 20 is to offset the color sensor bias toward red.
+        int FixRed = 20;
+
+        //Determine which is color to call
+        if (colorSensor.red() - colorSensor.blue() > FixRed
+                &&(colorSensor.red() -  colorSensor.green()) > FixRed) {
+            return ColorValue.RED;
+        }
+
+        if (colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green()) {
+            return ColorValue.BLUE;
+        }
+
+        if (colorSensor.green() > colorSensor.red() && colorSensor.green() > colorSensor.blue()) {
+            return ColorValue.GREEN;
+        }
+
+        return ColorValue.ZILCH;
     }
 }

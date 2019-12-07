@@ -85,16 +85,11 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case POSITION_THE_ROBOT:
                 logStage();
-
-                if (currentStonePosition == null) {
-                currentStonePosition = StonePosition.CENTER;
-                }
                     //Detect Webcam and Move robot
-                else if (currentStonePosition == StonePosition.CENTER) {
+                if (currentStonePosition == StonePosition.CENTER || currentStonePosition == null) {
 
                     //    robot.driveTrain.strafeRight(.3f, .9, 500, 500);
                         currentState = GRAB_SKY_STONE;
-
 
                 } else if (currentStonePosition == StonePosition.LEFT) {
                     robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
@@ -143,8 +138,13 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
-                robot.driveTrain.strafeRight(.8f, .9, 5000, 1000);  //Example of proper strafing calibrations
-
+                robot.driveTrain.strafeLeftWithSensor(.8f, .9, robot.colorSensor);  //Example of proper strafing calibrations
+                // do what you need to do after initialized
+                getTelemetryUtil().sendTelemetry();
+                getTelemetryUtil().addData("red", Integer.toString(robot.colorSensor.red()));
+                getTelemetryUtil().addData("blue", Integer.toString(robot.colorSensor.blue()));
+                getTelemetryUtil().addData("green", Integer.toString(robot.colorSensor.green()));
+                getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robot.colorSensor.red() - robot.colorSensor.blue())));
 
 //                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
 //                ColorValue stoppingColor = getColor(robot.colorSensor);
