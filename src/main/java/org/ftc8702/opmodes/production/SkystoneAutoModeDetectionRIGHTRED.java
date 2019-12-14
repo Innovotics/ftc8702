@@ -138,8 +138,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case TEST_CASE:
                 //test PID strafing right
-                robot.driveTrain.strafeLeft(.8f, .3, 3000, 100);
-
+                robot.driveTrain.goBackwardWithUltrasonic(.2f, .3, robot.distanceSensor, 8.0f);
 
                 currentState = DONE;
                 break;
