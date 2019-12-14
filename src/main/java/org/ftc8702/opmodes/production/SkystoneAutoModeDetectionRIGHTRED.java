@@ -46,7 +46,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         robot.init(super.hardwareMap, getTelemetryUtil());
         robot.driveTrain.setTelemetry(telemetry);
         //webCamDetector.initialize(hardwareMap, telemetry);
-        currentState = TEST_CASE;
+        currentState = POSITION_THE_ROBOT;
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -84,23 +84,29 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case POSITION_THE_ROBOT:
                 logStage();
-                    //Detect Webcam and Move robot
-                if (currentStonePosition == StonePosition.CENTER || currentStonePosition == null) {
+                    //Position the Robot
+                robot.driveTrain.goBackwardWithUltrasonic(.2f, .3, robot.distanceSensor, 8.0f);
+                currentStonePosition = StonePosition.RIGHT;
 
-                    //    robot.driveTrain.strafeRight(.3f, .9, 500, 500);
-                        currentState = GRAB_SKY_STONE;
+                currentState = GRAB_SKY_STONE;
 
-                } else if (currentStonePosition == StonePosition.LEFT) {
-                    robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
-                        robot.driveTrain.stop();
-                        //Next Step
-                        currentState = GRAB_SKY_STONE;
 
-                } else if (currentStonePosition == StonePosition.RIGHT) {
-                        robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
-                        //Next Step
-                        currentState = GRAB_SKY_STONE;
-                }
+//                if (currentStonePosition == StonePosition.CENTER || currentStonePosition == null) {
+//
+//                    //    robot.driveTrain.strafeRight(.3f, .9, 500, 500);
+//                        currentState = GRAB_SKY_STONE;
+//
+//                } else if (currentStonePosition == StonePosition.LEFT) {
+//                    robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
+//                        robot.driveTrain.stop();
+//                        //Next Step
+//                        currentState = GRAB_SKY_STONE;
+//
+//                } else if (currentStonePosition == StonePosition.RIGHT) {
+//                        robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
+//                        //Next Step
+//                        currentState = GRAB_SKY_STONE;
+//                }
                 break;
 
             case GRAB_SKY_STONE:
@@ -111,12 +117,12 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 if (currentStonePosition == StonePosition.LEFT) {
                     robot.jaja.foundationGrabberLeft.setPosition(0.2);
                     sleep(1000);
-                    robot.driveTrain.strafeLeft(.4f, .9, 500, 500);
+                    robot.driveTrain.strafeRight(.4f, .9, 500, 500);
 
                 } else if (currentStonePosition == StonePosition.RIGHT) {
                     robot.jaja.foundationGrabberRight.setPosition(.8);
                     sleep(1000);
-                    robot.driveTrain.strafeRight(.8f, .9, 500, 500);
+                    robot.driveTrain.strafeLeft(.2f, .9, 1000, 1000);
 
                 } else if (currentStonePosition == StonePosition.CENTER) {
                     robot.driveTrain.strafeLeft(.4f, .9, 1000, 500);
@@ -127,10 +133,9 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                     robot.driveTrain.strafeLeft(.4f, .9, 500, 500);
 
                 }
-                robot.driveTrain.goForward(.8f, .9, 500, 500);
+                robot.driveTrain.goForward(.8f, .9, 300, 150);
                 robot.driveTrain.stop();
                 sleep(1000);
-                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
 
                 currentState = MOVE_STONE_TO_BUILDER_ZONE;
                 break;
@@ -138,20 +143,19 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case TEST_CASE:
                 //test PID strafing right
-                robot.driveTrain.goBackwardWithUltrasonic(.2f, .3, robot.distanceSensor, 8.0f);
 
                 currentState = DONE;
                 break;
 
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
-                robot.driveTrain.strafeLeftWithSensor(.8f, .9, robot.colorSensor);
+                robot.driveTrain.strafeRightWithSensor(.8f, .9, robot.colorSensor);
                 sleep(500);
-                robot.driveTrain.strafeLeft(.5f, .9, 1000, 500);
+                robot.driveTrain.strafeRight(.5f, .9, 1000, 500);
                 sleep(500);
                 robot.jaja.JaJaUp();
                 sleep(500);
-                robot.driveTrain.strafeRight(.5f, .9, 1000, 500);
+                robot.driveTrain.strafeLeft(.5f, .9, 1000, 500);
                 //Example of proper strafing calibrations
                 // do what you need to do after initialized
                 getTelemetryUtil().sendTelemetry();
