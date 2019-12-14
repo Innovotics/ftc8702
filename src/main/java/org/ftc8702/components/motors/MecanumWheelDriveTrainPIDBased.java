@@ -136,17 +136,17 @@ public class MecanumWheelDriveTrainPIDBased {
 
             } else if(yawAngle < yawInitialAngle - deviatingValue) { //if turn right too much
 
-                frontLeftMotor.setPower(-power);
-                frontRightMotor.setPower(-power);
-                backLeftMotor.setPower(power + (.1));
-                backRightMotor.setPower(power + (.1));
+                frontLeftMotor.setPower(-power + (.3));
+                frontRightMotor.setPower(-power + (.3));
+                backLeftMotor.setPower(power);
+                backRightMotor.setPower(power);
 
             } else if(yawAngle > yawInitialAngle + deviatingValue) { // if turn left too much
 
-                frontLeftMotor.setPower(-power - (.1));
-                frontRightMotor.setPower(-power - (.1));
-                backLeftMotor.setPower(power);
-                backRightMotor.setPower(power);
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(-power);
+                backLeftMotor.setPower(power - (.3));
+                backRightMotor.setPower(power - (.3));
             }
 
             sleep(coMill);
@@ -174,16 +174,16 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(-power);
 
             } else if(yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
-                frontLeftMotor.setPower(power);
-                frontRightMotor.setPower(power);
-                backLeftMotor.setPower(-power - (.1));
-                backRightMotor.setPower(-power - (.1));
-
-            } else if(yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
-                frontLeftMotor.setPower(power + (.1));
-                frontRightMotor.setPower(power + (.1));
+                frontLeftMotor.setPower(power - (.3));
+                frontRightMotor.setPower(power - (.3));
                 backLeftMotor.setPower(-power);
                 backRightMotor.setPower(-power);
+
+            } else if(yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+                frontLeftMotor.setPower(power);
+                frontRightMotor.setPower(power);
+                backLeftMotor.setPower(-power + (.3));
+                backRightMotor.setPower(-power + (.3));
             }
 
             sleep(coMill);
