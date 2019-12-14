@@ -116,14 +116,14 @@ public class MecanumWheelDriveTrainPIDBased {
     }
 
 
-    public void strafeRight(float power, double deviatingValue, int timeInMilliseconds, int coMill) {
+    public void strafeRight(float power, double deviatingValue, int timeInMilliseconds, long coMill) {
 
         Orientation initialAngle = readAngles();
         String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
         float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
 
         //if the imu degrees is correct
-        for(int i = 0; i < timeInMilliseconds; i = i + coMill) {
+        for(long i = 0; i < timeInMilliseconds; i = i + coMill) {
             Orientation angle = readAngles();
             String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
             float yawAngle = Float.parseFloat(rawYawAngle);
@@ -135,20 +135,23 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(power);
 
             } else if(yawAngle < yawInitialAngle - deviatingValue) { //if turn right too much
+
                 frontLeftMotor.setPower(-power);
                 frontRightMotor.setPower(-power);
-                backLeftMotor.setPower(power - (.1));
-                backRightMotor.setPower(power - (.1));
+                backLeftMotor.setPower(power + (.1));
+                backRightMotor.setPower(power + (.1));
 
             } else if(yawAngle > yawInitialAngle + deviatingValue) { // if turn left too much
-                frontLeftMotor.setPower(-power + (.1));
-                frontRightMotor.setPower(-power + (.1));
+
+                frontLeftMotor.setPower(-power - (.1));
+                frontRightMotor.setPower(-power - (.1));
                 backLeftMotor.setPower(power);
                 backRightMotor.setPower(power);
             }
 
             sleep(coMill);
         }
+        stop();
     }
 
 
@@ -171,17 +174,16 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(-power);
 
             } else if(yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
-                frontLeftMotor.setPower(power - (.1));
-                frontRightMotor.setPower(power - (.1));
-                backLeftMotor.setPower(-power);
-                backRightMotor.setPower(-power);
-
-
-            } else if(yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
                 frontLeftMotor.setPower(power);
                 frontRightMotor.setPower(power);
-                backLeftMotor.setPower(-power + (.1));
-                backRightMotor.setPower(-power + (.1));
+                backLeftMotor.setPower(-power - (.1));
+                backRightMotor.setPower(-power - (.1));
+
+            } else if(yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+                frontLeftMotor.setPower(power + (.1));
+                frontRightMotor.setPower(power + (.1));
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(-power);
             }
 
             sleep(coMill);

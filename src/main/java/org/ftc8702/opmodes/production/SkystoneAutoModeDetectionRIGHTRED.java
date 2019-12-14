@@ -30,7 +30,6 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
     public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
-    private int detectCount = 0;
     Orientation angle;
     StonePosition currentStonePosition;
 
@@ -46,8 +45,8 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
         robot.init(super.hardwareMap, getTelemetryUtil());
         robot.driveTrain.setTelemetry(telemetry);
-        webCamDetector.initialize(hardwareMap, telemetry);
-        currentState = DETECT_SKYSTONE;
+        //webCamDetector.initialize(hardwareMap, telemetry);
+        currentState = TEST_CASE;
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -57,7 +56,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         robot.imu.initialize(parameters);
-        readAngles();
+     //   readAngles();
 
         telemetry.addData("Angle: ", angle);
         telemetry.update();
@@ -136,6 +135,14 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 currentState = MOVE_STONE_TO_BUILDER_ZONE;
                 break;
 
+
+            case TEST_CASE:
+                //test PID strafing right
+                robot.driveTrain.strafeLeft(.8f, .3, 3000, 100);
+
+
+                currentState = DONE;
+                break;
 
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
