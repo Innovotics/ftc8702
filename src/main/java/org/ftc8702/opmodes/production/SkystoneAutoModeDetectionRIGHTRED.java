@@ -136,6 +136,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 currentState = MOVE_STONE_TO_BUILDER_ZONE;
                 break;
 
+
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
                 robot.driveTrain.strafeLeftWithSensor(.8f, .9, robot.colorSensor);

@@ -71,8 +71,8 @@ public class MecanumWheelDriveTrainPIDBased {
             sleep(coMill);
         }
         stop();
-
     }
+
 
     public void goBackward(float power, double deviatingValue, int timeInMilliseconds, int coMill) {
 
@@ -149,9 +149,7 @@ public class MecanumWheelDriveTrainPIDBased {
 
             sleep(coMill);
         }
-
     }
-
 
 
     public void strafeLeft(float power, double deviatingValue, int timeInMilliseconds, int coMill) {
