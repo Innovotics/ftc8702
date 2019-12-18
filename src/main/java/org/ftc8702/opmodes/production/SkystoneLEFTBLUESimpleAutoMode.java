@@ -37,9 +37,9 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
             robot.driveTrain.goBackward(1);
             sleep(968);
             robot.driveTrain.strafeRight(0.3f);
-            sleep(1200);
+            sleep(700);
             robot.driveTrain.goBackward(0.3f);
-            sleep(500);
+            sleep(450);
             robot.driveTrain.stop();
             currentState = LOWER_FOUNDATION_GRABBER;
             break;
@@ -57,12 +57,18 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
         case MOVE_FROM_FOUNDATION:
             logStage();
             robot.driveTrain.goForward(0.3f);
-            sleep(4300);
-            robot.driveTrain.rotateLeft(0.5f);
-            sleep(500);
+            sleep(3800);
+            robot.driveTrain.rotateLeft(0.7f);
+            sleep(700);
             robot.driveTrain.stop();
+            sleep(500);
             robot.jaja.JaJaUp();
             sleep(1000);
+            //robot.driveTrain.goForward(0.5f);
+            //sleep(500);
+            //robot.driveTrain.rotateRight(0.5f);
+            //sleep(400);
+            robot.driveTrain.stop();
             currentState = PARK;//make this park after we fix everything
             break;
 
@@ -78,15 +84,17 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
 
         case PARK:
             logStage();
-            robot.driveTrain.strafeLeft(.7f);
+            robot.driveTrain.goForward(.3f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
                     telemetry.addData("Touching ", currentColor);
-            currentState = DONE;
+                    robot.driveTrain.stop();
+                    robot.jaja.JaJaDown();
+                    currentState = DONE;
                 }
                 else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.strafeLeft(.7f);
+                    robot.driveTrain.goForward(.3f);
                 }
             break;
 
