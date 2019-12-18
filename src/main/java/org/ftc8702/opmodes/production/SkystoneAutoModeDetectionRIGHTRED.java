@@ -30,7 +30,6 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
     public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
-    private int detectCount = 0;
     Orientation angle;
     StonePosition currentStonePosition;
 
@@ -46,8 +45,8 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
         robot.init(super.hardwareMap, getTelemetryUtil());
         robot.driveTrain.setTelemetry(telemetry);
-        webCamDetector.initialize(hardwareMap, telemetry);
-        currentState = DETECT_SKYSTONE;
+        //webCamDetector.initialize(hardwareMap, telemetry);
+        currentState = POSITION_THE_ROBOT;
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -57,7 +56,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         robot.imu.initialize(parameters);
-        readAngles();
+     //   readAngles();
 
         telemetry.addData("Angle: ", angle);
         telemetry.update();
@@ -85,28 +84,29 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case POSITION_THE_ROBOT:
                 logStage();
+                    //Position the Robot
+                robot.driveTrain.goBackwardWithUltrasonic(.2f, .3, robot.distanceSensor, 10.0f);
+                currentStonePosition = StonePosition.RIGHT;
 
-                if (currentStonePosition == null) {
-                currentStonePosition = StonePosition.CENTER;
-                }
-                    //Detect Webcam and Move robot
-                else if (currentStonePosition == StonePosition.CENTER) {
-
-                    //    robot.driveTrain.strafeRight(.3f, .9, 500, 500);
-                        currentState = GRAB_SKY_STONE;
+                currentState = GRAB_SKY_STONE;
 
 
-                } else if (currentStonePosition == StonePosition.LEFT) {
-                    robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
-                        robot.driveTrain.stop();
-                        //Next Step
-                        currentState = GRAB_SKY_STONE;
-
-                } else if (currentStonePosition == StonePosition.RIGHT) {
-                        robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
-                        //Next Step
-                        currentState = GRAB_SKY_STONE;
-                }
+//                if (currentStonePosition == StonePosition.CENTER || currentStonePosition == null) {
+//
+//                    //    robot.driveTrain.strafeRight(.3f, .9, 500, 500);
+//                        currentState = GRAB_SKY_STONE;
+//
+//                } else if (currentStonePosition == StonePosition.LEFT) {
+//                    robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
+//                        robot.driveTrain.stop();
+//                        //Next Step
+//                        currentState = GRAB_SKY_STONE;
+//
+//                } else if (currentStonePosition == StonePosition.RIGHT) {
+//                        robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
+//                        //Next Step
+//                        currentState = GRAB_SKY_STONE;
+//                }
                 break;
 
             case GRAB_SKY_STONE:
@@ -117,12 +117,12 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 if (currentStonePosition == StonePosition.LEFT) {
                     robot.jaja.foundationGrabberLeft.setPosition(0.2);
                     sleep(1000);
-                    robot.driveTrain.strafeLeft(.4f, .9, 500, 500);
+                    robot.driveTrain.strafeRight(.4f, .9, 500, 500);
 
                 } else if (currentStonePosition == StonePosition.RIGHT) {
                     robot.jaja.foundationGrabberRight.setPosition(.8);
                     sleep(1000);
-                    robot.driveTrain.strafeRight(.8f, .9, 500, 500);
+                    robot.driveTrain.strafeLeft(.3f, .9, 800, 800);
 
                 } else if (currentStonePosition == StonePosition.CENTER) {
                     robot.driveTrain.strafeLeft(.4f, .9, 1000, 500);
@@ -133,18 +133,35 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                     robot.driveTrain.strafeLeft(.4f, .9, 500, 500);
 
                 }
-                robot.driveTrain.goForward(.8f, .9, 500, 500);
+                robot.driveTrain.goForward(.8f, .9, 500, 100);
                 robot.driveTrain.stop();
                 sleep(1000);
-                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
 
                 currentState = MOVE_STONE_TO_BUILDER_ZONE;
                 break;
 
+
+            case TEST_CASE:
+                //test PID strafing right
+
+                currentState = DONE;
+                break;
+
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
-                robot.driveTrain.strafeRight(.8f, .9, 5000, 1000);  //Example of proper strafing calibrations
+                robot.driveTrain.strafeLeftWithSensor(.8f, .9, robot.colorSensor);
+                sleep(500);
+                robot.driveTrain.strafeLeft(.75f, .9, 1000, 100);
+                robot.jaja.JaJaUp();
 
+
+                //Example of proper strafing calibrations
+                // do what you need to do after initialized
+                getTelemetryUtil().sendTelemetry();
+                getTelemetryUtil().addData("red", Integer.toString(robot.colorSensor.red()));
+                getTelemetryUtil().addData("blue", Integer.toString(robot.colorSensor.blue()));
+                getTelemetryUtil().addData("green", Integer.toString(robot.colorSensor.green()));
+                getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robot.colorSensor.red() - robot.colorSensor.blue())));
 
 //                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
 //                ColorValue stoppingColor = getColor(robot.colorSensor);
@@ -155,20 +172,20 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 //                robot.driveTrain.stop();
 //
 //                robot.jaja.JaJaUp();
-                currentState = DONE;
+                currentState = PARK;
                 break;
 
             case MOVE_TO_SECOND_SKYSTONE:
                 logStage();
 
-                telemetry.addData("Initial Angle: ", +initialYawAngle);
-                telemetry.addData("Current Yaw Angle: ", +currentYawAngle);
+                robot.driveTrain.goBackward(.4f, .9, 500, 100);
+                sleep(500);
+                robot.driveTrain.strafeRight(1.0f, .9, 1000, 100);
+                sleep(500);
 
-                robot.driveTrain.goForwardFullSpeedInFeet(0.3, false);
-                // robot.driveTrain.strafeRight(1);
-                sleep(4000);
                 robot.driveTrain.stop();
-                currentState = HUG_STONE2;
+                sleep(1000);
+                currentState = DONE;
                 break;
 
             case HUG_STONE2:
@@ -204,13 +221,15 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 logStage();
                 // robot.driveTrain.strafeRight(.3f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
+                robot.driveTrain.strafeRightWithSensor(.8f, .9, robot.colorSensor);
+                 currentState = DONE;
 
-                if (currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-                    telemetry.addData("Touching ", currentColor);
-                    currentState = DONE;
-                } else if (currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN) {
-                    // robot.driveTrain.strafeRight(.3f);
-                }
+//                if (currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
+//                    telemetry.addData("Touching ", currentColor);
+//                    currentState = DONE;
+//                } else if (currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN) {
+//                    // robot.driveTrain.strafeRight(.3f);
+//                }
                 break;
 
             case DONE:

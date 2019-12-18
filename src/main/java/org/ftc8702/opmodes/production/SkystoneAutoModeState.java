@@ -21,5 +21,6 @@ public enum SkystoneAutoModeState {
     LOWER_FOUNDATION_GRABBER,
     RAISE_FOUNDATION_GRABBER,
     PARK,
-    DONE
+    DONE,
+    TEST_CASE
 }

@@ -3,6 +3,7 @@ package org.ftc8702.configurations.production;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -29,6 +30,7 @@ public class SkystoneAutonousConfig extends AbstractRobotConfiguration {
     public DcMotor motorFL;
     public DcMotor motorBR;
     public DcMotor motorBL;
+    public DistanceSensor distanceSensor;
 
     public MecanumWheelDriveTrainPIDBased driveTrain;
 
@@ -43,6 +45,7 @@ public class SkystoneAutonousConfig extends AbstractRobotConfiguration {
         ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
 
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distance_sensor");
         motorFR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_FR);
         motorFL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_FL);
         motorBR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_BR);
