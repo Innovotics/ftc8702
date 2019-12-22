@@ -122,7 +122,7 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         //For visual purposes
         if (gamepad2.x ) {
             jaja.JaJaDown();
-            getTelemetryUtil().addData("Button Xfqv", " Pressed");
+            getTelemetryUtil().addData("Button X", " Pressed");
         }
         else if (gamepad2.b ) {
             jaja.JaJaUp();
@@ -137,12 +137,8 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         {
             flexArm.ArmDown(1);
         }
-        else
-        {
-            flexArm.stop();
-        }
         //TESTING CODE FORM HERE DOWN TO THE NEXT COMMENT
-        if (gamepad2.left_trigger !=0)
+        else if (gamepad2.left_trigger !=0)
         {
             flexArm.ArmDown(0.5f);
         }
@@ -154,7 +150,7 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         {
             flexArm.stop();
         }
-        //TESTING CODE END LINE
+
         //For Visual Purposes
         if (gamepad2.right_bumper)
         {
