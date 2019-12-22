@@ -63,6 +63,19 @@ public class MecanumWheelDriveTrain {
         backRightMotor.setPower(-power);
     }//Used to be rotate Right
 
+    public void pivitRight() {
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0.3);
+        backLeftMotor.setPower(0);
+        backRightMotor.setPower(0.3);
+    }
+
+    public void pivitLeft() {
+        frontLeftMotor.setPower(-0.3);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(-0.3);
+        backRightMotor.setPower(0);
+    }
     // when power = 1
     private double speedForwardInFtPerSecond = (1.3 * 2) / 0.968;// speed = distance / time
 

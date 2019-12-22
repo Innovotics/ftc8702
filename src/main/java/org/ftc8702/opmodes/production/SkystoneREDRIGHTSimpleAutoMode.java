@@ -11,6 +11,7 @@ import org.ftc8702.opmodes.test.BenColorSensorTest;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 
+
 @Autonomous(name = "RIGHTREDSimpleAutoMode", group = "Ops")
 public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
@@ -37,7 +38,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                 robot.driveTrain.goBackward(1);
                 sleep(968);
                 robot.driveTrain.strafeLeft(0.3f);
-                sleep(700);
+                sleep(800);
                 robot.driveTrain.goBackward(0.3f);
                 sleep(450);
                 robot.driveTrain.stop();
@@ -46,6 +47,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
             case LOWER_FOUNDATION_GRABBER:
                 logStage();
+                getTelemetryUtil().addData("LOWER_FOUNDATION_GRABBER", " Pressed");
                 robot.jaja.JaJaLeftDown();
                 robot.jaja.JaJaRightDown();
                     sleep(1000);
@@ -56,14 +58,22 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
             case MOVE_FROM_FOUNDATION:
                 logStage();
                 robot.driveTrain.goForward(0.3f);
-                sleep(3800);
-                robot.driveTrain.rotateRight(0.5f);
-                sleep(700);
+                sleep(2700);
+                robot.driveTrain.pivitLeft();
+                sleep(5500);
+                robot.driveTrain.stop();
                 robot.jaja.JaJaUp();
                 sleep(1000);
-                //robot.driveTrain.rotateLeft(0.3f);
-                //sleep(400);
+                robot.driveTrain.goForward(0.3f);
+                sleep(300);
+                robot.driveTrain.strafeRight(0.4f);
+                sleep(500);
+                robot.driveTrain.goBackward(0.7f);
+                sleep(2000);
+                robot.driveTrain.strafeLeft(0.5f);
+                sleep(500);
                 robot.driveTrain.stop();
+                sleep(500);
                 currentState = PARK;//make this park after we fix everything
                 break;
 
@@ -85,7 +95,8 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
                     telemetry.addData("Touching ", currentColor);
                     robot.driveTrain.stop();
-                     currentState = DONE;
+                    robot.jaja.JaJaDown();
+                    currentState = DONE;
                 }
                 else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
                     robot.driveTrain.goForward(.3f);
