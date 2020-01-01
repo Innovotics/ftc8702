@@ -2,6 +2,7 @@ package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.robot.Robot;
 
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.*;
 
@@ -21,6 +22,9 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
     private boolean finishedJob = false;
     private BenColorSensorTest colorSensorTester;
 
+    private static final long TIME_OUT = 5000L;
+    private long timeToPark = 0;
+
     @Override
     protected void onInit() {
         robot.init(hardwareMap, getTelemetryUtil());
@@ -38,7 +42,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                 robot.driveTrain.goBackward(1);
                 sleep(968);
                 robot.driveTrain.strafeLeft(0.3f);
-                sleep(800);
+                sleep(600);
                 robot.driveTrain.goBackward(0.3f);
                 sleep(450);
                 robot.driveTrain.stop();
@@ -58,20 +62,20 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
             case MOVE_FROM_FOUNDATION:
                 logStage();
                 robot.driveTrain.goForward(0.3f);
-                sleep(2700);
+                sleep(2300);
                 robot.driveTrain.pivitLeft();
-                sleep(5500);
+                sleep(2700);
                 robot.driveTrain.stop();
                 robot.jaja.JaJaUp();
                 sleep(1000);
                 robot.driveTrain.goForward(0.3f);
                 sleep(300);
-                robot.driveTrain.strafeRight(0.4f);
-                sleep(500);
-                robot.driveTrain.goBackward(0.7f);
+                //robot.driveTrain.strafeRight(0.4f);
+                //sleep(500);
+                robot.driveTrain.goBackward(0.5f);
                 sleep(2000);
                 robot.driveTrain.strafeLeft(0.5f);
-                sleep(500);
+                sleep(700);
                 robot.driveTrain.stop();
                 sleep(500);
                 currentState = PARK;//make this park after we fix everything
@@ -88,6 +92,18 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                     break;
 
             case PARK:
+                if (timeToPark == 0) {
+                    timeToPark = System.currentTimeMillis();
+                }
+                if ((System.currentTimeMillis() - timeToPark) >= TIME_OUT)
+                {
+                    telemetry.addData("Time out ", "Reached");
+                    robot.driveTrain.stop();
+                    robot.jaja.JaJaDown();
+                    currentState = DONE;
+                    break;
+                }
+
                 logStage();
                 robot.driveTrain.goForward(.3f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);

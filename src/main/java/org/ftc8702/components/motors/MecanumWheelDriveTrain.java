@@ -71,9 +71,9 @@ public class MecanumWheelDriveTrain {
     }
 
     public void pivitLeft() {
-        frontLeftMotor.setPower(-0.3);
+        frontLeftMotor.setPower(-0.4);
         frontRightMotor.setPower(0);
-        backLeftMotor.setPower(-0.3);
+        backLeftMotor.setPower(-0.4);
         backRightMotor.setPower(0);
     }
     // when power = 1
