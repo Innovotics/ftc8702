@@ -389,6 +389,40 @@ public class MecanumWheelDriveTrainPIDBased {
         backRightMotor.setPower(-power);
     }//Used to be rotate Right
 
+
+
+    public void rotateRightWithGyro(float power, float angleInDegrees) {
+
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+
+
+        while (true) {
+            //if the imu degrees is correct
+
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if(yawAngle != angleInDegrees) {
+
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(-power);
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(-power);
+
+            } else {
+                break;
+            }
+
+        }
+
+        stop();
+
+
+    }
+
     // when power = 1
     private double speedForwardInFtPerSecond = (1.3 * 2) / 0.968;// speed = distance / time
 

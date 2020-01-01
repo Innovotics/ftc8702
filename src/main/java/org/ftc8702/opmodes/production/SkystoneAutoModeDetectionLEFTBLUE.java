@@ -97,12 +97,12 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
                 sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_BF_GRAB);
 
                 if (currentStonePosition == StonePosition.LEFT) {
-                    robot.jaja.foundationGrabberLeft.setPosition(0.2);
+                    robot.jaja.JaJaRightDown();
                     sleep(1000);
                     robot.driveTrain.strafeRight(.4f, .9, 500, 500);
 
                 } else if (currentStonePosition == StonePosition.RIGHT) {
-                    robot.jaja.foundationGrabberRight.setPosition(.8);
+                    robot.jaja.JaJaLeftDown();
                     sleep(1000);
                     robot.driveTrain.strafeLeft(.3f, .9, 800, 800);
 
@@ -110,7 +110,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
                     robot.driveTrain.strafeLeft(.4f, .9, 1000, 500);
                     robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
                     sleep(1000);
-                    robot.jaja.foundationGrabberRight.setPosition(.8);
+                    robot.jaja.JaJaLeftDown();
                     sleep(1000);
                     robot.driveTrain.strafeLeft(.4f, .9, 500, 500);
 
@@ -126,7 +126,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
                 robot.driveTrain.strafeRightWithSensor(.8f, .9, robot.colorSensor);
-                sleep(500);
+                sleep(1000);
                 robot.driveTrain.strafeRight(.75f, .9, 1000, 100);
                 robot.jaja.JaJaUp();
 
@@ -166,7 +166,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
 
             case HUG_STONE2:
                 logStage();
-                robot.jaja.foundationGrabberLeft.setPosition(1);
+                robot.jaja.JaJaUp();
                 sleep(1000);
                 currentState = MOVE_STONE_TO_BUILDER_ZONE2;
                 break;
@@ -183,9 +183,9 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
 
             case MOVE_FOUNDATION:
                 if (accomplishedTask == false) {
-                    robot.jaja.foundationGrabberLeft.setPosition(0);
+                    robot.jaja.foundationGrabberLeft.close();
                     sleep(5000);
-                    robot.jaja.foundationGrabberLeft.setPosition(0);
+                    robot.jaja.foundationGrabberLeft.close();
                     accomplishedTask = true;
 
                 } else if (accomplishedTask == true) {
@@ -200,12 +200,6 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
                 robot.driveTrain.strafeLeftWithSensor(.8f, .9, robot.colorSensor);
                 currentState = DONE;
 
-//                if (currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
-//                    telemetry.addData("Touching ", currentColor);
-//                    currentState = DONE;
-//                } else if (currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN) {
-//                    // robot.driveTrain.strafeRight(.3f);
-//                }
                 break;
 
             case DONE:
