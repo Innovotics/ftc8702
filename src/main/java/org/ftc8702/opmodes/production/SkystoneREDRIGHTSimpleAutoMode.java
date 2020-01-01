@@ -22,7 +22,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
     private boolean finishedJob = false;
     private BenColorSensorTest colorSensorTester;
 
-    private static final long TIME_OUT = 5000L;
+    private static final long TIME_OUT = 6000L;
     private long timeToPark = 0;
 
     @Override

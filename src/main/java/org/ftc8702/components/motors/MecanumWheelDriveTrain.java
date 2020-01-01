@@ -76,6 +76,30 @@ public class MecanumWheelDriveTrain {
         backLeftMotor.setPower(-0.4);
         backRightMotor.setPower(0);
     }
+    public void turnSmoothRight() {
+        frontLeftMotor.setPower(-1);
+        frontRightMotor.setPower(0.2);
+        backLeftMotor.setPower(-1);
+        backRightMotor.setPower(0.2);
+    }
+    public void turnSmoothRightBack () {
+        frontLeftMotor.setPower(1);
+        frontRightMotor.setPower(-0.2);
+        backLeftMotor.setPower(1);
+        backRightMotor.setPower(-0.2);
+    }
+    public void turnSmoothLeft () {
+        frontLeftMotor.setPower(-0.2);
+        frontRightMotor.setPower(1);
+        backLeftMotor.setPower(-0.2);
+        backRightMotor.setPower(1);
+    }
+    public void turnSmoothLeftBack () {
+        frontLeftMotor.setPower(0.2);
+        frontRightMotor.setPower(-1);
+        backLeftMotor.setPower(0.2);
+        backRightMotor.setPower(-1);
+    }
     // when power = 1
     private double speedForwardInFtPerSecond = (1.3 * 2) / 0.968;// speed = distance / time
 
