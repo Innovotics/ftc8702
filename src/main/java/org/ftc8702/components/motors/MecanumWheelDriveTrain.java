@@ -88,6 +88,18 @@ public class MecanumWheelDriveTrain {
         backLeftMotor.setPower(1);
         backRightMotor.setPower(-0.2);
     }
+    public void turnSmoothRightAutonomous () {
+        frontLeftMotor.setPower(-0.4);
+        frontRightMotor.setPower(0.1);
+        backLeftMotor.setPower(-0.4);
+        backRightMotor.setPower(0.1);
+    }
+    public void turnSmoothLeftAutonomous () {
+        frontLeftMotor.setPower(-0.1);
+        frontRightMotor.setPower(0.4);
+        backLeftMotor.setPower(-0.1);
+        backRightMotor.setPower(0.4);
+    }
     public void turnSmoothLeft () {
         frontLeftMotor.setPower(-0.2);
         frontRightMotor.setPower(1);

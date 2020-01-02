@@ -20,6 +20,9 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
     private boolean finishedJob = false;
     private BenColorSensorTest colorSensorTester;
 
+    private static final long TIME_OUT = 10000L;
+    private long timeToPark = 0;
+
     @Override
     protected void onInit() {
         robot.init(hardwareMap, getTelemetryUtil());
@@ -56,21 +59,21 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
             break;
         case MOVE_FROM_FOUNDATION:
             logStage();
-            robot.driveTrain.goForward(0.3f);
-            sleep(2700);
+            robot.driveTrain.turnSmoothLeftAutonomous();
+            sleep(3300);
             robot.driveTrain.pivitRight();
-            sleep(5500);
+            sleep(2700);
             robot.driveTrain.stop();
             robot.jaja.JaJaUp();
             sleep(1000);
             robot.driveTrain.goForward(0.3f);
             sleep(300);
-            robot.driveTrain.strafeLeft(0.4f);
-            sleep(500);
-            robot.driveTrain.goBackward(0.7f);
+            //robot.driveTrain.strafeLeft(0.4f);
+            //sleep(500);
+            robot.driveTrain.goBackward(0.5f);
             sleep(2000);
             robot.driveTrain.strafeRight(0.5f);
-            sleep(500);
+            sleep(700);
             robot.driveTrain.stop();
             sleep(500);
             currentState = PARK;//make this park after we fix everything
@@ -86,9 +89,21 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
 
             break;
 
-        case PARK:
-            logStage();
-            robot.driveTrain.goForward(.3f);
+            case PARK:
+                if (timeToPark == 0) {
+                    timeToPark = System.currentTimeMillis();
+                }
+                if ((System.currentTimeMillis() - timeToPark) >= TIME_OUT)
+                {
+                    telemetry.addData("Time out ", "Reached");
+                    robot.driveTrain.stop();
+                    robot.jaja.JaJaDown();
+                    currentState = DONE;
+                    break;
+                }
+
+                logStage();
+                robot.driveTrain.goForward(.3f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {

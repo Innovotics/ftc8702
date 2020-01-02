@@ -76,11 +76,11 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         }
         else if (gamepad1.right_trigger !=0)
         {
-            driveTrain.rotateRight(0.5f);
+            driveTrain.rotateRight(0.2f);
         }
         else if (gamepad1.left_trigger !=0)
         {
-            driveTrain.rotateLeft(0.5f);
+            driveTrain.rotateLeft(0.2f);
         }
         else if (gamepad1.left_stick_y != 0)
         {
@@ -97,17 +97,17 @@ public class  SkystoneTeleOp extends ActiveOpMode {
             driveTrain.strafeRight(scaledPower);
         }
         else if (gamepad1.right_stick_y > 0) {
-            driveTrain.turnSmoothRight();
+            driveTrain.turnSmoothRightBack();
         }
         else if (gamepad1.right_stick_y < 0) {
-            driveTrain.turnSmoothRightBack();
+            driveTrain.turnSmoothRight();
         }
 
         else if (gamepad1.right_stick_x > 0) {
-            driveTrain.turnSmoothLeft();
+            driveTrain.turnSmoothLeftBack();
         }
         else if (gamepad1.right_stick_x < 0) {
-            driveTrain.turnSmoothLeftBack();
+            driveTrain.turnSmoothLeft();
         }
         else
         {

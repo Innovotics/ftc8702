@@ -22,7 +22,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
     private boolean finishedJob = false;
     private BenColorSensorTest colorSensorTester;
 
-    private static final long TIME_OUT = 6000L;
+    private static final long TIME_OUT = 10000L;
     private long timeToPark = 0;
 
     @Override
@@ -61,8 +61,8 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                     break;
             case MOVE_FROM_FOUNDATION:
                 logStage();
-                robot.driveTrain.goForward(0.3f);
-                sleep(2300);
+                robot.driveTrain.turnSmoothRightAutonomous();
+                sleep(3300);
                 robot.driveTrain.pivitLeft();
                 sleep(2700);
                 robot.driveTrain.stop();
