@@ -62,7 +62,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
             case MOVE_FROM_FOUNDATION:
                 logStage();
                 robot.driveTrain.turnSmoothRightAutonomous();
-                sleep(3300);
+                sleep(2000);
                 robot.driveTrain.pivitLeft();
                 sleep(2700);
                 robot.driveTrain.stop();
@@ -75,7 +75,7 @@ public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
                 robot.driveTrain.goBackward(0.5f);
                 sleep(2000);
                 robot.driveTrain.strafeLeft(0.5f);
-                sleep(700);
+                sleep(2000);
                 robot.driveTrain.stop();
                 sleep(500);
                 currentState = PARK;//make this park after we fix everything
