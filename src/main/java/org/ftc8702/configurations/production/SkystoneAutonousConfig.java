@@ -17,11 +17,19 @@ import org.ftc8702.utils.InnovoticsRobotProperties;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import ftcbootstrap.components.ColorSensorComponent;
 import ftcbootstrap.components.utils.TelemetryUtil;
 
 public class SkystoneAutonousConfig extends AbstractRobotConfiguration {
 
     public ColorSensor colorSensor;
+    public ColorSensor leftColorSensor;
+    public ColorSensor rightColorSensor;
+
+    public ColorSensorComponent colorSensorComponentRight;
+    public ColorSensorComponent colorSensorComponentLeft;
+
+
     public SkystoneJaJa jaja;
     public SkystoneFlexArm FlexArm;
     public BNO055IMU imu;
@@ -57,6 +65,10 @@ public class SkystoneAutonousConfig extends AbstractRobotConfiguration {
         telemetryUtil.sendTelemetry();
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         driveTrain = new MecanumWheelDriveTrainPIDBased(motorFL, motorFR, motorBL, motorBR, imu);
+
+        leftColorSensor = hardwareMap.get(ColorSensor.class, "leftColorSensor");
+        rightColorSensor = hardwareMap.get(ColorSensor.class, "rightColorSensor");
+
 
     }
 }

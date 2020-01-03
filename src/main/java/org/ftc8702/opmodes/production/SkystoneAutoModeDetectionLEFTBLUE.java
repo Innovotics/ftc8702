@@ -1,16 +1,17 @@
 package org.ftc8702.opmodes.production;
 
+import android.graphics.Color;
+import android.graphics.Point;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import org.ftc8702.configurations.production.SkystoneAutonousConfig;
-import org.ftc8702.opmodes.Sensors.ObjectDetectionAutoModeWebcam;
-import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.utils.StonePosition;
@@ -27,7 +28,7 @@ import static org.ftc8702.utils.ColorUtil.getColor;
 @Autonomous(name = "LEFT BLUE Auto Detect", group = "Ops")
 public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
 
-    public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
+    //  public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
     Orientation angle;
@@ -55,9 +56,9 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         robot.imu.initialize(parameters);
-        //   readAngles();
+        readAngles();
 
-        telemetry.addData("Angle: ", angle);
+        // telemetry.addData("Angle: ", angle);
         telemetry.update();
     }
 
@@ -72,12 +73,39 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
                 readAngles();
                 currentYawAngle = angle.thirdAngle;
 
-                ObjectDetectionAutoModeWebcam.RecognitionResult result = webCamDetector.detect();
-                currentStonePosition = result.position;
-                telemetry.addData("Current Angle: ", currentStonePosition);
+                sleep(500);
+
+                int location = skystoneLocation(robot.rightColorSensor, robot.leftColorSensor);
+
+                telemetry.addData("Right Red: ", robot.rightColorSensor.red());
+                telemetry.addData("Right Blue: ", robot.rightColorSensor.blue());
+                telemetry.addData("Right Green: ", robot.rightColorSensor.green());
+
+                telemetry.addData("Left Red: ", robot.leftColorSensor.red());
+                telemetry.addData("Left Blue: ", robot.leftColorSensor.blue());
+                telemetry.addData("Left Green: ", robot.leftColorSensor.green());
+
                 telemetry.update();
-                sleep(1000);
-                currentState = POSITION_THE_ROBOT;
+
+                if(location == 1) {
+
+                    currentStonePosition = StonePosition.LEFT;
+
+
+                } else if(location == 2) {
+
+                    currentStonePosition = StonePosition.CENTER;
+
+                } else {
+
+                    currentStonePosition = StonePosition.RIGHT;
+
+                }
+
+                telemetry.addData("Current Position", currentStonePosition);
+                telemetry.update();
+
+                currentState = GRAB_SKY_STONE;
 
                 break;
 
@@ -85,51 +113,62 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
                 logStage();
                 //Position the Robot
                 robot.driveTrain.goBackwardWithUltrasonic(.2f, .3, robot.distanceSensor, 10.0f);
-                currentStonePosition = StonePosition.RIGHT;
 
-                currentState = GRAB_SKY_STONE;
+                currentState = DETECT_SKYSTONE;
 
                 break;
 
             case GRAB_SKY_STONE:
                 logStage();
                 //robot.driveTrain.goBackward(.6f);
-                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_BF_GRAB);
+                sleep(500);
 
-                if (currentStonePosition == StonePosition.LEFT) {
-                    robot.jaja.JaJaRightDown();
+                if (currentStonePosition == StonePosition.CENTER) {
+                    robot.jaja.JaJaLeftDown();;
                     sleep(1000);
-                    robot.driveTrain.strafeRight(.4f, .9, 500, 500);
+                    robot.driveTrain.strafeRight(.3f, .3, 500, 50);
+                    telemetry.addData("Right", "");
 
                 } else if (currentStonePosition == StonePosition.RIGHT) {
-                    robot.jaja.JaJaLeftDown();
+                    robot.driveTrain.strafeRight(.3f, .3, 300, 50);
+                    robot.jaja.JaJaRightDown();
+                    robot.driveTrain.stop();
                     sleep(1000);
-                    robot.driveTrain.strafeLeft(.3f, .9, 800, 800);
 
-                } else if (currentStonePosition == StonePosition.CENTER) {
-                    robot.driveTrain.strafeLeft(.4f, .9, 1000, 500);
-                    robot.driveTrain.goBackward(.8f, .9, 1000, 1000);
-                    sleep(1000);
+                    robot.driveTrain.strafeRight(.3f, .3, 400, 50);
+
+                } else if (currentStonePosition == StonePosition.LEFT) {
+                    robot.driveTrain.strafeRight(.3f, .3, 700, 50);
                     robot.jaja.JaJaLeftDown();
+                    robot.driveTrain.stop();
                     sleep(1000);
-                    robot.driveTrain.strafeLeft(.4f, .9, 500, 500);
+
+                    robot.driveTrain.strafeRight(.3f, .3, 400, 50);
+                    telemetry.addData("Center", "");
 
                 }
-                robot.driveTrain.goForward(.8f, .9, 500, 100);
-                robot.driveTrain.stop();
-                sleep(1000);
+
+                robot.driveTrain.goForward(.2f, .3, 500, 50);
+                sleep(500);
+                robot.driveTrain.rotateLeftWithGyro(.2f, 90);
+                sleep(500);
 
                 currentState = MOVE_STONE_TO_BUILDER_ZONE;
                 break;
 
 
+            case TEST_CASE:
+
+                currentState = DONE;
+                break;
+
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
-                robot.driveTrain.strafeRightWithSensor(.8f, .9, robot.colorSensor);
-                sleep(1000);
-                robot.driveTrain.strafeRight(.75f, .9, 1000, 100);
+                robot.driveTrain.goBackwardWithSensor(.3f, .3, robot.colorSensor);
+                sleep(500);
                 robot.jaja.JaJaUp();
-
+                sleep(100);
+                robot.driveTrain.goBackward(.5f, .5, 500, 100);
 
                 //Example of proper strafing calibrations
                 // do what you need to do after initialized
@@ -139,34 +178,24 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
                 getTelemetryUtil().addData("green", Integer.toString(robot.colorSensor.green()));
                 getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robot.colorSensor.red() - robot.colorSensor.blue())));
 
-//                sleep(SkyStoneProperties.SLEEP_ROBOT_POSITION_AF_GRAB);
-//                ColorValue stoppingColor = getColor(robot.colorSensor);
-//                while(stoppingColor != ColorValue.BLUE && stoppingColor != ColorValue.RED) {
-//                    robot.driveTrain.strafeLeft(0.8f, .9, 1000, 1000);
-//                }
-//                sleep(SkyStoneProperties.SLEEP_AFTER_DETECT_COLOR);
-//                robot.driveTrain.stop();
-//
-//                robot.jaja.JaJaUp();
                 currentState = PARK;
                 break;
 
             case MOVE_TO_SECOND_SKYSTONE:
                 logStage();
 
-                robot.driveTrain.goBackward(.4f, .9, 500, 100);
-                sleep(500);
-                robot.driveTrain.strafeRight(1.0f, .9, 1000, 100);
+                robot.driveTrain.goBackwardWithUltrasonic(.2f, .3, robot.distanceSensor, 10.0f);
+                sleep(1000);
+
+                robot.driveTrain.rotateLeftWithGyro(.1f, 90);
                 sleep(500);
 
-                robot.driveTrain.stop();
-                sleep(1000);
                 currentState = DONE;
                 break;
 
             case HUG_STONE2:
                 logStage();
-                robot.jaja.JaJaUp();
+                robot.jaja.foundationGrabberLeft.close();
                 sleep(1000);
                 currentState = MOVE_STONE_TO_BUILDER_ZONE2;
                 break;
@@ -181,31 +210,16 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
                 currentState = PARK;
                 break;
 
-            case MOVE_FOUNDATION:
-                if (accomplishedTask == false) {
-                    robot.jaja.foundationGrabberLeft.close();
-                    sleep(5000);
-                    robot.jaja.foundationGrabberLeft.close();
-                    accomplishedTask = true;
-
-                } else if (accomplishedTask == true) {
-                    currentState = PARK;
-                }
-
-
             case PARK:
                 logStage();
                 // robot.driveTrain.strafeRight(.3f);
-                ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
-                robot.driveTrain.strafeLeftWithSensor(.8f, .9, robot.colorSensor);
+                robot.driveTrain.goForward(.5f, .5, 500, 100);
+                sleep(500);
                 currentState = DONE;
-
                 break;
 
             case DONE:
                 logStage();
-                telemetry.addData("Right", " Position");
-                telemetry.addData("Angle: ", angle);
                 telemetry.update();
                 robot.driveTrain.stop();
                 //setOperationsCompleted();
@@ -242,4 +256,35 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
     String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
+
+    public int skystoneLocation(ColorSensor rightColorSensor, ColorSensor leftColorSensor) {
+
+        ColorValue rightColorValue = getColorWithYellow(rightColorSensor);
+        ColorValue leftColorValue = getColorWithYellow(leftColorSensor);
+
+        if(leftColorValue != ColorValue.YELLOW) {
+            return 2;
+
+        } else if(rightColorValue != ColorValue.YELLOW) {
+
+            return 1;
+
+        } else {
+            return 3;
+        }
+
+
+    }
+
+    public ColorValue getColorWithYellow(ColorSensor colorSensor) {
+
+        //Determine which is color to call
+        if (colorSensor.red() + colorSensor.green() > 3 * colorSensor.blue()) {
+            return ColorValue.YELLOW;
+
+        } else {
+            return ColorValue.ZILCH;
+        }
+    }
+
 }

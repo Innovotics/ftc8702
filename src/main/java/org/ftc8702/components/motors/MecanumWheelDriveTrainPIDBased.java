@@ -60,14 +60,14 @@ public class MecanumWheelDriveTrainPIDBased {
 
             } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
                 frontLeftMotor.setPower(-power);
-                frontRightMotor.setPower(power - (.2)); // because motor is on the opposite side
-                backLeftMotor.setPower(-power - (.2));
+                frontRightMotor.setPower(power - (.1)); // because motor is on the opposite side
+                backLeftMotor.setPower(-power - (.1));
                 backRightMotor.setPower(power);
 
             } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
-                frontLeftMotor.setPower(-power + (.2));
+                frontLeftMotor.setPower(-power + (.1));
                 frontRightMotor.setPower(power); // because motor is on the opposite side
-                backLeftMotor.setPower(-power + (.2));
+                backLeftMotor.setPower(-power + (.1));
                 backRightMotor.setPower(power);
             }
 
@@ -97,18 +97,18 @@ public class MecanumWheelDriveTrainPIDBased {
 
             } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
 
-                frontLeftMotor.setPower(power - (.2));
+                frontLeftMotor.setPower(power - (.1));
                 frontRightMotor.setPower(-power); // because motor is on the opposite side
-                backLeftMotor.setPower(power - (.2));
+                backLeftMotor.setPower(power - (.1));
                 backRightMotor.setPower(-power);
 
 
             } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
 
                 frontLeftMotor.setPower(power);
-                frontRightMotor.setPower(-power + (.2)); // because motor is on the opposite side
+                frontRightMotor.setPower(-power + (.1)); // because motor is on the opposite side
                 backLeftMotor.setPower(power);
-                backRightMotor.setPower(-power + (.2));
+                backRightMotor.setPower(-power + (.1));
 
             }
 
@@ -139,8 +139,8 @@ public class MecanumWheelDriveTrainPIDBased {
 
             } else if (yawAngle < yawInitialAngle - deviatingValue) { //if turn right too much
 
-                frontLeftMotor.setPower(-power + (.3));
-                frontRightMotor.setPower(-power + (.3));
+                frontLeftMotor.setPower(-power + (.1));
+                frontRightMotor.setPower(-power + (.1));
                 backLeftMotor.setPower(power);
                 backRightMotor.setPower(power);
 
@@ -148,13 +148,21 @@ public class MecanumWheelDriveTrainPIDBased {
 
                 frontLeftMotor.setPower(-power);
                 frontRightMotor.setPower(-power);
-                backLeftMotor.setPower(power - (.3));
-                backRightMotor.setPower(power - (.3));
+                backLeftMotor.setPower(power - (.1));
+                backRightMotor.setPower(power - (.1));
             }
 
             sleep(coMill);
         }
         stop();
+    }
+
+    public void strafeLeftWithoutPid(float power){
+        frontLeftMotor.setPower(power);
+        frontRightMotor.setPower(power);
+        backLeftMotor.setPower(-power);
+        backRightMotor.setPower(-power);
+
     }
 
 
@@ -177,16 +185,16 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(-power);
 
             } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
-                frontLeftMotor.setPower(power - (.3));
-                frontRightMotor.setPower(power - (.3));
+                frontLeftMotor.setPower(power - (.1));
+                frontRightMotor.setPower(power - (.1));
                 backLeftMotor.setPower(-power);
                 backRightMotor.setPower(-power);
 
             } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
                 frontLeftMotor.setPower(power);
                 frontRightMotor.setPower(power);
-                backLeftMotor.setPower(-power + (.3));
-                backRightMotor.setPower(-power + (.3));
+                backLeftMotor.setPower(-power + (.1));
+                backRightMotor.setPower(-power + (.1));
             }
 
             sleep(coMill);
@@ -267,14 +275,14 @@ public class MecanumWheelDriveTrainPIDBased {
 
                 frontLeftMotor.setPower(-power - (.1));
                 frontRightMotor.setPower(-power - (.1));
-                backLeftMotor.setPower(power - (.3));
-                backRightMotor.setPower(power - (.3));
+                backLeftMotor.setPower(power - (.1));
+                backRightMotor.setPower(power - (.1));
 
             } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
 
 
-                frontLeftMotor.setPower(-power + (.3));
-                frontRightMotor.setPower(-power + (.3));
+                frontLeftMotor.setPower(-power + (.1));
+                frontRightMotor.setPower(-power + (.1));
                 backLeftMotor.setPower(power + (.1));
                 backRightMotor.setPower(power + (.1));
             }
@@ -310,8 +318,8 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(-power);
 
             } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
-                frontLeftMotor.setPower(power - (.3));
-                frontRightMotor.setPower(power - (.3));
+                frontLeftMotor.setPower(power - (.1));
+                frontRightMotor.setPower(power - (.1));
                 backLeftMotor.setPower(-power);
                 backRightMotor.setPower(-power);
 
@@ -319,8 +327,8 @@ public class MecanumWheelDriveTrainPIDBased {
             } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
                 frontLeftMotor.setPower(power);
                 frontRightMotor.setPower(power);
-                backLeftMotor.setPower(-power + (.3));
-                backRightMotor.setPower(-power + (.3));
+                backLeftMotor.setPower(-power + (.1));
+                backRightMotor.setPower(-power + (.1));
             }
             ColorValue colorValue = getColor(colorSensor);
             if (colorValue == ColorValue.RED || colorValue == ColorValue.BLUE) {
@@ -332,7 +340,7 @@ public class MecanumWheelDriveTrainPIDBased {
 
     }
 
-    public void strafeRightWithSensor(float power, double deviatingValue, ColorSensor colorSensor) {
+    public void goBackwardWithSensor(float power, double deviatingValue, ColorSensor colorSensor) {
 
         Orientation initialAngle = readAngles();
         String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
@@ -347,23 +355,24 @@ public class MecanumWheelDriveTrainPIDBased {
             float yawAngle = Float.parseFloat(rawYawAngle);
 
             if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
-                frontLeftMotor.setPower(-power);
-                frontRightMotor.setPower(-power);
+                frontLeftMotor.setPower(power);
+                frontRightMotor.setPower(-power); // because motor is on the opposite side
                 backLeftMotor.setPower(power);
-                backRightMotor.setPower(power);
+                backRightMotor.setPower(-power);
 
             } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
-                frontLeftMotor.setPower(-power - (.1));
-                frontRightMotor.setPower(-power - (.1));
-                backLeftMotor.setPower(power);
-                backRightMotor.setPower(power);
 
+                frontLeftMotor.setPower(power - (.1));
+                frontRightMotor.setPower(-power); // because motor is on the opposite side
+                backLeftMotor.setPower(power - (.1));
+                backRightMotor.setPower(-power);
 
             } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
-                frontLeftMotor.setPower(-power);
-                frontRightMotor.setPower(-power);
-                backLeftMotor.setPower(power + (.1));
-                backRightMotor.setPower(power + (.1));
+                frontLeftMotor.setPower(power);
+                frontRightMotor.setPower(-power + (.1)); // because motor is on the opposite side
+                backLeftMotor.setPower(power);
+                backRightMotor.setPower(-power + (.1));
+
             }
             ColorValue colorValue = getColor(colorSensor);
             if (colorValue == ColorValue.RED || colorValue == ColorValue.BLUE) {
@@ -393,35 +402,60 @@ public class MecanumWheelDriveTrainPIDBased {
 
     public void rotateRightWithGyro(float power, float angleInDegrees) {
 
-        Orientation initialAngle = readAngles();
-        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
-        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+        frontLeftMotor.setPower(-power);
+        frontRightMotor.setPower(-power);
+        backLeftMotor.setPower(-power);
+        backRightMotor.setPower(-power);
 
-
-        while (true) {
-            //if the imu degrees is correct
+        while(true) {
 
             Orientation angle = readAngles();
             String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
             float yawAngle = Float.parseFloat(rawYawAngle);
 
-            if(yawAngle != angleInDegrees) {
 
-                frontLeftMotor.setPower(-power);
-                frontRightMotor.setPower(-power);
-                backLeftMotor.setPower(-power);
-                backRightMotor.setPower(-power);
+            telemetry.addData("Yaw Angle: ", yawAngle);
+            telemetry.update();
 
-            } else {
+            if(Math.abs(yawAngle) >= angleInDegrees - 5) {
+                stop();
                 break;
+
             }
 
         }
 
         stop();
 
-
     }
+
+    public void rotateLeftWithGyro(float power, float angleInDegrees) {
+        frontLeftMotor.setPower(power);
+        frontRightMotor.setPower(power);
+        backLeftMotor.setPower(power);
+        backRightMotor.setPower(power);
+
+        while(true) {
+
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+
+            telemetry.addData("Yaw Angle: ", yawAngle);
+            telemetry.update();
+
+            if(Math.abs(yawAngle) >= angleInDegrees - 5) {
+                stop();
+                break;
+
+            }
+
+        }
+
+        stop();
+    }
+
 
     // when power = 1
     private double speedForwardInFtPerSecond = (1.3 * 2) / 0.968;// speed = distance / time
@@ -478,7 +512,7 @@ public class MecanumWheelDriveTrainPIDBased {
 
     public ColorValue getColor(ColorSensor colorSensor) {
         //Helping fix the red color sense correctly, 20 is to offset the color sensor bias toward red.
-        int FixRed = 20;
+        int FixRed = 15;
 
         //Determine which is color to call
         if (colorSensor.red() - colorSensor.blue() > FixRed
