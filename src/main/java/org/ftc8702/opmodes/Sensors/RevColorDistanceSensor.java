@@ -91,7 +91,7 @@ public class RevColorDistanceSensor extends LinearOpMode {
 
 
         // get a reference to the distance sensor that shares the same name.
-        sensorDistance = hardwareMap.get(DistanceSensor.class, "distance_sensor");
+        sensorDistance = hardwareMap.get(DistanceSensor.class, "distance_sensor_pulley");
 
         // sometimes it helps to multiply the raw RGB values with a scale factor
         // to amplify/attentuate the measured values.

@@ -39,6 +39,7 @@ public class SkystoneAutonousConfig extends AbstractRobotConfiguration {
     public DcMotor motorBR;
     public DcMotor motorBL;
     public DistanceSensor distanceSensor;
+    public DistanceSensor distanceSensorPulley;
 
     public MecanumWheelDriveTrainPIDBased driveTrain;
 
@@ -54,6 +55,7 @@ public class SkystoneAutonousConfig extends AbstractRobotConfiguration {
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
 
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distance_sensor");
+        distanceSensorPulley = hardwareMap.get(DistanceSensor.class, "distance_sensor_pulley");
         motorFR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_FR);
         motorFL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_FL);
         motorBR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_BR);
