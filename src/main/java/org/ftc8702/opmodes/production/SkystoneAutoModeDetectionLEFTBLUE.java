@@ -148,7 +148,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
 
                 }
 
-                robot.driveTrain.goForward(.2f, .3, 500, 50);
+                robot.driveTrain.goForward(.2f, .3, 700, 50);
                 sleep(500);
                 robot.driveTrain.rotateLeftWithGyro(.2f, 90);
                 sleep(500);
