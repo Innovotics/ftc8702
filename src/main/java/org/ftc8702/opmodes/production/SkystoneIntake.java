@@ -22,6 +22,17 @@ public class SkystoneIntake {
         IntakeWheelLeft.setPower(1);
         IntakeWheelRight.setPower(-1);
     }
+    public void pushFoundation ()
+    {
+        IntakeWheelLeft.setPower(1);
+        IntakeWheelRight.setPower(1);
+
+    }
+    public void pullFoundation ()
+    {
+        IntakeWheelRight.setPower(-1);
+        IntakeWheelLeft.setPower(-1);
+    }
     public void stop(float scaledpower)
     {
         IntakeWheelLeft.setPower(0);

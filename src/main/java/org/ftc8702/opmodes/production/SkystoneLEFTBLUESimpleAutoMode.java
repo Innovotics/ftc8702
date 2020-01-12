@@ -60,7 +60,7 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
         case MOVE_FROM_FOUNDATION:
             logStage();
             robot.driveTrain.turnSmoothLeftAutonomous();
-            sleep(6000);
+            sleep(7000);
             //robot.driveTrain.pivitRight();
             //sleep(2700);
             robot.driveTrain.stop();

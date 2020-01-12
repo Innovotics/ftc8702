@@ -160,6 +160,12 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         {
             Intake.Output(1);
         }
+        else if (gamepad2.left_stick_x > 0) {
+            Intake.pushFoundation();
+        }
+        else if (gamepad2.left_stick_x < 0) {
+            Intake.pullFoundation();
+        }
         else
         {
             Intake.stop(0);

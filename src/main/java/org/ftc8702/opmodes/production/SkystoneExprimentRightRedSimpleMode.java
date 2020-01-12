@@ -10,8 +10,8 @@ import org.ftc8702.opmodes.test.BenColorSensorTest;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 
-@Autonomous(name = "LeftBlueExprimentMode", group = "Ops")
-public class SkystoneExprimentSimpleMode extends ActiveOpMode {
+@Autonomous(name = "RightRedExprimentMode", group = "Ops")
+public class SkystoneExprimentRightRedSimpleMode extends ActiveOpMode {
 
     public SkystoneAutoConfig robot = new SkystoneAutoConfig();
     private SkystoneAutoModeState currentState;
@@ -38,7 +38,7 @@ public class SkystoneExprimentSimpleMode extends ActiveOpMode {
                 //logStage();
                 robot.driveTrain.goBackward(1);
                 sleep(968);
-                robot.driveTrain.strafeRight(0.3f);
+                robot.driveTrain.strafeLeft(0.3f);
                 sleep(800);
                 robot.driveTrain.goBackward(0.3f);
                 sleep(450);
@@ -58,14 +58,14 @@ public class SkystoneExprimentSimpleMode extends ActiveOpMode {
 
             case MOVE_FOUNDATION_VERTICAL:
                 //logStage();
-                robot.driveTrain.turnSmoothLeft();
+                robot.driveTrain.turnSmoothRight();
                 sleep(1500);
-                robot.driveTrain.rotateLeft(0.5f);
+                robot.driveTrain.rotateRight(0.5f);
                 sleep(2000);
                 //robot.driveTrain.goForward(0.4f);
                 //sleep(700);
-                robot.driveTrain.turnSmoothLeftAutonomous();
-                sleep(1000);
+                robot.driveTrain.turnSmoothRightAutonomous();
+                sleep(2000);
                 robot.driveTrain.stop();
                 sleep(400);
                 robot.jaja.JaJaUp();
@@ -90,14 +90,14 @@ public class SkystoneExprimentSimpleMode extends ActiveOpMode {
                 //robot.driveTrain.strafeLeft(0.6f);
                 //sleep(800);
                 robot.driveTrain.goBackward(0.7f);
-                sleep(1500);
+                sleep(2500);
                 robot.driveTrain.goForward(0.4f);
                 sleep(600);
                 currentState = PARK_EXPRIMENT;
 
             case PARK_EXPRIMENT:
                 //logStage();
-                robot.driveTrain.strafeRight(.5f);
+                robot.driveTrain.strafeLeft(.5f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
@@ -107,7 +107,7 @@ public class SkystoneExprimentSimpleMode extends ActiveOpMode {
                     currentState = DONE;
                 }
                 else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.strafeRight(.5f);
+                    robot.driveTrain.strafeLeft(.5f);
                 }
                 break;
 
