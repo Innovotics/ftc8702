@@ -125,30 +125,30 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
                 if (currentStonePosition == StonePosition.LEFT) {
                     robot.jaja.JaJaRightDown();;
-                    sleep(1000);
-                    robot.driveTrain.strafeLeft(.3f, .3, 500, 50);
+                    sleep(500);
+                    robot.driveTrain.strafeLeft(.4f, .3, 500, 50);
                     telemetry.addData("Left", "");
 
                 } else if (currentStonePosition == StonePosition.RIGHT) {
-                    robot.driveTrain.strafeLeft(.3f, .3, 300, 50);
+                    robot.driveTrain.strafeLeft(.4f, .3, 300, 50);
                     robot.jaja.JaJaLeftDown();
                     robot.driveTrain.stop();
-                    sleep(1000);
+                    sleep(500);
 
-                    robot.driveTrain.strafeLeft(.3f, .3, 400, 50);
+                    robot.driveTrain.strafeLeft(.4f, .3, 400, 50);
 
                 } else if (currentStonePosition == StonePosition.CENTER) {
-                    robot.driveTrain.strafeLeft(.3f, .3, 700, 50);
+                    robot.driveTrain.strafeLeft(.4f, .3, 700, 50);
                     robot.jaja.JaJaRightDown();
                     robot.driveTrain.stop();
-                    sleep(1000);
+                    sleep(500);
 
-                    robot.driveTrain.strafeLeft(.3f, .3, 400, 50);
+                    robot.driveTrain.strafeLeft(.4f, .3, 400, 50);
                     telemetry.addData("Center", "");
 
                 }
 
-                robot.driveTrain.goForward(.2f, .3, 400, 50);
+                robot.driveTrain.goForward(.25f, .3, 400, 50);
                 sleep(500);
                 robot.driveTrain.rotateRightWithGyro(.2f, 90);
                 sleep(500);
@@ -164,7 +164,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
             case MOVE_STONE_TO_BUILDER_ZONE: // When all operations are complete
                 logStage();
-                robot.driveTrain.goBackwardWithSensor(.3f, .3, robot.colorSensor);
+                robot.driveTrain.goBackwardWithSensor(.4f, .3, robot.colorSensor);
                 sleep(500);
                 robot.jaja.JaJaUp();
                 sleep(100);
@@ -178,34 +178,77 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 getTelemetryUtil().addData("green", Integer.toString(robot.colorSensor.green()));
                 getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robot.colorSensor.red() - robot.colorSensor.blue())));
 
-                currentState = PARK;
+                currentState = MOVE_TO_SECOND_SKYSTONE;
                 break;
 
             case MOVE_TO_SECOND_SKYSTONE:
                 logStage();
 
-                robot.driveTrain.goBackwardWithUltrasonic(.2f, .3, robot.distanceSensor, 10.0f);
-                sleep(1000);
+                    robot.driveTrain.rotateLeftWithGyro(.5f, 0);
+                    robot.driveTrain.rotateLeftWithGyro(.5f, -90);
+                    sleep(500);
 
-                robot.driveTrain.rotateRightWithGyro(.1f, 90);
+                if(currentStonePosition == StonePosition.LEFT) {
+                    robot.driveTrain.goForwardWithUltrasonic(-.5f, .2, robot.distanceSensorPulley, 26.5f);
+                    sleep(100);
+                    robot.driveTrain.rotateLeftWithGyro(.4f, 90);
+                    sleep(100);
+                    robot.driveTrain.goBackwardWithUltrasonic(-.2f, .3, robot.distanceSensor, 10.0f);
+
+
+                } else if(currentStonePosition == StonePosition.CENTER) {
+
+                    robot.driveTrain.goForwardWithUltrasonic(-.5f, .2, robot.distanceSensorPulley, 28.0f);
+                    sleep(100);
+                    robot.driveTrain.rotateLeftWithGyro(.4f, 90);
+                    sleep(100);
+                    robot.driveTrain.goBackwardWithUltrasonic(-.2f, .3, robot.distanceSensor, 10.0f);
+
+                } else {
+
+                    robot.driveTrain.goForwardWithUltrasonic(-.5f, .2, robot.distanceSensorPulley, 26.5f);
+                    sleep(100);
+                    robot.driveTrain.rotateLeftWithGyro(.4f, 90);
+                    sleep(100);
+                    robot.driveTrain.goBackwardWithUltrasonic(-.2f, .3, robot.distanceSensor, 10.0f);
+
+                }
+
+                robot.driveTrain.goForward(.2f, .3, 400, 50);
+                sleep(500);
+                robot.driveTrain.rotateRightWithGyro(.2f, 90);
                 sleep(500);
 
-                currentState = DONE;
+                currentState = HUG_STONE2;
                 break;
 
             case HUG_STONE2:
                 logStage();
-                robot.jaja.foundationGrabberLeft.close();
-                sleep(1000);
+
+                if(currentStonePosition == StonePosition.LEFT) {
+                    robot.jaja.JaJaLeftDown();
+
+                } else if(currentStonePosition == StonePosition.CENTER) {
+                    robot.jaja.JaJaLeftDown();
+
+                } else {
+
+                    robot.jaja.JaJaRightDown();
+                }
+                sleep(100);
+
                 currentState = MOVE_STONE_TO_BUILDER_ZONE2;
                 break;
 
             case MOVE_STONE_TO_BUILDER_ZONE2:
                 logStage();
-                // robot.driveTrain.strafeRight(1);
-                sleep(1000);
-               // robot.driveTrain.goForward(1);
-                sleep(4000);
+
+                robot.driveTrain.goBackwardWithSensor(.3f, .3, robot.colorSensor);
+                sleep(100);
+                robot.jaja.JaJaUp();
+                sleep(100);
+                robot.driveTrain.goBackward(.5f, .5, 500, 100);
+
                 robot.driveTrain.stop();
                 currentState = PARK;
                 break;

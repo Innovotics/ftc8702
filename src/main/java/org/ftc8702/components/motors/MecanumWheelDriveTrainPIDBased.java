@@ -249,6 +249,54 @@ public class MecanumWheelDriveTrainPIDBased {
 
     }
 
+    //go forwards with ultrasonic sensor
+    public void goForwardWithUltrasonic(float power, double deviatingValue, DistanceSensor ultrasonicSensor, float distance) {
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+
+
+        //if imu degree is correct
+        while (true) {
+            //if the imu degrees is correct
+
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(power); // because motor is on the opposite side
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
+
+                frontLeftMotor.setPower(-power - (.1));
+                frontRightMotor.setPower(power); // because motor is on the opposite side
+                backLeftMotor.setPower(-power - (.1));
+                backRightMotor.setPower(power);
+
+
+            } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(power + (.1)); // because motor is on the opposite side
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(power + (.1));
+
+            }
+
+            if(ultrasonicSensor.getDistance(DistanceUnit.CM) < distance) {
+                stop();
+                break;
+            }
+
+        }
+
+    }
+
+
 
     //go backwards with ultrasonic sensor
     public void strafeRightWithUltrasonic(float power, double deviatingValue, DistanceSensor ultrasonicSensor, float distance) {
@@ -402,6 +450,11 @@ public class MecanumWheelDriveTrainPIDBased {
 
     public void rotateRightWithGyro(float power, float angleInDegrees) {
 
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+
+
         frontLeftMotor.setPower(-power);
         frontRightMotor.setPower(-power);
         backLeftMotor.setPower(-power);
@@ -430,6 +483,7 @@ public class MecanumWheelDriveTrainPIDBased {
     }
 
     public void rotateLeftWithGyro(float power, float angleInDegrees) {
+
         frontLeftMotor.setPower(power);
         frontRightMotor.setPower(power);
         backLeftMotor.setPower(power);
@@ -445,7 +499,7 @@ public class MecanumWheelDriveTrainPIDBased {
             telemetry.addData("Yaw Angle: ", yawAngle);
             telemetry.update();
 
-            if(Math.abs(yawAngle) >= angleInDegrees - 5) {
+            if(yawAngle >= angleInDegrees) {
                 stop();
                 break;
 
