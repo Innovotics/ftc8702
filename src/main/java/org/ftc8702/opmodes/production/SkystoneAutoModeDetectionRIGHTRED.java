@@ -28,17 +28,14 @@ import static org.ftc8702.utils.ColorUtil.getColor;
 @Autonomous(name = "RIGHT RED Auto Detect", group = "Ops")
 public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
-    //  public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();
-    private boolean accomplishedTask = false;
-    private SkystoneAutoModeState currentState;
     Orientation angle;
     StonePosition currentStonePosition;
-
-    private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();
-
     double currentYawAngle;
     double currentPitchAngle;
     double currentRollAngle;
+    private boolean accomplishedTask = false;
+    private SkystoneAutoModeState currentState;
+    private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();
 
     @Override
     protected void onInit() {
@@ -48,17 +45,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         //webCamDetector.initialize(hardwareMap, telemetry);
         currentState = POSITION_THE_ROBOT;
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        robot.imu.initialize(parameters);
-        readAngles();
-
-        // telemetry.addData("Angle: ", angle);
+        initializeIMU();
         telemetry.update();
     }
 
@@ -77,22 +64,14 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
                 int location = skystoneLocation(robot.rightColorSensor, robot.leftColorSensor);
 
-                telemetry.addData("Right Red: ", robot.rightColorSensor.red());
-                telemetry.addData("Right Blue: ", robot.rightColorSensor.blue());
-                telemetry.addData("Right Green: ", robot.rightColorSensor.green());
+                displayColors(robot.rightColorSensor, robot.leftColorSensor);
 
-                telemetry.addData("Left Red: ", robot.leftColorSensor.red());
-                telemetry.addData("Left Blue: ", robot.leftColorSensor.blue());
-                telemetry.addData("Left Green: ", robot.leftColorSensor.green());
-
-                telemetry.update();
-
-                if(location == 1) {
+                if (location == 1) {
 
                     currentStonePosition = StonePosition.LEFT;
 
 
-                } else if(location == 2) {
+                } else if (location == 2) {
 
                     currentStonePosition = StonePosition.CENTER;
 
@@ -124,28 +103,16 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 sleep(500);
 
                 if (currentStonePosition == StonePosition.LEFT) {
-                    robot.jaja.JaJaRightDown();;
-                    sleep(1000);
-                    robot.driveTrain.strafeLeft(.3f, .3, 500, 50);
-                    telemetry.addData("Left", "");
+
+                    leftSkystone(robot);
 
                 } else if (currentStonePosition == StonePosition.RIGHT) {
-                    robot.driveTrain.strafeLeft(.3f, .3, 300, 50);
-                    robot.jaja.JaJaLeftDown();
-                    robot.driveTrain.stop();
-                    sleep(1000);
 
-                    robot.driveTrain.strafeLeft(.3f, .3, 400, 50);
+                    rightSkystone(robot);
 
                 } else if (currentStonePosition == StonePosition.CENTER) {
-                    robot.driveTrain.strafeLeft(.3f, .3, 700, 50);
-                    robot.jaja.JaJaRightDown();
-                    robot.driveTrain.stop();
-                    sleep(1000);
 
-                    robot.driveTrain.strafeLeft(.3f, .3, 400, 50);
-                    telemetry.addData("Center", "");
-
+                    centerSkystone(robot);
                 }
 
                 robot.driveTrain.goForward(.2f, .3, 400, 50);
@@ -173,10 +140,8 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
                 //Example of proper strafing calibrations
                 // do what you need to do after initialized
                 getTelemetryUtil().sendTelemetry();
-                getTelemetryUtil().addData("red", Integer.toString(robot.colorSensor.red()));
-                getTelemetryUtil().addData("blue", Integer.toString(robot.colorSensor.blue()));
-                getTelemetryUtil().addData("green", Integer.toString(robot.colorSensor.green()));
-                getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robot.colorSensor.red() - robot.colorSensor.blue())));
+
+                displayColors(robot.rightColorSensor, robot.leftColorSensor);
 
                 currentState = PARK;
                 break;
@@ -263,10 +228,10 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         ColorValue rightColorValue = getColorWithYellow(rightColorSensor);
         ColorValue leftColorValue = getColorWithYellow(leftColorSensor);
 
-        if(leftColorValue != ColorValue.YELLOW) {
+        if (leftColorValue != ColorValue.YELLOW) {
             return 2;
 
-        } else if(rightColorValue != ColorValue.YELLOW) {
+        } else if (rightColorValue != ColorValue.YELLOW) {
 
             return 1;
 
@@ -288,4 +253,55 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         }
     }
 
+
+    public void initializeIMU() {
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        robot.imu.initialize(parameters);
+        readAngles();
+
+    }
+
+    public void displayColors(ColorSensor rightColorSensor, ColorSensor leftColorSensor) {
+        getTelemetryUtil().addData("red", Integer.toString(robot.colorSensor.red()));
+        getTelemetryUtil().addData("blue", Integer.toString(robot.colorSensor.blue()));
+        getTelemetryUtil().addData("green", Integer.toString(robot.colorSensor.green()));
+        getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robot.colorSensor.red() - robot.colorSensor.blue())));
+        telemetry.update();
+    }
+
+    public void leftSkystone(SkystoneAutonousConfig robot) {
+        robot.jaja.JaJaRightDown();
+        ;
+        sleep(1000);
+        robot.driveTrain.strafeLeft(.3f, .3, 500, 50);
+        telemetry.addData("Left", "");
+    }
+
+    public void centerSkystone(SkystoneAutonousConfig robot) {
+        robot.driveTrain.strafeLeft(.3f, .3, 700, 50);
+        robot.jaja.JaJaRightDown();
+        robot.driveTrain.stop();
+        sleep(1000);
+
+        robot.driveTrain.strafeLeft(.3f, .3, 400, 50);
+        telemetry.addData("Center", "");
+
+    }
+
+    public void rightSkystone(SkystoneAutonousConfig robot) {
+        robot.driveTrain.strafeLeft(.3f, .3, 300, 50);
+        robot.jaja.JaJaLeftDown();
+        robot.driveTrain.stop();
+        sleep(1000);
+
+        robot.driveTrain.strafeLeft(.3f, .3, 400, 50);
+
+    }
 }
