@@ -4,10 +4,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class MecanumWheelDriveTrain {
-    private DcMotor frontLeftMotor;
-    private DcMotor frontRightMotor;
-    private DcMotor backLeftMotor;
-    private DcMotor backRightMotor;
+    public DcMotor frontLeftMotor;
+    public DcMotor frontRightMotor;
+    public DcMotor backLeftMotor;
+    public DcMotor backRightMotor;
 
     public MecanumWheelDriveTrain(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor) {
         this.frontLeftMotor = frontLeftMotor;
@@ -65,15 +65,15 @@ public class MecanumWheelDriveTrain {
 
     public void pivitRight() {
         frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(0.3);
+        frontRightMotor.setPower(0.6);
         backLeftMotor.setPower(0);
-        backRightMotor.setPower(0.3);
+        backRightMotor.setPower(0.6);
     }
 
     public void pivitLeft() {
-        frontLeftMotor.setPower(-0.4);
+        frontLeftMotor.setPower(-0.6);
         frontRightMotor.setPower(0);
-        backLeftMotor.setPower(-0.4);
+        backLeftMotor.setPower(-0.6);
         backRightMotor.setPower(0);
     }
     public void turnSmoothRight() {
@@ -89,15 +89,15 @@ public class MecanumWheelDriveTrain {
         backRightMotor.setPower(-0.2);
     }
     public void turnSmoothRightAutonomous () {
-        frontLeftMotor.setPower(-0.4);
+        frontLeftMotor.setPower(-0.6);
         frontRightMotor.setPower(0.1);
-        backLeftMotor.setPower(-0.4);
+        backLeftMotor.setPower(-0.6);
         backRightMotor.setPower(0.1);
     }
     public void turnSmoothLeftAutonomous () {
-        frontLeftMotor.setPower(-0.1);
+        frontLeftMotor.setPower(-0.2);
         frontRightMotor.setPower(0.4);
-        backLeftMotor.setPower(-0.1);
+        backLeftMotor.setPower(-0.2);
         backRightMotor.setPower(0.4);
     }
     public void turnSmoothLeft () {
