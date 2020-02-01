@@ -10,6 +10,7 @@ import org.ftc8702.components.servo.GamePadCRServo;
 import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
+import org.ftc8702.opmodes.production.SkystoneTeleOpDriveTrain;
 import org.ftc8702.opmodes.production.SkystoneJaJa;
 
 @TeleOp(name = "SkystoneTeleOp", group = "production")
@@ -62,19 +63,8 @@ public class  SkystoneTeleOp extends ActiveOpMode {
 
     private void gamepad1Control()
     {
-        if (gamepad1.right_bumper)
-        {
-            float power = 1.0f;
-            getTelemetryUtil().addData("Right bumper power:", power);
-            driveTrain.rotateRight(power);
-        }
-        else if (gamepad1.left_bumper)
-        {
-            float power = 1.0f;
-            getTelemetryUtil().addData("Left bumper power:", power);
-            driveTrain.rotateLeft(power);
-        }
-        else if (gamepad1.right_trigger !=0)
+
+        if (gamepad1.right_trigger !=0)
         {
             driveTrain.rotateRight(0.2f);
         }
@@ -82,39 +72,57 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         {
             driveTrain.rotateLeft(0.2f);
         }
-        else if (gamepad1.left_stick_y != 0)
-        {
-            float scaledPower = scaleMotorPower(-gamepad1.left_stick_y);//negative because when the joystick goes up it gives a negative value
-            getTelemetryUtil().addData("Left Joystick Y: ",
-                    "value=" + gamepad1.left_stick_y + ", scaledPower=" + scaledPower);
-            driveTrain.goForward(scaledPower);
+        else if (gamepad1.right_bumper) {
+            driveTrain.turnSmoothRightAutonomous();
         }
-        else if (gamepad1.left_stick_x != 0)
-        {
-            float scaledPower = scaleMotorPower(gamepad1.left_stick_x);
-            getTelemetryUtil().addData("Left Joystick X: ",
-                    "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
-            driveTrain.strafeRight(scaledPower);
-        }
-        else if (gamepad1.right_stick_y > 0) {
-            driveTrain.turnSmoothRightBack();
-        }
-        else if (gamepad1.right_stick_y < 0) {
-            driveTrain.turnSmoothRight();
-        }
-
-        else if (gamepad1.right_stick_x > 0) {
-            driveTrain.turnSmoothLeftBack();
-        }
-        else if (gamepad1.right_stick_x < 0) {
-            driveTrain.turnSmoothLeft();
+        else if (gamepad1.left_bumper) {
+            driveTrain.turnSmoothLeftAutonomous();
         }
         else
         {
-            driveTrain.stop();
+            //driveTrain.stop();
+            smoothDrive();
         }
 
         getTelemetryUtil().sendTelemetry();
+    }
+
+    private void smoothDrive()
+    {
+        float throttle = -gamepad1.right_stick_x;
+        //float throttle = 0;
+       /* if (gamepad1.right_stick_x > 0)
+        {
+            throttle = gamepad1.right_stick_x + 0.2f;
+        }
+        else if (gamepad1.right_stick_x < 0)
+        {
+            throttle = gamepad1.right_stick_x - 0.2f;
+        }
+*/
+        float direction = -gamepad1.left_stick_y;
+        float strafe = gamepad1.left_stick_x;
+
+        float FR = throttle + direction - strafe;
+        float FL = throttle - direction - strafe;
+        float BR = throttle + direction + strafe;
+        float BL = throttle - direction + strafe;
+
+        FR = Range.clip(FR, -1, 1);
+        FL = Range.clip(FL, -1, 1);
+        BR = Range.clip(BR, -1, 1);
+        BL = Range.clip(BL, -1, 1);
+
+        //if (Math.abs(throttle) > threshold && Math.abs(direction) > threshold)
+        //{
+        driveTrain.frontRightMotor.setPower(FR);
+        driveTrain.frontLeftMotor.setPower(FL);
+        driveTrain.backRightMotor.setPower(BR);
+        driveTrain.backLeftMotor.setPower(BL);
+        // }
+        //else{
+        //  driveTrain.stop();
+        //}
     }
 
     private void gamepad2Control()

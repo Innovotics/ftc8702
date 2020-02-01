@@ -20,7 +20,7 @@ import ftcbootstrap.components.operations.servos.GamePadServo;
  * See: {@link GamePadTankDrive}
  */
 
-@TeleOp(name = "GamePadMecanumOpMode", group = "production")
+//@TeleOp(name = "GamePadMecanumOpMode", group = "production")
 public class GamePadDriveOpModeMecanum extends ActiveOpMode {
 
     private ProdMecanumRobotConfiguration robot;

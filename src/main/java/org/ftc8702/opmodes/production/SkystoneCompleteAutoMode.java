@@ -12,7 +12,7 @@ import ftcbootstrap.ActiveOpMode;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.DONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
 
-@Autonomous(name = "SkystoneCompleteAutoMode", group = "Ops")
+//@Autonomous(name = "SkystoneCompleteAutoMode", group = "Ops")
 public class SkystoneCompleteAutoMode extends SkystoneAbstractAutoMode {
 
     private boolean accomplishedTask = false;

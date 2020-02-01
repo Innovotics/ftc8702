@@ -10,7 +10,7 @@ import org.ftc8702.opmodes.test.BenColorSensorTest;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 
-@Autonomous(name = "LeftBlueExprimentMode", group = "Ops")
+//@Autonomous(name = "LeftBlueExprimentMode", group = "Ops")
 public class SkystoneExprimentLeftBlueSimpleMode extends ActiveOpMode {
 
     public SkystoneAutoConfig robot = new SkystoneAutoConfig();

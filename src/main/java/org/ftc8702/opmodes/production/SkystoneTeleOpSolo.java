@@ -19,6 +19,9 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
     private SkystoneSlideAndBrickPicker slideAndBrickPicker;
     private SkystoneFlexArm flexArm;
     private SkystoneIntake Intake;
+    private double threshold = 0.157;
+    private float motorPower = 1;
+
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -79,25 +82,22 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
         {
             driveTrain.rotateLeft(0.2f);
         }
-        else if (gamepad1.left_stick_y != 0)
-        {
-            float scaledPower = scaleMotorPower(-gamepad1.left_stick_y);//negative because when the joystick goes up it gives a negative value
-            getTelemetryUtil().addData("Left Joystick Y: ",
-                    "value=" + gamepad1.left_stick_y + ", scaledPower=" + scaledPower);
-            driveTrain.goForward(scaledPower);
+        else{
+            driveTrain.stop();
         }
-        else if (gamepad1.left_stick_x != 0)
+        //Testing new driving gotten from TJ
+        if(Math.abs(gamepad1.left_stick_y) > threshold || Math.abs(gamepad1.left_stick_x) > threshold || Math.abs(gamepad1.right_stick_x) > threshold)
         {
-            float scaledPower = scaleMotorPower(gamepad1.left_stick_x);
-            getTelemetryUtil().addData("Left Joystick X: ",
-                    "value=" + gamepad1.left_stick_x + ", scaledPower=" + scaledPower);
-            driveTrain.strafeRight(scaledPower);
+            driveTrain.frontRightMotor.setPower(motorPower * (((-gamepad1.left_stick_y) + (gamepad1.left_stick_x)) + -gamepad1.right_stick_x));
+            driveTrain.backLeftMotor.setPower(motorPower * (((-gamepad1.left_stick_y) + (-gamepad1.left_stick_x)) + gamepad1.right_stick_x));
+            driveTrain.frontLeftMotor.setPower(motorPower * (((-gamepad1.left_stick_y) + (gamepad1.left_stick_x)) + gamepad1.right_stick_x));
+            driveTrain.backRightMotor.setPower(motorPower * (((-gamepad1.left_stick_y) + (-gamepad1.left_stick_x)) + -gamepad1.right_stick_x));
         }
-
         else
         {
             driveTrain.stop();
         }
+
         if (gamepad1.x ) {
             jaja.JaJaDown();
             getTelemetryUtil().addData("Button X", " Pressed");
@@ -120,18 +120,6 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
             flexArm.stop();
         }
 
-        if (gamepad1.right_stick_y < 0)
-        {
-            Intake.Intake(1);
-        }
-        else if (gamepad1.right_stick_y > 0)
-        {
-            Intake.Output(1);
-        }
-        else
-        {
-            Intake.stop(0);
-        }
 
         //For Visual Purposes
  /*       if (gamepad2.dpad_down && slideAndBrickPicker.armPosition > slideAndBrickPicker.MIN_POSITION)

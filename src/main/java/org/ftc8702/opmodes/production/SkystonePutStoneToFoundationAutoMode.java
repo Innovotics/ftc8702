@@ -9,7 +9,7 @@ import org.ftc8702.utils.ColorValue;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.DONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
 
-@Autonomous(name = "SkystonePutStoneToFoundationAutoMode", group = "Ops")
+//@Autonomous(name = "SkystonePutStoneToFoundationAutoMode", group = "Ops")
 public class SkystonePutStoneToFoundationAutoMode extends SkystoneAbstractAutoMode {
 
     private boolean accomplishedTask = false;

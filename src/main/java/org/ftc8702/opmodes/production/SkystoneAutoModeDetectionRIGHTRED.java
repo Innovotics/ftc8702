@@ -213,8 +213,9 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
             case PARK:
                 logStage();
                 // robot.driveTrain.strafeRight(.3f);
-                robot.driveTrain.goForward(.5f, .5, 500, 100);
-                sleep(500);
+                robot.driveTrain.goBackwardWithSensor(-.2f, .1, robot.colorSensor);
+                robot.jaja.JaJaRightDown();
+                robot.jaja.JaJaLeftDown();
                 currentState = DONE;
                 break;
 

@@ -213,8 +213,9 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
             case PARK:
                 logStage();
                 // robot.driveTrain.strafeRight(.3f);
-                robot.driveTrain.goForward(.5f, .5, 500, 100);
-                sleep(500);
+                robot.driveTrain.goBackwardWithSensor(-.2f, .5, robot.colorSensor);
+                robot.jaja.JaJaRightDown();
+                robot.jaja.JaJaLeftDown();
                 currentState = DONE;
                 break;
 
@@ -236,7 +237,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
         getTelemetryUtil().sendTelemetry();
     }
 
-    String formatDegrees(double degrees) {
+    public String formatDegrees(double degrees) {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 
@@ -253,7 +254,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
     }
 
 
-    String formatAngle(AngleUnit angleUnit, double angle) {
+    public String formatAngle(AngleUnit angleUnit, double angle) {
         return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
     }
 
