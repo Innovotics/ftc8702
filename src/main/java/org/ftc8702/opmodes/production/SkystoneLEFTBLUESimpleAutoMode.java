@@ -94,7 +94,7 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
                 }
 
                 logStage();
-                robot.driveTrain.goForward(.2f);
+                robot.driveTrain.goForward(.3f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
@@ -104,7 +104,7 @@ public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
                     currentState = DONE;
                 }
                 else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.goForward(.2f);
+                    robot.driveTrain.goForward(.3f);
                 }
                 break;
 

@@ -39,6 +39,26 @@ public class MecanumWheelDriveTrainPIDBased {
         this.imu = imu;
 
     }
+    public void goBackwardWithoutPID(float power){
+        frontLeftMotor.setPower(power);
+        frontRightMotor.setPower(-power);
+        backLeftMotor.setPower(power);
+        backRightMotor.setPower(-power);
+    }
+
+    public void goForwardWithoutPID(float power){
+        frontLeftMotor.setPower(-power);
+        frontRightMotor.setPower(power);
+        backLeftMotor.setPower(-power);
+        backRightMotor.setPower(power);
+    }
+
+    public void strafeRightWithoutPID(float power){
+        frontLeftMotor.setPower(power);
+        frontRightMotor.setPower(power);
+        backLeftMotor.setPower(-power + (power *.1));
+        backRightMotor.setPower(-power + (power *.1));
+    }
 
     public void goForward(float power, double deviatingValue, int timeInMillisecond, int coMill) {
 
@@ -158,10 +178,10 @@ public class MecanumWheelDriveTrainPIDBased {
     }
 
     public void strafeLeftWithoutPid(float power){
-        frontLeftMotor.setPower(power);
-        frontRightMotor.setPower(power);
-        backLeftMotor.setPower(-power);
-        backRightMotor.setPower(-power);
+        frontLeftMotor.setPower(-power);
+        frontRightMotor.setPower(-power);
+        backLeftMotor.setPower(power);
+        backRightMotor.setPower(power);
 
     }
 
@@ -179,10 +199,10 @@ public class MecanumWheelDriveTrainPIDBased {
             float yawAngle = Float.parseFloat(rawYawAngle);
 
             if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
-                frontLeftMotor.setPower(power);
-                frontRightMotor.setPower(power);
-                backLeftMotor.setPower(-power);
-                backRightMotor.setPower(-power);
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(-power);
+                backLeftMotor.setPower(power);
+                backRightMotor.setPower(power);
 
             } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
                 frontLeftMotor.setPower(power - (.1));
@@ -417,7 +437,7 @@ public class MecanumWheelDriveTrainPIDBased {
             telemetry.addData("Yaw Angle: ", yawAngle);
             telemetry.update();
 
-            if(Math.abs(yawAngle) >= angleInDegrees - 5) {
+            if(yawAngle <= angleInDegrees) {
                 stop();
                 break;
 

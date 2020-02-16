@@ -103,10 +103,10 @@ public class  SkystoneTeleOp extends ActiveOpMode {
         float direction = -gamepad1.left_stick_y;
         float strafe = gamepad1.left_stick_x;
 
-        float FR = throttle + direction - strafe;
-        float FL = throttle - direction - strafe;
-        float BR = throttle + direction + strafe;
-        float BL = throttle - direction + strafe;
+        float FR = throttle + direction + strafe;
+        float FL = throttle - direction + strafe;
+        float BR = throttle + direction - strafe;
+        float BL = throttle - direction - strafe;
 
         FR = Range.clip(FR, -1, 1);
         FL = Range.clip(FL, -1, 1);
