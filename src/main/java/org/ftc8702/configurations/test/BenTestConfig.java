@@ -15,7 +15,7 @@ public class BenTestConfig extends RobotConfiguration {
     protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
         setTelemetry(telemetryUtil);
 
-        colorSensor = (ColorSensor) getHardwareOn(InnovoticsRobotProperties.COLOR_SENSOR, hardwareMap.colorSensor);
+        colorSensor = (ColorSensor) getHardwareOn("rightColorSensor", hardwareMap.colorSensor);
         getTelemetryUtil().addData("Color component: ", colorSensor.toString());
 
         getTelemetryUtil().sendTelemetry();

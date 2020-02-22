@@ -465,7 +465,7 @@ public class MecanumWheelDriveTrainPIDBased {
             telemetry.addData("Yaw Angle: ", yawAngle);
             telemetry.update();
 
-            if(Math.abs(yawAngle) >= angleInDegrees - 5) {
+            if(yawAngle >= angleInDegrees) {
                 stop();
                 break;
 

@@ -1,6 +1,7 @@
 package org.ftc8702.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.ftc8702.configurations.test.BenTestConfig;
 import org.ftc8702.utils.ColorValue;
@@ -37,6 +38,7 @@ public class BenColorSensorTest extends ActiveOpMode {
         getTelemetryUtil().addData("blue", Integer.toString(robotConfig.colorSensor.blue()));
         getTelemetryUtil().addData("green", Integer.toString(robotConfig.colorSensor.green()));
         getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robotConfig.colorSensor.red() - robotConfig.colorSensor.blue())));
+        getTelemetryUtil().addData("Yellow", getColorWithYellow(robotConfig.colorSensor).toString());
     }
 
     public ColorValue getColor() {
@@ -59,4 +61,15 @@ public class BenColorSensorTest extends ActiveOpMode {
 
         return ColorValue.ZILCH;
     }
+    public ColorValue getColorWithYellow(ColorSensor colorSensor) {
+
+        //Determine which is color to call
+        if (colorSensor.red() + colorSensor.green() > 3 * colorSensor.blue()) {
+            return ColorValue.YELLOW;
+
+        } else {
+            return ColorValue.ZILCH;
+        }
+    }
+
 }
