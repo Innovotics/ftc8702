@@ -52,7 +52,7 @@ public class DuelWheelMotors extends OpModeComponent {
 
     public void startRunMode(DcMotor.RunMode runMode) throws InterruptedException {
         //motor.setMode(runMode);
-        getOpMode().waitOneFullHardwareCycle();
+        getOpMode().sleep(100);
     }
 
 

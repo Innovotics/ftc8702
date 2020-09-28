@@ -97,7 +97,7 @@ public class MotorToEncoder extends OpModeComponent {
         if ( runMode !=  motor.getMode()) {
 
             motor.setMode(runMode);
-            getOpMode().waitOneFullHardwareCycle();
+            getOpMode().sleep(100);
         }
 
 
@@ -176,7 +176,7 @@ public class MotorToEncoder extends OpModeComponent {
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         while (Math.abs(motorCurrentPosition()) > encoderResetThreshold) {
-            getOpMode().waitForNextHardwareCycle();
+            getOpMode().sleep(100);
         }
 
     }

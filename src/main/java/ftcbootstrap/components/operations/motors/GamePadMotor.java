@@ -107,8 +107,7 @@ public class GamePadMotor extends OpModeComponent {
 
     public void startRunMode(DcMotor.RunMode runMode) throws InterruptedException {
         motor.setMode(runMode);
-        getOpMode().waitOneFullHardwareCycle();
-
+        getOpMode().sleep(100);
     }
 
     private float motorPowerFromButtons() {

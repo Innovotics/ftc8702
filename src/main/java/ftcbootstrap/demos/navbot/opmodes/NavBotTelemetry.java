@@ -102,7 +102,7 @@ public class NavBotTelemetry extends ActiveOpMode {
 
         // make sure the gyro is calibrated.
         while (robot.gyro.isCalibrating())  {
-            this.waitForNextHardwareCycle();
+            this.sleep(100);
         }
 
 

@@ -108,15 +108,7 @@ public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
-
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
-
-        } else {
-            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-            telemetry.update();
-
-        }
+        initTfod();
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.

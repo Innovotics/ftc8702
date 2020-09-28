@@ -224,7 +224,7 @@ public class TankDrive extends OpModeComponent {
             modeChanged = true;
         }
         if ( modeChanged) {
-            getOpMode().waitOneFullHardwareCycle();
+            getOpMode().sleep(100);
         }
     }
 
