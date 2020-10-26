@@ -1,6 +1,5 @@
 package org.ftc8702.opmodes.production;
 
-import com.qualcomm.hardware.motors.TetrixMotor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class SkystoneFlexArm {

@@ -11,6 +11,7 @@ import ftcbootstrap.ActiveOpMode;
 @TeleOp(name = "UltimateGoalTeleOp", group = "production")
 public class JonahUltimateGoalTeleop extends ActiveOpMode {
     private UltimateGoalArm Claw;
+    private UltimateGoalArm WobbleArm;
     private ProdMecanumRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
 
@@ -32,6 +33,7 @@ public class JonahUltimateGoalTeleop extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
         driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR);
+        //Claw = new UltimateGoalArm(hardwareMap.get(Servo.class, "ClawLeft"), (hardwareMap.get(Servo.class, "ClawRight"));
         //jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
         //flexArm = new SkystoneFlexArm(driveTrainConfig.SliderArmLeft, driveTrainConfig.SliderArmRight);
         //Intake = new SkystoneIntake(driveTrainConfig.IntakeWheelLeft, driveTrainConfig.IntakeWheelRight);
@@ -113,9 +115,20 @@ public class JonahUltimateGoalTeleop extends ActiveOpMode {
             getTelemetryUtil().addData("Button X", " Pressed");
         } else if (gamepad2.b) {
             Claw.OpenClaw();
-            getTelemetryUtil().addData("Button Y", " Pressed");
+            getTelemetryUtil().addData("Button B", " Pressed");
         } else {
             Claw.CloseClaw();
+        }
+
+        if (gamepad2.y)
+        {
+            WobbleArm.WobbleUp(-1);
+            getTelemetryUtil().addData("Button Y", " Pressed");
+        }
+        else if (gamepad2.a)
+        {
+            WobbleArm.WobbleDown(1);
+            getTelemetryUtil().addData("Button A", " Pressed");
         }
     }
 }

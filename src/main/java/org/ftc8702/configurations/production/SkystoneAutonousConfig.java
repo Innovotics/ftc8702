@@ -1,21 +1,16 @@
 package org.ftc8702.configurations.production;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.ftc8702.components.motors.MecanumWheelDriveTrain;
 import org.ftc8702.components.motors.MecanumWheelDriveTrainPIDBased;
 import org.ftc8702.opmodes.production.SkystoneFlexArm;
-
 import org.ftc8702.opmodes.production.SkystoneJaJa;
-
 import org.ftc8702.utils.InnovoticsRobotProperties;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import ftcbootstrap.components.ColorSensorComponent;
 import ftcbootstrap.components.utils.TelemetryUtil;
@@ -61,7 +56,7 @@ public class SkystoneAutonousConfig extends AbstractRobotConfiguration {
         motorBR = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_BR);
         motorBL = hardwareMap.get(DcMotor.class, InnovoticsRobotProperties.MOTOR_BL);
 
-        FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
+        //FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
         colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
         telemetryUtil.addData("Color Sensor", colorSensor+"");
         telemetryUtil.sendTelemetry();

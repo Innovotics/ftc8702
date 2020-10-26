@@ -15,11 +15,13 @@ public class UltimateGoalArm {
         this.ClawRight = ClawRight;
     }
 
-    public void WobbleUp(float scaledpower){
+    public void WobbleUp(float scaledpower)
+    {
        WobbleMotor.setPower(-1);
     }
 
-    public void WobbleDown(float scaledpower){
+    public void WobbleDown(float scaledpower)
+    {
         WobbleMotor.setPower(1);
     }
 

@@ -1,8 +1,7 @@
 package org.ftc8702.opmodes.production;
 
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class SkystoneSlideAndBrickPicker {
 
@@ -37,10 +36,7 @@ public class SkystoneSlideAndBrickPicker {
         brickPicker.setPosition(power);
     }
 
-    void LinearSlideOut()
-    {
-        linearSlide.setPower(1);
-    }
+    void LinearSlideOut() { linearSlide.setPower(1); }
 
     void LinearSlideIn()
     {
