@@ -9,13 +9,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import org.ftc8702.configurations.production.SkystoneAutonousConfig;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 import org.ftc8702.utils.StonePosition;
-
-import java.util.Locale;
 
 import ftcbootstrap.ActiveOpMode;
 
@@ -24,17 +21,14 @@ import static org.ftc8702.opmodes.production.SkystoneAutoModeState.DONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.GRAB_SKY_STONE_CENTER;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.GRAB_SKY_STONE_LEFT;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.GRAB_SKY_STONE_RIGHT;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUILDER_ZONE;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_STONE_TO_BUILDER_ZONE2;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_TO_SECOND_SKYSTONE;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_TO_SECOND_SKYSTONE_CENTER;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_TO_SECOND_SKYSTONE_LEFT;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.MOVE_TO_SECOND_SKYSTONE_RIGHT;
 import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PARK;
-import static org.ftc8702.opmodes.production.SkystoneAutoModeState.POSITION_THE_ROBOT;
+import static org.ftc8702.opmodes.production.SkystoneAutoModeState.PULL_FOUNDATION;
 
-@Autonomous(name = "Left Blue Skystone", group = "Ops")
-public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
+@Autonomous(name = "Red Right Skystone With Foundation", group = "Ops")
+public class SkystoneRedRightDetectionWithFoundation extends ActiveOpMode {
 
     Orientation angle;
     StonePosition currentStonePosition;
@@ -74,7 +68,8 @@ public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
                 robot.driveTrain.goBackwardWithoutPID(0.3f);
                 sleep(100);
                  */
-                robot.driveTrain.goBackward(0.3f,0.5,2000,100);
+                robot.driveTrain.goBackwardWithUltrasonic(.4f, .3, robot.distanceSensor, 16);
+                //robot.driveTrain.goBackward(0.3f,0.5,2000,100);
                 //robot.driveTrain.goBackward(0.7f,1,700,50);
                 telemetry.addData("going", " backward");
                 robot.driveTrain.stop();
@@ -93,14 +88,14 @@ public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
                 else if (getColorWithYellow(robot.rightColorSensor) == ColorValue.YELLOW
                   && getColorWithYellow(robot.leftColorSensor) != ColorValue.YELLOW)
                 {
-                    currentStonePosition = StonePosition.CENTER;
-                    currentState = GRAB_SKY_STONE_CENTER;
+                    currentStonePosition = StonePosition.LEFT;
+                    currentState = GRAB_SKY_STONE_LEFT;
                 }
                 else if (getColorWithYellow(robot.rightColorSensor) != ColorValue.YELLOW
                         && getColorWithYellow(robot.leftColorSensor) == ColorValue.YELLOW)
                 {
-                    currentStonePosition = StonePosition.LEFT;
-                    currentState = GRAB_SKY_STONE_LEFT;
+                    currentStonePosition = StonePosition.CENTER;
+                    currentState = GRAB_SKY_STONE_CENTER;
                 }
                 else
                 {
@@ -126,18 +121,18 @@ public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
                 telemetry.addData("Current Position", currentStonePosition);
                 telemetry.update();
                 robot.driveTrain.stop();
-                sleep(1000);
+                sleep(300);
                 break;
 
             case GRAB_SKY_STONE_LEFT:
                 logStage();
-                robot.jaja.JaJaRightDown();
-                sleep(300);
-                robot.driveTrain.strafeLeftWithoutPid(0.3f);
+                robot.jaja.JaJaLeftDown();
+                sleep(200);
+                robot.driveTrain.strafeRightWithoutPID(0.5f);
                 sleep(300);
                 robot.driveTrain.goForwardWithoutPID(0.5f);
-                sleep(500);
-                robot.driveTrain.rotateLeftWithGyro(.3f, 90);
+                sleep(300);
+                robot.driveTrain.rotateRightWithGyro(.3f, -85);
                 robot.driveTrain.goBackward(.5f, 1, 2000, 100);
                 robot.jaja.JaJaUp();
                 sleep(100);
@@ -150,34 +145,36 @@ public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
                 robot.driveTrain.stop();
                 //readAngles();
                 //currentYawAngle = angle.thirdAngle;
-                robot.driveTrain.rotateRightWithGyro(.3f, 0);
-                robot.driveTrain.strafeLeftWithoutPid(0.5f);
-                sleep(900);
-                robot.driveTrain.goBackwardWithoutPID(0.5f);
+                robot.driveTrain.rotateLeftWithGyro(.3f, -5);
+                robot.driveTrain.strafeRight(0.5f,0.3,800,100);
+                robot.driveTrain.goBackwardWithUltrasonic(.3f, .3, robot.distanceSensor, 10);
+                robot.jaja.JaJaLeftDown();
                 sleep(300);
-                robot.jaja.JaJaRightDown();
-                sleep(200);
                 robot.driveTrain.goForwardWithoutPID(0.3f);
-                sleep(700);
-                robot.driveTrain.rotateLeftWithGyro(.3f, 90);
+                sleep(500);
+                robot.driveTrain.rotateRightWithGyro(.3f, -90);
                 robot.driveTrain.goBackward(.5f, 1, 2700, 100);
+                robot.driveTrain.strafeRightWithoutPID(0.4f);
+                sleep(400);
+                robot.driveTrain.rotateLeftWithGyro(0.5f,0);
                 robot.jaja.JaJaUp();
-                sleep(200);
+                sleep(100);
+                robot.driveTrain.rotateRightWithGyro(0.5f,-90);
                 robot.driveTrain.stop();
-                currentState = PARK;
+                currentState = PULL_FOUNDATION;
                 break;
 
             case GRAB_SKY_STONE_CENTER:
                 logStage();
-                robot.driveTrain.strafeRightWithoutPID(0.4f);
+                robot.driveTrain.strafeLeftWithoutPid(0.35f);
                 sleep(200);
-                robot.jaja.JaJaLeftDown();
+                robot.jaja.JaJaRightDown();
                 sleep(300);
-                robot.driveTrain.strafeRightWithoutPID(0.3f);
-                sleep(300);
+                robot.driveTrain.strafeLeftWithoutPid(0.3f);
+                sleep(200);
                 robot.driveTrain.goForwardWithoutPID(0.5f);
-                sleep(500);
-                robot.driveTrain.rotateLeftWithGyro(.3f, 90);
+                sleep(400);
+                robot.driveTrain.rotateRightWithGyro(.3f, -90);
                 robot.driveTrain.goBackward(.5f, 1, 1800, 100);
                 robot.jaja.JaJaUp();
                 sleep(100);
@@ -190,39 +187,37 @@ public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
                 robot.driveTrain.stop();
                 //readAngles();
                 //currentYawAngle = angle.thirdAngle;
-                robot.driveTrain.rotateRightWithGyro(.3f, 0);
-                robot.driveTrain.strafeLeftWithoutPid(0.5f);
-                sleep(900);
-                robot.driveTrain.goBackwardWithoutPID(0.5f);
-                sleep(400);
-                robot.jaja.JaJaLeftDown();
+                robot.driveTrain.rotateLeftWithGyro(.3f, 0);
+                robot.driveTrain.strafeRight(0.4f,0.3,500,50);
+                robot.driveTrain.goBackwardWithUltrasonic(.3f, .3, robot.distanceSensor, 10);
+                robot.jaja.JaJaRightDown();
                 sleep(200);
                 robot.driveTrain.goForwardWithoutPID(0.3f);
                 sleep(800);
-                robot.driveTrain.rotateLeftWithGyro(.3f, 90);
-                robot.driveTrain.goBackward(.5f, 0.5, 2700, 100);
+                robot.driveTrain.rotateRightWithGyro(.3f, -90);
+                robot.driveTrain.goBackward(.5f, 0.5, 2500, 100);
+                robot.driveTrain.rotateLeftWithGyro(0.5f,0);
                 robot.jaja.JaJaUp();
-                sleep(200);
+                sleep(100);
+                robot.driveTrain.rotateRightWithGyro(0.5f,-90);
                 robot.driveTrain.stop();
-                currentState = PARK;
+                currentState = PULL_FOUNDATION;
                 break;
 
             case GRAB_SKY_STONE_RIGHT:
                 logStage();
-                robot.driveTrain.goForwardWithoutPID(0.4f);
+                robot.driveTrain.strafeRightWithoutPID(0.4f);
+                sleep(100);
+                robot.jaja.JaJaRightDown();
                 sleep(300);
-                robot.driveTrain.strafeLeftWithoutPid(0.3f);
-                sleep(500);
-                robot.driveTrain.goBackwardWithoutPID(0.2f);
-                sleep(300);
-                robot.jaja.JaJaLeftDown();
-                sleep(300);
-                robot.driveTrain.strafeLeftWithoutPid(0.3f);
+                robot.driveTrain.strafeRightWithoutPID(0.3f);
                 sleep(300);
                 robot.driveTrain.goForwardWithoutPID(0.5f);
-                sleep(500);
-                robot.driveTrain.rotateLeftWithGyro(.4f, 90);
-                robot.driveTrain.goBackward(.5f, 1, 2300, 100);
+                sleep(450);
+                robot.driveTrain.rotateRightWithGyro(.3f, -90);
+                robot.driveTrain.goBackwardWithBottomColorSensor(.7f, 0.3,robot.colorSensor);
+                robot.driveTrain.goBackwardWithoutPID(0.4f);
+                sleep(700);
                 robot.jaja.JaJaUp();
                 sleep(100);
                 currentState = MOVE_TO_SECOND_SKYSTONE_RIGHT;
@@ -230,33 +225,60 @@ public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
 
             case MOVE_TO_SECOND_SKYSTONE_RIGHT:
                 logStage();
-                robot.driveTrain.goForward(.5f, 1, 2300, 100);
+                robot.driveTrain.goForward(.5f, 0.3, 2300, 100);
                 robot.driveTrain.stop();
                 //readAngles();
                 //currentYawAngle = angle.thirdAngle;
-                robot.driveTrain.rotateRightWithGyro(.4f, 0);
-                robot.driveTrain.strafeLeftWithoutPid(0.5f);
-                sleep(1100);
-                robot.driveTrain.goBackward(0.5f,0.2,600,70);
-                sleep(500);
-                robot.jaja.JaJaLeftDown();
-                sleep(200);
+                robot.driveTrain.rotateLeftWithGyro(.5f, 0);
                 robot.driveTrain.strafeRightWithoutPID(0.5f);
+                sleep(1300);
+                robot.driveTrain.goBackwardWithUltrasonic(.3f, .3, robot.distanceSensor, 10);
+                //robot.driveTrain.goBackward(0.5f,0.2,800,70);
+                robot.jaja.JaJaRightDown();
+                sleep(200);
+                robot.driveTrain.strafeLeftWithoutPid(0.5f);
                 sleep(300);
                 robot.driveTrain.goForwardWithoutPID(0.3f);
-                sleep(1000);
-                robot.driveTrain.rotateLeftWithGyro(.4f, 90);
+                sleep(700);
+                robot.driveTrain.rotateRightWithGyro(.3f, -90);
                 robot.driveTrain.goBackward(.5f, 1, 2900, 100);
+                robot.driveTrain.rotateLeftWithGyro(0.5f,0);
                 robot.jaja.JaJaUp();
-                sleep(200);
-                robot.driveTrain.stop();
-                currentState = PARK;
+                sleep(100);
+                robot.driveTrain.rotateRightWithGyro(0.5f,-90);
+               // robot.driveTrain.goBackward(.5f, 1, 2900, 100);
+                currentState = PULL_FOUNDATION;
                 break;
 
+            case PULL_FOUNDATION:
+                logStage();
+                robot.driveTrain.strafeLeftWithoutPid(0.7f);
+                sleep(800);
+                robot.driveTrain.goBackwardWithoutPID(0.7f);
+                sleep(400);
+                robot.driveTrain.smoothTurnLeftBack();
+                sleep(900);
+                robot.driveTrain.goBackwardWithUltrasonic(0.5f, .3, robot.distanceSensor, 20);
+                //robot.driveTrain.goBackwardWithoutPID(0.5f);
+                //sleep(900);
+                robot.jaja.JaJaDown();
+                robot.driveTrain.stop();
+                sleep(300);
+                robot.driveTrain.pivitStrongLeft();
+                sleep(1400);
+                robot.driveTrain.goForwardWithoutPID(0.6f);
+                sleep(100);
+                robot.jaja.JaJaUp();
+                //robot.driveTrain.strafeRightWithoutPID(0.7f);
+                //sleep(200);
+                robot.driveTrain.goBackwardWithoutPID(1);
+                sleep(800);
+                robot.driveTrain.stop();
+                currentState = PARK;
 
             case PARK:
                 logStage();
-                robot.driveTrain.goForwardWithoutPID(.2f);
+                robot.driveTrain.goForwardWithoutPID(.4f);
                 ColorValue currentColor = ColorUtil.getColor(robot.colorSensor);
 
                 if(currentColor == ColorValue.BLUE || currentColor == ColorValue.RED) {
@@ -266,7 +288,7 @@ public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
                     currentState = DONE;
                 }
                 else if(currentColor == ColorValue.ZILCH || currentColor == ColorValue.GREEN){
-                    robot.driveTrain.goForwardWithoutPID(.2f);
+                    robot.driveTrain.goForwardWithoutPID(.4f);
                 }
                 break;
 
@@ -293,8 +315,6 @@ public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
         currentPitchAngle = angle.thirdAngle;
         currentRollAngle = angle.secondAngle;
     }
-
-
 
     public ColorValue getColorWithYellow(ColorSensor colorSensor) {
         

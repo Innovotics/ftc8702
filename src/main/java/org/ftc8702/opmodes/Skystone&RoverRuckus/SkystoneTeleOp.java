@@ -1,17 +1,20 @@
 package org.ftc8702.opmodes.production;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
+import org.ftc8702.components.servo.GamePadCRServo;
 import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
+import org.ftc8702.opmodes.production.SkystoneTeleOpDriveTrain;
+import org.ftc8702.opmodes.production.SkystoneJaJa;
 
-@TeleOp(name = "SkystoneTeleOpSolo", group = "production")
-public class SkystoneTeleOpSolo extends ActiveOpMode {
+@TeleOp(name = "SkystoneTeleOp", group = "production")
+public class  SkystoneTeleOp extends ActiveOpMode {
 
     private ProdMecanumRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
@@ -19,9 +22,7 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
     private SkystoneSlideAndBrickPicker slideAndBrickPicker;
     private SkystoneFlexArm flexArm;
     private SkystoneIntake Intake;
-    private double threshold = 0.157;
-    private float motorPower = 1;
-
+    private SkystoneMeasuringTape measuringTape;
 
     /**
      * Implement this method to define the code to run when the Init button is pressed on the Driver station.
@@ -45,6 +46,7 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
         flexArm = new SkystoneFlexArm(driveTrainConfig.SliderArmLeft, driveTrainConfig.SliderArmRight);
         Intake = new SkystoneIntake(driveTrainConfig.IntakeWheelLeft, driveTrainConfig.IntakeWheelRight);
         slideAndBrickPicker = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "brickPicker"), hardwareMap.get(CRServo.class, "linearSlide"));
+        measuringTape = new SkystoneMeasuringTape(hardwareMap.get(CRServo.class, "measuringTape"));
         //slideAndBrickPicker.armPosition = 0.01;//slideAndBrickPicker.MAX_POSITION;
     }
 
@@ -57,24 +59,23 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
      */
     @Override
     protected void activeLoop() throws InterruptedException {
+        gamepad2Control();
         gamepad1Control();
     }
 
     private void gamepad1Control()
     {
-        if (gamepad1.right_bumper)
-        {
-            float power = 1.0f;
-            getTelemetryUtil().addData("Right bumper power:", power);
-            driveTrain.rotateRight(power);
+        if(gamepad1.dpad_up){
+            getTelemetryUtil().addData("Button Up", " Pressed");
+            measuringTape.TapeOut();
+        }else if(gamepad1.dpad_down){
+            getTelemetryUtil().addData("Button Down", " Pressed");
+            measuringTape.TapeIn();
+        }else{
+            measuringTape.TapeStop();
         }
-        else if (gamepad1.left_bumper)
-        {
-            float power = 1.0f;
-            getTelemetryUtil().addData("Left bumper power:", power);
-            driveTrain.rotateLeft(power);
-        }
-        else if (gamepad1.right_trigger !=0)
+
+        if (gamepad1.right_trigger !=0)
         {
             driveTrain.rotateRight(0.2f);
         }
@@ -82,44 +83,106 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
         {
             driveTrain.rotateLeft(0.2f);
         }
-        else{
-            driveTrain.stop();
+        else if (gamepad1.right_bumper) {
+            driveTrain.turnSmoothRightAutonomous();
         }
-        //Testing new driving gotten from TJ
-        if(Math.abs(gamepad1.left_stick_y) > threshold || Math.abs(gamepad1.left_stick_x) > threshold || Math.abs(gamepad1.right_stick_x) > threshold)
-        {
-            driveTrain.frontRightMotor.setPower(motorPower * (((-gamepad1.left_stick_y) + (gamepad1.left_stick_x)) + -gamepad1.right_stick_x));
-            driveTrain.backLeftMotor.setPower(motorPower * (((-gamepad1.left_stick_y) + (-gamepad1.left_stick_x)) + gamepad1.right_stick_x));
-            driveTrain.frontLeftMotor.setPower(motorPower * (((-gamepad1.left_stick_y) + (gamepad1.left_stick_x)) + gamepad1.right_stick_x));
-            driveTrain.backRightMotor.setPower(motorPower * (((-gamepad1.left_stick_y) + (-gamepad1.left_stick_x)) + -gamepad1.right_stick_x));
+        else if (gamepad1.left_bumper) {
+            driveTrain.turnSmoothLeftAutonomous();
         }
         else
         {
-            driveTrain.stop();
+            //driveTrain.stop();
+            smoothDrive();
         }
 
-        if (gamepad1.x ) {
+        getTelemetryUtil().sendTelemetry();
+    }
+
+    private void smoothDrive()
+    {
+        float throttle = -gamepad1.right_stick_x;
+        //float throttle = 0;
+       /* if (gamepad1.right_stick_x > 0)
+        {
+            throttle = gamepad1.right_stick_x + 0.2f;
+        }
+        else if (gamepad1.right_stick_x < 0)
+        {
+            throttle = gamepad1.right_stick_x - 0.2f;
+        }
+*/
+        float direction = -gamepad1.left_stick_y;
+        float strafe = gamepad1.left_stick_x;
+
+        float FR = throttle + direction + strafe;
+        float FL = throttle - direction + strafe;
+        float BR = throttle + direction - strafe;
+        float BL = throttle - direction - strafe;
+
+        FR = Range.clip(FR, -1, 1);
+        FL = Range.clip(FL, -1, 1);
+        BR = Range.clip(BR, -1, 1);
+        BL = Range.clip(BL, -1, 1);
+
+        //if (Math.abs(throttle) > threshold && Math.abs(direction) > threshold)
+        //{
+        driveTrain.frontRightMotor.setPower(FR);
+        driveTrain.frontLeftMotor.setPower(FL);
+        driveTrain.backRightMotor.setPower(BR);
+        driveTrain.backLeftMotor.setPower(BL);
+        // }
+        //else{
+        //  driveTrain.stop();
+        //}
+    }
+
+    private void gamepad2Control()
+    {
+        //For visual purposes
+        if (gamepad2.x ) {
             jaja.JaJaDown();
             getTelemetryUtil().addData("Button X", " Pressed");
         }
-        else if (gamepad1.b ) {
+        else if (gamepad2.b ) {
             jaja.JaJaUp();
-            getTelemetryUtil().addData("Button b", " Pressed");
+            getTelemetryUtil().addData("Button Y", " Pressed");
         }
 
-        if (gamepad1.y)
+        if (gamepad2.y)
         {
             flexArm.ArmUp(1);
         }
-        else if (gamepad1.a)
+        else if (gamepad2.a)
         {
             flexArm.ArmDown(1);
+        }
+        //TESTING CODE FORM HERE DOWN TO THE NEXT COMMENT
+        else if (gamepad2.left_trigger !=0)
+        {
+            flexArm.ArmDown(0.5f);
+        }
+        else if (gamepad2.right_trigger !=0)
+        {
+            flexArm.ArmUp(0.5f);
         }
         else
         {
             flexArm.stop();
         }
 
+        //For Visual Purposes
+        if (gamepad2.right_bumper)
+        {
+            Intake.Intake(1);
+        }
+        else if (gamepad2.left_bumper)
+        {
+            Intake.Output(1);
+        }
+        else
+        {
+            Intake.stop(0);
+        }
 
         //For Visual Purposes
  /*       if (gamepad2.dpad_down && slideAndBrickPicker.armPosition > slideAndBrickPicker.MIN_POSITION)
@@ -136,12 +199,12 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
             //slideAndBrickPicker.LinearSliderIn();//slideAndBrickPicker.armPosition);
         }
 */
-        if (gamepad1.dpad_down)
+        if (gamepad2.dpad_down)
         {
             slideAndBrickPicker.LinearSlideIn();
             getTelemetryUtil().addData("dpad down slideIn:", slideAndBrickPicker.armPosition);
         }
-        else if (gamepad1.dpad_up) {
+        else if (gamepad2.dpad_up) {
             slideAndBrickPicker.LinearSlideOut();
             getTelemetryUtil().addData("dpad up slideOut: ", slideAndBrickPicker.armPosition);
         }
@@ -150,13 +213,13 @@ public class SkystoneTeleOpSolo extends ActiveOpMode {
         }
 
         //For Visual Purposes
-        if (gamepad1.dpad_left) {
+        if (gamepad2.dpad_right) {
             getTelemetryUtil().addData("dpad left:", " pickerUp");
-            slideAndBrickPicker.BrickPickerPickUp(1);
+            slideAndBrickPicker.BrickPickerPickUp(0);
         }
-        else if (gamepad1.dpad_right) {
+        else if (gamepad2.dpad_left) {
             getTelemetryUtil().addData("dpad right:", " pickerDown");
-            slideAndBrickPicker.BrickPickerRelease(1);
+            slideAndBrickPicker.BrickPickerRelease(0.14f);
         }
         getTelemetryUtil().sendTelemetry();
     }
