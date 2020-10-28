@@ -1,16 +1,10 @@
 package org.ftc8702.configurations.production;
 
-import com.qualcomm.hardware.HardwareDeviceManager;
-import com.qualcomm.hardware.HardwareFactory;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.hardware.motors.TetrixMotor;
-import com.qualcomm.robotcore.util.Hardware;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
+
 import ftcbootstrap.RobotConfiguration;
 import ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -30,10 +24,12 @@ public class ProdMecanumRobotConfiguration extends RobotConfiguration {
     public DcMotor motorFL;
     public DcMotor motorBR;
     public DcMotor motorBL;
+    /*
     public DcMotor SliderArmLeft;
     public DcMotor SliderArmRight;
     public DcMotor IntakeWheelLeft;
     public DcMotor IntakeWheelRight;
+     */
 
     /**
      * Factory method for this class
@@ -66,6 +62,7 @@ public class ProdMecanumRobotConfiguration extends RobotConfiguration {
         motorBR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BR, hardwareMap.dcMotor);
         motorBL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BL, hardwareMap.dcMotor);
 
+        /*
         //Arm Motors
         SliderArmRight = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SLIDER_ARM_RIGHT, hardwareMap.dcMotor);
         SliderArmLeft = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SLIDER_ARM_LEFT, hardwareMap.dcMotor);
@@ -73,5 +70,6 @@ public class ProdMecanumRobotConfiguration extends RobotConfiguration {
         //Intake Motors
         IntakeWheelLeft = (DcMotor) getHardwareOn(InnovoticsRobotProperties.INTAKE_WHEEL_LEFT, hardwareMap.dcMotor);
         IntakeWheelRight = (DcMotor) getHardwareOn(InnovoticsRobotProperties.INTAKE_WHEEL_RIGHT, hardwareMap.dcMotor);
+         */
     }
 }

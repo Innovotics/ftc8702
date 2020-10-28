@@ -2,18 +2,15 @@ package org.ftc8702.configurations.production;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrainPIDBased;
 import org.ftc8702.opmodes.roverruckus_skystone.SkystoneFlexArm;
-
 import org.ftc8702.opmodes.roverruckus_skystone.SkystoneJaJa;
-
 import org.ftc8702.utils.InnovoticsRobotProperties;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import ftcbootstrap.components.ColorSensorComponent;
 import ftcbootstrap.components.utils.TelemetryUtil;
