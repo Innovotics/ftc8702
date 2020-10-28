@@ -1,17 +1,16 @@
 package org.ftc8702.configurations.production;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
-import org.ftc8702.opmodes.production.SkystoneFlexArm;
-import org.ftc8702.opmodes.production.SkystoneIntake;
-import org.ftc8702.opmodes.production.SkystoneJaJa;
-import org.ftc8702.opmodes.production.SkystoneSlideAndBrickPicker;
+import org.ftc8702.opmodes.roverruckus_skystone.SkystoneFlexArm;
+import org.ftc8702.opmodes.roverruckus_skystone.SkystoneIntake;
+import org.ftc8702.opmodes.roverruckus_skystone.SkystoneJaJa;
+import org.ftc8702.opmodes.roverruckus_skystone.SkystoneSlideAndBrickPicker;
 
 import ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -35,7 +34,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
         setTelemetry(telemetryUtil);
 
         ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
-        driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR);
+        driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR, telemetryUtil.getTelemetry());
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
         FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
         Slider = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "brickPicker"),(hardwareMap.get(CRServo.class, "linearSlide")));

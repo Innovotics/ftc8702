@@ -1,5 +1,7 @@
 package ftcbootstrap.components.utils;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -135,6 +137,12 @@ public class TelemetryUtil  {
         opMode.telemetry.update();
 
     }
+
+    public Telemetry getTelemetry()
+    {
+        return opMode.telemetry;
+    }
+
 
 
     private long calcElapsedTime() {

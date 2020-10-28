@@ -1,16 +1,10 @@
 package org.ftc8702.configurations.production;
 
-import com.qualcomm.hardware.HardwareDeviceManager;
-import com.qualcomm.hardware.HardwareFactory;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.hardware.motors.TetrixMotor;
-import com.qualcomm.robotcore.util.Hardware;
 
 import org.ftc8702.utils.InnovoticsRobotProperties;
+
 import ftcbootstrap.RobotConfiguration;
 import ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -23,7 +17,7 @@ import ftcbootstrap.components.utils.TelemetryUtil;
  * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
  * saved configuration on the phone.
  */
-public class OdometerRobotConfiguration extends RobotConfiguration {
+public class SkystoneRobotConfiguration extends RobotConfiguration {
     //51.4 = 1 inch
     //mecanum motors
     public DcMotor motorFR;
@@ -42,9 +36,9 @@ public class OdometerRobotConfiguration extends RobotConfiguration {
      * @param telemetryUtil
      * @return
      */
-    public static OdometerRobotConfiguration newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static SkystoneRobotConfiguration newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
-        OdometerRobotConfiguration config = new OdometerRobotConfiguration();
+        SkystoneRobotConfiguration config = new SkystoneRobotConfiguration();
         config.init(hardwareMap, telemetryUtil);
         return config;
     }
