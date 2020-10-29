@@ -33,7 +33,7 @@ public class SkystoneAutoConfig extends AbstractRobotConfiguration {
         this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
 
-        ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
+        SkystoneRobotConfiguration mecanumConfig = SkystoneRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
         driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR, telemetryUtil.getTelemetry());
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
         FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);

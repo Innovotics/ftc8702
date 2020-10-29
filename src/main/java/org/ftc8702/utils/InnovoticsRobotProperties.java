@@ -11,6 +11,13 @@ public class InnovoticsRobotProperties {
     public static final String MOTOR_FL = "wheelFL";
     public static final String MOTOR_BR = "wheelBR";
     public static final String MOTOR_BL = "wheelBL";
+
+    //Wobble arm
+    public static final String WOBBLE_ARM = "wobbleArm";
+    public static final String CLAW_LEFT = "clawLeft";
+    public static final String CLAW_RIGHT = "clawRight";
+
+
     public static final String SLIDER_ARM_LEFT = "SliderArmLeft";
     public static final String SLIDER_ARM_RIGHT = "SliderArmRight";
     public static final String INTAKE_WHEEL_LEFT = "IntakeWheelLeft";

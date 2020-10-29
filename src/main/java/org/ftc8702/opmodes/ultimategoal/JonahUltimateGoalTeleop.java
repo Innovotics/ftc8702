@@ -1,4 +1,4 @@
-package org.ftc8702.opmodes.production.ultimategoal;
+package org.ftc8702.opmodes.ultimategoal;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -8,7 +8,7 @@ import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
 
-@TeleOp(name = "UltimateGoalTeleOp", group = "production")
+//@TeleOp(name = "JonahUltimateGoalTeleop", group = "production")
 public class JonahUltimateGoalTeleop extends ActiveOpMode {
     private UltimateGoalArm Claw;
     private UltimateGoalArm WobbleArm;
@@ -32,13 +32,8 @@ public class JonahUltimateGoalTeleop extends ActiveOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR);
-        //Claw = new UltimateGoalArm(hardwareMap.get(Servo.class, "ClawLeft"), (hardwareMap.get(Servo.class, "ClawRight"));
-        //jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
-        //flexArm = new SkystoneFlexArm(driveTrainConfig.SliderArmLeft, driveTrainConfig.SliderArmRight);
-        //Intake = new SkystoneIntake(driveTrainConfig.IntakeWheelLeft, driveTrainConfig.IntakeWheelRight);
-        //slideAndBrickPicker = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "brickPicker"), hardwareMap.get(CRServo.class, "linearSlide"));
-        //slideAndBrickPicker.armPosition = 0.01;//slideAndBrickPicker.MAX_POSITION;
+        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry);
+
     }
 
     /**
@@ -73,16 +68,6 @@ public class JonahUltimateGoalTeleop extends ActiveOpMode {
 
     private void smoothDrive() {
         float throttle = -gamepad1.right_stick_x;
-        //float throttle = 0;
-       /* if (gamepad1.right_stick_x > 0)
-        {
-            throttle = gamepad1.right_stick_x + 0.2f;
-        }
-        else if (gamepad1.right_stick_x < 0)
-        {
-            throttle = gamepad1.right_stick_x - 0.2f;
-        }
-*/
         float direction = -gamepad1.left_stick_y;
         float strafe = gamepad1.left_stick_x;
 
@@ -122,12 +107,12 @@ public class JonahUltimateGoalTeleop extends ActiveOpMode {
 
         if (gamepad2.y)
         {
-            WobbleArm.WobbleUp(-1);
+            WobbleArm.WobbleUp();
             getTelemetryUtil().addData("Button Y", " Pressed");
         }
         else if (gamepad2.a)
         {
-            WobbleArm.WobbleDown(1);
+            WobbleArm.WobbleDown();
             getTelemetryUtil().addData("Button A", " Pressed");
         }
     }

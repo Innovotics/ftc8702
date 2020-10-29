@@ -11,7 +11,7 @@ import ftcbootstrap.ActiveOpMode;
 
 
 @TeleOp(name = "GoBuildaDriveTrain", group = "production")
-public class GoBuildaDriveTrain extends ActiveOpMode {
+public class GoBuildaDriveTrainTeleOp extends ActiveOpMode {
 
     private OdometerRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
@@ -77,7 +77,7 @@ public class GoBuildaDriveTrain extends ActiveOpMode {
         float FR = throttle + direction - strafe; //float FR = throttle + direction - strafe; Previous
         float FL = throttle - direction - strafe;
         float BR = throttle + direction + strafe; //float BR = throttle + direction + strafe; Previous
-        float BL = throttle + direction - strafe; //float BL = throttle - direction + strafe; Previous
+        float BL = throttle - direction + strafe; //float BL = throttle - direction + strafe; Previous
 
 
         FR = Range.clip(FR, -1, 1);

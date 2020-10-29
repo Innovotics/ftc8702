@@ -12,6 +12,7 @@ import org.ftc8702.opmodes.roverruckus_skystone.SkystoneFlexArm;
 import org.ftc8702.opmodes.roverruckus_skystone.SkystoneJaJa;
 import org.ftc8702.utils.InnovoticsRobotProperties;
 
+import ftcbootstrap.RobotConfiguration;
 import ftcbootstrap.components.ColorSensorComponent;
 import ftcbootstrap.components.utils.TelemetryUtil;
 
@@ -46,7 +47,7 @@ public class SkystoneAutonousConfig extends AbstractRobotConfiguration {
         this.hardwareMap = hardwareMap;
         setTelemetry(telemetryUtil);
 
-        ProdMecanumRobotConfiguration mecanumConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
+        SkystoneRobotConfiguration mecanumConfig = SkystoneRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
         jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
 
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distance_sensor");

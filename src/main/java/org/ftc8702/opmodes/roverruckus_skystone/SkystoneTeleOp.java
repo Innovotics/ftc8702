@@ -7,13 +7,14 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
 import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
+import org.ftc8702.configurations.production.SkystoneRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
 
 @TeleOp(name = "SkystoneTeleOp", group = "production")
 public class  SkystoneTeleOp extends ActiveOpMode {
 
-    private ProdMecanumRobotConfiguration driveTrainConfig;
+    private SkystoneRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
     private SkystoneJaJa jaja;
     private SkystoneSlideAndBrickPicker slideAndBrickPicker;
@@ -27,7 +28,7 @@ public class  SkystoneTeleOp extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        driveTrainConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
+        driveTrainConfig = SkystoneRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
