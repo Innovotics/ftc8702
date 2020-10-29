@@ -38,37 +38,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-/**
- * This 2020-2021 OpMode illustrates the basics of using the TensorFlow Object Detection API to
- * determine the position of the Ultimate Goal game elements.
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
- * is explained below.
- */
 @TeleOp(name = "RingsTensorFlowObjectDetection", group = "Concept")
-@Disabled
 public class RingsTensorFlowObjectDetection extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
 
-    /*
-     * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
-     * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
-     * A Vuforia 'Development' license key, can be obtained free of charge from the Vuforia developer
-     * web site at https://developer.vuforia.com/license-manager.
-     *
-     * Vuforia license keys are always 380 characters long, and look as if they contain mostly
-     * random data. As an example, here is a example of a fragment of a valid key:
-     *      ... yIgIzTqZ4mWjk9wd3cZO9T1axEqzuhxoGlfOOI2dRzKS4T0hQ8kT ...
-     * Once you've obtained a license key, copy the string from the Vuforia web site
-     * and paste it in to your code on the next line, between the double quotes.
-     */
     private static final String VUFORIA_KEY =
-            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+            "AQS2wc3/////AAABmV4y40wtI0NTiDVppnsR0X4hXBhaWWEte7ELugFonHehHBGMxC3naFDRqAzfJgI+lsHLDKDzY9WToVuDv1F0LemRTdhErihcnopla9IOqFdPvRKwdhYTZUi5LGQBMY3hZH1VQpKlAsHyEFG+uVtPysf6kr3fTMgVX+WgFE/tJIwTFshJL3lYcgOmKfjBoMpt4q3xqaZ3rv4AZIsaiKHQi5/UwaTzTnb6BaV+ELkPqdBYlzAa7Es0bNQVuuADKbZvBPcVkh10/XOnexdqD/ZxCrTaHkZI3zMTApcdlOYUVDPKNBa3VJwZ8HCUUFG1n/BX9mjgYjF+XfUQ6gqBTkBnHEKqKiMEQA1tc09ajF1UMa5d";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -104,7 +81,7 @@ public class RingsTensorFlowObjectDetection extends LinearOpMode {
             // (typically 1.78 or 16/9).
 
             // Uncomment the following line if you want to adjust the magnification and/or the aspect ratio of the input images.
-            //tfod.setZoom(2.5, 1.78);
+            tfod.setZoom(2.5, 1.78);
         }
 
         /** Wait for the game to begin */
