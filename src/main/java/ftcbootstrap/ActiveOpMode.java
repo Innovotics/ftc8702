@@ -129,7 +129,7 @@ public abstract class ActiveOpMode extends LinearOpMode {
      */
     protected void setOperationsCompleted() {
         this.operationsCompleted = true;
-        getTelemetryUtil().addData("Opmode Status", "Operations completed");
+        //getTelemetryUtil().addData("Opmode Status", "Operations completed");
     }
 
     public  static String stackTraceAsString(Throwable e) {

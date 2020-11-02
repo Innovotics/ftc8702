@@ -16,20 +16,28 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
     public static final String MOTOR_FL = "wheelFL";
     public static final String MOTOR_BR = "wheelBR";
     public static final String MOTOR_BL = "wheelBL";
-
-    //Wobble arm
-    public static final String WOBBLE_ARM = "wobbleArm";
-    public static final String CLAW_LEFT = "clawLeft";
-    public static final String CLAW_RIGHT = "clawRight";
-
     public DcMotor motorFR;
     public DcMotor motorFL;
     public DcMotor motorBR;
     public DcMotor motorBL;
 
+    //Wobble arm
+    public static final String WOBBLE_ARM = "wobbleArm";
+    public static final String CLAW_LEFT = "clawLeft";
+    public static final String CLAW_RIGHT = "clawRight";
     public DcMotor wobbleMotor;
     public Servo clawLeft;
     public Servo clawRight;
+
+    //Intake
+    public static final String INTAKE = "intake";
+    public DcMotor intake;
+
+    //Shooter
+    public static final String SHOOTERLEFT = "leftShooter";
+    public static final String SHOOTERRIGHT = "rightShooter";
+    public DcMotor leftShooter;
+    public DcMotor rightShooter;
 
     public static UltimateGoalConfiguration newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
@@ -51,5 +59,10 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
         wobbleMotor = (DcMotor) getHardwareOn(WOBBLE_ARM, hardwareMap.dcMotor);
         clawLeft = (Servo) getHardwareOn(CLAW_LEFT, hardwareMap.servo);
         clawRight = (Servo) getHardwareOn(CLAW_RIGHT, hardwareMap.servo);
+
+        intake = (DcMotor) getHardwareOn(INTAKE, hardwareMap.dcMotor);
+
+        leftShooter = (DcMotor) getHardwareOn(SHOOTERLEFT, hardwareMap.dcMotor);
+        rightShooter = (DcMotor) getHardwareOn(SHOOTERRIGHT, hardwareMap.dcMotor);
     }
 }

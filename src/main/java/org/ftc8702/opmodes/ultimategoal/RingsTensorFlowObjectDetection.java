@@ -40,6 +40,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 @TeleOp(name = "RingsTensorFlowObjectDetection", group = "Concept")
 public class RingsTensorFlowObjectDetection extends LinearOpMode {
+
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
@@ -108,6 +109,7 @@ public class RingsTensorFlowObjectDetection extends LinearOpMode {
                                 recognition.getRight(), recognition.getBottom());
                       }
                       telemetry.update();
+
                     }
                 }
             }

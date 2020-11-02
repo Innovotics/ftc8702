@@ -28,9 +28,9 @@ public class UltimateGoalArm {
     public void OpenClaw ()
     {
         clawLeft.setDirection(Servo.Direction.FORWARD);
-        clawLeft.setPosition(1);
+        clawLeft.setPosition(0.5);
         clawRight.setDirection(Servo.Direction.FORWARD);
-        clawRight.setPosition(1);
+        clawRight.setPosition(0.5);
 
     }
     public void CloseClaw ()
