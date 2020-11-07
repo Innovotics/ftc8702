@@ -10,5 +10,6 @@ public enum ColorValue {
     BLUE,
     GREEN,
     ZILCH,
-    YELLOW
+    YELLOW,
+    WHITE
 }

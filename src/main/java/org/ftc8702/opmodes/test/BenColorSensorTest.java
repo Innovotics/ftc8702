@@ -25,7 +25,7 @@ public class BenColorSensorTest extends ActiveOpMode {
         colorSensorComponent.enableLed(false);
 
         //Telemetry
-        getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
+        getTelemetryUtil().addData("Init",  getClass().getSimpleName() + " initialized.");
         getTelemetryUtil().sendTelemetry();
     }
 
@@ -39,7 +39,9 @@ public class BenColorSensorTest extends ActiveOpMode {
         getTelemetryUtil().addData("green", Integer.toString(robotConfig.colorSensor.green()));
         getTelemetryUtil().addData("red-blue-diff", Integer.toString(Math.abs(robotConfig.colorSensor.red() - robotConfig.colorSensor.blue())));
         getTelemetryUtil().addData("Yellow", getColorWithYellow(robotConfig.colorSensor).toString());
+        getTelemetryUtil().addData("White", getColorWithWhite(robotConfig.colorSensor).toString());
     }
+
 
     public ColorValue getColor() {
         //Helping fix the red color sense correctly, 20 is to offset the color sensor bias toward red.
@@ -68,6 +70,17 @@ public class BenColorSensorTest extends ActiveOpMode {
             return ColorValue.YELLOW;
 
         } else {
+            return ColorValue.ZILCH;
+        }
+
+    }
+
+    public ColorValue getColorWithWhite(ColorSensor colorSensor) {
+
+        if (colorSensor.red() + colorSensor.blue() + colorSensor.green() >= 750) {
+            return ColorValue.WHITE;
+
+        }else {
             return ColorValue.ZILCH;
         }
     }
