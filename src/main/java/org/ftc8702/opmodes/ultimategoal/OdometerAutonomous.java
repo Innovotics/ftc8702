@@ -1,18 +1,26 @@
 package org.ftc8702.opmodes.ultimategoal;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
-import org.ftc8702.configurations.production.OdometerRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "OdometerAutonomous", group = "Ops")
 public class OdometerAutonomous extends ActiveOpMode {
 
-    private OdometerRobotConfiguration driveTrainConfig;
+    public enum State {
+        INIT, RING_DETECT, DONE
+    }
+
+    private State currentState;
+
+    private UltimateGoalConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
+    private RingDetection ringDetection;
+    public  RingDetection.Position site;
 
     // odometer 1446 ticks = 4.7 inches (1 circumference = 1.5 inch diameter * pi = 4.7 inches)
     int targetLeftValue = 1446;
@@ -26,8 +34,9 @@ public class OdometerAutonomous extends ActiveOpMode {
     @Override
     public void onInit() {
 
-        driveTrainConfig = OdometerRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
+        driveTrainConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
+        currentState = State.RING_DETECT;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -36,8 +45,11 @@ public class OdometerAutonomous extends ActiveOpMode {
 
     @Override
     public void onStart() throws InterruptedException {
+
         super.onStart();
         driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry);
+        ringDetection = new RingDetection(hardwareMap, this);
+        ringDetection.initialize();
 
         driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         driveTrain.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -52,18 +64,28 @@ public class OdometerAutonomous extends ActiveOpMode {
         telemetry.addData("Enocoders",  "Starting at " + driveTrain.frontRightMotor.getCurrentPosition() + "," +
                 driveTrain.frontLeftMotor.getCurrentPosition() + "," + driveTrain.backRightMotor.getCurrentPosition());
         telemetry.update();
-        //driveTrain.goForwardWithOdometer(1000,1000,0.1);
+
     }
 
     @Override
     protected void activeLoop() throws InterruptedException {
 
-        // driveTrain.goForwardWithOdometer(targetLeftValue,targetRightValue,0.2);
-        driveTrain.goForwardByInches(24.0,0.4);
-
-        telemetry.addData("Enocoders",  "Starting at  right: " + driveTrain.frontRightMotor.getCurrentPosition() + ", left: " +
-                driveTrain.frontLeftMotor.getCurrentPosition() + ", middle: " + driveTrain.backRightMotor.getCurrentPosition() + ", difference: "+ (driveTrain.frontRightMotor.getCurrentPosition() - -driveTrain.frontLeftMotor.getCurrentPosition()));
+        //driveTrain.goForwardByInches(24.0,0.4);
+        //telemetry.addData("Enocoders",  "Starting at  right: " + driveTrain.frontRightMotor.getCurrentPosition() + ", left: " +
+        //       driveTrain.frontLeftMotor.getCurrentPosition() + ", middle: " + driveTrain.backRightMotor.getCurrentPosition() + ", difference: "+ (driveTrain.frontRightMotor.getCurrentPosition() - -driveTrain.frontLeftMotor.getCurrentPosition()));
+        //telemetry.update();
+        if (currentState == State.RING_DETECT)
+        {
+            site = ringDetection.detectRings();
+            currentState = State.DONE;
+        }
+        else if (currentState == State.DONE)
+        {
+            setOperationsCompleted();
+            telemetry.addData("Site detected: ", site);
+            //telemetry.addData("All ", "done");
+        }
+        getTelemetryUtil().sendTelemetry();
         telemetry.update();
-        //driveTrain.goForward((float) 0.5);
     }
 }
