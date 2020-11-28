@@ -1,5 +1,7 @@
 package org.ftc8702.configurations.production;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -28,6 +30,8 @@ public class SkystoneRobotConfiguration extends RobotConfiguration {
     public DcMotor SliderArmRight;
     public DcMotor IntakeWheelLeft;
     public DcMotor IntakeWheelRight;
+    public BNO055IMU imu;
+
 
     /**
      * Factory method for this class
@@ -67,5 +71,8 @@ public class SkystoneRobotConfiguration extends RobotConfiguration {
         //Intake Motors
         IntakeWheelLeft = (DcMotor) getHardwareOn(InnovoticsRobotProperties.INTAKE_WHEEL_LEFT, hardwareMap.dcMotor);
         IntakeWheelRight = (DcMotor) getHardwareOn(InnovoticsRobotProperties.INTAKE_WHEEL_RIGHT, hardwareMap.dcMotor);
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
     }
 }

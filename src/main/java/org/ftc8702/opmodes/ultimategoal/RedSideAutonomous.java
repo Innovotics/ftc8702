@@ -3,22 +3,26 @@ package org.ftc8702.opmodes.ultimategoal;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
+import org.ftc8702.opmodes.roverruckus_skystone.Park;
 
 import ftcbootstrap.ActiveOpMode;
 
 @Autonomous(name = "OdometerAutonomous", group = "Ops")
-public class OdometerAutonomous extends ActiveOpMode {
+public class RedSideAutonomous extends ActiveOpMode {
 
     public enum State {
-        INIT, RING_DETECT, DONE
+        INIT, RING_DETECT, DRIVE_TO_SITE_A, DRIVE_TO_SITE_B, DRIVE_TO_SITE_C, PARK, DONE
     }
 
     private State currentState;
 
     private UltimateGoalConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
+    private GoToSite goToSite;
+    private Parking parking;
     private RingDetection ringDetection;
     public  RingDetection.Position site;
 
@@ -47,7 +51,7 @@ public class OdometerAutonomous extends ActiveOpMode {
     public void onStart() throws InterruptedException {
 
         super.onStart();
-        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry);
+        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry, driveTrainConfig.imu);
         ringDetection = new RingDetection(hardwareMap, this);
         ringDetection.initialize();
 
@@ -70,22 +74,49 @@ public class OdometerAutonomous extends ActiveOpMode {
     @Override
     protected void activeLoop() throws InterruptedException {
 
-        //driveTrain.goForwardByInches(24.0,0.4);
-        //telemetry.addData("Enocoders",  "Starting at  right: " + driveTrain.frontRightMotor.getCurrentPosition() + ", left: " +
-        //       driveTrain.frontLeftMotor.getCurrentPosition() + ", middle: " + driveTrain.backRightMotor.getCurrentPosition() + ", difference: "+ (driveTrain.frontRightMotor.getCurrentPosition() - -driveTrain.frontLeftMotor.getCurrentPosition()));
-        //telemetry.update();
-        if (currentState == State.RING_DETECT)
-        {
-            site = ringDetection.detectRings();
-            currentState = State.DONE;
+        switch(currentState){
+            case RING_DETECT:
+
+                site = ringDetection.detectRings();
+                if (site == RingDetection.Position.ASITE)
+                {
+                    currentState = State.DRIVE_TO_SITE_A;
+                }
+                else if (site == RingDetection.Position.BSITE)
+                {
+                    currentState = State.DRIVE_TO_SITE_B;
+                }
+                else
+                {
+                    currentState = State.DRIVE_TO_SITE_C;
+                }
+                break;
+
+            case DRIVE_TO_SITE_A:
+                goToSite.GoToASite();
+                currentState = State.PARK;
+                break;
+
+            case DRIVE_TO_SITE_B:
+                goToSite.GoToBSite();
+                currentState = State.PARK;
+                break;
+
+            case DRIVE_TO_SITE_C:
+                goToSite.GoToCSite();
+                currentState = State.PARK;
+                break;
+
+            case PARK:
+               // driveTrain.goBackwardWithColor((float)0.3, driveTrain.colorSensor);
+                currentState = State.DONE;
+                break;
+
+            case DONE:
+                driveTrain.stop();
+                getTelemetryUtil().sendTelemetry();
+                telemetry.update();
+                setOperationsCompleted();
         }
-        else if (currentState == State.DONE)
-        {
-            setOperationsCompleted();
-            telemetry.addData("Site detected: ", site);
-            //telemetry.addData("All ", "done");
-        }
-        getTelemetryUtil().sendTelemetry();
-        telemetry.update();
     }
 }

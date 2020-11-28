@@ -12,7 +12,7 @@ import ftcbootstrap.ActiveOpMode;
 public class JonahUltimateGoalTeleop extends ActiveOpMode {
     private UltimateGoalArm Claw;
     private UltimateGoalArm WobbleArm;
-    private ProdMecanumRobotConfiguration driveTrainConfig;
+    private UltimateGoalConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
 
     /**
@@ -21,7 +21,7 @@ public class JonahUltimateGoalTeleop extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        driveTrainConfig = ProdMecanumRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
+        driveTrainConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -32,7 +32,7 @@ public class JonahUltimateGoalTeleop extends ActiveOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry);
+        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry, driveTrainConfig.imu);
 
     }
 

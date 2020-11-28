@@ -1,5 +1,7 @@
 package org.ftc8702.opmodes.ultimategoal;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -39,6 +41,10 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
     public DcMotor leftShooter;
     public DcMotor rightShooter;
 
+    public ColorSensor colorSensor;
+
+    public BNO055IMU imu;
+
     public static UltimateGoalConfiguration newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
         UltimateGoalConfiguration config = new UltimateGoalConfiguration();
@@ -64,5 +70,9 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
 
         leftShooter = (DcMotor) getHardwareOn(SHOOTERLEFT, hardwareMap.dcMotor);
         rightShooter = (DcMotor) getHardwareOn(SHOOTERRIGHT, hardwareMap.dcMotor);
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
     }
 }

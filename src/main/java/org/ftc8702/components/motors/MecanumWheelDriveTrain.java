@@ -1,9 +1,18 @@
 package org.ftc8702.components.motors;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.ftc8702.utils.ColorValue;
+
+import java.util.Locale;
 
 public class MecanumWheelDriveTrain {
     public Telemetry telemetry;
@@ -11,13 +20,29 @@ public class MecanumWheelDriveTrain {
     public DcMotor frontRightMotor;
     public DcMotor backLeftMotor;
     public DcMotor backRightMotor;
+    public BNO055IMU imu;
 
-    public MecanumWheelDriveTrain(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor, Telemetry telemetry) {
+
+    public MecanumWheelDriveTrain(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor, Telemetry telemetry, BNO055IMU imu) {
         this.frontLeftMotor = frontLeftMotor;
         this.frontRightMotor = frontRightMotor;
         this.backLeftMotor = backLeftMotor;
         this.backRightMotor = backRightMotor;
         this.telemetry = telemetry;
+        this.imu = imu;
+    }
+
+    public void goBackwardWithColor(float power, ColorSensor colorSensor) {
+        boolean colorState = true;
+
+        while (colorState == true) {
+            ColorValue colorValue = getColor(colorSensor);
+            if (colorValue == ColorValue.RED || colorValue == ColorValue.BLUE) {
+                colorState = false;
+            } else {
+                goBackward(power);
+            }
+        }
     }
 
     public void goForward(float power) {
@@ -43,8 +68,8 @@ public class MecanumWheelDriveTrain {
 
     public void strafeLeft(float power) {
         // right wheels rotate inward, left wheels rotate outward
-        frontLeftMotor.setPower(-power + (power *.1));
-        frontRightMotor.setPower(-power + (power*.1));
+        frontLeftMotor.setPower(-power + (power * .1));
+        frontRightMotor.setPower(-power + (power * .1));
         backLeftMotor.setPower(power);
         backRightMotor.setPower(power);
     }
@@ -80,47 +105,97 @@ public class MecanumWheelDriveTrain {
         backLeftMotor.setPower(-0.6);
         backRightMotor.setPower(0);
     }
+
     public void turnSmoothRight() {
         frontLeftMotor.setPower(-1);
         frontRightMotor.setPower(0.2);
         backLeftMotor.setPower(-1);
         backRightMotor.setPower(0.2);
     }
-    public void turnSmoothRightBack () {
+
+    public void turnSmoothRightBack() {
         frontLeftMotor.setPower(1);
         frontRightMotor.setPower(-0.2);
         backLeftMotor.setPower(1);
         backRightMotor.setPower(-0.2);
     }
-    public void turnSmoothRightAutonomous () {
+
+    public void turnSmoothRightAutonomous() {
         frontLeftMotor.setPower(-0.6);
         frontRightMotor.setPower(0.1);
         backLeftMotor.setPower(-0.6);
         backRightMotor.setPower(0.1);
     }
-    public void turnSmoothLeftAutonomous () {
+
+    public void turnSmoothLeftAutonomous() {
         frontLeftMotor.setPower(-0.2);
         frontRightMotor.setPower(0.4);
         backLeftMotor.setPower(-0.2);
         backRightMotor.setPower(0.4);
     }
-    public void turnSmoothLeft () {
+
+    public void turnSmoothLeft() {
         frontLeftMotor.setPower(-0.2);
         frontRightMotor.setPower(1);
         backLeftMotor.setPower(-0.2);
         backRightMotor.setPower(1);
     }
-    public void turnSmoothLeftBack () {
+
+    public void turnSmoothLeftBack() {
         frontLeftMotor.setPower(0.2);
         frontRightMotor.setPower(-1);
         backLeftMotor.setPower(0.2);
         backRightMotor.setPower(-1);
     }
 
+    public void goForwardWithPIDInches(float power, double deviatingValue, double targetInches, double sleepTimeBeforeEachIteration) {
+
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+        int frontLeftTicks = -1 * frontLeftMotor.getCurrentPosition(); // flip sign to make both sides same direction
+        int frontRightTicks = frontRightMotor.getCurrentPosition();
+        double frontLeftInches = 0;
+        double frontRightInches = 0;
+
+        while (frontLeftInches <= targetInches && frontRightInches <= targetInches) {
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+            frontLeftInches = frontLeftTicks/1446.0;
+            frontRightInches = frontRightTicks/1446.0;
+            telemetry.addData("Left, ", frontLeftMotor.getCurrentPosition());
+            telemetry.addData("Right, ", frontRightMotor.getCurrentPosition());
+            telemetry.update();
+
+            if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(power); // because motor is on the opposite side
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(power - (.1)); // because motor is on the opposite side
+                backLeftMotor.setPower(-power - (.1));
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+                frontLeftMotor.setPower(-power + (.1));
+                frontRightMotor.setPower(power); // because motor is on the opposite side
+                backLeftMotor.setPower(-power + (.1));
+                backRightMotor.setPower(power);
+            }
+            telemetry.update();
+            sleep(sleepTimeBeforeEachIteration);
+        }
+        stop();
+    }
+
     private static final double TICKS_PER_INCHES = 1446 / 4.71;
 
     public void goForwardByInches(double distanceInches, double power) {
-        double ticks =  distanceInches * TICKS_PER_INCHES;
+        double ticks = distanceInches * TICKS_PER_INCHES;
         goForwardWithOdometer(ticks, ticks, power);
     }
 
@@ -136,28 +211,25 @@ public class MecanumWheelDriveTrain {
                 + " frontLeftTicks=" + frontLeftTicks + " frontRightTicks=" + frontRightTicks);
         telemetry.update();
 
-        if (frontLeftTicks <= leftTargetTicks && frontRightTicks <= rightTargetTicks)
-        {
+        if (frontLeftTicks <= leftTargetTicks && frontRightTicks <= rightTargetTicks) {
             if (frontRightTicks > frontLeftTicks + 100) { //if turn right too much
                 telemetry.addData("Right > Left", "");
-                frontLeftMotor.setPower(-power/2);
+                frontLeftMotor.setPower(-power / 2);
                 frontRightMotor.setPower(power); // because motor is on the opposite side
-                backLeftMotor.setPower(power/2);
+                backLeftMotor.setPower(power / 2);
                 backRightMotor.setPower(power);
             } else if (frontLeftTicks > frontRightTicks + 100) { // if turn left too much
                 telemetry.addData("Left > Right", "");
                 frontLeftMotor.setPower(-power);
-                frontRightMotor.setPower(power/2); // because motor is on the opposite side
+                frontRightMotor.setPower(power / 2); // because motor is on the opposite side
                 backLeftMotor.setPower(power);
-                backRightMotor.setPower(power/2);
+                backRightMotor.setPower(power / 2);
             } else {
                 telemetry.addData("go stright", "");
                 goForward((float) power);
             }
             telemetry.update();
-        }
-        else
-        {
+        } else {
             stop();
         }
 
@@ -187,22 +259,20 @@ public class MecanumWheelDriveTrain {
         stop();
          */
     }
+
     // when power = 1
     private double speedForwardInFtPerSecond = (1.3 * 2) / 0.968;// speed = distance / time
 
-    public void goForwardFullSpeedInFeet(double feet, boolean stopWhenFinished)
-    {
+    public void goForwardFullSpeedInFeet(double feet, boolean stopWhenFinished) {
         goForward(1);
         double time = feet / speedForwardInFtPerSecond;
         sleep(time);
-        if (stopWhenFinished)
-        {
+        if (stopWhenFinished) {
             stop();
         }
     }
 
-    private void sleep(double seconds)
-    {
+    public void sleep(double seconds) {
         try {
             Thread.sleep((long) seconds * 1000);
         } catch (InterruptedException e) {
@@ -212,5 +282,41 @@ public class MecanumWheelDriveTrain {
 
     public void stop() {
         goForward(0);
+    }
+
+    public ColorValue getColor(ColorSensor colorSensor) {
+        //Helping fix the red color sense correctly, 20 is to offset the color sensor bias toward red.
+        int FixRed = 15;
+
+        //Determine which is color to call
+        if (colorSensor.red() - colorSensor.blue() > FixRed
+                && (colorSensor.red() - colorSensor.green()) > FixRed) {
+            return ColorValue.RED;
+        }
+
+        if (colorSensor.blue() > colorSensor.red() && colorSensor.blue() > colorSensor.green()) {
+            return ColorValue.BLUE;
+        }
+
+        if (colorSensor.green() > colorSensor.red() && colorSensor.green() > colorSensor.blue()) {
+            return ColorValue.GREEN;
+        }
+
+        return ColorValue.ZILCH;
+    }
+
+    public Orientation readAngles()
+    {
+        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+    }
+
+    String formatAngle(AngleUnit angleUnit, double angle)
+    {
+        return formatDegrees(AngleUnit.DEGREES.fromUnit(angleUnit, angle));
+    }
+
+    String formatDegrees(double degrees)
+    {
+        return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }

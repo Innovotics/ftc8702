@@ -13,7 +13,7 @@ import ftcbootstrap.ActiveOpMode;
 @TeleOp(name = "GoBuildaDriveTrain", group = "production")
 public class GoBuildaDriveTrainTeleOp extends ActiveOpMode {
 
-    private OdometerRobotConfiguration driveTrainConfig;
+    private UltimateGoalConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
 
     /**
@@ -22,7 +22,7 @@ public class GoBuildaDriveTrainTeleOp extends ActiveOpMode {
     @Override
     public void onInit() {
 
-        driveTrainConfig = OdometerRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
+        driveTrainConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
@@ -33,7 +33,7 @@ public class GoBuildaDriveTrainTeleOp extends ActiveOpMode {
     @Override
     public void onStart() throws InterruptedException {
         super.onStart();
-        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry);
+        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry, driveTrainConfig.imu);
 
         driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         driveTrain.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

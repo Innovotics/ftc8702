@@ -1,5 +1,6 @@
 package org.ftc8702.opmodes.ultimategoal;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -32,7 +33,7 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
     @Override
     protected void onStart() throws InterruptedException {
         super.onStart();
-        driveTrain = new MecanumWheelDriveTrain(UltimateGoalConfig.motorFL, UltimateGoalConfig.motorFR, UltimateGoalConfig.motorBL, UltimateGoalConfig.motorBR, telemetry);
+        driveTrain = new MecanumWheelDriveTrain(UltimateGoalConfig.motorFL, UltimateGoalConfig.motorFR, UltimateGoalConfig.motorBL, UltimateGoalConfig.motorBR, telemetry, UltimateGoalConfig.imu);
         wobbleArm = new UltimateGoalArm(UltimateGoalConfig.wobbleMotor, UltimateGoalConfig.clawLeft, UltimateGoalConfig.clawRight);
         intake = new UltimateGoalIntake(UltimateGoalConfig.intake);
         shooter = new UltimateGoalShooter(UltimateGoalConfig.leftShooter, UltimateGoalConfig.rightShooter);
@@ -62,7 +63,7 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
         } else if (gamepad2.left_bumper){
             intake.output();
         }else{
-            shoot();
+            wobbleArm.Stop();
         }
     }
 
