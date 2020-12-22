@@ -30,7 +30,7 @@ public class OdometerRobotConfiguration extends RobotConfiguration {
 
     public BNO055IMU imu;
 
-    public OdometerRobotConfiguration newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+    public static OdometerRobotConfiguration newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
 
         OdometerRobotConfiguration config = new OdometerRobotConfiguration();
         config.init(hardwareMap, telemetryUtil);

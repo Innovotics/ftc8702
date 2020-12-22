@@ -164,8 +164,8 @@ public class MecanumWheelDriveTrain {
             float yawAngle = Float.parseFloat(rawYawAngle);
             frontLeftInches = frontLeftTicks/1446.0;
             frontRightInches = frontRightTicks/1446.0;
-            telemetry.addData("Left, ", frontLeftMotor.getCurrentPosition());
-            telemetry.addData("Right, ", frontRightMotor.getCurrentPosition());
+            telemetry.addData("Left ", frontLeftMotor.getCurrentPosition() + "power = " + frontLeftMotor.getPower());
+            telemetry.addData("Right ", frontRightMotor.getCurrentPosition() + "power = " + frontRightMotor.getPower());
             telemetry.update();
 
             if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
@@ -179,15 +179,18 @@ public class MecanumWheelDriveTrain {
                 frontRightMotor.setPower(power - (.1)); // because motor is on the opposite side
                 backLeftMotor.setPower(-power - (.1));
                 backRightMotor.setPower(power);
+                telemetry.addData("Right ", "too much");
+                telemetry.update();
 
             } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
                 frontLeftMotor.setPower(-power + (.1));
                 frontRightMotor.setPower(power); // because motor is on the opposite side
                 backLeftMotor.setPower(-power + (.1));
                 backRightMotor.setPower(power);
+                telemetry.addData("Left ", "too much");
+                telemetry.update();
             }
             telemetry.update();
-            sleep(sleepTimeBeforeEachIteration);
         }
         stop();
     }
@@ -205,13 +208,23 @@ public class MecanumWheelDriveTrain {
         // at beginning current = 0, righttarget = -1450 ==> go forward
         // at beginning current = 0, lefttarget = 1450 ==> go forward
 
-        int frontLeftTicks = -1 * frontLeftMotor.getCurrentPosition(); // flip sign to make both sides same direction
-        int frontRightTicks = frontRightMotor.getCurrentPosition();
-        telemetry.addData("ticks", "target=" + leftTargetTicks
-                + " frontLeftTicks=" + frontLeftTicks + " frontRightTicks=" + frontRightTicks);
+        int frontLeftTicks = frontLeftMotor.getCurrentPosition(); // flip sign to make both sides same direction
+        int frontRightTicks = -1 * frontRightMotor.getCurrentPosition();
+        telemetry.addData("ticks, ",  " frontLeftTicks=" + frontLeftTicks + " frontRightTicks=" + frontRightTicks);
         telemetry.update();
 
+        if (frontLeftTicks >= leftTargetTicks || frontRightTicks >= rightTargetTicks) {
+            stop();
+        } else {
+            goForward((float)(power));
+        }
+
+        /*
         if (frontLeftTicks <= leftTargetTicks && frontRightTicks <= rightTargetTicks) {
+            goForward((float)(power));
+
+         */
+            /*
             if (frontRightTicks > frontLeftTicks + 100) { //if turn right too much
                 telemetry.addData("Right > Left", "");
                 frontLeftMotor.setPower(-power / 2);
@@ -229,9 +242,12 @@ public class MecanumWheelDriveTrain {
                 goForward((float) power);
             }
             telemetry.update();
+            */
+            /*
         } else {
             stop();
         }
+             */
 
         /*
         if (leftOdometer <= frontLeftMotor.getCurrentPosition() && rightOdometer <= frontRightMotor.getCurrentPosition()) {
@@ -303,6 +319,46 @@ public class MecanumWheelDriveTrain {
         }
 
         return ColorValue.ZILCH;
+    }
+
+    public void rotateLeftWithGyro(float power, float angleInDegrees) {
+        frontLeftMotor.setPower(power);
+        frontRightMotor.setPower(power);
+        backLeftMotor.setPower(power);
+        backRightMotor.setPower(power);
+
+        while(true) {
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if(yawAngle >= angleInDegrees) {
+                stop();
+                break;
+            }
+        }
+        stop();
+    }
+
+    public void rotateRightWithGyro(float power, float angleInDegrees) {
+
+        frontLeftMotor.setPower(-power);
+        frontRightMotor.setPower(-power);
+        backLeftMotor.setPower(-power);
+        backRightMotor.setPower(-power);
+
+        while(true) {
+
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if(yawAngle <= angleInDegrees) {
+                stop();
+                break;
+            }
+        }
+        stop();
     }
 
     public Orientation readAngles()

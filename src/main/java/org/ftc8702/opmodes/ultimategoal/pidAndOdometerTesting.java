@@ -3,6 +3,7 @@ package org.ftc8702.opmodes.ultimategoal;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -23,21 +24,24 @@ public class pidAndOdometerTesting extends ActiveOpMode {
 
     @Override
     protected void onInit() {
-        odometerRobotConfiguration = odometerRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
-        initializeIMU();
-    }
-
-    @Override
-    protected void onStart() throws InterruptedException {
-        super.onStart();
+        odometerRobotConfiguration = OdometerRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
         driveTrain = new MecanumWheelDriveTrain(odometerRobotConfiguration.motorFL,  odometerRobotConfiguration.motorFR,  odometerRobotConfiguration.motorBL,  odometerRobotConfiguration.motorBR, telemetry, odometerRobotConfiguration.imu);
+        initializeIMU();
 
+        driveTrain.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        driveTrain.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        driveTrain.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        driveTrain.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        driveTrain.backRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        driveTrain.backLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
     protected void activeLoop() throws InterruptedException {
-        driveTrain.goForwardWithPIDInches((float) 0.4, 10, 12, 300);
-        setOperationsCompleted();
+        driveTrain.goForwardByInches(12,0.1);
     }
 
     public void initializeIMU() {

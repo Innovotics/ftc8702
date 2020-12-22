@@ -1,6 +1,7 @@
 package org.ftc8702.opmodes.ultimategoal;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -25,21 +26,23 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
 
     //Wobble arm
     public static final String WOBBLE_ARM = "wobbleArm";
-    public static final String CLAW_LEFT = "clawLeft";
-    public static final String CLAW_RIGHT = "clawRight";
+    public static final String CLAW = "claw";
     public DcMotor wobbleMotor;
-    public Servo clawLeft;
-    public Servo clawRight;
+    public Servo claw;
 
     //Intake
     public static final String INTAKE = "intake";
     public DcMotor intake;
 
     //Shooter
-    public static final String SHOOTERLEFT = "leftShooter";
-    public static final String SHOOTERRIGHT = "rightShooter";
-    public DcMotor leftShooter;
-    public DcMotor rightShooter;
+    public static final String SHOOTER = "shooter";
+    public static final String PUSHER = "pusher";
+    public DcMotor shooter;
+    public Servo pusher;
+
+    //Linear Actuator
+    //public static final String LINEAR = "linearActuator";
+    //public Servo linearActuator;
 
     public ColorSensor colorSensor;
 
@@ -63,13 +66,14 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
         motorBL = (DcMotor) getHardwareOn(MOTOR_BL, hardwareMap.dcMotor);
 
         wobbleMotor = (DcMotor) getHardwareOn(WOBBLE_ARM, hardwareMap.dcMotor);
-        clawLeft = (Servo) getHardwareOn(CLAW_LEFT, hardwareMap.servo);
-        clawRight = (Servo) getHardwareOn(CLAW_RIGHT, hardwareMap.servo);
+        claw = (Servo) getHardwareOn(CLAW, hardwareMap.servo);
 
         intake = (DcMotor) getHardwareOn(INTAKE, hardwareMap.dcMotor);
 
-        leftShooter = (DcMotor) getHardwareOn(SHOOTERLEFT, hardwareMap.dcMotor);
-        rightShooter = (DcMotor) getHardwareOn(SHOOTERRIGHT, hardwareMap.dcMotor);
+        shooter = (DcMotor) getHardwareOn(SHOOTER, hardwareMap.dcMotor);
+        pusher = (Servo) getHardwareOn(PUSHER, hardwareMap.servo);
+
+        //linearActuator = (Servo) getHardwareOn(LINEAR, hardwareMap.servo);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
 

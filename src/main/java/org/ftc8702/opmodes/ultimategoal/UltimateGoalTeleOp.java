@@ -34,9 +34,9 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
     protected void onStart() throws InterruptedException {
         super.onStart();
         driveTrain = new MecanumWheelDriveTrain(UltimateGoalConfig.motorFL, UltimateGoalConfig.motorFR, UltimateGoalConfig.motorBL, UltimateGoalConfig.motorBR, telemetry, UltimateGoalConfig.imu);
-        wobbleArm = new UltimateGoalArm(UltimateGoalConfig.wobbleMotor, UltimateGoalConfig.clawLeft, UltimateGoalConfig.clawRight);
+        wobbleArm = new UltimateGoalArm(UltimateGoalConfig.wobbleMotor, UltimateGoalConfig.claw);
         intake = new UltimateGoalIntake(UltimateGoalConfig.intake);
-        shooter = new UltimateGoalShooter(UltimateGoalConfig.leftShooter, UltimateGoalConfig.rightShooter);
+        shooter = new UltimateGoalShooter(UltimateGoalConfig.shooter, UltimateGoalConfig.pusher);
     }
 
     @Override
@@ -62,8 +62,12 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
             intake.intake();
         } else if (gamepad2.left_bumper){
             intake.output();
+        }else if (gamepad2.dpad_left){
+            shooter.push();
         }else{
             wobbleArm.Stop();
+            intake.stop();
+            shoot();
         }
     }
 
@@ -93,21 +97,16 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
                 driveTrain.frontLeftMotor.getCurrentPosition() + "," +
                 driveTrain.backRightMotor.getCurrentPosition() + "\n");
 
-
-        telemetry.addData("motor powers", "at \n"+ "front right"+ FR +"\n front left"+ FL +"\n back right"+ BR +"\n back left"+ BL);
         telemetry.update();
     }
 
     public void shoot(){
         float direction = gamepad2.left_stick_y;
 
-        float LSHOOTER = direction;
         float RSHOOTER = -direction;
 
-        LSHOOTER = Range.clip(LSHOOTER, -1, 1);
         RSHOOTER = Range.clip(RSHOOTER, -1, 1);
 
-        shooter.leftShooter.setPower(LSHOOTER);
-        shooter.rightShooter.setPower(RSHOOTER);
+        shooter.shooter.setPower(-RSHOOTER);
     }
 }

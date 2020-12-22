@@ -93,22 +93,25 @@ public class RedSideAutonomous extends ActiveOpMode {
                 break;
 
             case DRIVE_TO_SITE_A:
+                goToSite.shootRedSide();
                 goToSite.GoToASite();
                 currentState = State.PARK;
                 break;
 
             case DRIVE_TO_SITE_B:
+                goToSite.shootRedSide();
                 goToSite.GoToBSite();
                 currentState = State.PARK;
                 break;
 
             case DRIVE_TO_SITE_C:
+                goToSite.shootRedSide();
                 goToSite.GoToCSite();
                 currentState = State.PARK;
                 break;
 
             case PARK:
-               // driveTrain.goBackwardWithColor((float)0.3, driveTrain.colorSensor);
+               //driveTrain.goBackwardWithColor((float)0.3, driveTrain.colorSensor);
                 currentState = State.DONE;
                 break;
 

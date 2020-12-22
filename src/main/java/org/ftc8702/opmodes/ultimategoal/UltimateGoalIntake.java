@@ -13,12 +13,16 @@ public class UltimateGoalIntake {
 
     public void intake()
     {
-        intake.setPower(-1);
+        intake.setPower(1);
     }
 
     public void output()
     {
-        intake.setPower(1);
+        intake.setPower(-1);
     }
 
+    public void stop()
+    {
+        intake.setPower(0);
+    }
 }

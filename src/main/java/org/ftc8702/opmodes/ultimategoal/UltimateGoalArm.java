@@ -6,13 +6,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class UltimateGoalArm {
 
     public DcMotor wobbleMotor;
-    public Servo clawLeft;
-    public Servo clawRight;
+    public Servo claw;
 
-    public UltimateGoalArm(DcMotor wobbleMotor, Servo clawLeft, Servo clawRight) {
+    public UltimateGoalArm(DcMotor wobbleMotor, Servo claw) {
         this.wobbleMotor = wobbleMotor;
-        this.clawLeft = clawLeft;
-        this.clawRight = clawRight;
+        this.claw = claw;
     }
 
     public void WobbleUp()
@@ -32,18 +30,14 @@ public class UltimateGoalArm {
 
     public void OpenClaw ()
     {
-        clawLeft.setDirection(Servo.Direction.FORWARD);
-        clawLeft.setPosition(0.5);
-        clawRight.setDirection(Servo.Direction.FORWARD);
-        clawRight.setPosition(0.5);
+        claw.setDirection(Servo.Direction.FORWARD);
+        claw.setPosition(0.5);
 
     }
     public void CloseClaw ()
     {
-        clawLeft.setDirection(Servo.Direction.REVERSE);
-        clawLeft.setPosition(0);
-        clawRight.setDirection(Servo.Direction.REVERSE);
-        clawRight.setPosition(0);
+        claw.setDirection(Servo.Direction.REVERSE);
+        claw.setPosition(0);
     }
 
 
