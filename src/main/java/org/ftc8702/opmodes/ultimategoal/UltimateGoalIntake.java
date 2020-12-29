@@ -5,24 +5,29 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class UltimateGoalIntake {
 
-    public DcMotor intake;
+    public DcMotor intakeLeft;
+    public DcMotor intakeRight;
 
-    public UltimateGoalIntake(DcMotor intake) {
-        this.intake = intake;
+    public UltimateGoalIntake(DcMotor intakeLeft, DcMotor intakeRight) {
+        this.intakeRight = intakeRight;
+        this.intakeLeft = intakeLeft;
     }
 
     public void intake()
     {
-        intake.setPower(1);
+        intakeRight.setPower(1);
+        intakeLeft.setPower(1);
     }
 
     public void output()
     {
-        intake.setPower(-1);
+        intakeLeft.setPower(-1);
+        intakeRight.setPower(-1);
     }
 
     public void stop()
     {
-        intake.setPower(0);
+        intakeRight.setPower(0);
+        intakeLeft.setPower(0);
     }
 }

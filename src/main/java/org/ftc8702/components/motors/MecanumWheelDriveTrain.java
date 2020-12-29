@@ -36,8 +36,8 @@ public class MecanumWheelDriveTrain {
         boolean colorState = true;
 
         while (colorState == true) {
-            ColorValue colorValue = getColor(colorSensor);
-            if (colorValue == ColorValue.RED || colorValue == ColorValue.BLUE) {
+            //looking for white color
+            if (colorSensor.red() + colorSensor.blue() + colorSensor.green() >= 750){
                 colorState = false;
             } else {
                 goBackward(power);

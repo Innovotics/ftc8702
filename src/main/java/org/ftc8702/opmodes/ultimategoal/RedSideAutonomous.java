@@ -4,13 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
 import org.ftc8702.opmodes.roverruckus_skystone.Park;
 
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "OdometerAutonomous", group = "Ops")
+@Autonomous(name = "Red side ultimate goal", group = "Ops")
 public class RedSideAutonomous extends ActiveOpMode {
 
     public enum State {
@@ -23,6 +25,8 @@ public class RedSideAutonomous extends ActiveOpMode {
     private MecanumWheelDriveTrain driveTrain;
     private GoToSite goToSite;
     private Parking parking;
+    private UltimateGoalArm wobbleArm;
+    private UltimateGoalShooter shooter;
     private RingDetection ringDetection;
     public  RingDetection.Position site;
 
@@ -40,7 +44,7 @@ public class RedSideAutonomous extends ActiveOpMode {
 
         driveTrainConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
-        currentState = State.RING_DETECT;
+        currentState = State.DRIVE_TO_SITE_C;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -52,8 +56,11 @@ public class RedSideAutonomous extends ActiveOpMode {
 
         super.onStart();
         driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry, driveTrainConfig.imu);
+        wobbleArm = new UltimateGoalArm(driveTrainConfig.wobbleMotor, driveTrainConfig.claw);
         ringDetection = new RingDetection(hardwareMap, this);
         ringDetection.initialize();
+        shooter = new UltimateGoalShooter(driveTrainConfig.shooter, driveTrainConfig.pusher, driveTrainConfig.lifterRight, driveTrainConfig.lifterLeft);
+        goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
 
         driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         driveTrain.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -80,14 +87,20 @@ public class RedSideAutonomous extends ActiveOpMode {
                 site = ringDetection.detectRings();
                 if (site == RingDetection.Position.ASITE)
                 {
+                    telemetry.addData("Site",  "A site");
+                    telemetry.update();
                     currentState = State.DRIVE_TO_SITE_A;
                 }
                 else if (site == RingDetection.Position.BSITE)
                 {
+                    telemetry.addData("Site",  "B site");
+                    telemetry.update();
                     currentState = State.DRIVE_TO_SITE_B;
                 }
                 else
                 {
+                    telemetry.addData("Site",  "C site");
+                    telemetry.update();
                     currentState = State.DRIVE_TO_SITE_C;
                 }
                 break;
@@ -95,23 +108,26 @@ public class RedSideAutonomous extends ActiveOpMode {
             case DRIVE_TO_SITE_A:
                 goToSite.shootRedSide();
                 goToSite.GoToASite();
+                goToSite.dropWobble();
                 currentState = State.PARK;
                 break;
 
             case DRIVE_TO_SITE_B:
                 goToSite.shootRedSide();
                 goToSite.GoToBSite();
+                goToSite.dropWobble();
                 currentState = State.PARK;
                 break;
 
             case DRIVE_TO_SITE_C:
-                goToSite.shootRedSide();
-                goToSite.GoToCSite();
-                currentState = State.PARK;
+                //goToSite.shootRedSide();
+                //goToSite.GoToCSite();
+                goToSite.dropWobble();
+                currentState = State.DONE;
                 break;
 
             case PARK:
-               //driveTrain.goBackwardWithColor((float)0.3, driveTrain.colorSensor);
+                driveTrain.goBackwardWithColor((float)0.3, driveTrainConfig.colorSensor);
                 currentState = State.DONE;
                 break;
 

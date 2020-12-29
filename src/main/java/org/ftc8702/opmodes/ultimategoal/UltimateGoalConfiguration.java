@@ -31,14 +31,20 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
     public Servo claw;
 
     //Intake
-    public static final String INTAKE = "intake";
-    public DcMotor intake;
+    public static final String INTAKE_LEFT = "intakeLeft";
+    public static final String INTAKE_RIGHT = "intakeRight";
+    public DcMotor intakeLeft;
+    public DcMotor intakeRight;
 
     //Shooter
     public static final String SHOOTER = "shooter";
     public static final String PUSHER = "pusher";
+    public static final String LIFTER_RIGHT = "lifterRight";
+    public static final String LIFTER_LEFT = "lifterLeft";
     public DcMotor shooter;
     public Servo pusher;
+    public Servo lifterRight;
+    public Servo lifterLeft;
 
     //Linear Actuator
     //public static final String LINEAR = "linearActuator";
@@ -68,10 +74,13 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
         wobbleMotor = (DcMotor) getHardwareOn(WOBBLE_ARM, hardwareMap.dcMotor);
         claw = (Servo) getHardwareOn(CLAW, hardwareMap.servo);
 
-        intake = (DcMotor) getHardwareOn(INTAKE, hardwareMap.dcMotor);
+        intakeLeft = (DcMotor) getHardwareOn(INTAKE_LEFT, hardwareMap.dcMotor);
+        intakeRight = (DcMotor) getHardwareOn(INTAKE_RIGHT, hardwareMap.dcMotor);
 
         shooter = (DcMotor) getHardwareOn(SHOOTER, hardwareMap.dcMotor);
         pusher = (Servo) getHardwareOn(PUSHER, hardwareMap.servo);
+        lifterRight = (Servo) getHardwareOn(LIFTER_RIGHT, hardwareMap.servo);
+        lifterLeft = (Servo) getHardwareOn(LIFTER_LEFT, hardwareMap.servo);
 
         //linearActuator = (Servo) getHardwareOn(LINEAR, hardwareMap.servo);
 

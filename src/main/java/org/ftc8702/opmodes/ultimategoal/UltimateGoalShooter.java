@@ -9,15 +9,52 @@ public class UltimateGoalShooter {
 
     public DcMotor shooter;
     public Servo pusher;
+    public Servo lifterRight;
+    public Servo lifterLeft;
 
-    public UltimateGoalShooter(DcMotor shooter,  Servo pusher) {
+    public UltimateGoalShooter(DcMotor shooter,  Servo pusher, Servo lifterRight, Servo lifterLeft) {
         this.shooter = shooter;
         this.pusher =  pusher;
+        this.lifterRight = lifterRight;
+        this.lifterLeft = lifterLeft;
     }
 
     public void push()
     {
-        pusher.setPosition(0.5);
+        pusher.setPosition(1);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        pusher.setPosition(0.9);
+    }
+    public void pushOut()
+    {
+        pusher.setPosition(0.87);
+    }
+    public void pushIn()
+    {
         pusher.setPosition(0);
+    }
+    public void pushIn2()
+    {
+        pusher.setPosition(1);
+    }
+
+    public void liftRight1(){
+        lifterRight.setPosition(0);
+    }
+
+    public void liftRight2(){
+        lifterRight.setPosition(0.5);
+    }
+
+    public void liftLeft1(){
+        lifterLeft.setPosition(0);
+    }
+
+    public void liftLeft2(){
+        lifterLeft.setPosition(0.5);
     }
 }

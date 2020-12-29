@@ -19,6 +19,8 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
     private UltimateGoalArm wobbleArm;
     private UltimateGoalIntake intake;
     private UltimateGoalShooter shooter;
+    private long lastPressed = 0;
+    private int pressed = 1;
 
     @Override
     protected void onInit() {
@@ -35,8 +37,8 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
         super.onStart();
         driveTrain = new MecanumWheelDriveTrain(UltimateGoalConfig.motorFL, UltimateGoalConfig.motorFR, UltimateGoalConfig.motorBL, UltimateGoalConfig.motorBR, telemetry, UltimateGoalConfig.imu);
         wobbleArm = new UltimateGoalArm(UltimateGoalConfig.wobbleMotor, UltimateGoalConfig.claw);
-        intake = new UltimateGoalIntake(UltimateGoalConfig.intake);
-        shooter = new UltimateGoalShooter(UltimateGoalConfig.shooter, UltimateGoalConfig.pusher);
+        intake = new UltimateGoalIntake(UltimateGoalConfig.intakeLeft, UltimateGoalConfig.intakeRight);
+        shooter = new UltimateGoalShooter(UltimateGoalConfig.shooter, UltimateGoalConfig.pusher, UltimateGoalConfig.lifterRight, UltimateGoalConfig.lifterLeft);
     }
 
     @Override
@@ -50,23 +52,34 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
     }
 
     public void gamePad2Control(){
-        if (gamepad2.a) {
+        if (gamepad2.dpad_down) {
             wobbleArm.WobbleDown();
-        } else if (gamepad2.y) {
+        } else if (gamepad2.dpad_up) {
             wobbleArm.WobbleUp();
-        } else if (gamepad2.x) {
-            wobbleArm.OpenClaw();
-        } else if (gamepad2.b) {
-            wobbleArm.CloseClaw();
+        } else if (gamepad2.y) {
+            shooter.liftRight2();
+            shooter.liftLeft1();
+        } else if (gamepad2.a) {
+            shooter.liftLeft2();
+            shooter.liftRight1();
         } else if (gamepad2.right_bumper){
             intake.intake();
         } else if (gamepad2.left_bumper){
             intake.output();
-        }else if (gamepad2.dpad_left){
+        }else if (gamepad2.dpad_left && System.currentTimeMillis() - lastPressed > 1000){
+            lastPressed = System.currentTimeMillis();
             shooter.push();
-        }else{
+        }else if (gamepad2.dpad_right){
+            shooter.push();
+        } else if (gamepad2.x){
+            wobbleArm.OpenClaw();
+        } else if(gamepad2.b){
+            shooter.shooter.setPower(-0.9);
+        }
+        else{
             wobbleArm.Stop();
             intake.stop();
+            wobbleArm.CloseClaw();
             shoot();
         }
     }
@@ -87,10 +100,17 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
         BR = Range.clip(BR, -1, 1);
         BL = Range.clip(BL, -1, 1);
 
-        driveTrain.frontRightMotor.setPower(FR);
-        driveTrain.frontLeftMotor.setPower(FL);
-        driveTrain.backRightMotor.setPower(BR);
-        driveTrain.backLeftMotor.setPower(BL);
+        if(gamepad1.right_bumper){
+            driveTrain.frontRightMotor.setPower(FR*0.5);
+            driveTrain.frontLeftMotor.setPower(FL*0.5);
+            driveTrain.backRightMotor.setPower(BR*0.5);
+            driveTrain.backLeftMotor.setPower(BL*0.5);
+        }else{
+            driveTrain.frontRightMotor.setPower(FR);
+            driveTrain.frontLeftMotor.setPower(FL);
+            driveTrain.backRightMotor.setPower(BR);
+            driveTrain.backLeftMotor.setPower(BL);
+        }
 
         telemetry.addData("Enocoders",  "Starting at, " +
                 driveTrain.frontRightMotor.getCurrentPosition() +"," +
@@ -101,7 +121,7 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
     }
 
     public void shoot(){
-        float direction = gamepad2.left_stick_y;
+        float direction = gamepad2.right_stick_y;
 
         float RSHOOTER = -direction;
 
