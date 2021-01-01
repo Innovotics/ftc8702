@@ -59,7 +59,7 @@ public class RingDetection {
 
         if (tfod != null) {
             tfod.activate();
-            tfod.setZoom(2.5, 1.78);
+            //tfod.setZoom(2.5, 1.78);
         }
 
         /** Wait for the game to begin */
@@ -90,10 +90,10 @@ public class RingDetection {
                             linearOpMode.telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
 
-                            if (recognition.getLabel() == "Quad") {
+                            if (recognition.getLabel().equals("Quad")) {
                                 result = Position.CSITE;
                                 return result;
-                            } else if (recognition.getLabel() == "Single") {
+                            } else if (recognition.getLabel().equals("Single")) {
                                 result = Position.BSITE;
                                 return result;
                             } else {

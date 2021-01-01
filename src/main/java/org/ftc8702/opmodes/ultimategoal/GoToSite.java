@@ -1,5 +1,7 @@
 package org.ftc8702.opmodes.ultimategoal;
 
+import android.nfc.NdefRecord;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
@@ -19,35 +21,81 @@ public class GoToSite {
         this.shooter = shooter;
     }
 
+    public void shootBlueSide()
+    {
+        wobbleArm.CloseClaw();
+        driveTrain.goForwardPIDDistance(9+9);
+        shooter.shooter.setPower(1);
+        driveTrain.rotateRightWithGyro((float)0.2, (float)-7.4);
+        driveTrain.stop();
+        SleepUtils.sleep(1000);
+        shooter.push();
+        driveTrain.rotateRightWithGyro((float)0.2, (float)-8.8);
+        driveTrain.stop();
+        SleepUtils.sleep(1000);
+        shooter.push();
+        driveTrain.rotateRightWithGyro((float)0.2, (float)-10.2);
+        driveTrain.stop();
+        SleepUtils.sleep(1000);
+        shooter.push();
+        shooter.shooter.setPower(0);
+        driveTrain.rotateLeftWithGyro((float)0.2, (float)0);//repositions robot
+        SleepUtils.sleep(5000);
+    }
+
     public void shootRedSide()
     {
-        driveTrain.rotateLeftWithGyro((float)0.2, (float)7.4);
-        driveTrain.stop();
+        wobbleArm.CloseClaw();
+        driveTrain.goForwardPIDDistance(9+9);
         shooter.shooter.setPower(1);
-        shooter.push();
         driveTrain.rotateLeftWithGyro((float)0.2, (float)7.4);
         driveTrain.stop();
+        SleepUtils.sleep(1000);
         shooter.push();
-        driveTrain.rotateLeftWithGyro((float)0.2, (float)7.4);
+        driveTrain.rotateLeftWithGyro((float)0.2, (float)8.8);
         driveTrain.stop();
+        SleepUtils.sleep(1000);
         shooter.push();
-        driveTrain.rotateRightWithGyro((float)0.2, (float)22.2);//repositions robot
+        driveTrain.rotateLeftWithGyro((float)0.2, (float)10.2);
+        driveTrain.stop();
+        SleepUtils.sleep(1000);
+        shooter.push();
+        shooter.shooter.setPower(0);
+        driveTrain.rotateRightWithGyro((float)0.2, (float)0);//repositions robot
+        SleepUtils.sleep(5000);
     }
 
     public void GoToASite()
     {
-        driveTrain.goForwardByInches(78, 0.5);
+        driveTrain.goForwardPIDDistance(74-9);
     }
 
     public void GoToBSite()
     {
-        driveTrain.goForwardByInches(102, 0.5);
-        driveTrain.rotateRightWithGyro((float)0.5, 90);
+        driveTrain.goForwardPIDDistance(80);
+        driveTrain.rotateRightWithGyro((float)0.4, -105);
     }
 
     public void GoToCSite()
     {
-        driveTrain.goForwardWithPIDInches((float)0.5, 1000, 126, 500);
+        driveTrain.goForwardPIDDistance(120);
+    }
+
+    public void GoToASiteRed()
+    {
+        driveTrain.goForwardPIDDistance(89);
+        driveTrain.rotateLeftWithGyro(0.4f,110);
+    }
+
+    public void GoToBSiteRed()
+    {
+        driveTrain.goForwardPIDDistance(89);
+    }
+
+    public void GoToCSiteRed()
+    {
+        driveTrain.goForwardPIDDistance(110);
+        driveTrain.rotateRightWithGyro(0.4f, -110);
     }
 
     public void dropWobble(){
@@ -59,7 +107,7 @@ public class GoToSite {
         SleepUtils.sleep(1000);
 
         wobbleArm.WobbleUp();
-        SleepUtils.sleep(600);
+        SleepUtils.sleep(800);
         wobbleArm.Stop();
 
         wobbleArm.CloseClaw();

@@ -8,8 +8,8 @@ import org.ftc8702.utils.SleepUtils;
 
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "Red Side ultimate goal", group = "Ops")
-public class RedSideAutonomous extends ActiveOpMode {
+@Autonomous(name = "Blue Side ultimate goal", group = "Ops")
+public class BlueSideAutonomous extends ActiveOpMode {
 
     public enum State {
         INIT, RING_DETECT, DRIVE_TO_SITE_A, DRIVE_TO_SITE_B, DRIVE_TO_SITE_C, PARK, DONE
@@ -40,7 +40,7 @@ public class RedSideAutonomous extends ActiveOpMode {
 
         driveTrainConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
-        currentState = State.DRIVE_TO_SITE_C;
+        currentState = State.DRIVE_TO_SITE_B;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -102,35 +102,32 @@ public class RedSideAutonomous extends ActiveOpMode {
                 break;
 
             case DRIVE_TO_SITE_A:
-                goToSite.shootRedSide();
+                goToSite.shootBlueSide();
                 telemetry.addData("Going to A Site", "Now");
                 telemetry.update();
                 wobbleArm.CloseClaw();
-                goToSite.GoToASiteRed();
+                goToSite.GoToASite();
                 goToSite.dropWobble();
-                driveTrain.goForward(0.4f);
-                SleepUtils.sleep(300);
                 currentState = State.DONE;
                 break;
 
             case DRIVE_TO_SITE_B:
                 telemetry.addData("Going to B Site", "Now");
                 telemetry.update();
-                goToSite.shootRedSide();
-                goToSite.GoToBSiteRed();
+                goToSite.shootBlueSide();
+                goToSite.GoToBSite();
                 goToSite.dropWobble();
-                driveTrain.strafeRight(0.4f);
-                SleepUtils.sleep(400);
-                currentState = State.PARK;
+                driveTrain.strafeRight((float)0.5);
+                SleepUtils.sleep(500);
+                currentState = State.DONE;
                 break;
 
             case DRIVE_TO_SITE_C:
                 telemetry.addData("Going to C Site", "Now");
                 telemetry.update();
-                goToSite.shootRedSide();
-                goToSite.GoToCSiteRed();
+                goToSite.shootBlueSide();
+                goToSite.GoToCSite();
                 goToSite.dropWobble();
-                driveTrain.rotateLeftWithGyro(0.4f, 0);
                 currentState = State.PARK;
                 break;
 

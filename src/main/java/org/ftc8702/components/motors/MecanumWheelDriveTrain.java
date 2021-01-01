@@ -2,7 +2,6 @@ package org.ftc8702.components.motors;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -11,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.utils.ColorValue;
+import org.ftc8702.utils.SleepUtils;
 
 import java.util.Locale;
 
@@ -45,6 +45,67 @@ public class MecanumWheelDriveTrain {
         }
     }
 
+    public void goForwardWithColor(float power, ColorSensor colorSensor) {
+        boolean colorState = true;
+
+        while (colorState == true) {
+            //looking for white color
+            if (colorSensor.red() + colorSensor.blue() + colorSensor.green() >= 750){
+                colorState = false;
+            } else {
+                goForward(power);
+            }
+        }
+    }
+
+    public void goForwardPIDDistance(int targetInches){
+        int targetMilliseconds = (int)(((targetInches/26.97))*1000);
+        goForwardPIDTime((float)0.5, 1, targetMilliseconds, 100);
+    }
+    /*
+    power: how fast the robot travels
+    deviatingValue: the amount of degrees the robot is off before it starts to adjust
+    timeInMillisecond: the amount of time that the robot travels
+    coMill: the amount of time before the robot checks to see how off the angle is
+     */
+    public void goForwardPIDTime(float power, double deviatingValue, int timeInMillisecond, int coMill) {
+        double adjustPower = 0.2;
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+        telemetry.addData("initial angle = ", yawInitialAngle);
+        telemetry.addData("Time in millis = ", timeInMillisecond);
+        telemetry.update();
+        //if the imu degrees is correct
+        for (int i = 0; i < timeInMillisecond; i = i + coMill) {
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(power); // because motor is on the opposite side
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(power - (adjustPower)); // because motor is on the opposite side
+                backLeftMotor.setPower(-power - (adjustPower));
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+                frontLeftMotor.setPower(-power + (adjustPower));
+                frontRightMotor.setPower(power); // because motor is on the opposite side
+                backLeftMotor.setPower(-power + (adjustPower));
+                backRightMotor.setPower(power);
+            }
+
+            SleepUtils.sleep(coMill);
+        }
+        stop();
+    }
+
     public void goForward(float power) {
         frontLeftMotor.setPower(-power);
         frontRightMotor.setPower(power); // because motor is on the opposite side
@@ -66,7 +127,7 @@ public class MecanumWheelDriveTrain {
         backLeftMotor.setPower(power);
     }
 
-    public void strafeLeft(float power) {
+    public void strafeRight(float power) {
         // right wheels rotate inward, left wheels rotate outward
         frontLeftMotor.setPower(-power + (power * .1));
         frontRightMotor.setPower(-power + (power * .1));
@@ -74,8 +135,8 @@ public class MecanumWheelDriveTrain {
         backRightMotor.setPower(power);
     }
 
-    public void strafeRight(float power) {
-        strafeLeft(-power);
+    public void strafeLeft(float power) {
+        strafeRight(-power);
     }
 
     public void rotateLeft(float power) {
@@ -376,3 +437,4 @@ public class MecanumWheelDriveTrain {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
     }
 }
+
