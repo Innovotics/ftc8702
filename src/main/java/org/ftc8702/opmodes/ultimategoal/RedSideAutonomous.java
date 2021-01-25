@@ -39,8 +39,16 @@ public class RedSideAutonomous extends ActiveOpMode {
     public void onInit() {
 
         driveTrainConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
+        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry, driveTrainConfig.imu);
+        wobbleArm = new UltimateGoalArm(driveTrainConfig.wobbleMotor, driveTrainConfig.claw);
+        shooter = new UltimateGoalShooter(driveTrainConfig.shooter, driveTrainConfig.pusher, driveTrainConfig.lifterRight, driveTrainConfig.lifterLeft);
+        goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
 
-        currentState = State.DRIVE_TO_SITE_C;
+        wobbleArm.CloseClaw();
+        shooter.setLiftLeft(0.5);
+        shooter.setLiftRight(0.4);
+
+        currentState = State.RING_DETECT;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -51,12 +59,8 @@ public class RedSideAutonomous extends ActiveOpMode {
     public void onStart() throws InterruptedException {
 
         super.onStart();
-        driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry, driveTrainConfig.imu);
-        wobbleArm = new UltimateGoalArm(driveTrainConfig.wobbleMotor, driveTrainConfig.claw);
         ringDetection = new RingDetection(hardwareMap, this);
         ringDetection.initialize();
-        shooter = new UltimateGoalShooter(driveTrainConfig.shooter, driveTrainConfig.pusher, driveTrainConfig.lifterRight, driveTrainConfig.lifterLeft);
-        goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
 
         driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         driveTrain.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -108,8 +112,10 @@ public class RedSideAutonomous extends ActiveOpMode {
                 wobbleArm.CloseClaw();
                 goToSite.GoToASiteRed();
                 goToSite.dropWobble();
-                driveTrain.goForward(0.4f);
+                driveTrain.strafeRight(0.4f);
                 SleepUtils.sleep(300);
+                driveTrain.goForward(0.4f);
+                SleepUtils.sleep(500);
                 currentState = State.DONE;
                 break;
 
@@ -130,12 +136,15 @@ public class RedSideAutonomous extends ActiveOpMode {
                 goToSite.shootRedSide();
                 goToSite.GoToCSiteRed();
                 goToSite.dropWobble();
+                driveTrain.strafeRight(0.4f);
+                SleepUtils.sleep(500);
                 driveTrain.rotateLeftWithGyro(0.4f, 0);
+                //driveTrain.strafeRightWithColor(0.25f, driveTrainConfig.colorSensor);
                 currentState = State.PARK;
                 break;
 
             case PARK:
-                driveTrain.goBackwardWithColor((float)0.3, driveTrainConfig.colorSensor);
+                driveTrain.goBackwardWithColor((float)0.2, driveTrainConfig.colorSensor);
                 currentState = State.DONE;
                 break;
 

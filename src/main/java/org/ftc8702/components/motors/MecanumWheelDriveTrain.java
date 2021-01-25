@@ -45,6 +45,19 @@ public class MecanumWheelDriveTrain {
         }
     }
 
+    public void strafeRightWithColor(float power, ColorSensor colorSensor) {
+        boolean colorState = true;
+
+        while (colorState == true) {
+            //looking for white color
+            if (colorSensor.red() + colorSensor.blue() + colorSensor.green() >= 750){
+                colorState = false;
+            } else {
+                strafeRight(power);
+            }
+        }
+    }
+
     public void goForwardWithColor(float power, ColorSensor colorSensor) {
         boolean colorState = true;
 
@@ -59,8 +72,16 @@ public class MecanumWheelDriveTrain {
     }
 
     public void goForwardPIDDistance(int targetInches){
-        int targetMilliseconds = (int)(((targetInches/26.97))*1000);
-        goForwardPIDTime((float)0.5, 1, targetMilliseconds, 100);
+        if(targetInches <= 91){
+            int targetMilliseconds = (int)(((targetInches/47.15))*1000);
+            goForwardPIDTime((float)0.5, 1, targetMilliseconds, 100);
+        }else if(targetInches <= 100){
+            int targetMilliseconds = (int)(((targetInches/42))*1000);
+            goForwardPIDTime((float)0.5, 1, targetMilliseconds, 100);
+        }else{
+            int targetMilliseconds = (int)(((targetInches/36.167))*1000);
+            goForwardPIDTime((float)0.5, 1, targetMilliseconds, 100);
+        }
     }
     /*
     power: how fast the robot travels
@@ -435,6 +456,44 @@ public class MecanumWheelDriveTrain {
     String formatDegrees(double degrees)
     {
         return String.format(Locale.getDefault(), "%.1f", AngleUnit.DEGREES.normalize(degrees));
+    }
+
+    public void strafeRight(float power, double deviatingValue, int timeInMilliseconds, long coMill) {
+
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+
+        //if the imu degrees is correct
+        for (long i = 0; i < timeInMilliseconds; i = i + coMill) {
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(-power);
+                backLeftMotor.setPower(power);
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle < yawInitialAngle - deviatingValue) { //if turn right too much
+
+                frontLeftMotor.setPower(-power + (.1));
+                frontRightMotor.setPower(-power + (.1));
+                backLeftMotor.setPower(power);
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle > yawInitialAngle + deviatingValue) { // if turn left too much
+
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(-power);
+                backLeftMotor.setPower(power - (.1));
+                backRightMotor.setPower(power - (.1));
+            }
+
+            sleep(coMill);
+        }
+        stop();
     }
 }
 

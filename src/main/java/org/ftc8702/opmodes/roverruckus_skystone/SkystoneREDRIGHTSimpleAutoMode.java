@@ -19,7 +19,7 @@ import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 
 
-@Autonomous(name = "RIGHTREDSimpleAutoMode", group = "Ops")
+//@Autonomous(name = "RIGHTREDSimpleAutoMode", group = "Ops")
 public class SkystoneREDRIGHTSimpleAutoMode extends ActiveOpMode {
 
     private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();

@@ -26,7 +26,7 @@ import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.MOV
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.MOVE_TO_SECOND_SKYSTONE_RIGHT;
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.PARK;
 
-@Autonomous(name = "Left Blue Skystone", group = "Ops")
+//@Autonomous(name = "Left Blue Skystone", group = "Ops")
 public class SkystoneLeftBlueDetectionTest extends ActiveOpMode {
 
     Orientation angle;

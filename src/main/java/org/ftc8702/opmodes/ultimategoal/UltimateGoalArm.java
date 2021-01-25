@@ -23,6 +23,10 @@ public class UltimateGoalArm {
         wobbleMotor.setPower(-0.5);
     }
 
+    public void wobbleDownSlow(){
+        wobbleMotor.setPower(-0.3);
+    }
+
     public void Stop()
     {
         wobbleMotor.setPower(0);

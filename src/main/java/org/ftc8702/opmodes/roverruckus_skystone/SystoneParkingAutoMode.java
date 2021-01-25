@@ -9,7 +9,7 @@ import ftcbootstrap.ActiveOpMode;
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.DONE;
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.LOWER_FOUNDATION_GRABBER;
 
-@Autonomous(name = "ParkingOpMode", group = "Ops")
+//@Autonomous(name = "ParkingOpMode", group = "Ops")
 public class SystoneParkingAutoMode extends ActiveOpMode {
 
     public SkystoneAutoConfig robot = new SkystoneAutoConfig();

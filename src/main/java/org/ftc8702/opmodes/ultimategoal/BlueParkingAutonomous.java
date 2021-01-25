@@ -8,11 +8,11 @@ import org.ftc8702.utils.SleepUtils;
 
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "Blue Side ultimate goal", group = "Ops")
-public class BlueSideAutonomous extends ActiveOpMode {
+@Autonomous(name = "BlueParking", group = "Ops")
+public class BlueParkingAutonomous extends ActiveOpMode {
 
     public enum State {
-        INIT, RING_DETECT, DRIVE_TO_SITE_A, DRIVE_TO_SITE_B, DRIVE_TO_SITE_C, PARK, DONE
+        INIT, SHOOTING, PARK, DONE
     }
 
     private State currentState;
@@ -43,12 +43,11 @@ public class BlueSideAutonomous extends ActiveOpMode {
         wobbleArm = new UltimateGoalArm(driveTrainConfig.wobbleMotor, driveTrainConfig.claw);
         shooter = new UltimateGoalShooter(driveTrainConfig.shooter, driveTrainConfig.pusher, driveTrainConfig.lifterRight, driveTrainConfig.lifterLeft);
         goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
-
         wobbleArm.CloseClaw();
         shooter.liftLeft1();
         shooter.liftRight2();
 
-        currentState = State.RING_DETECT;
+        currentState = State.SHOOTING;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -82,65 +81,14 @@ public class BlueSideAutonomous extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
 
         switch(currentState){
-            case RING_DETECT:
-
-                site = ringDetection.detectRings();
-                if (site == RingDetection.Position.ASITE)
-                {
-                    telemetry.addData("Site",  "A site");
-                    telemetry.update();
-                    currentState = State.DRIVE_TO_SITE_A;
-                }
-                else if (site == RingDetection.Position.BSITE)
-                {
-                    telemetry.addData("Site",  "B site");
-                    telemetry.update();
-                    currentState = State.DRIVE_TO_SITE_B;
-                }
-                else
-                {
-                    telemetry.addData("Site",  "C site");
-                    telemetry.update();
-                    currentState = State.DRIVE_TO_SITE_C;
-                }
-                break;
-
-            case DRIVE_TO_SITE_A:
+            case SHOOTING:
                 goToSite.shootBlueSide();
-                telemetry.addData("Going to A Site", "Now");
-                telemetry.update();
-                wobbleArm.CloseClaw();
-                goToSite.GoToASite();
-                goToSite.dropWobble();
-                driveTrain.strafeRight(0.4f);
-                SleepUtils.sleep(300);
-                currentState = State.DONE;
-                break;
-
-            case DRIVE_TO_SITE_B:
-                telemetry.addData("Going to B Site", "Now");
-                telemetry.update();
-                goToSite.shootBlueSide();
-                goToSite.GoToBSite();
-                goToSite.dropWobble();
-                driveTrain.strafeRight((float)0.5);
-                SleepUtils.sleep(500);
-                currentState = State.DONE;
-                break;
-
-            case DRIVE_TO_SITE_C:
-                telemetry.addData("Going to C Site", "Now");
-                telemetry.update();
-                goToSite.shootBlueSide();
-                goToSite.GoToCSite();
-                goToSite.dropWobble();
-                driveTrain.strafeRight((float)0.5);
-                SleepUtils.sleep(500);
                 currentState = State.PARK;
                 break;
 
             case PARK:
-                driveTrain.goBackwardWithColor((float)0.3, driveTrainConfig.colorSensor);
+                driveTrain.goForward(0.4f);
+                SleepUtils.sleep(1000);
                 currentState = State.DONE;
                 break;
 

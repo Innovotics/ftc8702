@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
+import org.ftc8702.utils.SleepUtils;
 
 import ftcbootstrap.ActiveOpMode;
 
@@ -48,7 +49,7 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
     }
 
     public void gamepad1Control() {
-        mecanumDrive();
+            mecanumDrive();
     }
 
     public void gamePad2Control(){
@@ -56,10 +57,10 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
             wobbleArm.WobbleDown();
         } else if (gamepad2.dpad_up) {
             wobbleArm.WobbleUp();
-        } else if (gamepad2.y) {
+        } else if (gamepad2.a) {
             shooter.liftRight2();
             shooter.liftLeft1();
-        } else if (gamepad2.a) {
+        } else if (gamepad2.y) {
             shooter.liftLeft2();
             shooter.liftRight1();
         } else if (gamepad2.right_bumper){
@@ -70,11 +71,19 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
             lastPressed = System.currentTimeMillis();
             shooter.push();
         }else if (gamepad2.dpad_right){
-            shooter.push();
+            shooter.pushOut();
         } else if (gamepad2.x){
             wobbleArm.OpenClaw();
         } else if(gamepad2.b){
-            shooter.shooter.setPower(-0.9);
+            shooter.shooter.setPower(-1);
+            SleepUtils.sleep(1500);
+            shooter.pushOut();
+            shooter.shooter.setPower(-1);
+            SleepUtils.sleep(1000);
+            shooter.pushOut();
+            shooter.shooter.setPower(-1);
+            SleepUtils.sleep(1000);
+            shooter.pushOut();
         }
         else{
             wobbleArm.Stop();
@@ -101,11 +110,10 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
         BL = Range.clip(BL, -1, 1);
 
         if(gamepad1.right_bumper){
-            driveTrain.frontRightMotor.setPower(FR*0.5);
-            driveTrain.frontLeftMotor.setPower(FL*0.5);
-            driveTrain.backRightMotor.setPower(BR*0.5);
-            driveTrain.backLeftMotor.setPower(BL*0.5);
-        }else{
+            driveTrain.rotateRight(0.2f);
+        }else if(gamepad1.left_bumper){
+            driveTrain.rotateLeft(0.2f);
+        } else{
             driveTrain.frontRightMotor.setPower(FR);
             driveTrain.frontLeftMotor.setPower(FL);
             driveTrain.backRightMotor.setPower(BR);

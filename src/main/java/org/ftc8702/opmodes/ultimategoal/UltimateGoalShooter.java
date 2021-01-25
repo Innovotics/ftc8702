@@ -21,17 +21,17 @@ public class UltimateGoalShooter {
 
     public void push()
     {
-        pusher.setPosition(1);
+        pusher.setPosition(0.7);
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        pusher.setPosition(0.9);
+        pusher.setPosition(0.57);
     }
     public void pushOut()
     {
-        pusher.setPosition(0.87);
+        pusher.setPosition(0.57);
     }
     public void pushIn()
     {
@@ -47,7 +47,7 @@ public class UltimateGoalShooter {
     }
 
     public void liftRight2(){
-        lifterRight.setPosition(0.5);
+        lifterRight.setPosition(0.7);
     }
 
     public void liftLeft1(){
@@ -55,6 +55,14 @@ public class UltimateGoalShooter {
     }
 
     public void liftLeft2(){
-        lifterLeft.setPosition(0.5);
+        lifterLeft.setPosition(0.7);
+    }
+
+    public void setLiftRight(double scale){
+        lifterRight.setPosition(scale);
+    }
+
+    public void setLiftLeft(double scale){
+        lifterLeft.setPosition(scale);
     }
 }

@@ -27,7 +27,7 @@ import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.MOV
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.PARK;
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.PULL_FOUNDATION;
 
-@Autonomous(name = "Left Blue Skystone With Foundation", group = "Ops")
+//@Autonomous(name = "Left Blue Skystone With Foundation", group = "Ops")
 public class SkystoneLeftBlueDetectionWithFoundation extends ActiveOpMode {
 
     Orientation angle;

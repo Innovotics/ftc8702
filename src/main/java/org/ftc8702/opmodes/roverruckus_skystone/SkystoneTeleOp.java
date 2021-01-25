@@ -11,7 +11,7 @@ import org.ftc8702.configurations.production.SkystoneRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
 
-@TeleOp(name = "SkystoneTeleOp", group = "production")
+//@TeleOp(name = "SkystoneTeleOp", group = "production")
 public class  SkystoneTeleOp extends ActiveOpMode {
 
     private SkystoneRobotConfiguration driveTrainConfig;

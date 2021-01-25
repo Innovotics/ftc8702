@@ -24,83 +24,116 @@ public class GoToSite {
     public void shootBlueSide()
     {
         wobbleArm.CloseClaw();
-        driveTrain.goForwardPIDDistance(9+9);
-        shooter.shooter.setPower(1);
-        driveTrain.rotateRightWithGyro((float)0.2, (float)-7.4);
+        driveTrain.goForwardPIDDistance(80);
+        shooter.shooter.setPower(-1);
+        driveTrain.rotateRightWithGyro((float)0.2, (float)-22);
         driveTrain.stop();
-        SleepUtils.sleep(1000);
+        SleepUtils.sleep(2000);
         shooter.push();
-        driveTrain.rotateRightWithGyro((float)0.2, (float)-8.8);
+        driveTrain.rotateRightWithGyro((float)0.2, (float)-32);
         driveTrain.stop();
-        SleepUtils.sleep(1000);
+        shooter.shooter.setPower(-1);
+        SleepUtils.sleep(2000);
         shooter.push();
-        driveTrain.rotateRightWithGyro((float)0.2, (float)-10.2);
+        driveTrain.rotateRightWithGyro((float)0.2, (float)-35);
         driveTrain.stop();
-        SleepUtils.sleep(1000);
+        SleepUtils.sleep(2000);
+        shooter.shooter.setPower(-1);
         shooter.push();
         shooter.shooter.setPower(0);
         driveTrain.rotateLeftWithGyro((float)0.2, (float)0);//repositions robot
-        SleepUtils.sleep(5000);
+        SleepUtils.sleep(2000);
     }
 
     public void shootRedSide()
     {
         wobbleArm.CloseClaw();
-        driveTrain.goForwardPIDDistance(9+9);
-        shooter.shooter.setPower(1);
-        driveTrain.rotateLeftWithGyro((float)0.2, (float)7.4);
+        driveTrain.goForwardPIDDistance(80);
+        shooter.shooter.setPower(-1);
+        driveTrain.rotateLeftWithGyro((float)0.2, (float)(6));
         driveTrain.stop();
-        SleepUtils.sleep(1000);
+        SleepUtils.sleep(2000);
         shooter.push();
-        driveTrain.rotateLeftWithGyro((float)0.2, (float)8.8);
+        shooter.shooter.setPower(-1);
+        driveTrain.rotateLeftWithGyro((float)0.2, (float)15);
         driveTrain.stop();
-        SleepUtils.sleep(1000);
+        SleepUtils.sleep(2000);
         shooter.push();
-        driveTrain.rotateLeftWithGyro((float)0.2, (float)10.2);
+        driveTrain.rotateLeftWithGyro((float)0.2, (float)(20));
         driveTrain.stop();
-        SleepUtils.sleep(1000);
+        SleepUtils.sleep(2000);
         shooter.push();
         shooter.shooter.setPower(0);
         driveTrain.rotateRightWithGyro((float)0.2, (float)0);//repositions robot
-        SleepUtils.sleep(5000);
+        SleepUtils.sleep(2000);
+    }
+
+    public void shootRedPark() {
+        wobbleArm.CloseClaw();
+        driveTrain.stop();
+        SleepUtils.sleep(15000);
+        /*
+        driveTrain.goForward(0.4f);
+        SleepUtils.sleep(200);
+        driveTrain.strafeRight(0.4f, 5, 2000, 100);
+        driveTrain.stop();
+        SleepUtils.sleep(200);
+        shooter.shooter.setPower(-1);
+        SleepUtils.sleep(1200);
+        shooter.push();
+        shooter.shooter.setPower(-1);
+        SleepUtils.sleep(1200);
+        shooter.push();
+        shooter.shooter.setPower(-1);
+        SleepUtils.sleep(1200);
+        shooter.push();
+        shooter.shooter.setPower(0);
+        driveTrain.strafeLeft(0.5f);
+        SleepUtils.sleep(1300);
+         */
+        driveTrain.goForwardPIDDistance(110);
+        dropWobble();
+        driveTrain.stop();
     }
 
     public void GoToASite()
     {
-        driveTrain.goForwardPIDDistance(74-9);
+        driveTrain.goForwardPIDDistance(11);
     }
 
     public void GoToBSite()
     {
-        driveTrain.goForwardPIDDistance(80);
-        driveTrain.rotateRightWithGyro((float)0.4, -105);
+        driveTrain.goForwardPIDDistance(40);
+        driveTrain.rotateRightWithGyro((float)0.4, -120);
     }
 
     public void GoToCSite()
     {
-        driveTrain.goForwardPIDDistance(120);
+        driveTrain.goForwardPIDDistance(80);
     }
 
     public void GoToASiteRed()
     {
-        driveTrain.goForwardPIDDistance(89);
-        driveTrain.rotateLeftWithGyro(0.4f,110);
+        driveTrain.goForwardPIDDistance(35);
+        driveTrain.rotateLeftWithGyro(0.4f,135);
     }
 
     public void GoToBSiteRed()
     {
-        driveTrain.goForwardPIDDistance(89);
+        //driveTrain.goForwardPIDDistance(103);
+        driveTrain.goForwardPIDDistance(50);
     }
 
     public void GoToCSiteRed()
     {
-        driveTrain.goForwardPIDDistance(110);
-        driveTrain.rotateRightWithGyro(0.4f, -110);
+        driveTrain.goForwardPIDDistance(84);
+        driveTrain.rotateRightWithGyro(0.4f, -130);
+        //driveTrain.goForwardPIDTime(0.5f, 1, 3000, 100);
     }
 
     public void dropWobble(){
-        wobbleArm.WobbleDown();
-        SleepUtils.sleep(700);
+        wobbleArm.wobbleDownSlow();
+        SleepUtils.sleep(2000);
         wobbleArm.Stop();
 
         wobbleArm.OpenClaw();

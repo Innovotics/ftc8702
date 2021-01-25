@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -28,7 +29,7 @@ public class RingDetection {
     private TFObjectDetector tfod;
     private HardwareMap hardwareMap;
     private LinearOpMode linearOpMode;
-    private double timeout = 3000;
+    private double timeout = 5000;
     public double startTime;
 
     public RingDetection(HardwareMap hardwareMap, LinearOpMode linearOpMode) {
@@ -59,7 +60,7 @@ public class RingDetection {
 
         if (tfod != null) {
             tfod.activate();
-            //tfod.setZoom(2.5, 1.78);
+            tfod.setZoom(2, 16/9);
         }
 
         /** Wait for the game to begin */
@@ -71,6 +72,8 @@ public class RingDetection {
         if (linearOpMode.opModeIsActive()) {
             while (linearOpMode.opModeIsActive()) {
                 if((System.currentTimeMillis()-startTime) > timeout){
+                    linearOpMode.telemetry.addData("Defauting to A", "Site");
+                    linearOpMode.telemetry.update();
                     result = Position.ASITE;
                     return result;
                 }

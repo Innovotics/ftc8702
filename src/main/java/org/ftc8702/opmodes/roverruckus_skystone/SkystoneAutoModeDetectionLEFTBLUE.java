@@ -20,7 +20,7 @@ import ftcbootstrap.ActiveOpMode;
 
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.*;
 
-@Autonomous(name = "LEFT BLUE Auto Detect", group = "Ops")
+//@Autonomous(name = "LEFT BLUE Auto Detect", group = "Ops")
 public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
 
     //  public ObjectDetectionAutoModeWebcam webCamDetector = new ObjectDetectionAutoModeWebcam();

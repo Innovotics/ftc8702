@@ -96,7 +96,6 @@ public class UltimateGoalConfiguration extends RobotConfiguration {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu.initialize(parameters);
 
-
         colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
     }
 }

@@ -18,7 +18,7 @@ import org.ftc8702.opmodes.test.BenColorSensorTest;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 
-@Autonomous(name = "LEFTBLUESimpleAutoMode", group = "Ops")
+//@Autonomous(name = "LEFTBLUESimpleAutoMode", group = "Ops")
 public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
 
     private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();

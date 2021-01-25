@@ -20,7 +20,7 @@ import ftcbootstrap.ActiveOpMode;
 
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.*;
 
-@Autonomous(name = "RIGHT RED Auto Detect", group = "Ops")
+//@Autonomous(name = "RIGHT RED Auto Detect", group = "Ops")
 public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
     Orientation angle;
