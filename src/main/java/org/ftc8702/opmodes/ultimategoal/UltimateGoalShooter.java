@@ -23,7 +23,7 @@ public class UltimateGoalShooter {
     {
         pusher.setPosition(0.7);
         try {
-            Thread.sleep(500);
+            Thread.sleep(800);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -35,7 +35,7 @@ public class UltimateGoalShooter {
     }
     public void pushIn()
     {
-        pusher.setPosition(0);
+        pusher.setPosition(0.7);
     }
     public void pushIn2()
     {

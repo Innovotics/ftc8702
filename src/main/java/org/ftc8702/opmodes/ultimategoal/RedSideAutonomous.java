@@ -25,6 +25,7 @@ public class RedSideAutonomous extends ActiveOpMode {
     private UltimateGoalShooter shooter;
     private RingDetection ringDetection;
     public  RingDetection.Position site;
+    private  UltimateGoalIntake intake;
 
     // odometer 1446 ticks = 4.7 inches (1 circumference = 1.5 inch diameter * pi = 4.7 inches)
     int targetLeftValue = 1446;
@@ -43,10 +44,14 @@ public class RedSideAutonomous extends ActiveOpMode {
         wobbleArm = new UltimateGoalArm(driveTrainConfig.wobbleMotor, driveTrainConfig.claw);
         shooter = new UltimateGoalShooter(driveTrainConfig.shooter, driveTrainConfig.pusher, driveTrainConfig.lifterRight, driveTrainConfig.lifterLeft);
         goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
+        intake = new UltimateGoalIntake(driveTrainConfig.intakeLeft, driveTrainConfig.intakeRight);
 
         wobbleArm.CloseClaw();
-        shooter.setLiftLeft(0.5);
-        shooter.setLiftRight(0.4);
+        //shooter.setLiftLeft(0.4);
+        //shooter.setLiftRight(0.5);
+
+        shooter.liftLeft2();
+        shooter.liftRight1();
 
         currentState = State.RING_DETECT;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
@@ -111,11 +116,16 @@ public class RedSideAutonomous extends ActiveOpMode {
                 telemetry.update();
                 wobbleArm.CloseClaw();
                 goToSite.GoToASiteRed();
-                goToSite.dropWobble();
+                goToSite.dropWobbleSlow();
+                driveTrain.strafeRight(1);
+                SleepUtils.sleep(500);
+                //goToSite.GoToASiteSecond();
+                /*
                 driveTrain.strafeRight(0.4f);
                 SleepUtils.sleep(300);
                 driveTrain.goForward(0.4f);
                 SleepUtils.sleep(500);
+                 */
                 currentState = State.DONE;
                 break;
 
@@ -124,7 +134,7 @@ public class RedSideAutonomous extends ActiveOpMode {
                 telemetry.update();
                 goToSite.shootRedSide();
                 goToSite.GoToBSiteRed();
-                goToSite.dropWobble();
+                goToSite.dropWobbleSlow();
                 driveTrain.strafeRight(0.4f);
                 SleepUtils.sleep(400);
                 currentState = State.PARK;
@@ -136,11 +146,25 @@ public class RedSideAutonomous extends ActiveOpMode {
                 goToSite.shootRedSide();
                 goToSite.GoToCSiteRed();
                 goToSite.dropWobble();
-                driveTrain.strafeRight(0.4f);
-                SleepUtils.sleep(500);
-                driveTrain.rotateLeftWithGyro(0.4f, 0);
-                //driveTrain.strafeRightWithColor(0.25f, driveTrainConfig.colorSensor);
-                currentState = State.PARK;
+                driveTrain.strafeRight(0.8f);
+                SleepUtils.sleep(1000);
+                driveTrain.rotateLeftWithGyro(0.3f, 0);
+                driveTrain.goBackwardWithColor(0.3f, driveTrainConfig.colorSensor);
+                /*
+                shooter.liftRight2();
+                shooter.liftLeft1();
+                intake.intake();
+                goToSite.goToCSiteRedSecond();
+                goToSite.goToCSiteRedThird();
+                intake.stop();
+                driveTrain.rotateRightWithGyro(0.3f, 0);
+                shooter.liftLeft2();
+                shooter.liftRight1();
+                goToSite.shootRedSideSecond();
+                driveTrain.goForward(0.3f);
+                SleepUtils.sleep(400);
+                 */
+                currentState = State.DONE;
                 break;
 
             case PARK:

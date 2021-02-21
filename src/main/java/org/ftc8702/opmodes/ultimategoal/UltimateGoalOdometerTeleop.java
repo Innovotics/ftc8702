@@ -1,19 +1,15 @@
 package org.ftc8702.opmodes.ultimategoal;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
-import org.ftc8702.utils.SleepUtils;
 
 import ftcbootstrap.ActiveOpMode;
 
-@TeleOp(name = "UltimateGoalTeleOp", group = "production")
-public class UltimateGoalTeleOp extends ActiveOpMode {
+@TeleOp(name = "OdometerDrive", group = "production")
+public class UltimateGoalOdometerTeleop extends ActiveOpMode {
 
     private UltimateGoalConfiguration UltimateGoalConfig;
     private MecanumWheelDriveTrain driveTrain;
@@ -28,6 +24,7 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
 
         UltimateGoalConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
+
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -40,6 +37,16 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
         wobbleArm = new UltimateGoalArm(UltimateGoalConfig.wobbleMotor, UltimateGoalConfig.claw);
         intake = new UltimateGoalIntake(UltimateGoalConfig.intakeLeft, UltimateGoalConfig.intakeRight);
         shooter = new UltimateGoalShooter(UltimateGoalConfig.shooter, UltimateGoalConfig.pusher, UltimateGoalConfig.lifterRight, UltimateGoalConfig.lifterLeft);
+
+        driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        driveTrain.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        driveTrain.backRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        driveTrain.backLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        driveTrain.frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        driveTrain.backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        driveTrain.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     @Override
@@ -75,6 +82,8 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
         } else if(gamepad2.b){
             shooter.setLiftLeft(0.6);
             shooter.setLiftRight(0.3);
+        } else if(gamepad2.dpad_right){
+            shooter.pushIn();
         } else if (gamepad2.x){
             wobbleArm.OpenClaw();
         } else{
@@ -113,8 +122,8 @@ public class UltimateGoalTeleOp extends ActiveOpMode {
             driveTrain.backLeftMotor.setPower(BL);
         }
 
-        telemetry.addData("Enocoders",  "Starting at, " +
-                driveTrain.frontRightMotor.getCurrentPosition() +"," +
+        telemetry.addData("Enocoders",  "Starting at, Right:  " +
+                driveTrain.frontRightMotor.getCurrentPosition() +"\n Left: " +
                 driveTrain.frontLeftMotor.getCurrentPosition());
 
         telemetry.update();

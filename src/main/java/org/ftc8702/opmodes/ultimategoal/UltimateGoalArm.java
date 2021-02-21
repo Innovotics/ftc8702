@@ -15,12 +15,12 @@ public class UltimateGoalArm {
 
     public void WobbleUp()
     {
-        wobbleMotor.setPower(0.5);
+        wobbleMotor.setPower(0.7);
     }
 
     public void WobbleDown()
     {
-        wobbleMotor.setPower(-0.5);
+        wobbleMotor.setPower(-0.7);
     }
 
     public void wobbleDownSlow(){

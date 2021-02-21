@@ -45,8 +45,8 @@ public class BlueSideAutonomous extends ActiveOpMode {
         goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
 
         wobbleArm.CloseClaw();
-        shooter.liftLeft1();
-        shooter.liftRight2();
+        shooter.setLiftRight(0.1);
+        shooter.setLiftLeft(0.6);
 
         currentState = State.RING_DETECT;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
@@ -112,7 +112,9 @@ public class BlueSideAutonomous extends ActiveOpMode {
                 wobbleArm.CloseClaw();
                 goToSite.GoToASite();
                 goToSite.dropWobble();
-                driveTrain.strafeRight(0.4f);
+                driveTrain.strafeRight(1);
+                SleepUtils.sleep(500);
+                driveTrain.goForward(0.3f);
                 SleepUtils.sleep(300);
                 currentState = State.DONE;
                 break;
@@ -123,8 +125,8 @@ public class BlueSideAutonomous extends ActiveOpMode {
                 goToSite.shootBlueSide();
                 goToSite.GoToBSite();
                 goToSite.dropWobble();
-                driveTrain.strafeRight((float)0.5);
-                SleepUtils.sleep(500);
+                driveTrain.goForward(0.3f);
+                SleepUtils.sleep(700);
                 currentState = State.DONE;
                 break;
 
@@ -134,8 +136,13 @@ public class BlueSideAutonomous extends ActiveOpMode {
                 goToSite.shootBlueSide();
                 goToSite.GoToCSite();
                 goToSite.dropWobble();
-                driveTrain.strafeRight((float)0.5);
+                driveTrain.strafeRight(1);
+                SleepUtils.sleep(700);
+                driveTrain.rotateLeftWithGyro(0.3f, 0);
+                driveTrain.goBackward(0.3f);
                 SleepUtils.sleep(500);
+                driveTrain.stop();
+                SleepUtils.sleep(1000);
                 currentState = State.PARK;
                 break;
 

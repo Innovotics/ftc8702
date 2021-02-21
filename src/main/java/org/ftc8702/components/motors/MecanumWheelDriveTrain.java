@@ -71,6 +71,63 @@ public class MecanumWheelDriveTrain {
         }
     }
 
+    //Right: -37,571 ticks for whole field
+    //Left: 37,384 ticks for whole field
+    public void goForwardOdometers(int targetTicks, float power){
+        telemetry.addData("values", "Right: " + frontRightMotor.getCurrentPosition() + "left: " + frontLeftMotor.getCurrentPosition());
+       if(power >= 0.5) {
+           while (-1 * frontRightMotor.getCurrentPosition() < targetTicks && frontLeftMotor.getCurrentPosition() < targetTicks) {
+               if (frontLeftMotor.getCurrentPosition() > targetTicks * 0.4) {
+                   PIDForward(power * 0.2f, 2);
+               } else {
+                   PIDForward(power, 2);
+               }
+           }
+       }else if(power <=0.3){
+           while (frontLeftMotor.getCurrentPosition() < targetTicks) {
+               PIDForward(0.4f, 2);
+           }
+       }else{
+           while (frontLeftMotor.getCurrentPosition() < targetTicks) {
+               if (frontLeftMotor.getCurrentPosition() > targetTicks * 0.6) {
+                   PIDForward(power * .1f, 2);
+               } else {
+                   PIDForward(power, 2);
+               }
+           }
+       }
+        goBackward(power);
+        SleepUtils.sleep(250);
+        stop();
+    }
+
+    public void goBackwardOdometers(int targetTicks, float power){
+        if(power >= 0.5) {
+            while (frontLeftMotor.getCurrentPosition() > targetTicks) {
+                telemetry.addData("Encoders: ", "Right: " + frontRightMotor.getCurrentPosition() + " Left: " + frontLeftMotor.getCurrentPosition());
+                telemetry.update();
+                if (frontLeftMotor.getCurrentPosition() > -1 * targetTicks * 0.4) {
+                    PIDBackward(power * 0.2f, 2);
+                } else {
+                    PIDBackward(power, 2);
+                }
+            }
+        }else{
+            while (frontLeftMotor.getCurrentPosition() > targetTicks) {
+                telemetry.addData("Encoders: ", "Right: " + frontRightMotor.getCurrentPosition() + " Left: " + frontLeftMotor.getCurrentPosition());
+                telemetry.update();
+                if (frontLeftMotor.getCurrentPosition() >  -1 * targetTicks * 0.6) {
+                    PIDBackward(power * .1f, 2);
+                } else {
+                    PIDBackward(power, 2);
+                }
+            }
+        }
+        goForward(power);
+        SleepUtils.sleep(250);
+        stop();
+    }
+
     public void goForwardPIDDistance(int targetInches){
         if(targetInches <= 91){
             int targetMilliseconds = (int)(((targetInches/47.15))*1000);
@@ -81,6 +138,73 @@ public class MecanumWheelDriveTrain {
         }else{
             int targetMilliseconds = (int)(((targetInches/36.167))*1000);
             goForwardPIDTime((float)0.5, 1, targetMilliseconds, 100);
+        }
+    }
+
+    public void PIDForward(float power, double deviatingValue){
+        double adjustPower = 0.3;
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+        telemetry.addData("initial angle = ", yawInitialAngle);
+        telemetry.update();
+        //if the imu degrees is correct
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(power); // because motor is on the opposite side
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
+                frontLeftMotor.setPower(-power);
+                frontRightMotor.setPower(power - (adjustPower)); // because motor is on the opposite side
+                backLeftMotor.setPower(-power - (adjustPower));
+                backRightMotor.setPower(power);
+
+            } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+                frontLeftMotor.setPower(-power + (adjustPower));
+                frontRightMotor.setPower(power); // because motor is on the opposite side
+                backLeftMotor.setPower(-power + (adjustPower));
+                backRightMotor.setPower(power);
+            }
+            SleepUtils.sleep(100);
+    }
+
+    public void PIDBackward(float power, double deviatingValue){
+        double adjustPower = 0.2;
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+        telemetry.addData("initial angle = ", yawInitialAngle);
+        telemetry.update();
+        //if the imu degrees is correct
+        Orientation angle = readAngles();
+        String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+        float yawAngle = Float.parseFloat(rawYawAngle);
+
+        if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
+            frontLeftMotor.setPower(power);
+            frontRightMotor.setPower(-power); // because motor is on the opposite side
+            backLeftMotor.setPower(power);
+            backRightMotor.setPower(-power);
+
+        } else if (yawAngle > yawInitialAngle + deviatingValue) { //if turn right too much
+
+            frontLeftMotor.setPower(power - (.1));
+            frontRightMotor.setPower(-power); // because motor is on the opposite side
+            backLeftMotor.setPower(power - (.1));
+            backRightMotor.setPower(-power);
+
+        } else if (yawAngle < yawInitialAngle - deviatingValue) { // if turn left too much
+            frontLeftMotor.setPower(power);
+            frontRightMotor.setPower(-power + (.1)); // because motor is on the opposite side
+            backLeftMotor.setPower(power);
+            backRightMotor.setPower(-power + (.1));
+
         }
     }
     /*
@@ -492,6 +616,42 @@ public class MecanumWheelDriveTrain {
             }
 
             sleep(coMill);
+        }
+        stop();
+    }
+    public void strafeLeft(float power, double deviatingValue, int timeInMilliseconds, long coMill) {
+
+        Orientation initialAngle = readAngles();
+        String rawInitialYawAngle = formatAngle(AngleUnit.DEGREES, initialAngle.firstAngle);
+        float yawInitialAngle = Float.parseFloat(rawInitialYawAngle);
+
+        //if the imu degrees is correct
+        for (long i = 0; i < timeInMilliseconds; i = i + coMill) {
+            Orientation angle = readAngles();
+            String rawYawAngle = formatAngle(AngleUnit.DEGREES, angle.firstAngle);
+            float yawAngle = Float.parseFloat(rawYawAngle);
+
+            if (yawAngle >= yawInitialAngle - deviatingValue && yawAngle <= yawInitialAngle + deviatingValue) {
+                frontLeftMotor.setPower(power);
+                frontRightMotor.setPower(power);
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(-power);
+
+            } else if (yawAngle < yawInitialAngle - deviatingValue) { //if turn right too much
+
+                frontLeftMotor.setPower(power);
+                frontRightMotor.setPower(power);
+                backLeftMotor.setPower(-power + (.1));
+                backRightMotor.setPower(-power + (.1));
+
+            } else if (yawAngle > yawInitialAngle + deviatingValue) { // if turn left too much
+
+                frontLeftMotor.setPower(power - (.1));
+                frontRightMotor.setPower(power - (.1));
+                backLeftMotor.setPower(-power);
+                backRightMotor.setPower(-power);
+            }
+            SleepUtils.sleep(coMill);
         }
         stop();
     }

@@ -394,10 +394,6 @@ public class MecanumWheelDriveTrainPIDBased {
                 backRightMotor.setPower(-power + (.1));
 
             }
-            ColorValue colorValue = getColor(colorSensor);
-            if (colorValue == ColorValue.RED || colorValue == ColorValue.BLUE) {
-                colorDetected = true;
-            }
         }
 
         stop();

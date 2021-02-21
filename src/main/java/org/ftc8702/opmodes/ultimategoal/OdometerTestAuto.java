@@ -3,13 +3,13 @@ package org.ftc8702.opmodes.ultimategoal;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
-import org.ftc8702.utils.SleepUtils;
 
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "RedParking", group = "Ops")
-public class RedParkingAutonomous extends ActiveOpMode {
+@Autonomous(name = "OdometerTesting", group = "Ops")
+public class OdometerTestAuto extends ActiveOpMode {
 
     public enum State {
         INIT, SHOOTING, PARK, DONE
@@ -19,11 +19,6 @@ public class RedParkingAutonomous extends ActiveOpMode {
 
     private UltimateGoalConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
-    private GoToSite goToSite;
-    private Parking parking;
-    private UltimateGoalArm wobbleArm;
-    private UltimateGoalShooter shooter;
-    public  RingDetection.Position site;
 
     // odometer 1446 ticks = 4.7 inches (1 circumference = 1.5 inch diameter * pi = 4.7 inches)
     int targetLeftValue = 1446;
@@ -39,18 +34,9 @@ public class RedParkingAutonomous extends ActiveOpMode {
 
         driveTrainConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
         driveTrain = new MecanumWheelDriveTrain(driveTrainConfig.motorFL, driveTrainConfig.motorFR, driveTrainConfig.motorBL, driveTrainConfig.motorBR, telemetry, driveTrainConfig.imu);
-        wobbleArm = new UltimateGoalArm(driveTrainConfig.wobbleMotor, driveTrainConfig.claw);
-        shooter = new UltimateGoalShooter(driveTrainConfig.shooter, driveTrainConfig.pusher, driveTrainConfig.lifterRight, driveTrainConfig.lifterLeft);
-        goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
-
-        wobbleArm.CloseClaw();
-        shooter.liftRight2();
-        shooter.liftLeft1();
-
         currentState = State.SHOOTING;
-        //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
-        //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
+        telemetry.update();
 
     }
 
@@ -68,11 +54,6 @@ public class RedParkingAutonomous extends ActiveOpMode {
         driveTrain.frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         driveTrain.backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         driveTrain.backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        telemetry.addData("Enocoders",  "Starting at " + driveTrain.frontRightMotor.getCurrentPosition() + "," +
-                driveTrain.frontLeftMotor.getCurrentPosition() + "," + driveTrain.backRightMotor.getCurrentPosition());
-        telemetry.update();
-
     }
 
     @Override
@@ -80,15 +61,8 @@ public class RedParkingAutonomous extends ActiveOpMode {
 
         switch(currentState){
             case SHOOTING:
-                goToSite.shootRedPark();
+                driveTrain.goBackwardOdometers(-4000, 0.5f);
                 currentState = State.PARK;
-                break;
-
-            case PARK:
-                driveTrain.goForward(0.3f);
-                SleepUtils.sleep(300);
-                driveTrain.stop();
-                currentState = State.DONE;
                 break;
 
             case DONE:
