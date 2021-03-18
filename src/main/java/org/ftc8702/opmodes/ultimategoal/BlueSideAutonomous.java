@@ -111,11 +111,9 @@ public class BlueSideAutonomous extends ActiveOpMode {
                 telemetry.update();
                 wobbleArm.CloseClaw();
                 goToSite.GoToASite();
-                goToSite.dropWobble();
-                driveTrain.strafeRight(1);
+                goToSite.dropWobbleSlow();
+                driveTrain.strafeRight(0.5f);
                 SleepUtils.sleep(500);
-                driveTrain.goForward(0.3f);
-                SleepUtils.sleep(300);
                 currentState = State.DONE;
                 break;
 
@@ -124,9 +122,11 @@ public class BlueSideAutonomous extends ActiveOpMode {
                 telemetry.update();
                 goToSite.shootBlueSide();
                 goToSite.GoToBSite();
-                goToSite.dropWobble();
+                goToSite.dropWobbleSlow();
                 driveTrain.goForward(0.3f);
-                SleepUtils.sleep(700);
+                SleepUtils.sleep(1000);
+                driveTrain.strafeRight(0.5f);
+                SleepUtils.sleep(300);
                 currentState = State.DONE;
                 break;
 
@@ -135,19 +135,20 @@ public class BlueSideAutonomous extends ActiveOpMode {
                 telemetry.update();
                 goToSite.shootBlueSide();
                 goToSite.GoToCSite();
-                goToSite.dropWobble();
-                driveTrain.strafeRight(1);
-                SleepUtils.sleep(700);
-                driveTrain.rotateLeftWithGyro(0.3f, 0);
-                driveTrain.goBackward(0.3f);
+                goToSite.dropWobbleSlow();
+                driveTrain.rotateLeftWithGyro(0.4f, 0);
+                driveTrain.goBackward(0.7f);
                 SleepUtils.sleep(500);
-                driveTrain.stop();
-                SleepUtils.sleep(1000);
-                currentState = State.PARK;
+                driveTrain.strafeLeft(0.4f);
+                SleepUtils.sleep(1500);
+                driveTrain.rotateLeftWithGyro(0.3f, 0);
+                driveTrain.goBackward(0.4f);
+                SleepUtils.sleep(100);
+                currentState = State.DONE;
                 break;
 
             case PARK:
-                driveTrain.goBackwardWithColor((float)0.3, driveTrainConfig.colorSensor);
+                driveTrain.goBackwardWithColor((float)0.2, driveTrainConfig.colorSensor);
                 currentState = State.DONE;
                 break;
 

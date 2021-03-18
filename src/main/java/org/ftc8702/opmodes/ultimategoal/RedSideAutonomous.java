@@ -119,13 +119,6 @@ public class RedSideAutonomous extends ActiveOpMode {
                 goToSite.dropWobbleSlow();
                 driveTrain.strafeRight(1);
                 SleepUtils.sleep(500);
-                //goToSite.GoToASiteSecond();
-                /*
-                driveTrain.strafeRight(0.4f);
-                SleepUtils.sleep(300);
-                driveTrain.goForward(0.4f);
-                SleepUtils.sleep(500);
-                 */
                 currentState = State.DONE;
                 break;
 
@@ -146,10 +139,14 @@ public class RedSideAutonomous extends ActiveOpMode {
                 goToSite.shootRedSide();
                 goToSite.GoToCSiteRed();
                 goToSite.dropWobble();
-                driveTrain.strafeRight(0.8f);
-                SleepUtils.sleep(1000);
                 driveTrain.rotateLeftWithGyro(0.3f, 0);
-                driveTrain.goBackwardWithColor(0.3f, driveTrainConfig.colorSensor);
+                driveTrain.goBackward(0.7f);
+                SleepUtils.sleep(500);
+                driveTrain.strafeRight(0.4f);
+                SleepUtils.sleep(1500);
+                driveTrain.rotateRightWithGyro(0.3f, 0);
+                driveTrain.goBackward(0.5f);
+                SleepUtils.sleep(200);
                 /*
                 shooter.liftRight2();
                 shooter.liftLeft1();

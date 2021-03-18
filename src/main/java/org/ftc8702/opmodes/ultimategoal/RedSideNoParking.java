@@ -8,11 +8,11 @@ import org.ftc8702.utils.SleepUtils;
 
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "RedParking", group = "Ops")
-public class RedParkingAutonomous extends ActiveOpMode {
+@Autonomous(name = "Red Side No Parking", group = "Ops")
+public class RedSideNoParking extends ActiveOpMode {
 
     public enum State {
-        INIT, SHOOTING, PARK, DONE
+        INIT, RING_DETECT, DRIVE_TO_SITE_A, DRIVE_TO_SITE_B, DRIVE_TO_SITE_C, PARK, DONE
     }
 
     private State currentState;
@@ -23,7 +23,9 @@ public class RedParkingAutonomous extends ActiveOpMode {
     private Parking parking;
     private UltimateGoalArm wobbleArm;
     private UltimateGoalShooter shooter;
+    private RingDetection ringDetection;
     public  RingDetection.Position site;
+    private  UltimateGoalIntake intake;
 
     // odometer 1446 ticks = 4.7 inches (1 circumference = 1.5 inch diameter * pi = 4.7 inches)
     int targetLeftValue = 1446;
@@ -42,12 +44,16 @@ public class RedParkingAutonomous extends ActiveOpMode {
         wobbleArm = new UltimateGoalArm(driveTrainConfig.wobbleMotor, driveTrainConfig.claw);
         shooter = new UltimateGoalShooter(driveTrainConfig.shooter, driveTrainConfig.pusher, driveTrainConfig.lifterRight, driveTrainConfig.lifterLeft);
         goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
+        intake = new UltimateGoalIntake(driveTrainConfig.intakeLeft, driveTrainConfig.intakeRight);
 
         wobbleArm.CloseClaw();
-        shooter.liftRight2();
-        shooter.liftLeft1();
+        //shooter.setLiftLeft(0.4);
+        //shooter.setLiftRight(0.5);
 
-        currentState = State.SHOOTING;
+        shooter.liftLeft2();
+        shooter.liftRight1();
+
+        currentState = State.RING_DETECT;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -58,6 +64,8 @@ public class RedParkingAutonomous extends ActiveOpMode {
     public void onStart() throws InterruptedException {
 
         super.onStart();
+        ringDetection = new RingDetection(hardwareMap, this);
+        ringDetection.initialize();
 
         driveTrain.frontLeftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         driveTrain.frontRightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -79,15 +87,71 @@ public class RedParkingAutonomous extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
 
         switch(currentState){
-            case SHOOTING:
-                goToSite.shootRedPark();
+            case RING_DETECT:
+
+                site = ringDetection.detectRings();
+                if (site == RingDetection.Position.ASITE)
+                {
+                    telemetry.addData("Site",  "A site");
+                    telemetry.update();
+                    currentState = State.DRIVE_TO_SITE_A;
+                }
+                else if (site == RingDetection.Position.BSITE)
+                {
+                    telemetry.addData("Site",  "B site");
+                    telemetry.update();
+                    currentState = State.DRIVE_TO_SITE_B;
+                }
+                else
+                {
+                    telemetry.addData("Site",  "C site");
+                    telemetry.update();
+                    currentState = State.DRIVE_TO_SITE_C;
+                }
+                break;
+
+            case DRIVE_TO_SITE_A:
+                goToSite.shootRedSide();
+                telemetry.addData("Going to A Site", "Now");
+                telemetry.update();
+                wobbleArm.CloseClaw();
+                goToSite.GoToASiteRed();
+                goToSite.dropWobbleSlow();
+                driveTrain.goForward(0.5f);
+                SleepUtils.sleep(1000);
+                currentState = State.DONE;
+                break;
+
+            case DRIVE_TO_SITE_B:
+                telemetry.addData("Going to B Site", "Now");
+                telemetry.update();
+                goToSite.shootRedSide();
+                goToSite.GoToBSiteRed();
+                goToSite.dropWobbleSlow();
+                driveTrain.strafeRight(0.4f);
+                SleepUtils.sleep(400);
                 currentState = State.PARK;
                 break;
 
-            case PARK:
-                driveTrain.goForward(0.3f);
+            case DRIVE_TO_SITE_C:
+                telemetry.addData("Going to C Site", "Now");
+                telemetry.update();
+                goToSite.shootRedSide();
+                goToSite.GoToCSiteRed();
+                goToSite.dropWobble();
+                driveTrain.rotateLeftWithGyro(0.3f, 0);
+                driveTrain.goBackward(0.7f);
                 SleepUtils.sleep(500);
-                driveTrain.stop();
+                driveTrain.strafeRight(0.4f);
+                SleepUtils.sleep(1500);
+                driveTrain.rotateRightWithGyro(0.3f, 0);
+                driveTrain.goBackward(0.5f);
+                SleepUtils.sleep(200);
+                currentState = State.DONE;
+                break;
+
+            case PARK:
+                driveTrain.goBackwardWithColor((float)0.2, driveTrainConfig.colorSensor);
                 currentState = State.DONE;
                 break;
 

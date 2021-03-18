@@ -8,11 +8,11 @@ import org.ftc8702.utils.SleepUtils;
 
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "BlueParking", group = "Ops")
-public class BlueParkingAutonomous extends ActiveOpMode {
+@Autonomous(name = "Blue Side No Parking", group = "Ops")
+public class BlueSideNoParking extends ActiveOpMode {
 
     public enum State {
-        INIT, SHOOTING, PARK, DONE
+        INIT, RING_DETECT, DRIVE_TO_SITE_A, DRIVE_TO_SITE_B, DRIVE_TO_SITE_C, PARK, DONE
     }
 
     private State currentState;
@@ -43,11 +43,12 @@ public class BlueParkingAutonomous extends ActiveOpMode {
         wobbleArm = new UltimateGoalArm(driveTrainConfig.wobbleMotor, driveTrainConfig.claw);
         shooter = new UltimateGoalShooter(driveTrainConfig.shooter, driveTrainConfig.pusher, driveTrainConfig.lifterRight, driveTrainConfig.lifterLeft);
         goToSite = new GoToSite(driveTrain, wobbleArm, shooter);
-        wobbleArm.CloseClaw();
-        shooter.liftLeft1();
-        shooter.liftRight2();
 
-        currentState = State.SHOOTING;
+        wobbleArm.CloseClaw();
+        shooter.setLiftRight(0.1);
+        shooter.setLiftLeft(0.6);
+
+        currentState = State.RING_DETECT;
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command
         getTelemetryUtil().addData("Init", getClass().getSimpleName() + " initialized.");
@@ -81,14 +82,74 @@ public class BlueParkingAutonomous extends ActiveOpMode {
     protected void activeLoop() throws InterruptedException {
 
         switch(currentState){
-            case SHOOTING:
+            case RING_DETECT:
+
+                site = ringDetection.detectRings();
+                if (site == RingDetection.Position.ASITE)
+                {
+                    telemetry.addData("Site",  "A site");
+                    telemetry.update();
+                    currentState = State.DRIVE_TO_SITE_A;
+                }
+                else if (site == RingDetection.Position.BSITE)
+                {
+                    telemetry.addData("Site",  "B site");
+                    telemetry.update();
+                    currentState = State.DRIVE_TO_SITE_B;
+                }
+                else
+                {
+                    telemetry.addData("Site",  "C site");
+                    telemetry.update();
+                    currentState = State.DRIVE_TO_SITE_C;
+                }
+                break;
+
+            case DRIVE_TO_SITE_A:
                 goToSite.shootBlueSide();
-                currentState = State.PARK;
+                telemetry.addData("Going to A Site", "Now");
+                telemetry.update();
+                wobbleArm.CloseClaw();
+                goToSite.GoToASite();
+                goToSite.dropWobbleSlow();
+                driveTrain.strafeRight(1);
+                SleepUtils.sleep(100);
+                driveTrain.goBackwardOdometers(-13000, 0.4f);
+                currentState = State.DONE;
+                break;
+
+            case DRIVE_TO_SITE_B:
+                telemetry.addData("Going to B Site", "Now");
+                telemetry.update();
+                goToSite.shootBlueSide();
+                goToSite.GoToBSite();
+                goToSite.dropWobbleSlow();
+                driveTrain.goForward(0.3f);
+                SleepUtils.sleep(1000);
+                driveTrain.strafeRight(0.5f);
+                SleepUtils.sleep(300);
+                currentState = State.DONE;
+                break;
+
+            case DRIVE_TO_SITE_C:
+                telemetry.addData("Going to C Site", "Now");
+                telemetry.update();
+                goToSite.shootBlueSide();
+                goToSite.GoToCSite();
+                goToSite.dropWobbleSlow();
+                driveTrain.rotateLeftWithGyro(0.3f, 0);
+                driveTrain.goBackward(0.7f);
+                SleepUtils.sleep(500);
+                driveTrain.strafeLeft(0.4f);
+                SleepUtils.sleep(1500);
+                driveTrain.rotateLeftWithGyro(0.3f, 0);
+                driveTrain.goBackward(0.5f);
+                SleepUtils.sleep(300);
+                currentState = State.DONE;
                 break;
 
             case PARK:
-                driveTrain.goForward(0.4f);
-                SleepUtils.sleep(1000);
+                driveTrain.goBackwardWithColor((float)0.2, driveTrainConfig.colorSensor);
                 currentState = State.DONE;
                 break;
 
