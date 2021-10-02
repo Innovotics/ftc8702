@@ -9,8 +9,6 @@ import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 
 import java.lang.annotation.Annotation;
 
-//import com.qualcomm.robotcore.eventloop.opmode.OpModeMeta;
-
 /**
  * Register Op Modes
  */
@@ -63,7 +61,11 @@ public abstract class BootstrapRegistrar implements OpModeRegister {
     if (name == null || name.equals("")) {
       name = clazz.getSimpleName();
     }
-    meta = new OpModeMeta( name, flavor , groupName);
+    meta = new OpModeMeta.Builder()
+            .setName(name)
+            .setFlavor(flavor)
+            .setGroup(groupName)
+            .build();
 
     return meta;
 
