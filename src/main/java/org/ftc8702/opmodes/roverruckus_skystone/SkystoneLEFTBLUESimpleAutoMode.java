@@ -2,7 +2,6 @@ package org.ftc8702.opmodes.roverruckus_skystone;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.*;
 
@@ -13,7 +12,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 import ftcbootstrap.ActiveOpMode;
 
-import org.ftc8702.configurations.production.SkystoneAutonousConfig;
 import org.ftc8702.opmodes.test.BenColorSensorTest;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
@@ -21,7 +19,7 @@ import org.ftc8702.utils.ColorValue;
 //@Autonomous(name = "LEFTBLUESimpleAutoMode", group = "Ops")
 public class SkystoneLEFTBLUESimpleAutoMode  extends ActiveOpMode {
 
-    private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();
+    private Park.SkystoneAutonousConfig robot = new Park.SkystoneAutonousConfig();
     private SkystoneAutoModeState currentState;
     private boolean accomplishedTask = false;
     private double fastRatio =  0.5;

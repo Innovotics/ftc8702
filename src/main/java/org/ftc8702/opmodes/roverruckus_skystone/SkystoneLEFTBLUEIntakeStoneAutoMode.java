@@ -2,12 +2,11 @@ package org.ftc8702.opmodes.roverruckus_skystone;
 
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.*;
 
-import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import ftcbootstrap.ActiveOpMode;
 
 public class SkystoneLEFTBLUEIntakeStoneAutoMode extends ActiveOpMode {
 
-    public SkystoneAutoConfig robot = new SkystoneAutoConfig();
+    public ColorSensorAdjustmentAutoMode.SkystoneAutoConfig robot = new ColorSensorAdjustmentAutoMode.SkystoneAutoConfig();
     private SkystoneAutoModeState currentState;
 
     @Override

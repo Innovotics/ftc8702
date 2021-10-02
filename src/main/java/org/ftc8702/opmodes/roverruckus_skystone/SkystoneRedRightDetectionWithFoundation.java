@@ -2,14 +2,12 @@ package org.ftc8702.opmodes.roverruckus_skystone;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.ftc8702.configurations.production.SkystoneAutonousConfig;
 import org.ftc8702.utils.ColorUtil;
 import org.ftc8702.utils.ColorValue;
 import org.ftc8702.utils.StonePosition;
@@ -37,7 +35,7 @@ public class SkystoneRedRightDetectionWithFoundation extends ActiveOpMode {
     double currentRollAngle;
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
-    private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();
+    private Park.SkystoneAutonousConfig robot = new Park.SkystoneAutonousConfig();
 
     @Override
     protected void onInit() {

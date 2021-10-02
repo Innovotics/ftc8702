@@ -32,23 +32,19 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 package org.ftc8702.opmodes.roverruckus_skystone;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.ftc8702.utils.InnovoticsRobotProperties;
 
-/**
- * {@link SensorREV2mDistance} illustrates how to use the REV Robotics
- * Time-of-Flight Range Sensor.
- *
- * The op mode assumes that the range sensor is configured with a name of "sensor_range".
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- *
- * @see <a href="http://revrobotics.com">REV Robotics Web Page</a>
- */
+import ftcbootstrap.RobotConfiguration;
+import ftcbootstrap.components.utils.TelemetryUtil;
+
 //@TeleOp(name = "Sensor: REV2mDistance", group = "Sensor")
 
 public class DistanceSensorTest extends LinearOpMode {
@@ -71,7 +67,7 @@ public class DistanceSensorTest extends LinearOpMode {
         while(opModeIsActive()) {
             // generic DistanceSensor methods.
             telemetry.addData("deviceName",sensorRange.getDeviceName() );
-            telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
+            //telemetry.addData("range", String.format("%.01f cm", sensorRange.getDistance(DistanceUnit.CM)));
 
             // Rev2mDistanceSensor specific methods.
             telemetry.addData("ID", String.format("%x", sensorTimeOfFlight.getModelID()));
@@ -81,4 +77,58 @@ public class DistanceSensorTest extends LinearOpMode {
         }
     }
 
+    /**
+     * FTCTeamRobot Saved Configuration
+     * <p/>
+     * It is assumed that there is a configuration on the phone running the Robot Controller App with the same name as this class and
+     * that  configuration is the one that is marked 'activated' on the phone.
+     * It is also assumed that the device names in the 'init()' method below are the same  as the devices named for the
+     * saved configuration on the phone.
+     */
+    public static class SkystoneRobotConfiguration extends RobotConfiguration {
+        //51.4 = 1 inch
+        //mecanum motors
+        public DcMotor motorFR;
+        public DcMotor motorFL;
+        public DcMotor motorBR;
+        public DcMotor motorBL;
+        public DcMotor SliderArmLeft;
+        public DcMotor SliderArmRight;
+        public DcMotor IntakeWheelLeft;
+        public DcMotor IntakeWheelRight;
+        public BNO055IMU imu;
+
+
+
+        public static SkystoneRobotConfiguration newConfig(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+
+            SkystoneRobotConfiguration config = new SkystoneRobotConfiguration();
+            config.init(hardwareMap, telemetryUtil);
+            return config;
+        }
+
+
+        @Override
+        protected void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+
+            setTelemetry(telemetryUtil);
+
+            //Mecanum Motors
+            motorFR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FR, hardwareMap.dcMotor);
+            motorFL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_FL, hardwareMap.dcMotor);
+            motorBR = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BR, hardwareMap.dcMotor);
+            motorBL = (DcMotor) getHardwareOn(InnovoticsRobotProperties.MOTOR_BL, hardwareMap.dcMotor);
+
+            //Arm Motors
+            SliderArmRight = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SLIDER_ARM_RIGHT, hardwareMap.dcMotor);
+            SliderArmLeft = (DcMotor) getHardwareOn(InnovoticsRobotProperties.SLIDER_ARM_LEFT, hardwareMap.dcMotor);
+
+            //Intake Motors
+            IntakeWheelLeft = (DcMotor) getHardwareOn(InnovoticsRobotProperties.INTAKE_WHEEL_LEFT, hardwareMap.dcMotor);
+            IntakeWheelRight = (DcMotor) getHardwareOn(InnovoticsRobotProperties.INTAKE_WHEEL_RIGHT, hardwareMap.dcMotor);
+
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+
+        }
+    }
 }

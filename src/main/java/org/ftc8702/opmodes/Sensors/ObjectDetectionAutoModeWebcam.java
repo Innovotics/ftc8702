@@ -56,8 +56,6 @@ import java.util.Locale;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Skystone Detector", group = "Autonomous")
-
 public class ObjectDetectionAutoModeWebcam extends LinearOpMode {
 
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";

@@ -8,7 +8,6 @@ import org.ftc8702.components.motors.MecanumWheelDriveTrain;
 
 import ftcbootstrap.ActiveOpMode;
 
-@TeleOp(name = "OdometerDrive", group = "production")
 public class UltimateGoalOdometerTeleop extends ActiveOpMode {
 
     private UltimateGoalConfiguration UltimateGoalConfig;

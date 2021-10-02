@@ -2,13 +2,11 @@ package org.ftc8702.opmodes.roverruckus_skystone;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.ftc8702.configurations.production.SkystoneAutonousConfig;
 import org.ftc8702.utils.ColorValue;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.utils.StonePosition;
@@ -30,7 +28,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
     double currentRollAngle;
     private boolean accomplishedTask = false;
     private SkystoneAutoModeState currentState;
-    private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();
+    private Park.SkystoneAutonousConfig robot = new Park.SkystoneAutonousConfig();
 
     @Override
     protected void onInit() {
@@ -271,7 +269,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         telemetry.update();
     }
 
-    public void leftSkystone(SkystoneAutonousConfig robot) {
+    public void leftSkystone(Park.SkystoneAutonousConfig robot) {
         robot.jaja.JaJaRightDown();
         ;
         sleep(1000);
@@ -279,7 +277,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
         telemetry.addData("Left", "");
     }
 
-    public void centerSkystone(SkystoneAutonousConfig robot) {
+    public void centerSkystone(Park.SkystoneAutonousConfig robot) {
         robot.driveTrain.strafeLeft(.3f, .3, 700, 50);
         robot.jaja.JaJaRightDown();
         robot.driveTrain.stop();
@@ -290,7 +288,7 @@ public class SkystoneAutoModeDetectionRIGHTRED extends ActiveOpMode {
 
     }
 
-    public void rightSkystone(SkystoneAutonousConfig robot) {
+    public void rightSkystone(Park.SkystoneAutonousConfig robot) {
         robot.driveTrain.strafeLeft(.3f, .3, 300, 50);
         robot.jaja.JaJaLeftDown();
         robot.driveTrain.stop();

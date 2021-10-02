@@ -1,6 +1,15 @@
 package org.ftc8702.opmodes.roverruckus_skystone;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.ftc8702.components.motors.MecanumWheelDriveTrain;
+import org.ftc8702.configurations.production.AbstractRobotConfiguration;
 import org.ftc8702.configurations.production.Team8702ProdAuto;
+import org.ftc8702.opmodes.ultimategoal.UltimateGoalConfiguration;
 import org.ftc8702.utils.ColorValue;
 
 import ftcbootstrap.components.utils.TelemetryUtil;
@@ -181,5 +190,38 @@ public class ColorSensorAdjustmentAutoMode {
         return isLeftMotorStopped && isRightMotorStopped;
     }
     */
+
+    public static class SkystoneAutoConfig extends AbstractRobotConfiguration {
+
+        public ColorSensor colorSensor;
+        public MecanumWheelDriveTrain driveTrain;
+        private UltimateGoalConfiguration UltimateGoalConfig;
+
+        public SkystoneJaJa jaja;
+        public SkystoneFlexArm FlexArm;
+        public SkystoneSlideAndBrickPicker Slider;
+        public SkystoneIntake Intake;
+        public BNO055IMU imu;
+        private HardwareMap hardwareMap;
+
+
+        @Override
+        public void init(HardwareMap hardwareMap, TelemetryUtil telemetryUtil) {
+            this.hardwareMap = hardwareMap;
+            setTelemetry(telemetryUtil);
+
+            DistanceSensorTest.SkystoneRobotConfiguration mecanumConfig = DistanceSensorTest.SkystoneRobotConfiguration.newConfig(hardwareMap, telemetryUtil);
+            UltimateGoalConfig = UltimateGoalConfiguration.newConfig(hardwareMap, getTelemetryUtil());
+            driveTrain = new MecanumWheelDriveTrain(mecanumConfig.motorFL,mecanumConfig.motorFR,mecanumConfig.motorBL,mecanumConfig.motorBR, telemetryUtil.getTelemetry(), UltimateGoalConfig.imu);
+            jaja = new SkystoneJaJa(hardwareMap.get(Servo.class, "foundationGrabberL"), hardwareMap.get(Servo.class, "foundationGrabberR"));
+            FlexArm = new SkystoneFlexArm(mecanumConfig.SliderArmLeft, mecanumConfig.SliderArmRight);
+            Slider = new SkystoneSlideAndBrickPicker(hardwareMap.get(Servo.class, "brickPicker"),(hardwareMap.get(CRServo.class, "linearSlide")));
+            Intake = new SkystoneIntake(mecanumConfig.IntakeWheelLeft, mecanumConfig.IntakeWheelRight);
+            colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+            telemetryUtil.addData("Color Sensor", colorSensor+"");
+            telemetryUtil.sendTelemetry();
+            imu = hardwareMap.get(BNO055IMU.class, "imu");
+        }
+    }
 }
 

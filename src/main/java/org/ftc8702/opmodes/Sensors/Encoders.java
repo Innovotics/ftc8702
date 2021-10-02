@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@Autonomous
+
 public class Encoders extends OpMode {
 
     private DcMotor leftDrive;

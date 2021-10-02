@@ -1,9 +1,5 @@
 package org.ftc8702.opmodes.roverruckus_skystone;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import org.ftc8702.configurations.production.SkystoneAutoConfig;
-
 import ftcbootstrap.ActiveOpMode;
 
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.DONE;
@@ -12,7 +8,7 @@ import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.LOW
 //@Autonomous(name = "ParkingOpMode", group = "Ops")
 public class SystoneParkingAutoMode extends ActiveOpMode {
 
-    public SkystoneAutoConfig robot = new SkystoneAutoConfig();
+    public ColorSensorAdjustmentAutoMode.SkystoneAutoConfig robot = new ColorSensorAdjustmentAutoMode.SkystoneAutoConfig();
     private SkystoneAutoModeState currentState;
 
     @Override

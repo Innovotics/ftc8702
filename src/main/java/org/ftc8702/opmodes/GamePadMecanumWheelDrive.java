@@ -1,93 +1,68 @@
 package org.ftc8702.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.ftc8702.components.motors.MecanumWheelDriveTrain;
+import org.ftc8702.opmodes.ultimategoal.UltimateGoalConfiguration;
+
 import ftcbootstrap.ActiveOpMode;
 import ftcbootstrap.components.OpModeComponent;
 
+@TeleOp(name = "MecanumDriving", group = "production")
+public class GamePadMecanumWheelDrive extends ActiveOpMode {
 
-/**
- * Operation to assist with Gamepad actions on DCMotors
- * <p>
- * This class is modification of GamePadMotor
- */
-public class GamePadMecanumWheelDrive extends OpModeComponent {
+    private MecanumConfig MecanumConfig;
+    private MecanumWheelDriveTrain driveTrain;
 
-    public enum Control {
-        LEFT_STICK_X,
-        LEFT_STICK_Y,
-        LEFT_BUMPER,
-        RIGHT_BUMPER
+    @Override
+    protected void onInit() {
+        MecanumConfig = MecanumConfig.newConfig(hardwareMap, getTelemetryUtil());
+        driveTrain = new MecanumWheelDriveTrain(MecanumConfig.motorFL, MecanumConfig.motorFR, MecanumConfig.motorBL, MecanumConfig.motorBR, telemetry, MecanumConfig.imu);
+        telemetry.addData("Mecanum drive", "ready ;-;");
+        telemetry.update();
     }
 
-    public DcMotor motorFR;
-    public DcMotor motorFL;
-    public DcMotor motorBR;
-    public DcMotor motorBL;
-
-    private Control control;
-    private Gamepad gamepad;
-    private Gamepad leftStickY;
-    private static final float defaultButtonPower = 1.0f;
-    private float buttonPower;
-    private boolean isReverse;
-
-    public GamePadMecanumWheelDrive(ActiveOpMode opMode, Gamepad gamepad, DcMotor fr, DcMotor fl, DcMotor br, DcMotor bl, Control control, boolean reverse) {
-        super(opMode);
-        this.motorFR = fr;
-        this.motorFL = fl;
-        this.motorBR = br;
-        this.motorBL = bl;
-        this.gamepad = gamepad;
-        this.control = control;
-        this.buttonPower = defaultButtonPower;
+    @Override
+    protected void activeLoop() throws InterruptedException {
+        mecanumDrive();
     }
 
+    public void mecanumDrive()
+    {
+        float throttle = -gamepad1.right_stick_x;
+        float direction = -gamepad1.left_stick_y;
+        float strafe = gamepad1.left_stick_x;
 
-    /**
-     * Update motors with latest gamepad state
-     */
-//    public void update() {
+        float FR = throttle + direction - strafe; //float FR = throttle + direction - strafe; Previous
+        float FL = throttle - direction - strafe;
+        float BR = throttle + direction + strafe; //float BR = throttle + direction + strafe; Previous
+        float BL = throttle - direction + strafe; //float BL = throttle - direction + strafe; Previous
 
-//        float power = 0;
-//        if (gamepad.right_bumper || gamepad.left_bumper) {
-//            shift(defaultButtonPower);
-//        } else {
-//            power = leftStickY.scaleMotorPower(-gamepad.left_stick_y);
-//        }
+        FR = Range.clip(FR, -1, 1);
+        FL = Range.clip(FL, -1, 1);
+        BR = Range.clip(BR, -1, 1);
+        BL = Range.clip(BL, -1, 1);
 
-
-//        addTelemetry("setting power: " + control.toString(), power);
-//
-//        if (isReverse) {
-//            power = power * (-1);
-//        }
-//    }
-
-//    public void startRunMode(DcMotor.RunMode runMode) throws InterruptedException {
-//        //motor.setMode(runMode);
-//        getOpMode().waitOneFullHardwareCycle();
-//    }
-//
-
-
-
-    /**
-     * Taken from FTC SDK PushBot example
-     * The DC motors are scaled to make it easier to control them at slower speeds
-     * Obtain the current values of the joystick controllers.
-     * Note that x and y equal -1 when the joystick is pushed all of the way
-     * forward (i.e. away from the human holder's body).
-     * The clip method guarantees the value never exceeds the range +-1.
-     */
-
-    private void shift(float power){
-            motorFR.setPower(power);
-            motorFL.setPower(power * -1);
-            motorBR.setPower(power);
-            motorBL.setPower(power * -1);
+        if(gamepad1.right_bumper){
+            driveTrain.frontLeftMotor.setPower(-0.2);
+            driveTrain.frontRightMotor.setPower(-0.2);
+            driveTrain.backLeftMotor.setPower(-0.2);
+            driveTrain.backRightMotor.setPower(-0.2);
+        }else if(gamepad1.left_bumper){
+            driveTrain.frontLeftMotor.setPower(0.2);
+            driveTrain.frontRightMotor.setPower(0.2);
+            driveTrain.backLeftMotor.setPower(0.2);
+            driveTrain.backRightMotor.setPower(0.2);
+        } else{
+            driveTrain.frontLeftMotor.setPower(FL);
+            driveTrain.frontRightMotor.setPower(FR);
+            driveTrain.backLeftMotor.setPower(BL);
+            driveTrain.backRightMotor.setPower(BR);
+        }
     }
 }
 

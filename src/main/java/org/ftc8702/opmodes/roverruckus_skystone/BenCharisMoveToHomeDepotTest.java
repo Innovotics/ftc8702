@@ -1,4 +1,4 @@
-package org.ftc8702.opmodes.test;
+package org.ftc8702.opmodes.roverruckus_skystone;
 
 import static org.ftc8702.utils.ColorUtil.getColor;
 import static org.ftc8702.utils.ColorUtil.isRedOrBlueDetected;
@@ -9,7 +9,6 @@ import org.ftc8702.configurations.test.ColorSensorTest;
 import org.ftc8702.utils.ColorValue;
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "Test: BenCharisMoveToHomeDepotTest", group = "Test")
 public class BenCharisMoveToHomeDepotTest extends ActiveOpMode {
     private static final double FORWARD_SPEED = 0.15;
     private static final long BEGIN_MOVE_FORARD_DURATION_MS = 3750;

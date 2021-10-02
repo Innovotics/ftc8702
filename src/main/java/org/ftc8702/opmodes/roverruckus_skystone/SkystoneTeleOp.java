@@ -1,20 +1,17 @@
 package org.ftc8702.opmodes.roverruckus_skystone;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.ftc8702.components.motors.MecanumWheelDriveTrain;
-import org.ftc8702.configurations.production.ProdMecanumRobotConfiguration;
-import org.ftc8702.configurations.production.SkystoneRobotConfiguration;
 
 import ftcbootstrap.ActiveOpMode;
 
 //@TeleOp(name = "SkystoneTeleOp", group = "production")
 public class  SkystoneTeleOp extends ActiveOpMode {
 
-    private SkystoneRobotConfiguration driveTrainConfig;
+    private DistanceSensorTest.SkystoneRobotConfiguration driveTrainConfig;
     private MecanumWheelDriveTrain driveTrain;
     private SkystoneJaJa jaja;
     private SkystoneSlideAndBrickPicker slideAndBrickPicker;
@@ -28,7 +25,7 @@ public class  SkystoneTeleOp extends ActiveOpMode {
     @Override
     protected void onInit() {
 
-        driveTrainConfig = SkystoneRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
+        driveTrainConfig = DistanceSensorTest.SkystoneRobotConfiguration.newConfig(hardwareMap, getTelemetryUtil());
 
         //Note The Telemetry Utility is designed to let you organize all telemetry data before sending it to
         //the Driver station via the sendTelemetry command

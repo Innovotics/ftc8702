@@ -1,4 +1,4 @@
-package org.ftc8702.opmodes.test;
+package org.ftc8702.opmodes.roverruckus_skystone;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,7 +7,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.ftc8702.configurations.test.UltrasonicSensorTest;
 import ftcbootstrap.ActiveOpMode;
 
-@Autonomous(name = "Test: ChEnDriveToCrater Test", group = "Test")
 public class ChEnDriveToCrater extends ActiveOpMode {
 
     private static final double FORWARD_TURN_RIGHT_SPEED = 0.3;

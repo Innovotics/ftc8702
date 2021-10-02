@@ -2,7 +2,6 @@ package org.ftc8702.opmodes.roverruckus_skystone;
 
 import static org.ftc8702.opmodes.roverruckus_skystone.SkystoneAutoModeState.*;
 
-import org.ftc8702.configurations.production.SkystoneAutoConfig;
 import ftcbootstrap.ActiveOpMode;
 import org.ftc8702.opmodes.test.BenColorSensorTest;
 import org.ftc8702.utils.ColorUtil;
@@ -11,7 +10,7 @@ import org.ftc8702.utils.ColorValue;
 //@Autonomous(name = "LeftBlueExprimentMode", group = "Ops")
 public class SkystoneExprimentLeftBlueSimpleMode extends ActiveOpMode {
 
-    public SkystoneAutoConfig robot = new SkystoneAutoConfig();
+    public ColorSensorAdjustmentAutoMode.SkystoneAutoConfig robot = new ColorSensorAdjustmentAutoMode.SkystoneAutoConfig();
     private SkystoneAutoModeState currentState;
     private boolean accomplishedTask = false;
     private boolean finishedJob = false;

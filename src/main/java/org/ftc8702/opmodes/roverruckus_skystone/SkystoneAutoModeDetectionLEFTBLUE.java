@@ -2,13 +2,11 @@ package org.ftc8702.opmodes.roverruckus_skystone;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.ftc8702.configurations.production.SkystoneAutonousConfig;
 import org.ftc8702.utils.ColorValue;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.ftc8702.utils.StonePosition;
@@ -29,7 +27,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
     Orientation angle;
     StonePosition currentStonePosition;
 
-    private SkystoneAutonousConfig robot = new SkystoneAutonousConfig();
+    private Park.SkystoneAutonousConfig robot = new Park.SkystoneAutonousConfig();
 
     double currentYawAngle;
     double currentPitchAngle;
@@ -119,7 +117,7 @@ public class SkystoneAutoModeDetectionLEFTBLUE extends ActiveOpMode {
                 sleep(500);
 
                 if (currentStonePosition == StonePosition.CENTER) {
-                    robot.jaja.JaJaLeftDown();;
+                    robot.jaja.JaJaLeftDown();
                     sleep(1000);
                     robot.driveTrain.strafeRight(.3f, .3, 500, 50);
                     telemetry.addData("Right", "");

@@ -1,12 +1,10 @@
 package org.ftc8702.opmodes.roverruckus_skystone;
 
-import org.ftc8702.configurations.production.SkystoneAutoConfig;
-
 import ftcbootstrap.ActiveOpMode;
 
 abstract class SkystoneAbstractAutoMode extends ActiveOpMode {
 
-    public SkystoneAutoConfig robot = new SkystoneAutoConfig();
+    public ColorSensorAdjustmentAutoMode.SkystoneAutoConfig robot = new ColorSensorAdjustmentAutoMode.SkystoneAutoConfig();
     private SkystoneAutoModeState currentState;
     private boolean accomplishedTask = false;
 
@@ -22,7 +20,7 @@ abstract class SkystoneAbstractAutoMode extends ActiveOpMode {
         getTelemetryUtil().sendTelemetry();
     }
 
-    public SkystoneAutoConfig getRobot() {
+    public ColorSensorAdjustmentAutoMode.SkystoneAutoConfig getRobot() {
         return robot;
     }
 
@@ -30,7 +28,7 @@ abstract class SkystoneAbstractAutoMode extends ActiveOpMode {
         return currentState;
     }
 
-    public void setRobot(SkystoneAutoConfig robot) {
+    public void setRobot(ColorSensorAdjustmentAutoMode.SkystoneAutoConfig robot) {
         this.robot = robot;
     }
 

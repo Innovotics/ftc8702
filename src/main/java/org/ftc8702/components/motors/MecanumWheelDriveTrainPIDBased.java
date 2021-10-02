@@ -4,21 +4,17 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.ftc8702.configurations.production.SkystoneAutoConfig;
-import org.ftc8702.configurations.production.SkystoneAutonousConfig;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.ftc8702.opmodes.roverruckus_skystone.ColorSensorAdjustmentAutoMode;
 import org.ftc8702.utils.ColorValue;
 
 import java.util.Locale;
-
-import ftcbootstrap.components.utils.TelemetryUtil;
 
 
 public class MecanumWheelDriveTrainPIDBased {
@@ -28,7 +24,7 @@ public class MecanumWheelDriveTrainPIDBased {
     private DcMotor backRightMotor;
     private BNO055IMU imu;
     private Telemetry telemetry;
-    private SkystoneAutoConfig robot;
+    private ColorSensorAdjustmentAutoMode.SkystoneAutoConfig robot;
 
 
     public MecanumWheelDriveTrainPIDBased(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor, BNO055IMU imu) {
